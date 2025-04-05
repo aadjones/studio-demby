@@ -6,7 +6,14 @@ import { MDXProject } from "@/types/mdx";
 
 export default async function HomePage() {
   const projects = await getAllProjects();
-  const featuredProjects = projects.filter((p) => p.isFeatured);
+   // Filter + sort featured projects by `featuredOrder`
+   const featuredProjects = projects
+   .filter((p) => p.isFeatured)
+   .sort((a, b) => {
+     const orderA = a.featuredOrder ?? 999;
+     const orderB = b.featuredOrder ?? 999;
+     return orderA - orderB;
+   });
 
   return (
     <main className="container mx-auto px-4 py-8">

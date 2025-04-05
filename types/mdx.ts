@@ -7,6 +7,7 @@ export interface MDXProject {
   phaseState?: "awakening" | "expansion" | "collapse";        // Optional, for future use
   tags: string[];                                              // Make this an array, not a string
   isFeatured: boolean;
+  featuredOrder?: number;
   image?: string;
 }
 
