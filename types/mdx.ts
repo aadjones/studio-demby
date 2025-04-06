@@ -10,6 +10,7 @@ export interface MDXProject {
   isFeatured: boolean;
   featuredOrder?: number;
   image?: string;
+  clusterOrder?: number;
 }
 
 export type MDXSource = {

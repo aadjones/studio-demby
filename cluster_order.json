@@ -1,0 +1,26 @@
+{
+    "resonant": [
+      { "slug": "above", "clusterOrder": 1 },
+      { "slug": "escape", "clusterOrder": 2 },
+      { "slug": "feathers", "clusterOrder": 3 },
+      { "slug": "flow", "clusterOrder": 4 },
+      { "slug": "improvisation-simple-melody", "clusterOrder": 5 },
+      { "slug": "spatial-synthesizer", "clusterOrder": 6 }
+    ],
+    "errant": [
+      { "slug": "degradation", "clusterOrder": 1 },
+      { "slug": "gallery-of-lies", "clusterOrder": 2 },
+      { "slug": "shrimp-jesus", "clusterOrder": 3 }
+    ],
+    "fractured": [
+      { "slug": "fire", "clusterOrder": 1 },
+      { "slug": "rain", "clusterOrder": 2 },
+      { "slug": "shatter", "clusterOrder": 3 }
+    ],
+    "enclosed": [
+      { "slug": "encased-melting", "clusterOrder": 1 },
+      { "slug": "stray-signals", "clusterOrder": 2 },
+      { "slug": "fluid-subspaces", "clusterOrder": 3 }
+    ]
+  }
+  

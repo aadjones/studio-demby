@@ -18,7 +18,13 @@ const clusterDescriptions: Record<string, string> = {
 export default async function ClusterLandingPage({ params }: Props) {
   const projects = await getAllProjects();
   const cluster = params.cluster;
-  const filtered = projects.filter((p) => p.cluster === cluster);
+  const filtered = projects
+  .filter((p) => p.cluster === cluster)
+  .sort((a, b) => {
+    const orderA = Number(a.clusterOrder) ?? 999;
+    const orderB = Number(b.clusterOrder) ?? 999;
+    return orderA - orderB;
+  });
   const description = clusterDescriptions[cluster] ?? "";
 
   return (

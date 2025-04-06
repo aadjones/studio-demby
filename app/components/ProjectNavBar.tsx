@@ -4,14 +4,18 @@ import { useEffect, useState } from "react";
 
 interface ProjectNavBarProps {
   previousSlug: string | null;
+  previousCluster: string | null;
   nextSlug: string | null;
+  nextCluster: string | null;
   clusterSlug: string;
   clusterName: string;
 }
 
 export default function ProjectNavBar({
   previousSlug,
+  previousCluster,
   nextSlug,
+  nextCluster,
   clusterSlug,
   clusterName,
 }: ProjectNavBarProps) {
@@ -24,7 +28,7 @@ export default function ProjectNavBar({
       const winHeight = window.innerHeight;
       const scrollPercent = (scrollTop + winHeight) / docHeight;
 
-      if (scrollPercent > 0.85) { // You can tweak this later
+      if (scrollPercent > 0.85) {
         setShow(true);
       } else {
         setShow(false);
@@ -42,8 +46,8 @@ export default function ProjectNavBar({
       } bg-white/80 backdrop-blur-sm border-t border-gray-300`}
     >
       <div className="max-w-screen-lg mx-auto px-4 py-2 flex justify-between text-sm font-medium text-gray-800">
-        {previousSlug ? (
-          <Link href={`/${clusterSlug}/${previousSlug}`} className="hover:underline">
+        {previousSlug && previousCluster ? (
+          <Link href={`/${previousCluster}/${previousSlug}`} className="hover:underline">
             ← Previous
           </Link>
         ) : (
@@ -54,8 +58,8 @@ export default function ProjectNavBar({
           ↻ Back to {clusterName}
         </Link>
 
-        {nextSlug ? (
-          <Link href={`/${clusterSlug}/${nextSlug}`} className="hover:underline">
+        {nextSlug && nextCluster ? (
+          <Link href={`/${nextCluster}/${nextSlug}`} className="hover:underline">
             Next →
           </Link>
         ) : (
