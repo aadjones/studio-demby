@@ -17,7 +17,7 @@ export default async function HomePage() {
 
   return (
     <main className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">Studio Demby</h1>
+      <h1 className="text-4xl font-bold mb-8">Aaron Demby Jones</h1>
       <p className="text-xl mb-12">
       Artist. Improviser. Builder of strange systems.
       </p>
@@ -46,16 +46,6 @@ export default async function HomePage() {
             <p className="italic text-gray-600 mt-2">{project.summary}</p>
           </div>
         ))}
-      </div>
-
-      <div className="mt-12">
-        <p className="font-medium">Explore more:</p>
-        <div className="flex space-x-4">
-          <Link href="/resonant">Resonant</Link>
-          <Link href="/errant">Errant</Link>
-          <Link href="/fractured">Fractured</Link>
-          <Link href="/enclosed">Enclosed</Link>
-        </div>
       </div>
     </main>
   );

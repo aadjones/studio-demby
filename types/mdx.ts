@@ -1,4 +1,5 @@
 export interface MDXProject {
+  clusterName: string;
   title: string;
   slug: string;
   publishedAt: string;
