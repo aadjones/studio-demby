@@ -9,12 +9,15 @@ import rehypeKatex from "rehype-katex";
 
 const projectsDirectory = path.join(process.cwd(), "content/projects");
 
-export async function getProjectBySlug(slug: string) {
+export async function getProjectBySlug(cluster: string, slug: string) {
   const fullPath = path.join(projectsDirectory, `${slug}.mdx`);
   if (!fs.existsSync(fullPath)) return null;
 
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
+
+  // Verify that the project belongs to the specified cluster
+  if (data.cluster !== cluster) return null;
 
   const mdxSource = await serialize(content, {
     mdxOptions: {

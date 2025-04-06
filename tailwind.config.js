@@ -12,6 +12,18 @@ module.exports = {
           },
         },
       },
+      keyframes: {
+        'errant-flinch': {
+          '0%': { transform: 'translate(0, 0) rotate(0deg)' },
+          '100%': {
+            transform:
+              'translate(var(--x, 0px), var(--y, 0px)) rotate(var(--r, 0deg))',
+          },
+        },
+      },
+      animation: {
+        'errant-flinch': 'errant-flinch 0.15s ease-out forwards',
+      },
     },
   },
   plugins: [require("@tailwindcss/typography")],

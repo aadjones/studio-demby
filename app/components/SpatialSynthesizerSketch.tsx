@@ -20,8 +20,8 @@ const sketch = (p: any, parent: HTMLDivElement) => {
 
   p.preload = () => {
     myShader = p.loadShader(
-      "/sketches/spatial_synthesizer/shader.vert",
-      "/sketches/spatial_synthesizer/fm.frag"
+      "/sketches/spatial-synthesizer/shader.vert",
+      "/sketches/spatial-synthesizer/fm.frag"
     );
   };
 

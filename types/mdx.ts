@@ -1,4 +1,5 @@
 export interface MDXProject {
+  clusterName: string;
   title: string;
   slug: string;
   publishedAt: string;
@@ -9,6 +10,7 @@ export interface MDXProject {
   isFeatured: boolean;
   featuredOrder?: number;
   image?: string;
+  clusterOrder?: number;
 }
 
 export type MDXSource = {

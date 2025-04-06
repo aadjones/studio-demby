@@ -151,3 +151,11 @@ table {
 .title {
   text-wrap: balance;
 }
+
+.errant-hover {
+  transition: transform 0.15s ease-out;
+}
+
+.errant-hover.animated {
+  animation: errant-flinch 0.15s ease-out forwards;
+}

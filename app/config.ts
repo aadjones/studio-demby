@@ -1,10 +1,10 @@
 export const metaData = {
-  baseUrl: "https://nextfolio-template.vercel.app/",
-  title: "Aaron Demby Jones",
-  name: "Aaron Demby Jones — Musician, Artist, Technologist",
+  baseUrl: "https://www.studiodemby.com/",
+  title: "Studio Demby",
+  name: "Aaron Demby Jones - Artist",
   ogImage: "/opengraph-image.png",
   description:
-    "Music, Generative Art, and Creative Programming",
+    "Creative work organized by emotional clusters: resonant, errant, fractured, and enclosed",
 };
 
 export const socialLinks = {
