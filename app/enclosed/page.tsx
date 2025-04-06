@@ -9,6 +9,7 @@ export default async function EnclosedPage() {
   return (
     <main className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold mb-8">Enclosed</h1>
+      <p className="text-lg italic mb-6 text-zinc-600">A sealed room, still vibrating.</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {enclosedProjects.map((project) => (
           <Link key={project.slug} href={`/${project.cluster}/${project.slug}`}>
