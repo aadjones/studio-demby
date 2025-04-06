@@ -1,4 +1,4 @@
-// app/projects/[slug]/page.tsx
+// app/[cluster]/[slug]/page.tsx
 import { notFound } from "next/navigation";
 import { getProjectBySlug, getAllProjects } from "@/lib/projects_mdx";
 import Image from "next/image";
@@ -6,12 +6,12 @@ import ClientMDX from "@/app/components/ClientMDX";
 import ErrorBoundary from "@/app/components/ErrorBoundary";
 
 type PageProps = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ cluster: string, slug: string }>;
 };
 
 export default async function ProjectDetailPage({ params }: PageProps) {
-  const { slug } = await params;
-  const projectData = await getProjectBySlug(slug);
+  const { cluster, slug } = await params;
+  const projectData = await getProjectBySlug(cluster, slug);
   if (!projectData) return notFound();
 
   const { mdxSource, frontMatter } = projectData;
@@ -24,7 +24,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         <Image src={frontMatter.image} alt={frontMatter.title} width={800} height={600} className="object-cover" />
       )}
       <ErrorBoundary>
-        <ClientMDX mdxSource={mdxSource} /> {/* Pass serialized mdxSource */}
+        <ClientMDX mdxSource={mdxSource} />
       </ErrorBoundary>
     </div>
   );
@@ -32,5 +32,8 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
 export async function generateStaticParams() {
   const projects = await getAllProjects();
-  return projects.map((project) => ({ slug: project.slug }));
+  return projects.map((project) => ({ 
+    cluster: project.cluster,
+    slug: project.slug 
+  }));
 }

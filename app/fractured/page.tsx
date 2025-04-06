@@ -11,7 +11,7 @@ export default async function FracturedPage() {
       <h1 className="text-4xl font-bold mb-8">Fractured</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {fracturedProjects.map((project) => (
-          <Link key={project.slug} href={`/projects/${project.slug}`}>
+          <Link key={project.slug} href={`/${project.cluster}/${project.slug}`}>
             <div className="group">
               {project.image && (
                 <Image

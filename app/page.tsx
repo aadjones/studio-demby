@@ -28,7 +28,7 @@ export default async function HomePage() {
         {featuredProjects.map((project) => (
           <div key={project.slug} className="flex flex-col">
             {project.image && (
-              <Link href={`/projects/${project.slug}`}>
+              <Link href={`/${project.cluster}/${project.slug}`}>
                 <Image
                   src={project.image}
                   alt={project.title}
@@ -38,7 +38,7 @@ export default async function HomePage() {
                 />
               </Link>
             )}
-            <Link href={`/projects/${project.slug}`}>
+            <Link href={`/${project.cluster}/${project.slug}`}>
               <h3 className="text-xl font-medium hover:underline cursor-pointer mt-4">
                 {project.title}
               </h3>
