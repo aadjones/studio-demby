@@ -3,7 +3,9 @@ import { getAllProjects, getProjectBySlug } from "@/lib/projects_mdx";
 import ClientMDX from "@/app/components/ClientMDX";
 import Image from "next/image";
 import ProjectLayout from "@/app/components/ProjectLayout";
-import ProjectNavBar from "@/app/components/ProjectNavBar"; // new import
+import ProjectNavBar from "@/app/components/ProjectNavBar";
+import StickyClusterNav from "@/app/components/StickyClusterNav";
+
 
 const clusterOrder = ["resonant", "errant", "fractured", "enclosed"];
 
@@ -57,38 +59,41 @@ export default async function ProjectPage({ params }: Props) {
   const clusterName = project.frontMatter.clusterName || cluster;
 
   return (
-    <ProjectLayout>
-    {/* HERO BLOCK */}
-    <section className="text-center space-y-4">
-      {project.frontMatter.image && (
-       <Image
-       src={project.frontMatter.image}
-       alt={project.frontMatter.title}
-       width={720}
-       height={720}
-       className="rounded-lg object-cover mx-auto max-w-md w-full"
-       priority
-     />
-      )}
-      <h1 className="text-3xl font-bold">{project.frontMatter.title}</h1>
-      <p className="italic text-zinc-600">{project.frontMatter.summary}</p>
-    </section>
-  
-    {/* BODY CONTENT */}
-    <article className="prose dark:prose-invert mx-auto prose-headings:mb-4 prose-p:mb-3 prose-img:my-4">
-      <ClientMDX mdxSource={project.mdxSource} />
-    </article>
-  
-    {/* STICKY NAV */}
-    <ProjectNavBar
-      previousSlug={previousProject?.slug || null}
-      nextSlug={nextProject?.slug || null}
-      previousCluster={previousProject?.cluster || null}
-      nextCluster={nextProject?.cluster || null}
-      clusterSlug={cluster}
-      clusterName={clusterName}
-    />
-  </ProjectLayout>
+    <>
+      <StickyClusterNav />
+      <ProjectLayout>
+        {/* HERO BLOCK */}
+        <section className="text-center space-y-4">
+          {project.frontMatter.image && (
+            <Image
+              src={project.frontMatter.image}
+              alt={project.frontMatter.title}
+              width={720}
+              height={720}
+              className="rounded-lg object-cover mx-auto max-w-md w-full"
+              priority
+            />
+          )}
+          <h1 className="text-3xl font-bold">{project.frontMatter.title}</h1>
+          <p className="italic text-zinc-600">{project.frontMatter.summary}</p>
+        </section>
+    
+        {/* BODY CONTENT */}
+        <article className="prose dark:prose-invert mx-auto prose-headings:mb-4 prose-p:mb-3 prose-img:my-4">
+          <ClientMDX mdxSource={project.mdxSource} />
+        </article>
+    
+        {/* STICKY NAV */}
+        <ProjectNavBar
+          previousSlug={previousProject?.slug || null}
+          nextSlug={nextProject?.slug || null}
+          previousCluster={previousProject?.cluster || null}
+          nextCluster={nextProject?.cluster || null}
+          clusterSlug={cluster}
+          clusterName={clusterName}
+        />
+      </ProjectLayout>
+    </>
   );
 }
 
