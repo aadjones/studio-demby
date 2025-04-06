@@ -58,31 +58,37 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <ProjectLayout>
+    {/* HERO BLOCK */}
+    <section className="text-center space-y-4">
       {project.frontMatter.image && (
-        <Image
-          src={project.frontMatter.image}
-          alt={project.frontMatter.title}
-          width={720}
-          height={720}
-          className="rounded-lg object-cover w-full max-w-[512px] mb-6"
-          priority
-        />
+       <Image
+       src={project.frontMatter.image}
+       alt={project.frontMatter.title}
+       width={720}
+       height={720}
+       className="rounded-lg object-cover mx-auto max-w-md w-full"
+       priority
+     />
       )}
-      <h1 className="text-3xl font-bold mb-2">{project.frontMatter.title}</h1>
-      <p className="italic text-zinc-600 mb-4">{project.frontMatter.summary}</p>
-      <article className="prose dark:prose-invert prose-headings:mb-4 prose-p:mb-3 prose-img:my-4">
-        <ClientMDX mdxSource={project.mdxSource} />
-      </article>
-
-      <ProjectNavBar
-  previousSlug={previousProject?.slug || null}
-  nextSlug={nextProject?.slug || null}
-  previousCluster={previousProject?.cluster || null}
-  nextCluster={nextProject?.cluster || null}
-  clusterSlug={cluster}
-  clusterName={clusterName}
-/>
-    </ProjectLayout>
+      <h1 className="text-3xl font-bold">{project.frontMatter.title}</h1>
+      <p className="italic text-zinc-600">{project.frontMatter.summary}</p>
+    </section>
+  
+    {/* BODY CONTENT */}
+    <article className="prose dark:prose-invert mx-auto prose-headings:mb-4 prose-p:mb-3 prose-img:my-4">
+      <ClientMDX mdxSource={project.mdxSource} />
+    </article>
+  
+    {/* STICKY NAV */}
+    <ProjectNavBar
+      previousSlug={previousProject?.slug || null}
+      nextSlug={nextProject?.slug || null}
+      previousCluster={previousProject?.cluster || null}
+      nextCluster={nextProject?.cluster || null}
+      clusterSlug={cluster}
+      clusterName={clusterName}
+    />
+  </ProjectLayout>
   );
 }
 
