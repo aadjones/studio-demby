@@ -47,15 +47,13 @@ export const metadata: Metadata = {
   },
 };
 
-const cx = (...classes: string[]) => classes.filter(Boolean).join(" ");
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.className}`} suppressHydrationWarning>
+    <html lang="en" className={inter.className} suppressHydrationWarning>
       <head>
         <link
           rel="alternate"
@@ -63,23 +61,26 @@ export default function RootLayout({
           href="/atom.xml"
           title="Atom Feed"
         />
-        {/* Load p5 globally so that window.p5 is available */}
         <script src="/p5.min.js" defer />
       </head>
-      <body className="antialiased flex flex-col items-center justify-center mx-auto mt-2 lg:mt-8 mb-20 lg:mb-40">
+      <body className="antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <main className="flex-auto min-w-0 mt-2 md:mt-6 flex flex-col px-6 sm:px-4 md:px-0 max-w-[624px] w-full">
-            <Navbar />
-            {children}
-            <Footer />
+          <div className="flex flex-col min-h-screen items-center">
+            <div className="w-full max-w-[960px] px-6 sm:px-8 md:px-12">
+              <Navbar />
+              <main className="flex-auto min-w-0 mt-2 md:mt-6 flex flex-col">
+                {children}
+              </main>
+              <Footer />
+            </div>
             <Analytics />
             <SpeedInsights />
-          </main>
+          </div>
         </ThemeProvider>
       </body>
     </html>
