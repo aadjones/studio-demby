@@ -12,6 +12,7 @@
     "@types/react-dom": "19.0.3",
     "@vercel/analytics": "^1.4.1",
     "@vercel/speed-insights": "^1.1.0",
+    "clsx": "^2.1.1",
     "dat.gui": "^0.7.9",
     "feed": "^4.2.2",
     "gray-matter": "^4.0.3",

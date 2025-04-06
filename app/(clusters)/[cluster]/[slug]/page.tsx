@@ -6,21 +6,22 @@ import ProjectLayout from "@/app/components/ProjectLayout";
 
 type Props = {
   params: {
+    cluster: string;
     slug: string;
   };
 };
 
 export async function generateStaticParams() {
   const projects = await getAllProjects();
-  return projects
-    .filter((p) => p.cluster === "errant")
-    .map((project) => ({
-      slug: project.slug,
-    }));
+  return projects.map((project) => ({
+    cluster: project.cluster,
+    slug: project.slug,
+  }));
 }
 
 export default async function ProjectPage({ params }: Props) {
-  const project = await getProjectBySlug("errant", params.slug);
+  const { cluster, slug } = params;
+  const project = await getProjectBySlug(cluster, slug);
 
   if (!project) {
     notFound();
