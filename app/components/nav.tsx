@@ -1,26 +1,48 @@
 "use client";
+
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { ThemeSwitch } from "./theme-switch";
 import { metaData } from "../config";
-import { useRef } from "react";
+import { JSX, useRef } from "react";
 
-const navItems: Record<string, { name: string; className?: string }> = {
+const navItems: Record<
+  string,
+  { name: string | JSX.Element; className?: string }
+> = {
   "/resonant": {
     name: "Resonant",
-    className: "hover:scale-105 hover:text-blue-700 transition-transform duration-200",
+    className:
+      "hover:scale-105 hover:text-blue-700 transition-transform duration-200",
   },
   "/errant": {
     name: "Errant",
     className: "errant-hover transition-all duration-150 ease-out",
   },
   "/fractured": {
-    name: "Fractured",
-    className: "hover:text-red-600 hover:line-through",
+    name: (
+      <>
+        <span className="relative inline-flex group-hover:text-red-600 transition-all duration-150">
+          {/* Default state: whole word */}
+          <span className="group-hover:opacity-0 transition-opacity duration-150">
+            Fractured
+          </span>
+
+          {/* Hover state: Frac | tured */}
+          <span className="absolute left-0 top-0 w-full h-full flex items-center justify-center gap-[0.15em] group-hover:opacity-100 opacity-0 transition-opacity duration-150">
+            <span>Frac</span>
+            <span className="text-red-600">|</span>
+            <span>tured</span>
+          </span>
+        </span>
+      </>
+    ),
+    className: "group transition-all duration-150",
   },
   "/enclosed": {
     name: "Enclosed",
-    className: "hover:text-zinc-600 hover:tracking-tighter hover:opacity-80",
+    className:
+      "hover:text-zinc-600 hover:tracking-tighter hover:opacity-80",
   },
   "/about": {
     name: "About",
@@ -52,31 +74,35 @@ export function Navbar() {
           </Link>
         </div>
         <div className="flex flex-row gap-4 mt-6 md:mt-0 md:ml-auto items-center">
-          {Object.entries(navItems).map(([path, { name, className }]) => {
+          {Object.entries(navItems).map(([path, item]) => {
+            const { className } = item;
             const isActive = pathname.startsWith(path);
             const isErrant = path === "/errant";
+            const content =
+              typeof item.name === "string" ? item.name : item.name;
+
             return (
               <Link
                 key={path}
                 href={path}
                 ref={isErrant ? errantRef : undefined}
                 onMouseEnter={isErrant ? handleErrantHover : undefined}
-                className={`flex align-middle relative
-                  ${className ?? ""}
-                  ${isActive ? "font-semibold underline" : ""}
-                `}
+                className={`flex align-middle relative ${className ?? ""} ${
+                  isActive ? "font-semibold underline" : ""
+                }`}
                 style={
                   isErrant
                     ? ({
                         "--x": "0px",
                         "--y": "0px",
                         "--r": "0deg",
-                        transform: "translate(var(--x), var(--y)) rotate(var(--r))",
+                        transform:
+                          "translate(var(--x), var(--y)) rotate(var(--r))",
                       } as React.CSSProperties)
                     : undefined
                 }
               >
-                {name}
+                {content}
               </Link>
             );
           })}

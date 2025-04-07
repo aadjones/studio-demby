@@ -5,10 +5,44 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const clusters = [
-  { path: "/resonant", name: "Resonant", className: "hover:scale-105 hover:text-blue-700 transition-transform duration-200" },
-  { path: "/errant", name: "Errant", className: "errant-hover transition-all duration-150 ease-out" },
-  { path: "/fractured", name: "Fractured", className: "hover:text-red-600 hover:line-through" },
-  { path: "/enclosed", name: "Enclosed", className: "hover:text-zinc-600 hover:tracking-tighter hover:opacity-80" }
+  {
+    path: "/resonant",
+    name: "Resonant",
+    className:
+      "hover:scale-105 hover:text-blue-700 transition-transform duration-200",
+  },
+  {
+    path: "/errant",
+    name: "Errant",
+    className: "errant-hover transition-all duration-150 ease-out",
+  },
+  {
+    path: "/fractured",
+    name: (
+      <>
+        <span className="relative inline-flex group-hover:text-red-600 transition-all duration-150">
+          {/* Default whole word */}
+          <span className="group-hover:opacity-0 transition-opacity duration-150">
+            Fractured
+          </span>
+
+          {/* Hover split word */}
+          <span className="absolute left-0 top-0 w-full h-full flex items-center justify-center gap-[0.15em] group-hover:opacity-100 opacity-0 transition-opacity duration-150">
+            <span>Frac</span>
+            <span className="text-red-600">|</span>
+            <span>tured</span>
+          </span>
+        </span>
+      </>
+    ),
+    className: "group transition-all duration-150",
+  },
+  {
+    path: "/enclosed",
+    name: "Enclosed",
+    className:
+      "hover:text-zinc-600 hover:tracking-tighter hover:opacity-80",
+  },
 ];
 
 export default function FloatingClusterNav() {
@@ -17,12 +51,12 @@ export default function FloatingClusterNav() {
   const errantRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    const navHeight = 64; // Assume nav bar height ~64px
+    const navHeight = 64;
     const handleScroll = () => {
       setShow(window.scrollY > navHeight);
     };
 
-    handleScroll(); // run on mount in case already scrolled
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -49,21 +83,27 @@ export default function FloatingClusterNav() {
           {clusters.map(({ path, name, className }) => {
             const isActive = pathname.startsWith(path);
             const isErrant = path === "/errant";
+
             return (
               <Link
                 key={path}
                 href={path}
                 ref={isErrant ? errantRef : undefined}
                 onMouseEnter={isErrant ? handleErrantHover : undefined}
-                className={`relative ${className ?? ""} ${isActive ? "font-semibold underline" : ""}`}
-                style={isErrant
+                className={`relative ${className ?? ""} ${
+                  isActive ? "font-semibold underline" : ""
+                }`}
+                style={
+                  isErrant
                     ? {
                         ["--x" as any]: "0px",
                         ["--y" as any]: "0px",
                         ["--r" as any]: "0deg",
-                        transform: "translate(var(--x), var(--y)) rotate(var(--r))",
+                        transform:
+                          "translate(var(--x), var(--y)) rotate(var(--r))",
                       }
-                    : undefined}
+                    : undefined
+                }
               >
                 {name}
               </Link>
@@ -73,4 +113,4 @@ export default function FloatingClusterNav() {
       </div>
     </div>
   );
-} 
+}
