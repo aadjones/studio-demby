@@ -11,6 +11,7 @@ export interface MDXProject {
   featuredOrder?: number;
   image?: string;
   clusterOrder?: number;
+  overrideHero?: boolean;
 }
 
 export type MDXSource = {

@@ -21,6 +21,12 @@ import FieldNote from "./FieldNote";
 import Whisper from "./Whisper";
 import SacredScroll from "./SacredScroll";
 import GalleryOfLies from "./GalleryOfLies";
+import LoopRoomTrack from "./LoopRoomTrack";
+import LoopRoomIntro from "./LoopRoomIntro";
+import LoopRoomInterlude from "./LoopRoomInterlude";
+import LoopPlayer from "./LoopPlayer";
+import MovementBlock from "./MovementBlock";
+import HeroBlock from "./HeroBlock";
 
 const components = {
   p: "p",
@@ -44,6 +50,12 @@ const components = {
   Whisper,
   SacredScroll,
   GalleryOfLies,
+  LoopRoomTrack,
+  LoopRoomIntro,
+  LoopRoomInterlude,
+  LoopPlayer,
+  MovementBlock,
+  HeroBlock,
 };
 
 type ClientMDXProps = {

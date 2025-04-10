@@ -1,12 +1,8 @@
 ---
 title: Escape 🎵
 slug: escape
-summary: >-
-  Free improvisations recorded in isolation — part classical, part noise, part
-  reverie.
 cluster: resonant
 isFeatured: false
-image: /photos/escape.jpg
 date: '2020'
 tags:
   - improvisation
@@ -14,45 +10,119 @@ tags:
   - isolation
 whisper: 'Some days, music was the only way out.'
 collapseMode: true
-externalUrl: 'https://soundcloud.com/aaron-demby-jones/sets/escape'
 clusterOrder: 2
+overrideHero: true
 ---
 
-<ProjectOverview>
-*Escape* is a suite of free improvisations recorded during the COVID‑19 lockdown.
+import HeroBlock from '@/components/HeroBlock';
+import MovementBlock from '@/components/MovementBlock';
+import CallToAction from '@/components/CallToAction';
+import CollapseMetadata from '@/components/CollapseMetadata';
+import FieldNote from '@/components/FieldNote';
 
-Each track was played in one sitting. No edits. Just harmony, texture, and mood — sometimes gentle, sometimes stormy.  
-The pieces emerged as little rituals. Rooms of sound to crawl inside.  
-</ProjectOverview>
+<div className="not-prose">
+  <HeroBlock
+    title="Escape 🎵"
+    subtitle="Free improvisations recorded in isolation — part classical, part noise, part reverie."
+    videoSrc="https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/escape-kn89tVVXNG0UbnpS90KKLcfdcFC8yU.mov"
+    poster="/photos/reaching.jpg"
+    tracklistSections={[
+      {
+        title: 'I. Thresholds',
+        links: [
+          { id: 'reaching', label: '1. Reaching' },
+          { id: 'denmark', label: '2. Denmark' }
+        ]
+      },
+      {
+        title: 'II. Pressure Systems',
+        links: [
+          { id: 'endure', label: '3. Endure' },
+          { id: 'frustration', label: '4. Frustration' }
+        ]
+      },
+      {
+        title: 'III. Exit Wounds',
+        links: [
+          { id: 'space', label: '5. Space' },
+          { id: 'escape', label: '6. Escape' },
+          { id: 'calm', label: '7. Calm' }
+        ]
+      }
+    ]}
+  />
+</div>
 
-<MediaSection title="Selected Movements">
-  <MediaItem
-    title="Endure"
-    description="An almost underwater-type resonance. Sparse, Bach-adjacent counterpoint."
-    soundCloudUrl="https://soundcloud.com/aaron-demby-jones/endure"
+<div className="not-prose">
+  <MovementBlock
+    id="thresholds"
+    title="I. Thresholds"
+    description="Memory, weight, and distance."
+    tracks={[
+      {
+        id: "reaching",
+        title: "1. Reaching",
+        src: "https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/Reaching-h0lgN2hTW4XXgtquHZvoolAaWMsWC5.mp3",
+        thumbnail: "/photos/reaching.jpg",
+      },
+      {
+        id: "denmark",
+        title: "2. Denmark",
+        src: "https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/Denmark-b0eDkKj7ZdbHjFBeLy8aXFaM0gqkaP.mp3",
+        thumbnail: "/photos/denmark.jpg",
+      }
+    ]}
   />
-  <MediaItem
-    title="Frustration"
-    description="A burst of motion and tension. Notes sloshing in place before collapsing."
-    soundCloudUrl="https://soundcloud.com/aaron-demby-jones/frustration"
-  />
-  <MediaItem
-    title="Denmark"
-    description="An ethereal electronic ode. Nostalgic, sci-fi overtones."
-    soundCloudUrl="https://soundcloud.com/aaron-demby-jones/denmark"
-  />
-</MediaSection>
 
-<MediaSection title="Full Suite">
-  <MediaItem
-    title="Escape (Full Album)"
-    description="The complete improvisation set — ten tracks of solitary sound."
-    soundCloudUrl="https://soundcloud.com/aaron-demby-jones/sets/escape"
+  <MovementBlock
+    id="pressure-systems"
+    title="II. Pressure Systems"
+    description="Density builds. Movement slows. Energy breaks and drains."
+    tracks={[
+      {
+        id: "endure",
+        title: "3. Endure",
+        src: "https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/Endure-JXACeZ4UzDLWiG0TkclKp7v4IxEaYW.mp3",
+        thumbnail: "/photos/endure.jpg",
+      },
+      {
+        id: "frustration",
+        title: "4. Frustration",
+        src: "https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/Frustration-19tS5YuwcWCKIwNhitQF9vRsZDUHGd.mp3",
+        thumbnail: "/photos/frustration.jpg",
+      }
+    ]}
   />
-</MediaSection>
+
+  <MovementBlock
+    id="exit-wounds"
+    title="III. Exit Wounds"
+    description="The aftermath: strange air, strange stillness."
+    tracks={[
+      {
+        id: "space",
+        title: "5. Space",
+        src: "https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/space-uJP24RMT1e1iV11IAJQsKQOk0FfA0K.mp3",
+        thumbnail: "/photos/space.jpg",
+      },
+      {
+        id: "escape",
+        title: "6. Escape",
+        src: "https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/Escape-htNw8VNl271lB0McmVxbLrMWElbFlZ.mp3",
+        thumbnail: "/photos/escape.jpg",
+      },
+      {
+        id: "calm",
+        title: "7. Calm",
+        src: "https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/Calm-WoczBCkIPtlRTNTRqM1OICd9uhdj59.mp3",
+        thumbnail: "/photos/calm.jpg",
+      }
+    ]}
+  />
+</div>
 
 <FieldNote>
-Some days, this was the only thing that made sense.
+  <span>Rooms of sound to crawl inside.</span>
 </FieldNote>
 
 <CollapseMetadata>
@@ -60,7 +130,7 @@ Some days, this was the only thing that made sense.
     <li><strong>Date:</strong> 2020</li>
     <li><strong>Tools:</strong> Upright piano, effects processing, GarageBand</li>
     <li><strong>Process:</strong> One-take free improvisations</li>
-    <li><strong>Iterations:</strong> 10</li>
+    <li><strong>Iterations:</strong> 7</li>
     <li><strong>Artifacts:</strong> Dream residue from a year no one wanted</li>
   </ul>
 </CollapseMetadata>
