@@ -107,7 +107,10 @@ export default async function ProjectPage({ params }: Props) {
         {/* BODY CONTENT */}
         <article className={articleClasses}>
           {/* Pass the mdxSource from the project (MDXSource) */}
-          <ClientMDX mdxSource={project.mdxSource} />
+          <ClientMDX 
+          mdxSource={project.mdxSource}
+          frontMatter={project.frontMatter}
+           />
         </article>
 
         {/* STICKY NAV */}

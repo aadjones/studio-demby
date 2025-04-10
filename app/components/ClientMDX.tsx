@@ -1,9 +1,11 @@
-// app/components/ClientMDX.tsx
 "use client";
+
 import { MDXRemote, type MDXRemoteSerializeResult } from "next-mdx-remote";
+import Image from "next/image";
+
+// Components
 import { YouTubeComponent } from "./youtube";
 import SoundCloudEmbed from "./soundcloud";
-import Image from "next/image";
 import { Callout } from "./callout";
 import CallToAction from "./call-to-action";
 import MediaSection from "./media-section";
@@ -27,21 +29,20 @@ import LoopRoomInterlude from "./LoopRoomInterlude";
 import LoopPlayer from "./LoopPlayer";
 import MovementBlock from "./MovementBlock";
 import HeroBlock from "./HeroBlock";
+import HeroCarouselBlock from "./HeroCarouselBlock";
 
-const components = {
+// Register all base components here
+const baseComponents = {
   p: "p",
-  ProjectOverview,
-  MediaSection,
-  MediaItem,
-  ImageGrid,
-  CallToAction,
-  SpatialSynthesizerSketch,
-  EncasedMeltingSphere, 
+  Image,
   YouTube: YouTubeComponent,
   SoundCloudEmbed,
-  Image,
   Callout,
+  CallToAction,
+  MediaSection,
+  MediaItem,
   ProjectIntro,
+  ProjectOverview,
   TechnicalDetails,
   ZoomImage,
   Caption: CaptionComponent,
@@ -56,17 +57,38 @@ const components = {
   LoopPlayer,
   MovementBlock,
   HeroBlock,
+  HeroCarouselBlock,
+  ImageGrid,
 };
 
 type ClientMDXProps = {
   mdxSource: MDXRemoteSerializeResult;
+  frontMatter?: Record<string, any>;
+  overrides?: Record<string, React.ComponentType<any>>;
 };
 
-export default function ClientMDX({ mdxSource }: ClientMDXProps) {
-  console.log("[ClientMDX] mdxSource:", mdxSource);
+export default function ClientMDX({
+  mdxSource,
+  frontMatter = {},
+  overrides = {},
+}: ClientMDXProps) {
+  const injectedComponents: Record<string, React.ComponentType<any>> = {};
+
+  for (const [name, Component] of Object.entries({
+    ...baseComponents,
+    ...overrides,
+  })) {
+    injectedComponents[name] = (props: any) => (
+      <Component
+        {...frontMatter}
+        {...props} // MDX props take precedence
+      />
+    );
+  }
+
   return (
     <div className="prose max-w-none">
-      <MDXRemote {...mdxSource} components={components} />
+      <MDXRemote {...mdxSource} components={injectedComponents} />
     </div>
   );
 }
