@@ -1,11 +1,11 @@
-// lib/projects_mdx.ts
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import type { MDXProject } from "@/types/mdx";
 import { serialize } from "next-mdx-remote/serialize";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+
+import { ProjectSchema, MDXProject } from "@/types/mdx";
 
 const projectsDirectory = path.join(process.cwd(), "content/projects");
 
@@ -16,8 +16,16 @@ export async function getProjectBySlug(cluster: string, slug: string) {
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
 
-  // Verify that the project belongs to the specified cluster
+  // Verify cluster match before continuing
   if (data.cluster !== cluster) return null;
+
+  // Validate frontmatter
+  const parsed = ProjectSchema.safeParse({ slug, ...data });
+  if (!parsed.success) {
+    console.warn(`[getProjectBySlug] Invalid frontmatter in ${slug}.mdx:`);
+    console.warn(parsed.error.format());
+    return null;
+  }
 
   const mdxSource = await serialize(content, {
     mdxOptions: {
@@ -26,11 +34,8 @@ export async function getProjectBySlug(cluster: string, slug: string) {
     },
   });
 
-  console.log(`[getProjectBySlug] slug: ${slug}, mdxSource:`, mdxSource);
-  console.log(`[getProjectBySlug] typeof mdxSource:`, typeof mdxSource);
-
   return {
-    frontMatter: data as MDXProject,
+    frontMatter: parsed.data,
     mdxSource,
   };
 }
@@ -44,8 +49,15 @@ export async function getAllProjects(): Promise<MDXProject[]> {
     const fileContents = fs.readFileSync(fullPath, "utf8");
     const { data } = matter(fileContents);
 
-    return { slug, ...data } as MDXProject;
+    const parsed = ProjectSchema.safeParse({ slug, ...data });
+    if (!parsed.success) {
+      console.warn(`[getAllProjects] Invalid frontmatter in ${fileName}:`);
+      console.warn(parsed.error.format());
+      return null;
+    }
+
+    return parsed.data;
   });
 
-  return projects;
+  return projects.filter(Boolean) as MDXProject[];
 }

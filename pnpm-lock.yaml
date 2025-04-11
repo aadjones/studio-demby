@@ -89,6 +89,9 @@ importers:
       typescript:
         specifier: 5.7.3
         version: 5.7.3
+      zod:
+        specifier: ^3.24.2
+        version: 3.24.2
     devDependencies:
       '@tailwindcss/typography':
         specifier: ^0.5.16
@@ -1394,6 +1397,9 @@ packages:
 
   youtube-player@5.5.2:
     resolution: {integrity: sha512-ZGtsemSpXnDky2AUYWgxjaopgB+shFHgXVpiJFeNB5nWEugpW1KWYDaHKuLqh2b67r24GtP6HoSW5swvf0fFIQ==}
+
+  zod@3.24.2:
+    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -2974,5 +2980,7 @@ snapshots:
       sister: 3.0.2
     transitivePeerDependencies:
       - supports-color
+
+  zod@3.24.2: {}
 
   zwitch@2.0.4: {}

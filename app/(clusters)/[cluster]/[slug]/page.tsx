@@ -10,6 +10,7 @@ import Image from "next/image";
 import ProjectLayout from "@/app/components/layout/ProjectLayout";
 import ProjectNavBar from "@/app/components/layout/ProjectNavBar";
 import StickyClusterNav from "@/app/components/layout/StickyClusterNav";
+import { clusterDisplayNames } from "@/lib/clusterMeta"; // Put this at the top
 
 
 const clusterOrder = ["resonant", "errant", "fractured", "enclosed"];
@@ -71,7 +72,7 @@ export default async function ProjectPage({ params }: Props) {
   const nextProjectData: MDXProject | undefined = sortedProjects[(currentIndex + 1) % totalProjects];
 
   // Use project.frontMatter (from MDXSource) for current page data
-  const clusterName = project.frontMatter.clusterName || cluster;
+  const clusterName = clusterDisplayNames[project.frontMatter.cluster];
 
   // --- Logic for Conditional Rendering using project.frontMatter (from MDXSource) ---
   const renderDefaultHero = !project.frontMatter.overrideHero;
