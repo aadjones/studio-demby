@@ -4,12 +4,12 @@ import { getAllProjects, getProjectBySlug } from "@/lib/projects_mdx";
 // --- Import your types ---
 // Assuming types are correctly located at @/types/mdx
 import { MDXProject, MDXSource } from "@/types/mdx";
-import ClientMDX from "@/app/components/ClientMDX"; // Keep ClientMDX import
+import ClientMDX from "@/app/components/utils/ClientMDX";
 
 import Image from "next/image";
-import ProjectLayout from "@/app/components/ProjectLayout";
-import ProjectNavBar from "@/app/components/ProjectNavBar";
-import StickyClusterNav from "@/app/components/StickyClusterNav";
+import ProjectLayout from "@/app/components/layout/ProjectLayout";
+import ProjectNavBar from "@/app/components/layout/ProjectNavBar";
+import StickyClusterNav from "@/app/components/layout/StickyClusterNav";
 
 
 const clusterOrder = ["resonant", "errant", "fractured", "enclosed"];

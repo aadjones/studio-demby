@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
-import P5Container from "./P5Container";
+import P5Container from "../utils/P5Container";
 
 const sketch = (p: any, parent: HTMLDivElement) => {
   let myShader: any;

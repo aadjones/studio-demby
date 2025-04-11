@@ -1,4 +1,4 @@
-import LoopRoomTrack from '@/app/components/LoopRoomTrack';
+import LoopRoomTrack from '@/app/components/project-looproom/LoopRoomTrack';
 
 export default function MovementBlock({
   id,

@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Whisper from "../components/Whisper";
-import GalleryOfLies from "../components/GalleryOfLies";
+import Whisper from "@/app/components/mdx-blocks/Whisper";
+import GalleryOfLies from "@/app/components/surreal-systems/GalleryOfLies";
 
 export default function AboutPage() {
   return (

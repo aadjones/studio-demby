@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import P5Container from "./P5Container";
+import P5Container from "../utils/P5Container";
 
 export default function EncasedMeltingSphere() {
   const ref = useRef<HTMLDivElement>(null);

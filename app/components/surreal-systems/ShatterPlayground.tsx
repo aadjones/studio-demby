@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
-import P5Container from "./P5Container";
+import P5Container from "../utils/P5Container";
 
 const PLANE_COUNTS = [
   { label: "A single plane", value: 1 },

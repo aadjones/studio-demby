@@ -2,8 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { ThemeSwitch } from "./theme-switch";
-import { metaData } from "../config";
+import { ThemeSwitch } from "./ThemeSwitch";
+import { metaData } from "../../config";
 import { JSX, useRef } from "react";
 
 const navItems: Record<
