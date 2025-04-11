@@ -57,20 +57,21 @@ export default function HeroCarouselBlock({
         </button>
 
         {/* Image */}
-        <div className="w-full max-w-3xl max-h-[480px] mx-auto overflow-hidden rounded-xl border border-gray-300">
-          <Image
-            src={images[index]}
-            alt={`Slide ${index + 1}`}
-            width={800}
-            height={600}
-            className={`w-full h-auto object-contain transition-opacity duration-500 ease-in-out ${
-              loaded ? "opacity-100" : "opacity-0"
-            }`}
-            onLoad={() => setLoaded(true)}
-            priority={index === 0}
-            loading={index === 0 ? "eager" : "lazy"}
-          />
-        </div>
+        <div className="w-full max-w-2xl mx-auto overflow-hidden rounded-xl border border-gray-300 max-h-[360px]">
+  <Image
+    src={images[index]}
+    alt={`Slide ${index + 1}`}
+    width={800}
+    height={600}
+    className={`w-full h-auto object-contain transition-opacity duration-500 ease-in-out ${
+      loaded ? "opacity-100" : "opacity-0"
+    }`}
+    onLoad={() => setLoaded(true)}
+    priority={index === 0}
+    loading={index === 0 ? "eager" : "lazy"}
+  />
+</div>
+
 
         {/* Right Arrow (hidden on mobile) */}
         <button

@@ -30,7 +30,8 @@ import LoopPlayer from "./LoopPlayer";
 import MovementBlock from "./MovementBlock";
 import HeroBlock from "./HeroBlock";
 import HeroCarouselBlock from "./HeroCarouselBlock";
-
+import SectionNav from "./SectionNav";
+import ShatterPlayground from "./ShatterPlayground";
 // Register all base components here
 const baseComponents = {
   p: "p",
@@ -59,6 +60,8 @@ const baseComponents = {
   HeroBlock,
   HeroCarouselBlock,
   ImageGrid,
+  SectionNav,
+  ShatterPlayground,
 };
 
 type ClientMDXProps = {
