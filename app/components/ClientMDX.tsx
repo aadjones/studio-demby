@@ -62,6 +62,8 @@ const baseComponents = {
   ImageGrid,
   SectionNav,
   ShatterPlayground,
+  EncasedMeltingSphere,
+  SpatialSynthesizerSketch,
 };
 
 type ClientMDXProps = {

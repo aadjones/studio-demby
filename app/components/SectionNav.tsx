@@ -12,7 +12,7 @@ export default function SectionNav() {
     <nav className="mt-6 mb-12 flex justify-center gap-6 text-sm font-medium text-zinc-600">
       {[
         { label: "Overview", id: "overview" },
-        { label: "Playground", id: "playground" },
+        { label: "Control Panel", id: "control-panel" },
         { label: "Gallery", id: "gallery" },
       ].map(({ label, id }) => (
         <button
