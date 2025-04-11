@@ -7,7 +7,7 @@ import { MDXProject, MDXSource } from "@/types/mdx";
 import ClientMDX from "@/app/components/utils/ClientMDX";
 
 import Image from "next/image";
-import ProjectLayout from "@/app/components/layout/ProjectLayout";
+import ProjectContentShell from "@/app/components/layout/ProjectContentShell";
 import ProjectNavBar from "@/app/components/layout/ProjectNavBar";
 import StickyClusterNav from "@/app/components/layout/StickyClusterNav";
 import { clusterDisplayNames } from "@/lib/clusterMeta"; // Put this at the top
@@ -85,7 +85,7 @@ export default async function ProjectPage({ params }: Props) {
   return (
     <>
       <StickyClusterNav />
-      <ProjectLayout>
+      <ProjectContentShell>
         {/* HERO BLOCK - Conditionally Rendered */}
         {/* Data comes from project.frontMatter (MDXSource) */}
         {renderDefaultHero && (
@@ -124,7 +124,7 @@ export default async function ProjectPage({ params }: Props) {
           clusterSlug={cluster} // Current cluster from params
           clusterName={clusterName} // Determined above
         />
-      </ProjectLayout>
+      </ProjectContentShell>
     </>
   );
 }

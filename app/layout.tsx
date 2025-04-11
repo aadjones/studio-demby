@@ -1,13 +1,9 @@
 import "./global.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Navbar } from "./components/layout/Nav";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import Footer from "./components/layout/Footer";
-import { ThemeProvider } from "./components/layout/ThemeSwitch";
 import { metaData } from "./config";
 import "katex/dist/katex.min.css";
+import LayoutShell from "./components/layout/LayoutShell";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -64,24 +60,7 @@ export default function RootLayout({
         <script src="/p5.min.js" defer />
       </head>
       <body className="antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="flex flex-col min-h-screen items-center">
-            <div className="w-full max-w-[960px] px-6 sm:px-8 md:px-12">
-              <Navbar />
-              <main className="flex-auto min-w-0 mt-2 md:mt-6 flex flex-col">
-                {children}
-              </main>
-              <Footer />
-            </div>
-            <Analytics />
-            <SpeedInsights />
-          </div>
-        </ThemeProvider>
+        <LayoutShell>{children}</LayoutShell>
       </body>
     </html>
   );
