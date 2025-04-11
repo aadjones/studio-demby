@@ -33,7 +33,7 @@ export default function EncasedMeltingSphere() {
 
     p.preload = () => {
       for (let i = 0; i < numTextures; i++) {
-        textures[i] = p.loadImage(`/photos/texture${i}.png`);
+        textures[i] = p.loadImage(`/photos/encased-melting/texture${i}.png`);
       }
     };
 

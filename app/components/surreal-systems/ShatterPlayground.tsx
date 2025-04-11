@@ -73,7 +73,7 @@ export default function ShatterPlayground() {
         planeSize: frozenPlaneSize,
       });
     setTriggerRender(prev => prev + 1);
-  }, []);
+  }, [numPlanes, planeSize]);
 
   const handleGenerate = useCallback(() => {
     const frozenNumPlanes = numPlanes;

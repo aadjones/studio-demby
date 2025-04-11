@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { metaData } from "./config";
 import "katex/dist/katex.min.css";
-import LayoutShell from "./components/layout/LayoutShell";
+import PageLayout from "./components/layout/PageLayout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -60,7 +60,7 @@ export default function RootLayout({
         <script src="/p5.min.js" defer />
       </head>
       <body className="antialiased">
-        <LayoutShell>{children}</LayoutShell>
+        <PageLayout>{children}</PageLayout>
       </body>
     </html>
   );

@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 export default function LoopPlayer({
   coverImage,
@@ -45,9 +46,11 @@ export default function LoopPlayer({
 
   return (
     <div className="relative w-full max-w-sm mx-auto aspect-square">
-      <img
+      <Image
         src={coverImage}
         alt={alt}
+        width={400}
+        height={400}
         className={`w-full h-full object-cover rounded-xl transition duration-1000 ease-in-out ${
           isPlaying ? 'opacity-90 blur-sm scale-105 saturate-[1.2]' : ''
         }`}

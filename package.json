@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "vitest"
   },
   "dependencies": {
     "@types/node": "22.10.7",
@@ -41,7 +42,10 @@
     "@tailwindcss/typography": "^0.5.16",
     "@types/p5": "^1.7.6",
     "autoprefixer": "^10.4.20",
+    "eslint": "8.57.0",
+    "eslint-config-next": "15.3.0",
     "postcss": "^8.5.1",
-    "tailwindcss": "3.4.17"
+    "tailwindcss": "3.4.17",
+    "ts-node": "^10.9.2"
   }
 }

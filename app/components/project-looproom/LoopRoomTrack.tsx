@@ -2,6 +2,7 @@
 import React from 'react';
 import clsx from 'clsx'; // Using clsx library for cleaner className merging (install if needed: pnpm add clsx)
                         // Or manually merge: `baseClasses ${className || ''}`
+import Image from 'next/image';
 
 type Props = {
   title: string;
@@ -31,9 +32,11 @@ export default function LoopRoomTrack({
       className={clsx(baseClasses, className)} // Merge base classes with passed className
       // Or without clsx: className={`${baseClasses} ${className || ''}`.trim()}
     >
-      <img
+      <Image
         src={thumbnail}
         alt={`${title} cover art`}
+        width={128}
+        height={128}
         className="w-32 h-32 rounded-md shadow-md object-cover mx-auto md:mx-0"
       />
       <div className="flex-1 max-w-xl mt-6 md:mt-0 space-y-2">

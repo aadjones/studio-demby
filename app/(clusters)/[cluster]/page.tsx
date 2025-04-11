@@ -1,4 +1,4 @@
-import { getAllProjects } from "@/lib/projects_mdx";
+import { getAllProjects } from "@/lib/content/projects-loader";
 import Link from "next/link";
 import Image from "next/image";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 
 interface HeroCarouselBlockProps {
@@ -18,9 +18,10 @@ export default function HeroCarouselBlock({
   const [index, setIndex] = useState(0);
   const [loaded, setLoaded] = useState(false);
 
-  const goLeft = () =>
-    setIndex((prev) => (prev - 1 + images.length) % images.length);
-  const goRight = () => setIndex((prev) => (prev + 1) % images.length);
+  const goLeft = useCallback(() =>
+    setIndex((prev) => (prev - 1 + images.length) % images.length), [images.length]);
+  const goRight = useCallback(() => 
+    setIndex((prev) => (prev + 1) % images.length), [images.length]);
 
   // ⌨️ Keyboard nav
   useEffect(() => {
@@ -30,7 +31,7 @@ export default function HeroCarouselBlock({
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [goLeft, goRight]);
 
   // Reset fade animation on image index change
   useEffect(() => {

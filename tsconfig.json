@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -19,26 +15,23 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "incremental": true,
+    "strictNullChecks": true,
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "types": ["vitest"],  // 👈 Add this line
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "strictNullChecks": true,
-    "paths": {
-      "@/*": [
-        "./*"
-      ]
-    }
+    ]
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "scripts/findUnusedImages.js"
   ],
-  "exclude": [
-    "node_modules",
-    ".next"
-  ]
+  "exclude": ["node_modules", ".next"]
 }

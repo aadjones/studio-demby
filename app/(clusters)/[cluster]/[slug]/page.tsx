@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getAllProjects, getProjectBySlug } from "@/lib/projects_mdx";
+import { getAllProjects, getProjectBySlug } from "@/lib/content/projects-loader";
 
 // --- Import your types ---
 // Assuming types are correctly located at @/types/mdx
@@ -10,8 +10,7 @@ import Image from "next/image";
 import ProjectContentShell from "@/app/components/layout/ProjectContentShell";
 import ProjectNavBar from "@/app/components/layout/ProjectNavBar";
 import StickyClusterNav from "@/app/components/layout/StickyClusterNav";
-import { clusterDisplayNames } from "@/lib/clusterMeta"; // Put this at the top
-
+import { clusterMeta } from "@/lib/clusterMeta";
 
 const clusterOrder = ["resonant", "errant", "fractured", "enclosed"];
 
@@ -72,7 +71,7 @@ export default async function ProjectPage({ params }: Props) {
   const nextProjectData: MDXProject | undefined = sortedProjects[(currentIndex + 1) % totalProjects];
 
   // Use project.frontMatter (from MDXSource) for current page data
-  const clusterName = clusterDisplayNames[project.frontMatter.cluster];
+  const clusterName = clusterMeta[project.frontMatter.cluster].title;
 
   // --- Logic for Conditional Rendering using project.frontMatter (from MDXSource) ---
   const renderDefaultHero = !project.frontMatter.overrideHero;
