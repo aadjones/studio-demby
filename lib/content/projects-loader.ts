@@ -34,6 +34,11 @@ export async function getProjectBySlug(cluster: string, slug: string) {
     },
   });
 
+  console.log("[getProjectBySlug] Trying to read from:", fullPath);
+  console.log('[getProjectBySlug] Parsed frontmatter:', data);
+  console.log('[getProjectBySlug] Schema result:', ProjectSchema.safeParse(data));
+
+
   return {
     frontMatter: parsed.data,
     mdxSource,
