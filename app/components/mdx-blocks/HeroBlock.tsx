@@ -80,9 +80,12 @@ export default function HeroBlock({
 
   return (
     <section className="my-12">
-      {title && <h1 className="text-3xl md:text-4xl font-bold mb-2">{title}</h1>}
-      {subtitle && <p className="italic text-lg text-gray-600 mb-2">{subtitle}</p>}
+       <div className="text-center">
+        {title && <h1 className="text-3xl md:text-4xl font-bold mb-2">{title}</h1>}
+        {subtitle && <p className="italic text-lg text-gray-600 mb-2">{subtitle}</p>}
+      </div>
       {subtext && <p className="text-sm text-gray-500 mb-6">{subtext}</p>}
+      
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         <div className="w-full">

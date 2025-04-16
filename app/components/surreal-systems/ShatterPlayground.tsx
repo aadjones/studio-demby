@@ -115,7 +115,7 @@ export default function ShatterPlayground() {
             onClick={handleGenerate}
             className="mt-2 px-4 py-2 bg-black text-white rounded shadow hover:bg-gray-800"
           >
-            Generate
+            Regenerate
           </button>
         </div>
       </div>
