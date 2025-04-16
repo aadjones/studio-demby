@@ -12,42 +12,49 @@ tags:
   - recursive
   - cantor
 clusterOrder: 2
+overrideHero: true
 ---
 
 
 import { CaptionComponent as Caption } from '@/app/components/mdx-blocks/Caption';
 import ZoomImage from "@/components/ZoomImage";
+import SimpleVideoBlock from "@/components/SimpleVideoBlock"
+
+<div className="not-prose">
+  <SimpleVideoBlock
+    title="Rain"
+    subtitle="A composition that recursively removes itself."
+    poster="/photos/rain/rain.png"
+    videoSrc="https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/rain-U9Ba3gqJzy6amdj4Y4Ilaffh8wsLz7.mp4"
+    caption="Audiovisual work built from recursive silence."
+  />
+</div>
 
 <ProjectOverview>
 *Rain* is carved from time itself.
 
-Like the Cantor ternary set, it begins whole.  
-Then something is taken away. Then more. Then again.  
+Like the Cantor ternary set, it begins whole.  Then something is taken away. Then more. Then again.  
+
 What's left is silence in the shape of a pattern.
 
 Rhythms drop out. Frequencies fall into negative space.
 
 This is rain rendered algorithmic: broken into recursive gaps, twitching at the edge of rhythm.
 
-<Image
-  src="/photos/rain/cantor.png"
-  alt="Cantor set middle‑third removal diagram"
-  width={600}
-  height={200}
-  className="my-8 mx-auto"
-/>
+<div className="text-center">
+<div className="flex justify-center my-8">
+  <Image
+    src="/photos/rain/cantor.png"
+    alt="Cantor set middle‑third removal diagram"
+    width={400}
+    height={200}
+  />
+</div>
 <Caption>
   Diagram of the Cantor ternary set — a line broken by subtraction. My sound followed it.
 </Caption>
+</div>
 </ProjectOverview>
-
-<MediaSection title="Listen">
-  <MediaItem
-    title="Rain"
-    description="Structured by recursive deletion. Skip to 0:57 to hear the first rainstorm."
-    soundCloudUrl="https://soundcloud.com/aaron-demby-jones/rain"
-  />
-</MediaSection>
 
 <FieldNote>
 The frequency carving gave me shivers.
