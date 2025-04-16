@@ -24,7 +24,7 @@ export default function AboutPage() {
         I&rsquo;ve spent time with pianos, particles, and unstable systems. My background touches experimental music, digital art, mathematics, and computer programming—but these days, I&rsquo;m more interested in how they blur.
       </p>
       <p className="text-lg mb-4">
-      My work is organized by clusters. You&rsquo;ll find pieces in <Link href="/resonant"><a className="text-blue-500">Resonant</a></Link>, <Link href="/errant"><a className="text-blue-500">Errant</a></Link>, <Link href="/fractured"><a className="text-blue-500">Fractured</a></Link>, and <Link href="/enclosed"><a className="text-blue-500">Enclosed</a></Link>. If something echoes in you, <a href="mailto:aaron.demby.jones@gmail.com" className="text-blue-500">reach out</a>.
+        My work is organized by clusters. You&rsquo;ll find pieces in <Link href="/resonant" className="text-blue-500">Resonant</Link>, <Link href="/errant" className="text-blue-500">Errant</Link>, <Link href="/fractured" className="text-blue-500">Fractured</Link>, and <Link href="/enclosed" className="text-blue-500">Enclosed</Link>. If something echoes in you, <a href="mailto:aaron.demby.jones@gmail.com" className="text-blue-500">reach out</a>.
       </p>
       <div className="flex items-center gap-2 text-lg mb-4">
   <GalleryOfLies prompt="Lie to me" />

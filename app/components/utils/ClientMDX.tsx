@@ -32,6 +32,7 @@ import HeroBlock from "../mdx-blocks/HeroBlock";
 import HeroCarouselBlock from "../mdx-blocks/HeroCarouselBlock";
 import SectionNav from "../layout/SectionNav";
 import ShatterPlayground from "../surreal-systems/ShatterPlayground";
+import WisdomTeethCodex from "../surreal-systems/WisdomTeethCodex";
 // Register all base components here
 const baseComponents = {
   p: "p",
@@ -64,6 +65,7 @@ const baseComponents = {
   ShatterPlayground,
   EncasedMeltingSphere,
   SpatialSynthesizerSketch,
+  WisdomTeethCodex,
 };
 
 type ClientMDXProps = {
