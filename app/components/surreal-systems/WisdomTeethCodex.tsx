@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { X } from 'lucide-react';
 import Image from 'next/image';
 
@@ -17,6 +17,7 @@ interface Tooth {
 
 export default function WisdomTeethCodex() {
   const [selectedTooth, setSelectedTooth] = useState<Tooth | null>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
 
   const teeth: Tooth[] = [
     {
@@ -55,8 +56,6 @@ export default function WisdomTeethCodex() {
       deathCause: "Crown amputation",
       coords: { top: "49%", left: "76%" }
     },
-
-    
     {
       id: 32,
       name: "32. Sivrak, the Impatient",
@@ -88,13 +87,13 @@ export default function WisdomTeethCodex() {
         THE CODEX OF MOLAR WISDOM
       </h1>
 
-      <div className="w-full rounded-t-3xl rounded-b-3xl px-8 py-16 font-serif relative bg-gradient-to-b from-amber-50 via-amber-100/70 to-amber-50 shadow-[inset_0_0_30px_rgba(217,119,6,0.1)] border-l border-r border-amber-200/50">
-        <div className="relative w-full max-w-md mx-auto mb-6 p-4 bg-transparent rounded-lg">
-          <div className="relative flex justify-center items-center">
+      <div className="w-full rounded-t-3xl rounded-b-3xl px-4 sm:px-8 py-12 font-serif relative bg-gradient-to-b from-amber-50 via-amber-100/70 to-amber-50 shadow-[inset_0_0_30px_rgba(217,119,6,0.1)] border-l border-r border-amber-200/50">
+        <div ref={imageRef} className="relative w-full max-w-md mx-auto mb-6 p-2 bg-transparent rounded-lg">
+          <div className="relative w-full">
             <Image 
               src="/photos/wisdom/wisdom-teeth-codex.png" 
               alt="Dental panoramic X-ray with ancient symbols" 
-              className="w-full rounded-lg shadow-lg"
+              className="w-full h-auto rounded-lg shadow-lg"
               width={512}
               height={512}
               priority
@@ -103,15 +102,19 @@ export default function WisdomTeethCodex() {
               <div 
                 key={tooth.id}
                 onClick={() => handleToothClick(tooth.id)}
-                className="absolute w-12 h-12 rounded-full cursor-pointer border-2 border-amber-400/60 flex items-center justify-center"
+                className="absolute rounded-full cursor-pointer border border-amber-400/60 flex items-center justify-center"
                 style={{
                   top: tooth.coords.top,
                   left: tooth.coords.left,
+                  width: '8vw',
+                  height: '8vw',
+                  maxWidth: '40px',
+                  maxHeight: '40px',
                   animation: 'pulseRing 3s infinite',
                   backgroundColor: 'transparent'
                 }}
               >
-                <span className="text-amber-200 text-sm font-bold">{tooth.id}</span>
+                <span className="text-amber-200 text-xs font-bold">{tooth.id}</span>
               </div>
             ))}
           </div>
