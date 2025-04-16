@@ -35,6 +35,7 @@ import ShatterPlayground from "../surreal-systems/ShatterPlayground";
 import WisdomTeethCodex from "../surreal-systems/WisdomTeethCodex";
 import HeroTitleBlock from "../mdx-blocks/HeroTitleBlock";
 import SimpleVideoBlock from "../mdx-blocks/SimpleVideoBlock";
+import FeathersPlayground from "../surreal-systems/FeathersPlayground";
 // Register all base components here
 const baseComponents = {
   p: "p",
@@ -70,6 +71,7 @@ const baseComponents = {
   WisdomTeethCodex,
   HeroTitleBlock,
   SimpleVideoBlock,
+  FeathersPlayground,
 };
 
 type ClientMDXProps = {
