@@ -1,5 +1,5 @@
 // presets/polygonPresets.ts
-import { SketchPreset } from "@/app/components/surreal-systems/FirePlayground"; 
+import { SketchPreset } from "@/app/components/surreal-systems/FirePlaygroundClient"; 
 
 export const rustVeilPreset: SketchPreset = {
   blendMode: "SCREEN",

@@ -6,6 +6,12 @@ cluster: fractured
 isFeatured: true
 featuredOrder: 4
 image: /photos/fire/fire2.png
+images: 
+  - /photos/fire/fire1.png
+  - /photos/fire/fire2.png
+  - /photos/fire/fire3.png
+  - /photos/fire/fire4.png
+
 date: '2024'
 tags:
   - generative
@@ -14,10 +20,20 @@ tags:
 whisper: Not everything that burns is angry.
 collapseMode: true
 clusterOrder: 1
+overrideHero: true
 ---
 
 import ZoomImage from "@/components/ZoomImage"
+import HeroCarouselBlock from "@/components/HeroCarouselBlock";
+import FirePlayground from "@/app/components/surreal-systems/FirePlayground";
+import { rustVeilPreset } from "@/lib/data/firePresets";
 
+<HeroCarouselBlock
+/>
+
+<SectionNav />
+
+<h2 id="overview"></h2>
 <ProjectOverview>
 *Fire* is a smear of layers.  
 
@@ -27,6 +43,12 @@ This piece emerges from recursive distortion of polygons, accumulating geometry 
 — one dissolving, one devouring
 
 </ProjectOverview>
+
+<h2 id="control-panel"></h2>
+<FirePlayground 
+  title="Rust Veil"
+  preset={rustVeilPreset}
+/>
 
 <MediaSection title="Combustion Studies">
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
@@ -38,7 +60,7 @@ This piece emerges from recursive distortion of polygons, accumulating geometry 
 </MediaSection>
 
 <FieldNote>
-The algorithm wasn’t built to choose sides.
+The algorithm wasn't built to choose sides.
 </FieldNote>
 
 <CollapseMetadata>
