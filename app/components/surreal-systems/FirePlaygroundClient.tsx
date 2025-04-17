@@ -1,12 +1,13 @@
+// app/components/surreal-systems/FirePlaygroundClient.tsx
+
 "use client";
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
-import dynamic from "next/dynamic";
 import P5Container from "../utils/P5Container";
 import P5 from "p5";
 
 // Types for deform options and flower parameters
-export type DeformOptions = {
+type DeformOptions = {
   interpMin: number;
   interpMax: number;
   perturbationMin: number;
@@ -17,7 +18,7 @@ export type DeformOptions = {
   scaleMax: number;
 };
 
-export type FlowerParams = {
+type FlowerParams = {
   x: number;
   y: number;
   layers: number;
@@ -47,7 +48,7 @@ export default function FirePlaygroundClient({ preset, title }: FirePlaygroundCl
   const ref = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
 
-  // IntersectionObserver to lazy-mount the canvas
+  // Lazy-mount when in view
   useEffect(() => {
     if (!ref.current) return;
     const obs = new IntersectionObserver(
@@ -63,59 +64,69 @@ export default function FirePlaygroundClient({ preset, title }: FirePlaygroundCl
     return () => obs.disconnect();
   }, []);
 
-  // Initialize sketch on mount or when preset changes
+  // Initialize sketch whenever preset changes
   useEffect(() => {
     sketchRef.current = (p, parent) => polygonFadeSketch(p, parent, preset);
     setTriggerRender((prev) => prev + 1);
   }, [preset]);
 
-  // Handler for the "Regenerate" button
+  // Regenerate on button press
   const handleGenerate = useCallback(() => {
     sketchRef.current = (p, parent) => polygonFadeSketch(p, parent, preset);
     setTriggerRender((prev) => prev + 1);
   }, [preset]);
 
   return (
-    <section className="mb-12 not-prose">
-      {title && <h2 className="text-2xl font-semibold mb-4">{title}</h2>}
-      <div ref={ref} className="flex flex-col sm:flex-row sm:items-start sm:justify-center gap-8">
-        {visible && sketchRef.current && (
-          <div className="w-[512px] h-[512px] rounded-lg shadow-md overflow-hidden bg-white dark:bg-black">
-            <P5Container
-              key={triggerRender}
-              sketch={(p, parent) => {
-                canvasRef.current = p;
-                if (sketchRef.current) sketchRef.current(p, parent);
-              }}
-            />
-          </div>
-        )}
-        <div className="flex flex-col gap-4">
-          <button
-            onClick={handleGenerate}
-            className="mt-2 px-4 py-2 bg-black text-white rounded shadow hover:bg-gray-800"
+    <div className="not-prose flex flex-col md:flex-row gap-8 justify-center scale-75">
+      <div className="w-full max-w-[512px]">
+        <section className="mb-12">
+          {title && <h2 className="text-2xl font-semibold mb-4">{title}</h2>}
+          <div
+            ref={ref}
+            className="flex flex-col items-center gap-4"
           >
-            Regenerate
-          </button>
-        </div>
+            {visible && (
+              <div className="w-full aspect-square rounded-lg shadow-md overflow-hidden bg-white dark:bg-black">
+                {sketchRef.current && (
+                  <P5Container
+                    key={triggerRender}
+                    sketch={(p, parent) => {
+                      canvasRef.current = p;
+                      if (sketchRef.current) sketchRef.current(p, parent);
+                    }}
+                  />
+                )}
+              </div>
+            )}
+            <button
+              onClick={handleGenerate}
+              className="mt-2 px-4 py-2 bg-black text-white rounded shadow hover:bg-gray-800"
+            >
+              Regenerate
+            </button>
+          </div>
+        </section>
       </div>
-    </section>
+    </div>
   );
 }
 
-// Sketch function with fade-in from black
+// The sketch with eased fade-in from black
 function polygonFadeSketch(p: P5, parent: HTMLElement, preset: SketchPreset) {
   let buffer: P5.Graphics;
   let fadeProgress = 0;
-  const fadeDuration = 30;
+  const fadeDuration = 600; // ~1 second at 60 FPS
 
   p.setup = () => {
-    p.createCanvas(512, 512).parent(parent);
+    const size = Math.min(parent.clientWidth, parent.clientHeight);
+    p.createCanvas(size, size).parent(parent);
     p.colorMode(p.HSB, 360, 100, 100, 1.0);
     p.noStroke();
     p.noLoop();
+
     buffer = p.createGraphics(p.width, p.height);
     buffer.colorMode(p.HSB, 360, 100, 100, 1.0);
+
     generateSceneToBuffer();
     p.background(0);
     fadeProgress = 0;
@@ -133,17 +144,29 @@ function polygonFadeSketch(p: P5, parent: HTMLElement, preset: SketchPreset) {
     buffer.background(0);
     preset.flowers.forEach((flower) => {
       const basePolygons = createPolygonFlowerData(p, flower);
-      drawPolygonFlower(p, buffer, basePolygons, flower.layers, flower.hue, flower.deformOptions);
+      drawPolygonFlower(
+        p,
+        buffer,
+        basePolygons,
+        flower.layers,
+        flower.hue,
+        flower.deformOptions
+      );
     });
     buffer.blendMode(p.BLEND);
   }
 
   p.draw = () => {
     p.background(0);
-    p.tint(255, 255 * (fadeProgress / fadeDuration));
+    // normalized progress
+    const tNorm = fadeProgress / fadeDuration;
+    // smoothstep ease in/out
+    const tSmooth = tNorm * tNorm * (3 - 2 * tNorm);
+    p.tint(255, 255 * tSmooth);
     p.image(buffer, 0, 0);
     fadeProgress++;
-    if (fadeProgress <= fadeDuration) p.redraw(); else p.noLoop();
+    if (fadeProgress <= fadeDuration) p.redraw();
+    else p.noLoop();
   };
 }
 
@@ -179,10 +202,9 @@ function createRegularPolygon(
   const points: P5.Vector[] = [];
   for (let i = 0; i < numVertices; i++) {
     const angle = angleOffset + p.map(i, 0, numVertices, 0, p.TWO_PI);
-    points.push(p.createVector(
-      centerX + radius * p.cos(angle),
-      centerY + radius * p.sin(angle)
-    ));
+    points.push(
+      p.createVector(centerX + radius * p.cos(angle), centerY + radius * p.sin(angle))
+    );
   }
   return points;
 }
@@ -199,13 +221,12 @@ function drawPolygonFlower(
     const saturation = p.map(i, 0, layers, 50, 100);
     const lightness = p.map(i, 0, layers, 30, 70);
     pg.fill(hue, saturation, lightness, 0.1 + 0.5 * (1 - i / layers));
-    for (let j = 0; j < basePolygons.length; j++) {
-      const polygon = basePolygons[j];
+    basePolygons.forEach((polygon, idx) => {
       pg.beginShape();
       polygon.forEach((pt) => pg.vertex(pt.x, pt.y));
       pg.endShape(pg.CLOSE);
-      basePolygons[j] = deformPolygon(p, polygon, deformOptions);
-    }
+      basePolygons[idx] = deformPolygon(p, polygon, deformOptions);
+    });
   }
 }
 

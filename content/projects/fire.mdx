@@ -1,5 +1,5 @@
 ---
-title: Fire 🎨
+title: Fire 🎨🕹️
 slug: fire
 summary: An algorithmic bloom of opposition and collapse.
 cluster: fractured
@@ -7,8 +7,8 @@ isFeatured: true
 featuredOrder: 4
 image: /photos/fire/fire2.png
 images: 
-  - /photos/fire/fire1.png
   - /photos/fire/fire2.png
+  - /photos/fire/fire1.png
   - /photos/fire/fire3.png
   - /photos/fire/fire4.png
 
@@ -34,23 +34,33 @@ import { rustVeilPreset } from "@/lib/data/firePresets";
 <SectionNav />
 
 <h2 id="overview"></h2>
-<ProjectOverview>
+<ProjectOverview centered>
 *Fire* is a smear of layers.  
 
 This piece emerges from recursive distortion of polygons, accumulating geometry until it flickers like a digital combustion. Two opposing forces bloom into the same space:  
 
-— one cool, one searing  
+— one searing, one cool
 — one dissolving, one devouring
 
 </ProjectOverview>
 
-<h2 id="control-panel"></h2>
-<FirePlayground 
-  title="Rust Veil"
-  preset={rustVeilPreset}
-/>
 
-<MediaSection title="Combustion Studies">
+<h2 id="control-panel"></h2>
+<div className="not-prose mt-4">
+  <h2 className="text-3xl font-bold text-center mb-2">Furnace</h2>
+  <div className="flex flex-col md:flex-row gap-8 justify-center">
+    <div className="w-full max-w-[240px]">
+      <FirePlayground title="Rust Veil" preset={rustVeilPreset} />
+    </div>
+    <div className="w-full max-w-[240px]">
+      <FirePlayground title="Glacial Strike" preset={glacialStrikePreset} />
+    </div>
+  </div>
+</div>
+
+
+<h2 id="gallery"></h2>
+<MediaSection title="Combustion Studies" centered>
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
     <ZoomImage src="/photos/fire/fire1.png" alt="Fire, Part 1" />
     <ZoomImage src="/photos/fire/fire2.png" alt="Fire, Part 2" />

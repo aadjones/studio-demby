@@ -37,7 +37,7 @@ import HeroTitleBlock from "../mdx-blocks/HeroTitleBlock";
 import SimpleVideoBlock from "../mdx-blocks/SimpleVideoBlock";
 import FeathersPlayground from "../surreal-systems/FeathersPlayground";
 import FirePlayground from "../surreal-systems/FirePlayground";
-import { rustVeilPreset, glacialBloomPreset } from "@/lib/data/firePresets";
+import { rustVeilPreset, glacialStrikePreset } from "@/lib/data/firePresets";
 
 // Register all base components here
 const baseComponents = {
@@ -115,7 +115,7 @@ export default function ClientMDX({
       <MDXRemote
         {...mdxSource}
         components={injectedComponents}
-        scope={{ rustVeilPreset, glacialBloomPreset }}
+        scope={{ rustVeilPreset, glacialStrikePreset }}
       />
     </div>
   );
