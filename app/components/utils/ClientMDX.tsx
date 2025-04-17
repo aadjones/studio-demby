@@ -36,6 +36,9 @@ import WisdomTeethCodex from "../surreal-systems/WisdomTeethCodex";
 import HeroTitleBlock from "../mdx-blocks/HeroTitleBlock";
 import SimpleVideoBlock from "../mdx-blocks/SimpleVideoBlock";
 import FeathersPlayground from "../surreal-systems/FeathersPlayground";
+import FirePlayground from "../surreal-systems/FirePlayground";
+import { rustVeilPreset, glacialStrikePreset } from "@/lib/data/firePresets";
+
 // Register all base components here
 const baseComponents = {
   p: "p",
@@ -72,12 +75,15 @@ const baseComponents = {
   HeroTitleBlock,
   SimpleVideoBlock,
   FeathersPlayground,
+  FirePlayground
 };
+
+type ComponentType = React.ComponentType<any> | string;
 
 type ClientMDXProps = {
   mdxSource: MDXRemoteSerializeResult;
   frontMatter?: Record<string, any>;
-  overrides?: Record<string, React.ComponentType<any>>;
+  overrides?: Record<string, ComponentType>;
 };
 
 export default function ClientMDX({
@@ -91,17 +97,26 @@ export default function ClientMDX({
     ...baseComponents,
     ...overrides,
   })) {
-    injectedComponents[name] = (props: any) => (
-      <Component
-        {...frontMatter}
-        {...props} // MDX props take precedence
-      />
-    );
+    if (typeof Component === 'string') {
+      injectedComponents[name] = Component as unknown as React.ComponentType<any>;
+    } else {
+      const ComponentAsAny = Component as any;
+      injectedComponents[name] = (props: any) => (
+        <ComponentAsAny
+          {...frontMatter}
+          {...props} // MDX props take precedence
+        />
+      );
+    }
   }
 
   return (
     <div className="prose max-w-none">
-      <MDXRemote {...mdxSource} components={injectedComponents} />
+      <MDXRemote
+        {...mdxSource}
+        components={injectedComponents}
+        scope={{ rustVeilPreset, glacialStrikePreset }}
+      />
     </div>
   );
 }
