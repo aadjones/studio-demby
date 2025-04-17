@@ -26,7 +26,7 @@ type FlowerParams = {
   deformOptions: DeformOptions;
 };
 
-type SketchPreset = {
+export type SketchPreset = {
   blendMode: 'BLEND' | 'ADD' | 'SCREEN';
   flowers: FlowerParams[];
 };
