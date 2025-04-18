@@ -14,6 +14,7 @@ tags:
 whisper: Modulation is just vibration with purpose.
 collapseMode: true
 clusterOrder: 6
+overrideHero: true
 ---
 
 import ProjectOverview from '@/app/components/mdx-blocks/ProjectOverview'
@@ -23,6 +24,16 @@ import SpatialSynthesizerSketch from '@/app/components/surreal-systems/SpatialSy
 import CallToAction from '@/app/components/mdx-blocks/CallToAction'
 import FieldNote from '@/app/components/mdx-blocks/FieldNote'
 import CollapseMetadata from '@/app/components/mdx-blocks/CollapseMetadata'
+
+<HeroTitleBlock 
+  title="Spatial Synthesizer 🎨🕹" 
+  subtitle="Tweak the controls. Watch space vibrate." 
+/>
+
+<div className="w-full max-w-[320px] aspect-square mx-auto">
+  <SpatialSynthesizerSketch width="100%" height="100%" />
+</div>
+
 
 <ProjectOverview>
  What if geometry behaved like tone?
@@ -38,14 +49,6 @@ This is an instrument, waiting to be played.
 
 </ProjectOverview>
 
-<MediaSection title="Modulation Console">
-  <MediaItem
-    title="Spatial Synthesizer"
-    description="Tweak the controls. Watch space vibrate."
-  >
-    <SpatialSynthesizerSketch />
-  </MediaItem>
-</MediaSection>
 
 <FieldNote>
 Everything must and shall vibrate.
