@@ -4,4 +4,7 @@ module.exports = {
     if (!isServer) config.externals = [...(config.externals || []), "p5"];
     return config;
   },
+  images: {
+    domains: ['kr3e5ferkjmujweh.public.blob.vercel-storage.com'],
+  },
 };
