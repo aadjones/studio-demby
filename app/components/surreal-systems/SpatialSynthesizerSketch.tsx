@@ -29,8 +29,8 @@ function SliderControl({ label, value, onChange, min, max, step }: SliderControl
         value={localVal}
         onChange={(e) => {
           const v = Number(e.target.value);
-          setLocalVal(v);   // moves the knob; re‑renders only this slider
-          onChange(v);      // updates the ref
+          setLocalVal(v);
+          onChange(v);
         }}
         className="w-full"
       />
@@ -95,13 +95,11 @@ const createSketch = (paramsRef: React.MutableRefObject<Record<keyof SynthParams
   p.draw = () => {
     p.shader(myShader);
 
-    // Set all uniforms except center
     Object.entries(paramsRef.current).forEach(([key, valueRef]) => {
       if (key === "modulationCenterX" || key === "modulationCenterY") return;
       myShader.setUniform(`u_${key}`, valueRef.current);
     });
 
-    // Combined vec2 uniform
     myShader.setUniform("u_modulationCenter", [
       paramsRef.current.modulationCenterX.current,
       paramsRef.current.modulationCenterY.current,
@@ -121,11 +119,8 @@ interface SpatialSynthesizerSketchProps {
 export default function SpatialSynthesizerSketch({ width = "100%", height = "100%" }: SpatialSynthesizerSketchProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
-  
-  // Create state for UI values
   const [params, setParams] = useState<SynthParams>(defaultParams);
-  
-  // Create refs for shader values
+
   const shaderParamsRef = useRef<Record<keyof SynthParams, React.MutableRefObject<number>>>({
     carrierFreqX: useRef(defaultParams.carrierFreqX),
     carrierFreqY: useRef(defaultParams.carrierFreqY),
@@ -154,7 +149,7 @@ export default function SpatialSynthesizerSketch({ width = "100%", height = "100
   }, []);
 
   const handleParamChange = (key: keyof SynthParams) => (value: number) => {
-    shaderParamsRef.current[key].current = value;     // fast
+    shaderParamsRef.current[key].current = value;
   };
 
   return (
@@ -164,19 +159,28 @@ export default function SpatialSynthesizerSketch({ width = "100%", height = "100
           <div style={{ width, height, aspectRatio: "1/1" }}>
             <P5Container sketch={createSketch(shaderParamsRef)} width="100%" height="100%" />
           </div>
-          <div className="w-full md:w-64 space-y-4 p-4 bg-gray-50 rounded-lg">
-            {Object.entries(paramRanges).map(([key, { min, max, step }]) => (
-              <SliderControl
-                key={key}
-                label={key}
-                value={params[key as keyof SynthParams]}
-                onChange={handleParamChange(key as keyof SynthParams)}
-                min={min}
-                max={max}
-                step={step}
-                shaderValueRef={shaderParamsRef.current[key as keyof SynthParams]}
-              />
-            ))}
+          <div className="w-full md:w-64 space-y-6 p-4 bg-gray-50 rounded-lg">
+            <div>
+              <h3 className="font-semibold text-sm uppercase text-gray-500 mb-1">The Tapestry</h3>
+              <SliderControl label="Vertical stripes" {...paramRanges.carrierFreqX} value={params.carrierFreqX} onChange={handleParamChange("carrierFreqX")} shaderValueRef={shaderParamsRef.current.carrierFreqX} />
+              <SliderControl label="Horizontal stripes" {...paramRanges.carrierFreqY} value={params.carrierFreqY} onChange={handleParamChange("carrierFreqY")} shaderValueRef={shaderParamsRef.current.carrierFreqY} />
+            </div>
+            <div>
+              <h3 className="font-semibold text-sm uppercase text-gray-500 mb-1">Warp Box</h3>
+              <SliderControl label="Ripples" {...paramRanges.modulatorFreq} value={params.modulatorFreq} onChange={handleParamChange("modulatorFreq")} shaderValueRef={shaderParamsRef.current.modulatorFreq} />
+              <SliderControl label="Twist" {...paramRanges.modulationIndex} value={params.modulationIndex} onChange={handleParamChange("modulationIndex")} shaderValueRef={shaderParamsRef.current.modulationIndex} />
+              <SliderControl label="Sharpness" {...paramRanges.amplitudeModulationIndex} value={params.amplitudeModulationIndex} onChange={handleParamChange("amplitudeModulationIndex")} shaderValueRef={shaderParamsRef.current.amplitudeModulationIndex} />
+            </div>
+            <div>
+              <h3 className="font-semibold text-sm uppercase text-gray-500 mb-1">The Eye</h3>
+              <SliderControl label="Left + right" {...paramRanges.modulationCenterX} value={params.modulationCenterX} onChange={handleParamChange("modulationCenterX")} shaderValueRef={shaderParamsRef.current.modulationCenterX} />
+              <SliderControl label="Up + down" {...paramRanges.modulationCenterY} value={params.modulationCenterY} onChange={handleParamChange("modulationCenterY")} shaderValueRef={shaderParamsRef.current.modulationCenterY} />
+            </div>
+            <div>
+              <h3 className="font-semibold text-sm uppercase text-gray-500 mb-1">Make It Dance</h3>
+              <SliderControl label="Tempo" {...paramRanges.lfoFrequency} value={params.lfoFrequency} onChange={handleParamChange("lfoFrequency")} shaderValueRef={shaderParamsRef.current.lfoFrequency} />
+              <SliderControl label="Volume" {...paramRanges.lfoAmplitude} value={params.lfoAmplitude} onChange={handleParamChange("lfoAmplitude")} shaderValueRef={shaderParamsRef.current.lfoAmplitude} />
+            </div>
           </div>
         </>
       )}
