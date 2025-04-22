@@ -15,9 +15,6 @@ import ProjectOverview from "../mdx-blocks/ProjectOverview";
 import TechnicalDetails from "../mdx-blocks/TechnicalDetails";
 import { ZoomImage } from "../media/ZoomImage";
 import { CaptionComponent } from "../mdx-blocks/Caption";
-import SpatialSynthesizerSketch from "../surreal-systems/SpatialSynthesizerSketch";
-import EncasedMeltingSphere from "../mdx-blocks/EncasedMeltingSphere";
-import { ImageGrid } from "../media/ImageGrid";
 import CollapseMetadata from "../mdx-blocks/CollapseMetadata";
 import FieldNote from "../mdx-blocks/FieldNote";
 import Whisper from "../mdx-blocks/Whisper";
@@ -30,6 +27,7 @@ import LoopPlayer from "../project-looproom/LoopPlayer";
 import MovementBlock from "../mdx-blocks/MovementBlock";
 import HeroBlock from "../mdx-blocks/HeroBlock";
 import HeroCarouselBlock from "../mdx-blocks/HeroCarouselBlock";
+import { ImageGrid } from "../media/ImageGrid";
 import SectionNav from "../layout/SectionNav";
 import ShatterPlayground from "../surreal-systems/ShatterPlayground";
 import WisdomTeethCodex from "../surreal-systems/WisdomTeethCodex";
@@ -38,8 +36,18 @@ import SimpleVideoBlock from "../mdx-blocks/SimpleVideoBlock";
 import FeathersPlayground from "../surreal-systems/FeathersPlayground";
 import FirePlayground from "../surreal-systems/FirePlayground";
 import { rustVeilPreset, glacialStrikePreset } from "@/lib/data/firePresets";
+import SpatialSynthesizerSketch from "../surreal-systems/SpatialSynthesizerSketch";
+import EncasedMeltingSphere from "../mdx-blocks/EncasedMeltingSphere";
 
-// Register all base components here
+type ComponentType = React.ComponentType<any> | string;
+
+type ClientMDXProps = {
+  mdxSource: MDXRemoteSerializeResult;
+  frontMatter?: Record<string, any>;
+  overrides?: Record<string, ComponentType>;
+};
+
+// Custom component map
 const baseComponents = {
   p: "p",
   Image,
@@ -78,14 +86,6 @@ const baseComponents = {
   FirePlayground
 };
 
-type ComponentType = React.ComponentType<any> | string;
-
-type ClientMDXProps = {
-  mdxSource: MDXRemoteSerializeResult;
-  frontMatter?: Record<string, any>;
-  overrides?: Record<string, ComponentType>;
-};
-
 export default function ClientMDX({
   mdxSource,
   frontMatter = {},
@@ -97,7 +97,7 @@ export default function ClientMDX({
     ...baseComponents,
     ...overrides,
   })) {
-    if (typeof Component === 'string') {
+    if (typeof Component === "string") {
       injectedComponents[name] = Component as unknown as React.ComponentType<any>;
     } else {
       const ComponentAsAny = Component as any;
@@ -105,16 +105,19 @@ export default function ClientMDX({
         <ComponentAsAny
           {...frontMatter}
           {...props} // MDX props take precedence
+          className={`not-prose ${props.className || ""}`}
         />
       );
     }
   }
 
   return (
-    <MDXRemote
-      {...mdxSource}
-      components={injectedComponents}
-      scope={{ rustVeilPreset, glacialStrikePreset }}
-    />
+    <div className="prose prose-neutral dark:prose-invert max-w-none">
+      <MDXRemote
+        {...mdxSource}
+        components={injectedComponents}
+        scope={{ rustVeilPreset, glacialStrikePreset }}
+      />
+    </div>
   );
 }
