@@ -77,8 +77,9 @@ export default async function ProjectPage({ params }: Props) {
   const renderDefaultHero = !project.frontMatter.overrideHero;
 
   const articleClasses = renderDefaultHero
-    ? "prose dark:prose-invert mx-auto prose-headings:mb-4 prose-p:mb-3 prose-img:my-4"
-    : "w-full"; // Basic class when MDX handles layout (adjust if needed)
+  ? "mx-auto w-full max-w-3xl px-4 sm:px-6 md:px-8 text-base leading-relaxed space-y-6"
+  : "w-full";
+ // Basic class when MDX handles layout (adjust if needed)
   // --- End Conditional Logic ---
 
   return (

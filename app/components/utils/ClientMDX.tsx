@@ -111,12 +111,10 @@ export default function ClientMDX({
   }
 
   return (
-    <div className="prose max-w-none">
-      <MDXRemote
-        {...mdxSource}
-        components={injectedComponents}
-        scope={{ rustVeilPreset, glacialStrikePreset }}
-      />
-    </div>
+    <MDXRemote
+      {...mdxSource}
+      components={injectedComponents}
+      scope={{ rustVeilPreset, glacialStrikePreset }}
+    />
   );
 }
