@@ -10,7 +10,7 @@ interface SliderGroup {
 
 export const groupsConfig: SliderGroup[] = [
   {
-    title: "TAPESTRY",
+    title: "STRIPES",
     controls: [
       { key: "carrierFreqX", label: "Vertical" },
       { key: "carrierFreqY", label: "Horizontal" },

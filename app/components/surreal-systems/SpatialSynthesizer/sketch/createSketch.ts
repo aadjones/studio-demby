@@ -41,8 +41,8 @@ export const createSketch = (
       uniforms[`u_${key}`] = valRef.current;
     }
     uniforms.u_modulationCenter = [
-      paramsRef.current.modulationCenterX.current,
-      paramsRef.current.modulationCenterY.current,
+      paramsRef.current.modulationCenterX.current * 2.0,
+      paramsRef.current.modulationCenterY.current * 2.0,
     ];
 
     for (const [key, value] of Object.entries(uniforms)) {
