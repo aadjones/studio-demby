@@ -1,12 +1,13 @@
+// components/SpatialSynthesizer/SliderGroup.tsx
 import React from "react";
 import SliderControl from "../../utils/SliderControl";
-import { SynthParams } from "../types";
+import type { SynthParams } from "../types";
 
 interface SliderGroupProps {
   title: string;
   controls: Array<{ key: keyof SynthParams; label: string }>;
   defaultParams: SynthParams;
-  paramRanges: typeof import("./config/defaultParams").paramRanges;
+  paramRanges: Record<keyof SynthParams, { min: number; max: number; step: number }>;
   shaderRefs: Record<keyof SynthParams, React.MutableRefObject<number>>;
   onParamChange: (k: keyof SynthParams) => (v: number) => void;
   sliderRefs: Record<keyof SynthParams, HTMLInputElement | null>;
@@ -21,8 +22,7 @@ export default function SliderGroup({
   onParamChange,
   sliderRefs,
 }: SliderGroupProps) {
-  const handleReset = (e: React.MouseEvent) => {
-    e.stopPropagation();           // don’t toggle <details>
+  const handleResetGroup = () => {
     controls.forEach(({ key }) => {
       const def = defaultParams[key];
       shaderRefs[key].current = def;
@@ -32,31 +32,33 @@ export default function SliderGroup({
   };
 
   return (
-    <details open className="border rounded-md bg-white">
-      <summary className="flex justify-between items-center px-3 py-1 cursor-pointer">
-        <span className="text-sm font-semibold">{title}</span>
+    <div className="border rounded-lg bg-white">
+      {/* header with tighter padding */}
+      <div className="flex justify-between items-center px-3 py-1.5">
+        <h3 className="text-sm font-semibold text-gray-700">{title}</h3>
         <button
-          type="button"
-          onClick={handleReset}
+          onClick={handleResetGroup}
           className="text-xs text-gray-500 hover:text-gray-700"
         >
           Reset
         </button>
-      </summary>
-      <div className="p-3 flex justify-center gap-4">
+      </div>
+
+      {/* slider row with reduced vertical padding and gap */}
+      <div className="px-3 pb-2 flex justify-center gap-2">
         {controls.map(({ key, label }) => (
           <SliderControl
             key={key}
             label={label}
-            {...paramRanges[key]}
             value={shaderRefs[key].current}
-            onChange={onParamChange(key)}
+            {...paramRanges[key]}
             shaderValueRef={shaderRefs[key]}
+            onChange={onParamChange(key)}
             sliderRef={(el) => (sliderRefs[key] = el)}
             vertical
           />
         ))}
       </div>
-    </details>
+    </div>
   );
 }

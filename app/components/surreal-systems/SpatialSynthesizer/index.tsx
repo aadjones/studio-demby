@@ -8,120 +8,117 @@ import { SynthParams, SliderLFO, SynthLFOMap } from "./types";
 import { gentleWaves, wildRipples, pulsatingEye } from "./config/concertPresets";
 import { defaultParams, paramRanges } from "./config/defaultParams";
 import { createSketch } from "./sketch/createSketch";
+import { groupsConfig } from "./config/sliderGroups";
 
-// Mode tabs (Manual / Presets)
+// Preset mode tabs
 const modeList = [
-  { key: "manual", label: "Manual" },
+  { key: "manual",      label: "Manual" },
   { key: "gentleWaves", label: "Gentle Waves" },
   { key: "wildRipples", label: "Wild Ripples" },
-  { key: "pulsatingEye", label: "Pulsating Eye" },
+  { key: "pulsatingEye",label: "Pulsating Eye" },
 ] as const;
-
 type ConcertMode = (typeof modeList)[number]["key"];
-
-// Slider-group tabs
-const groupList = [
-  { key: "tapestry", title: "THE TAPESTRY", controlsKey: "tapestry" },
-  { key: "warp",     title: "WARP BOX",     controlsKey: "warp"     },
-  { key: "eye",      title: "THE EYE",      controlsKey: "eye"      },
-  { key: "dance",    title: "MAKE IT DANCE",controlsKey: "dance"    },
-];
-
-// Map controlsKey → the array of controls from your config/sliderGroups.ts
-import { groupsConfig } from "./config/sliderGroups";
 
 export default function SpatialSynthesizer() {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [concertMode, setConcertMode] = useState<ConcertMode>("manual");
   const [lfoMap, setLfoMap] = useState<SynthLFOMap>({});
-  const [activeGroup, setActiveGroup] = useState(groupList[0].key);
 
-  // Refs for sliders and shader parameters
+  // slider refs
   const sliderRefs = useRef<Record<keyof SynthParams, HTMLInputElement | null>>({
-    carrierFreqX: null,
-    carrierFreqY: null,
-    modulatorFreq: null,
-    modulationIndex: null,
+    carrierFreqX: null, carrierFreqY: null,
+    modulatorFreq: null, modulationIndex: null,
     amplitudeModulationIndex: null,
-    modulationCenterX: null,
-    modulationCenterY: null,
-    lfoFrequency: null,
-    lfoAmplitude: null,
+    modulationCenterX: null, modulationCenterY: null,
+    lfoFrequency: null, lfoAmplitude: null,
   });
 
-  const shaderParamsRef = useRef<Record<keyof SynthParams, React.MutableRefObject<number>>>({
-    carrierFreqX: useRef(defaultParams.carrierFreqX),
-    carrierFreqY: useRef(defaultParams.carrierFreqY),
-    modulatorFreq: useRef(defaultParams.modulatorFreq),
-    modulationIndex: useRef(defaultParams.modulationIndex),
-    amplitudeModulationIndex: useRef(defaultParams.amplitudeModulationIndex),
-    modulationCenterX: useRef(defaultParams.modulationCenterX),
-    modulationCenterY: useRef(defaultParams.modulationCenterY),
-    lfoFrequency: useRef(defaultParams.lfoFrequency),
-    lfoAmplitude: useRef(defaultParams.lfoAmplitude),
-  });
+  // shader param refs
+  const shaderParamsRef = useRef<Record<keyof SynthParams, React.MutableRefObject<number>>>(
+    Object.fromEntries(
+      (Object.entries(defaultParams) as [keyof SynthParams, number][])
+        .map(([k, v]) => [k, useRef(v)])
+    ) as any
+  );
 
-  // Lazy-load canvas
+  // lazy‐load canvas
   useEffect(() => {
     if (!ref.current) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          obs.disconnect();
-        }
-      },
-      { threshold: 0.5 }
-    );
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        setVisible(true);
+        obs.disconnect();
+      }
+    }, { threshold: 0.5 });
     obs.observe(ref.current);
     return () => obs.disconnect();
   }, []);
 
-  // Handle parameter changes
-  const handleParamChange = (key: keyof SynthParams) => (value: number) => {
-    shaderParamsRef.current[key].current = value;
-    if (key in lfoMap) {
+  // apply presets
+  useEffect(() => {
+    switch (concertMode) {
+      case "gentleWaves":  setLfoMap(gentleWaves);  break;
+      case "wildRipples":  setLfoMap(wildRipples);  break;
+      case "pulsatingEye": setLfoMap(pulsatingEye); break;
+      default:             setLfoMap({});           break;
+    }
+  }, [concertMode]);
+
+  // animate LFOs
+  useEffect(() => {
+    if (!Object.keys(lfoMap).length) return;
+    let raf: number;
+    const start = performance.now();
+    const step = () => {
+      const t = (performance.now() - start) / 1000;
+      Object.entries(lfoMap).forEach(([k, { frequency, amplitude, center, phase }]) => {
+        const val = center + amplitude * Math.sin(2 * Math.PI * frequency * t + phase);
+        shaderParamsRef.current[k as keyof SynthParams].current = val;
+        const slider = sliderRefs.current[k as keyof SynthParams];
+        if (slider) slider.value = val.toString();
+      });
+      raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [lfoMap]);
+
+  const handleParamChange = (k: keyof SynthParams) => (v: number) => {
+    shaderParamsRef.current[k].current = v;
+    if (k in lfoMap) {
       setLfoMap(prev => {
         const next = { ...prev };
-        delete next[key];
+        delete next[k];
         return next;
       });
     }
   };
 
-  // Reset all parameters
   const resetAll = () => {
-    Object.entries(defaultParams).forEach(([key, value]) => {
-      const paramKey = key as keyof SynthParams;
-      shaderParamsRef.current[paramKey].current = value;
-      const slider = sliderRefs.current[paramKey];
-      if (slider) slider.value = value.toString();
-    });
+    (Object.entries(defaultParams) as [keyof SynthParams, number][])
+      .forEach(([k, v]) => {
+        shaderParamsRef.current[k].current = v;
+        sliderRefs.current[k]!.value = v.toString();
+      });
     setLfoMap({});
   };
 
-  // Update LFO map on mode change
-  useEffect(() => {
-    switch (concertMode) {
-      case 'gentleWaves': setLfoMap(gentleWaves); break;
-      case 'wildRipples': setLfoMap(wildRipples); break;
-      case 'pulsatingEye': setLfoMap(pulsatingEye); break;
-      default: setLfoMap({}); break;
-    }
-  }, [concertMode]);
-
   return (
-    <div ref={ref} className="w-full flex justify-center">
+    <div ref={ref} className="w-full">
       {visible && (
-        <div className="bg-gray-50 rounded-xl p-4 flex flex-col md:flex-row w-full + max-w-screen-lg">
-          
-          {/* ─────── Canvas + Mode Tabs ─────── */}
-          <div className="md:w-2/5 flex flex-col items-center">
-            <div className="w-[320px] h-[320px] rounded-lg overflow-hidden mb-4">
-              <P5Container sketch={createSketch(shaderParamsRef)} width={320} height={320} />
-            </div>
-            <div className="w-full flex justify-center items-center mb-6">
+        <div className="bg-gray-50 rounded-xl p-6 w-full">
+          <div className="flex flex-col md:flex-row md:items-start gap-6">
+            
+            {/* ── Canvas & Mode Tabs ── */}
+            <div className="md:w-1/2 bg-white rounded-lg p-4 flex flex-col items-center">
+              <div className="w-[360px] h-[360px] rounded-lg overflow-hidden mb-4">
+                <P5Container
+                  sketch={createSketch(shaderParamsRef)}
+                  width={360}
+                  height={360}
+                />
+              </div>
               <Tab.Group
                 selectedIndex={modeList.findIndex(m => m.key === concertMode)}
                 onChange={i => setConcertMode(modeList[i].key)}
@@ -134,7 +131,9 @@ export default function SpatialSynthesizer() {
                       key={key}
                       className={({ selected }) =>
                         `flex-1 text-sm py-1 rounded-full text-center cursor-pointer
-                         ${selected ? "bg-white text-blue-600 shadow" : "text-gray-600 hover:text-gray-800"}`
+                         ${selected
+                           ? "bg-white text-blue-600 shadow"
+                           : "text-gray-600 hover:text-gray-800"}`
                       }
                     >
                       {label}
@@ -143,59 +142,32 @@ export default function SpatialSynthesizer() {
                 </Tab.List>
               </Tab.Group>
             </div>
-          </div>
 
-          {/* ─────── Controls ─────── */}
-          <div className="md:w-3/5 px-4">
-            {/* Slider-group tabs */}
-            <Tab.Group
-              selectedIndex={groupList.findIndex(g => g.key === activeGroup)}
-              onChange={i => setActiveGroup(groupList[i].key)}
-              as="div"
-              className="mb-4"
-            >
-              <Tab.List className="flex space-x-2 overflow-x-auto">
-                {groupList.map(({ key, title }) => (
-                  <Tab
-                    key={key}
-                    className={({ selected }) =>
-                      `text-xs font-medium px-3 py-1 whitespace-nowrap rounded
-                       ${selected ? "bg-white shadow" : "bg-gray-100 hover:bg-gray-200"}`
-                    }
-                  >
-                    {title}
-                  </Tab>
-                ))}
-              </Tab.List>
-            </Tab.Group>
-
-            {/* Only one group's sliders */}
-            {groupList.map(({ key, title }) => {
-              const group = groupsConfig.find(g => g.title === title);
-              if (!group) return null;
-              
-              return (
-                <div key={key} style={{ display: key === activeGroup ? "block" : "none" }}>
+            {/* ── 2×2 Slider Groups ── */}
+            <div className="md:w-1/2 bg-white rounded-lg p-4">
+              <div className="grid grid-cols-2 gap-6">
+                {groupsConfig.map(({ title, controls }) => (
                   <SliderGroup
-                    title={group.title}
-                    controls={group.controls}
+                    key={title}
+                    title={title}
+                    controls={controls}
                     defaultParams={defaultParams}
                     paramRanges={paramRanges}
                     shaderRefs={shaderParamsRef.current}
                     onParamChange={handleParamChange}
                     sliderRefs={sliderRefs.current}
                   />
-                </div>
-              );
-            })}
+                ))}
+              </div>
 
-            {/* Global Reset */}
-            <button
-              onClick={resetAll}
-              className="mt-4 text-xs text-red-500 hover:text-red-700"
-            >
-              Reset All
-            </button>
+              <button
+                onClick={resetAll}
+                className="mt-4 text-xs text-red-500 hover:text-red-700"
+              >
+                Reset All
+              </button>
+            </div>
+
           </div>
         </div>
       )}

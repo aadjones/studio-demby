@@ -10,7 +10,7 @@ interface SliderGroup {
 
 export const groupsConfig: SliderGroup[] = [
   {
-    title: "THE TAPESTRY",
+    title: "TAPESTRY",
     controls: [
       { key: "carrierFreqX", label: "Vertical" },
       { key: "carrierFreqY", label: "Horizontal" },
@@ -19,9 +19,9 @@ export const groupsConfig: SliderGroup[] = [
   {
     title: "WARP BOX",
     controls: [
-      { key: "modulatorFreq", label: "Ripples" },
+      { key: "modulatorFreq", label: "Ripple" },
       { key: "modulationIndex", label: "Twist" },
-      { key: "amplitudeModulationIndex", label: "Sharpness" },
+      { key: "amplitudeModulationIndex", label: "Sharpen" },
     ],
   },
   {
@@ -32,7 +32,7 @@ export const groupsConfig: SliderGroup[] = [
     ],
   },
   {
-    title: "MAKE IT DANCE",
+    title: "DANCE!",
     controls: [
       { key: "lfoFrequency", label: "Speed" },
       { key: "lfoAmplitude", label: "Intensity" },

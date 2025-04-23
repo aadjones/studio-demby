@@ -24,7 +24,7 @@ function getEmotionLabel(value: number, labels?: EmotionLabel[]) {
   return match ? match.label : value.toFixed(2);
 }
 
-const TRACK_LENGTH = 120; // px, adjust to taste
+const TRACK_LENGTH = 100; // px, adjust to taste
 
 export default function SliderControl({
   label,
