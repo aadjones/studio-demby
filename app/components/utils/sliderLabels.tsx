@@ -21,23 +21,23 @@ export default function SliderControl({
 }: SliderControlProps) {
   const [localVal, setLocalVal] = useState(value);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = parseFloat(e.target.value);
+    setLocalVal(newValue);
+    onChange(newValue);
+    shaderValueRef.current = newValue;
+  };
+
   return (
-    <div className="flex flex-col gap-1 w-full">
-      <div className="flex justify-between">
-        <label className="text-sm font-medium">{label}</label>
-        <span className="text-sm text-gray-600">{localVal.toFixed(2)}</span>
-      </div>
+    <div className="flex flex-col gap-1">
+      <label className="text-sm font-medium">{label}</label>
       <input
         type="range"
         min={min}
         max={max}
         step={step}
         value={localVal}
-        onChange={(e) => {
-          const v = Number(e.target.value);
-          setLocalVal(v);
-          onChange(v);
-        }}
+        onChange={handleChange}
         className="w-full"
       />
     </div>
