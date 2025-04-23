@@ -35,12 +35,27 @@ export default function SpatialSynthesizer() {
   });
 
   // shader param refs
-  const shaderParamsRef = useRef<Record<keyof SynthParams, React.MutableRefObject<number>>>(
-    Object.fromEntries(
-      (Object.entries(defaultParams) as [keyof SynthParams, number][])
-        .map(([k, v]) => [k, useRef(v)])
-    ) as any
-  );
+  const carrierFreqXRef = useRef(defaultParams.carrierFreqX);
+  const carrierFreqYRef = useRef(defaultParams.carrierFreqY);
+  const modulatorFreqRef = useRef(defaultParams.modulatorFreq);
+  const modulationIndexRef = useRef(defaultParams.modulationIndex);
+  const amplitudeModulationIndexRef = useRef(defaultParams.amplitudeModulationIndex);
+  const modulationCenterXRef = useRef(defaultParams.modulationCenterX);
+  const modulationCenterYRef = useRef(defaultParams.modulationCenterY);
+  const lfoFrequencyRef = useRef(defaultParams.lfoFrequency);
+  const lfoAmplitudeRef = useRef(defaultParams.lfoAmplitude);
+
+  const shaderParamsRef = useRef<Record<keyof SynthParams, React.MutableRefObject<number>>>({
+    carrierFreqX: carrierFreqXRef,
+    carrierFreqY: carrierFreqYRef,
+    modulatorFreq: modulatorFreqRef,
+    modulationIndex: modulationIndexRef,
+    amplitudeModulationIndex: amplitudeModulationIndexRef,
+    modulationCenterX: modulationCenterXRef,
+    modulationCenterY: modulationCenterYRef,
+    lfoFrequency: lfoFrequencyRef,
+    lfoAmplitude: lfoAmplitudeRef,
+  });
 
   // lazy‐load canvas
   useEffect(() => {
@@ -102,6 +117,7 @@ export default function SpatialSynthesizer() {
         sliderRefs.current[k]!.value = v.toString();
       });
     setLfoMap({});
+    setConcertMode("manual");
   };
 
   return (
