@@ -86,7 +86,9 @@ export default function WisdomTeethCodex() {
       <h1 className="text-4xl font-bold text-amber-900 mb-2 tracking-wider font-serif">
         THE CODEX OF MOLAR WISDOM
       </h1>
-
+      <p className="text-amber-800/80 mb-6 text-center font-medium">
+  ~ Click on a tooth marker to reveal its ancient wisdom ~
+</p>
       <div className="w-full rounded-t-3xl rounded-b-3xl px-4 sm:px-8 py-12 font-serif relative bg-gradient-to-b from-amber-50 via-amber-100/70 to-amber-50 shadow-[inset_0_0_30px_rgba(217,119,6,0.1)] border-l border-r border-amber-200/50">
         <div ref={imageRef} className="relative w-full max-w-md mx-auto mb-6 p-2 bg-transparent rounded-lg">
           <div className="relative w-full">
@@ -126,10 +128,6 @@ export default function WisdomTeethCodex() {
             harbingers of pain. Their stories echo through the chambers of bone and memory.
           </p>
         </div>
-
-        <p className="text-amber-800/80 mb-8 text-center font-medium">
-          ~ Click on a tooth marker to reveal its ancient wisdom ~
-        </p>
 
         {selectedTooth && (
           <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">

@@ -14,29 +14,33 @@ tags:
 whisper: It only became beautiful after forgetting what it was trying to be.
 collapseMode: true
 clusterOrder: 1
+overrideHero: true
 ---
 
 import ZoomImage from "@/components/ZoomImage"
 
-<ProjectOverview>
-This began as precision.
+<HeroTitleBlock />
 
-One image, coaxed into being by a prompt. Then another. Then another.  
-Each time, the same instructions. But each time, more noise. More forgetting.
+<MeltdownDiptych />
 
-*Degradation* is what happens when the machine hallucinates too hard.  
-Diffusion gives way to dissolution.
-The result: a looping entropy. Birds that flock into a melting streak of abstraction. A piano that smears into a grid of noise.
+<div className="prose dark:prose-invert max-w-2xl mx-auto mb-12 text-lg leading-relaxed">
+  <div>This began as precision.</div>
 
-This is what the prompt wanted all along.
-</ProjectOverview>
+  <div>
+    One image, coaxed into being by a prompt. Then another. Then another.<br />
+    Each time, the same instructions. But each time, more noise. More forgetting.
+  </div>
 
-<MediaSection title="Meltdowns">
-<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-  <ZoomImage src="/photos/degradation/degradation.gif" alt="Flying crows, frame-decayed" />
-  <ZoomImage src="/photos/degradation/piano-melt.gif" alt="Twisted architecture" />
+  <div>
+    <em>Degradation</em> is what happens when we reverse the diffusion process of text-to-image generation.  
+    The image is born of noise, and returns to noise.
+  </div>
+
+  <div>
+    The result: a looping entropy. Birds that flock into a melting streak of abstraction.  
+    A piano that smears into a grid of noise.
+  </div>
 </div>
-</MediaSection>
 
 <FieldNote>
 Noise to noise.
@@ -44,10 +48,10 @@ Noise to noise.
 
 <CollapseMetadata>
   <ul>
-    <li><strong>Date:</strong> 2023</li>
+    <li><strong>Date:</strong> 2022</li>
     <li><strong>Tools:</strong> Stable Diffusion, img2img looping pipeline</li>
     <li><strong>Process:</strong> Recursive re-prompting with increasing noise</li>
-    <li><strong>Iterations:</strong> 120 </li>
+    <li><strong>Iterations:</strong> 120</li>
     <li><strong>Artifacts:</strong> The crows have eyes</li>
   </ul>
 </CollapseMetadata>
