@@ -14,6 +14,7 @@ export interface SliderControlProps {
   step: number;
   shaderValueRef: React.MutableRefObject<number>;
   labels?: EmotionLabel[];
+  sliderRef?: (el: HTMLInputElement | null) => void;
 }
 
 function getEmotionLabel(value: number, labels?: EmotionLabel[]) {
@@ -31,6 +32,7 @@ export default function SliderControl({
   step,
   shaderValueRef,
   labels,
+  sliderRef,
 }: SliderControlProps) {
   const [localVal, setLocalVal] = useState(value);
 
@@ -51,6 +53,7 @@ export default function SliderControl({
           setLocalVal(v);
           onChange(v);
         }}
+        ref={sliderRef}
         className="w-full"
       />
     </div>

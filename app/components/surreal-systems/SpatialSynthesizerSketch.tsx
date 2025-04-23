@@ -110,6 +110,19 @@ export default function SpatialSynthesizerSketch({
   const [params, setParams] = useState<SynthParams>(defaultParams);
   const [lfoMap, setLfoMap] = useState<SynthLFOMap>({});
   const [concertMode, setConcertMode] = useState<'manual' | 'gentleWaves' | 'wildRipples' | 'pulsatingEye'>('manual');
+  
+  // Create refs for slider elements to update them directly
+  const sliderRefs = useRef<Record<keyof SynthParams, HTMLInputElement | null>>({
+    carrierFreqX: null,
+    carrierFreqY: null,
+    modulatorFreq: null,
+    modulationIndex: null,
+    amplitudeModulationIndex: null,
+    modulationCenterX: null,
+    modulationCenterY: null,
+    lfoFrequency: null,
+    lfoAmplitude: null,
+  });
 
   const shaderParamsRef = useRef<Record<keyof SynthParams, React.MutableRefObject<number>>>({
     carrierFreqX: useRef(defaultParams.carrierFreqX),
@@ -139,7 +152,7 @@ export default function SpatialSynthesizerSketch({
     return () => obs.disconnect();
   }, []);
 
-  // LFO animation using requestAnimationFrame, only updating shader refs
+  // LFO animation using requestAnimationFrame
   useEffect(() => {
     let rafId: number;
     const start = performance.now();
@@ -148,11 +161,19 @@ export default function SpatialSynthesizerSketch({
       const now = performance.now();
       const t = (now - start) / 1000;
 
-      // Only update the shader refs, NEVER update React state
+      // Update shader refs and slider positions
       for (const [key, lfo] of Object.entries(lfoMap) as [keyof SynthParams, SliderLFO][]) {
         const { frequency, amplitude, center, phase } = lfo;
         const val = center + amplitude * Math.sin(2 * Math.PI * frequency * t + phase);
+        
+        // Update shader ref
         shaderParamsRef.current[key].current = val;
+        
+        // Update slider position directly using the ref
+        const slider = sliderRefs.current[key];
+        if (slider) {
+          slider.value = val.toString();
+        }
       }
 
       rafId = requestAnimationFrame(animate);
@@ -161,8 +182,21 @@ export default function SpatialSynthesizerSketch({
     if (Object.keys(lfoMap).length) {
       rafId = requestAnimationFrame(animate);
     }
+
     return () => cancelAnimationFrame(rafId);
   }, [lfoMap]);
+
+  // Reset sliders to default positions when switching to manual mode
+  useEffect(() => {
+    if (concertMode === 'manual') {
+      Object.entries(defaultParams).forEach(([key, value]) => {
+        const slider = sliderRefs.current[key as keyof SynthParams];
+        if (slider) {
+          slider.value = value.toString();
+        }
+      });
+    }
+  }, [concertMode]);
 
   // Update LFO map when concert mode changes
   useEffect(() => {
@@ -211,7 +245,6 @@ export default function SpatialSynthesizerSketch({
             <div>
               <h3 className="font-semibold text-sm uppercase text-gray-500 mb-1">Concert Mode</h3>
               <select
-                id="concert-mode"
                 value={concertMode}
                 onChange={(e) => setConcertMode(e.target.value as typeof concertMode)}
                 className="block w-full rounded border-gray-300 py-1.5 text-sm focus:border-blue-500 focus:ring-blue-500"
@@ -230,6 +263,7 @@ export default function SpatialSynthesizerSketch({
                 value={params.carrierFreqX}
                 onChange={handleParamChange("carrierFreqX")}
                 shaderValueRef={shaderParamsRef.current.carrierFreqX}
+                sliderRef={(el) => sliderRefs.current.carrierFreqX = el}
               />
               <SliderControl
                 label="Horizontal stripes"
@@ -237,6 +271,7 @@ export default function SpatialSynthesizerSketch({
                 value={params.carrierFreqY}
                 onChange={handleParamChange("carrierFreqY")}
                 shaderValueRef={shaderParamsRef.current.carrierFreqY}
+                sliderRef={(el) => sliderRefs.current.carrierFreqY = el}
               />
             </div>
             <div>
@@ -247,6 +282,7 @@ export default function SpatialSynthesizerSketch({
                 value={params.modulatorFreq}
                 onChange={handleParamChange("modulatorFreq")}
                 shaderValueRef={shaderParamsRef.current.modulatorFreq}
+                sliderRef={(el) => sliderRefs.current.modulatorFreq = el}
               />
               <SliderControl
                 label="Twist"
@@ -254,6 +290,7 @@ export default function SpatialSynthesizerSketch({
                 value={params.modulationIndex}
                 onChange={handleParamChange("modulationIndex")}
                 shaderValueRef={shaderParamsRef.current.modulationIndex}
+                sliderRef={(el) => sliderRefs.current.modulationIndex = el}
               />
               <SliderControl
                 label="Sharpness"
@@ -261,6 +298,7 @@ export default function SpatialSynthesizerSketch({
                 value={params.amplitudeModulationIndex}
                 onChange={handleParamChange("amplitudeModulationIndex")}
                 shaderValueRef={shaderParamsRef.current.amplitudeModulationIndex}
+                sliderRef={(el) => sliderRefs.current.amplitudeModulationIndex = el}
               />
             </div>
             <div>
@@ -271,6 +309,7 @@ export default function SpatialSynthesizerSketch({
                 value={params.modulationCenterX}
                 onChange={handleParamChange("modulationCenterX")}
                 shaderValueRef={shaderParamsRef.current.modulationCenterX}
+                sliderRef={(el) => sliderRefs.current.modulationCenterX = el}
               />
               <SliderControl
                 label="Up + down"
@@ -278,6 +317,7 @@ export default function SpatialSynthesizerSketch({
                 value={params.modulationCenterY}
                 onChange={handleParamChange("modulationCenterY")}
                 shaderValueRef={shaderParamsRef.current.modulationCenterY}
+                sliderRef={(el) => sliderRefs.current.modulationCenterY = el}
               />
             </div>
             <div>
@@ -288,6 +328,7 @@ export default function SpatialSynthesizerSketch({
                 value={params.lfoFrequency}
                 onChange={handleParamChange("lfoFrequency")}
                 shaderValueRef={shaderParamsRef.current.lfoFrequency}
+                sliderRef={(el) => sliderRefs.current.lfoFrequency = el}
               />
               <SliderControl
                 label="Volume"
@@ -295,6 +336,7 @@ export default function SpatialSynthesizerSketch({
                 value={params.lfoAmplitude}
                 onChange={handleParamChange("lfoAmplitude")}
                 shaderValueRef={shaderParamsRef.current.lfoAmplitude}
+                sliderRef={(el) => sliderRefs.current.lfoAmplitude = el}
               />
             </div>
           </div>
