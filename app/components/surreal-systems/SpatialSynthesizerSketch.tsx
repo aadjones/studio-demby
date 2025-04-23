@@ -1,54 +1,9 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
 import P5Container from "../utils/P5Container";
-
-interface SliderControlProps {
-  label: string;
-  value: number;
-  onChange: (value: number) => void;
-  min: number;
-  max: number;
-  step: number;
-  shaderValueRef: React.MutableRefObject<number>;
-}
-
-function SliderControl({ label, value, onChange, min, max, step }: SliderControlProps) {
-  const [localVal, setLocalVal] = useState(value);
-
-  return (
-    <div className="flex flex-col gap-1 w-full">
-      <div className="flex justify-between">
-        <label className="text-sm font-medium">{label}</label>
-        <span className="text-sm text-gray-600">{localVal.toFixed(2)}</span>
-      </div>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={localVal}
-        onChange={(e) => {
-          const v = Number(e.target.value);
-          setLocalVal(v);
-          onChange(v);
-        }}
-        className="w-full"
-      />
-    </div>
-  );
-}
-
-interface SynthParams {
-  carrierFreqX: number;
-  carrierFreqY: number;
-  modulatorFreq: number;
-  modulationIndex: number;
-  amplitudeModulationIndex: number;
-  modulationCenterX: number;
-  modulationCenterY: number;
-  lfoFrequency: number;
-  lfoAmplitude: number;
-}
+import SliderControl from "../utils/SliderControl";
+import { SynthParams, SliderLFO, SynthLFOMap } from './types';
+import { gentleWaves, wildRipples, pulsatingEye } from './concertPresets';
 
 const defaultParams: SynthParams = {
   carrierFreqX: 0.5,
@@ -74,39 +29,69 @@ const paramRanges: Record<keyof SynthParams, { min: number; max: number; step: n
   lfoAmplitude: { min: 0, max: 2, step: 0.01 },
 };
 
-const createSketch = (paramsRef: React.MutableRefObject<Record<keyof SynthParams, React.MutableRefObject<number>>>) => (p: any, parent: HTMLDivElement) => {
-  let myShader: any;
+// First, let's create a debounce utility at the top of the file
+const debounce = (fn: Function, ms = 300) => {
+  let timeoutId: ReturnType<typeof setTimeout>;
+  return function (this: any, ...args: any[]) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn.apply(this, args), ms);
+  };
+};
 
+const createSketch = (
+  paramsRef: React.MutableRefObject<Record<keyof SynthParams, React.MutableRefObject<number>>>
+) => (p: any, parent: HTMLDivElement) => {
+  let myShader: any;
+  let canvas: any;
+  
   p.preload = () => {
-    myShader = p.loadShader(
-      "/sketches/spatial-synthesizer/shader.vert",
-      "/sketches/spatial-synthesizer/fm.frag"
-    );
+    // Load shader once and cache it
+    if (!myShader) {
+      myShader = p.loadShader(
+        "/sketches/spatial-synthesizer/shader.vert",
+        "/sketches/spatial-synthesizer/fm.frag"
+      );
+    }
   };
 
   p.setup = () => {
-    p.createCanvas(parent.clientWidth, parent.clientWidth, p.WEBGL).parent(parent);
+    canvas = p.createCanvas(parent.clientWidth, parent.clientWidth, p.WEBGL);
+    canvas.parent(parent);
   };
 
-  p.windowResized = () => {
+  // Debounce resize handler to prevent rapid canvas resizing
+  p.windowResized = debounce(() => {
+    if (!canvas) return;
     p.resizeCanvas(parent.clientWidth, parent.clientWidth);
-  };
+  }, 250);
 
   p.draw = () => {
+    if (!myShader || !canvas) return;
+    
     p.shader(myShader);
 
-    Object.entries(paramsRef.current).forEach(([key, valueRef]) => {
-      if (key === "modulationCenterX" || key === "modulationCenterY") return;
-      myShader.setUniform(`u_${key}`, valueRef.current);
-    });
+    // Batch uniform updates to minimize state changes
+    const uniforms: Record<string, number | number[]> = {
+      u_resolution: [p.width, p.height],
+      u_time: p.millis() / 1000,
+    };
 
-    myShader.setUniform("u_modulationCenter", [
+    // Collect all uniforms first
+    for (const [key, valRef] of Object.entries(paramsRef.current)) {
+      if (key === "modulationCenterX" || key === "modulationCenterY") continue;
+      uniforms[`u_${key}`] = valRef.current;
+    }
+
+    uniforms.u_modulationCenter = [
       paramsRef.current.modulationCenterX.current,
       paramsRef.current.modulationCenterY.current,
-    ]);
+    ];
 
-    myShader.setUniform("u_resolution", [p.width, p.height]);
-    myShader.setUniform("u_time", p.millis() / 1000);
+    // Set all uniforms at once
+    for (const [key, value] of Object.entries(uniforms)) {
+      myShader.setUniform(key, value);
+    }
+
     p.rect(-p.width / 2, -p.height / 2, p.width, p.height);
   };
 };
@@ -116,10 +101,15 @@ interface SpatialSynthesizerSketchProps {
   height?: number | string;
 }
 
-export default function SpatialSynthesizerSketch({ width = "100%", height = "100%" }: SpatialSynthesizerSketchProps) {
+export default function SpatialSynthesizerSketch({
+  width = "100%",
+  height = "100%",
+}: SpatialSynthesizerSketchProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [params, setParams] = useState<SynthParams>(defaultParams);
+  const [lfoMap, setLfoMap] = useState<SynthLFOMap>({});
+  const [concertMode, setConcertMode] = useState<'manual' | 'gentleWaves' | 'wildRipples' | 'pulsatingEye'>('manual');
 
   const shaderParamsRef = useRef<Record<keyof SynthParams, React.MutableRefObject<number>>>({
     carrierFreqX: useRef(defaultParams.carrierFreqX),
@@ -133,6 +123,7 @@ export default function SpatialSynthesizerSketch({ width = "100%", height = "100
     lfoAmplitude: useRef(defaultParams.lfoAmplitude),
   });
 
+  // IntersectionObserver to trigger canvas load
   useEffect(() => {
     if (!ref.current) return;
     const obs = new IntersectionObserver(
@@ -148,38 +139,165 @@ export default function SpatialSynthesizerSketch({ width = "100%", height = "100
     return () => obs.disconnect();
   }, []);
 
+  // LFO animation using requestAnimationFrame, only updating shader refs
+  useEffect(() => {
+    let rafId: number;
+    const start = performance.now();
+
+    const animate = () => {
+      const now = performance.now();
+      const t = (now - start) / 1000;
+
+      // Only update the shader refs, NEVER update React state
+      for (const [key, lfo] of Object.entries(lfoMap) as [keyof SynthParams, SliderLFO][]) {
+        const { frequency, amplitude, center, phase } = lfo;
+        const val = center + amplitude * Math.sin(2 * Math.PI * frequency * t + phase);
+        shaderParamsRef.current[key].current = val;
+      }
+
+      rafId = requestAnimationFrame(animate);
+    };
+
+    if (Object.keys(lfoMap).length) {
+      rafId = requestAnimationFrame(animate);
+    }
+    return () => cancelAnimationFrame(rafId);
+  }, [lfoMap]);
+
+  // Update LFO map when concert mode changes
+  useEffect(() => {
+    switch (concertMode) {
+      case 'gentleWaves':
+        setLfoMap(gentleWaves);
+        break;
+      case 'wildRipples':
+        setLfoMap(wildRipples);
+        break;
+      case 'pulsatingEye':
+        setLfoMap(pulsatingEye);
+        break;
+      case 'manual':
+      default:
+        setLfoMap({});
+        break;
+    }
+  }, [concertMode]);
+
+  // Modify the handleParamChange to only update the shader ref if it's being controlled by LFO
   const handleParamChange = (key: keyof SynthParams) => (value: number) => {
     shaderParamsRef.current[key].current = value;
+    // Only update React state if this parameter isn't being controlled by LFO
+    if (!(key in lfoMap)) {
+      setParams(prev => ({ ...prev, [key]: value }));
+    }
+    // Remove from LFO control if it was being controlled
+    if (key in lfoMap) {
+      setLfoMap(prev => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
+    }
   };
 
   return (
     <div ref={ref} className="flex flex-col md:flex-row gap-8">
       {visible && (
-        <>
-          <div style={{ width, height, aspectRatio: "1/1" }}>
-            <P5Container sketch={createSketch(shaderParamsRef)} width="100%" height="100%" />
+        <>  
+          <div className="flex-1">
+            <div style={{ width: "100%", aspectRatio: "1/1" }}>
+              <P5Container sketch={createSketch(shaderParamsRef)} width="100%" height="100%" />
+            </div>
           </div>
-          <div className="w-full md:w-64 space-y-6 p-4 bg-gray-50 rounded-lg">
+          <div className="w-full md:w-64 flex flex-col gap-6 p-4 bg-gray-50 rounded-lg">
+            <div>
+              <h3 className="font-semibold text-sm uppercase text-gray-500 mb-1">Concert Mode</h3>
+              <select
+                id="concert-mode"
+                value={concertMode}
+                onChange={(e) => setConcertMode(e.target.value as typeof concertMode)}
+                className="block w-full rounded border-gray-300 py-1.5 text-sm focus:border-blue-500 focus:ring-blue-500"
+              >
+                <option value="manual">Manual Control</option>
+                <option value="gentleWaves">Gentle Waves</option>
+                <option value="wildRipples">Wild Ripples</option>
+                <option value="pulsatingEye">Pulsating Eye</option>
+              </select>
+            </div>
             <div>
               <h3 className="font-semibold text-sm uppercase text-gray-500 mb-1">The Tapestry</h3>
-              <SliderControl label="Vertical stripes" {...paramRanges.carrierFreqX} value={params.carrierFreqX} onChange={handleParamChange("carrierFreqX")} shaderValueRef={shaderParamsRef.current.carrierFreqX} />
-              <SliderControl label="Horizontal stripes" {...paramRanges.carrierFreqY} value={params.carrierFreqY} onChange={handleParamChange("carrierFreqY")} shaderValueRef={shaderParamsRef.current.carrierFreqY} />
+              <SliderControl
+                label="Vertical stripes"
+                {...paramRanges.carrierFreqX}
+                value={params.carrierFreqX}
+                onChange={handleParamChange("carrierFreqX")}
+                shaderValueRef={shaderParamsRef.current.carrierFreqX}
+              />
+              <SliderControl
+                label="Horizontal stripes"
+                {...paramRanges.carrierFreqY}
+                value={params.carrierFreqY}
+                onChange={handleParamChange("carrierFreqY")}
+                shaderValueRef={shaderParamsRef.current.carrierFreqY}
+              />
             </div>
             <div>
               <h3 className="font-semibold text-sm uppercase text-gray-500 mb-1">Warp Box</h3>
-              <SliderControl label="Ripples" {...paramRanges.modulatorFreq} value={params.modulatorFreq} onChange={handleParamChange("modulatorFreq")} shaderValueRef={shaderParamsRef.current.modulatorFreq} />
-              <SliderControl label="Twist" {...paramRanges.modulationIndex} value={params.modulationIndex} onChange={handleParamChange("modulationIndex")} shaderValueRef={shaderParamsRef.current.modulationIndex} />
-              <SliderControl label="Sharpness" {...paramRanges.amplitudeModulationIndex} value={params.amplitudeModulationIndex} onChange={handleParamChange("amplitudeModulationIndex")} shaderValueRef={shaderParamsRef.current.amplitudeModulationIndex} />
+              <SliderControl
+                label="Ripples"
+                {...paramRanges.modulatorFreq}
+                value={params.modulatorFreq}
+                onChange={handleParamChange("modulatorFreq")}
+                shaderValueRef={shaderParamsRef.current.modulatorFreq}
+              />
+              <SliderControl
+                label="Twist"
+                {...paramRanges.modulationIndex}
+                value={params.modulationIndex}
+                onChange={handleParamChange("modulationIndex")}
+                shaderValueRef={shaderParamsRef.current.modulationIndex}
+              />
+              <SliderControl
+                label="Sharpness"
+                {...paramRanges.amplitudeModulationIndex}
+                value={params.amplitudeModulationIndex}
+                onChange={handleParamChange("amplitudeModulationIndex")}
+                shaderValueRef={shaderParamsRef.current.amplitudeModulationIndex}
+              />
             </div>
             <div>
               <h3 className="font-semibold text-sm uppercase text-gray-500 mb-1">The Eye</h3>
-              <SliderControl label="Left + right" {...paramRanges.modulationCenterX} value={params.modulationCenterX} onChange={handleParamChange("modulationCenterX")} shaderValueRef={shaderParamsRef.current.modulationCenterX} />
-              <SliderControl label="Up + down" {...paramRanges.modulationCenterY} value={params.modulationCenterY} onChange={handleParamChange("modulationCenterY")} shaderValueRef={shaderParamsRef.current.modulationCenterY} />
+              <SliderControl
+                label="Left + right"
+                {...paramRanges.modulationCenterX}
+                value={params.modulationCenterX}
+                onChange={handleParamChange("modulationCenterX")}
+                shaderValueRef={shaderParamsRef.current.modulationCenterX}
+              />
+              <SliderControl
+                label="Up + down"
+                {...paramRanges.modulationCenterY}
+                value={params.modulationCenterY}
+                onChange={handleParamChange("modulationCenterY")}
+                shaderValueRef={shaderParamsRef.current.modulationCenterY}
+              />
             </div>
             <div>
               <h3 className="font-semibold text-sm uppercase text-gray-500 mb-1">Make It Dance</h3>
-              <SliderControl label="Tempo" {...paramRanges.lfoFrequency} value={params.lfoFrequency} onChange={handleParamChange("lfoFrequency")} shaderValueRef={shaderParamsRef.current.lfoFrequency} />
-              <SliderControl label="Volume" {...paramRanges.lfoAmplitude} value={params.lfoAmplitude} onChange={handleParamChange("lfoAmplitude")} shaderValueRef={shaderParamsRef.current.lfoAmplitude} />
+              <SliderControl
+                label="Tempo"
+                {...paramRanges.lfoFrequency}
+                value={params.lfoFrequency}
+                onChange={handleParamChange("lfoFrequency")}
+                shaderValueRef={shaderParamsRef.current.lfoFrequency}
+              />
+              <SliderControl
+                label="Volume"
+                {...paramRanges.lfoAmplitude}
+                value={params.lfoAmplitude}
+                onChange={handleParamChange("lfoAmplitude")}
+                shaderValueRef={shaderParamsRef.current.lfoAmplitude}
+              />
             </div>
           </div>
         </>
