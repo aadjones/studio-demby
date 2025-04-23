@@ -36,7 +36,7 @@ import SimpleVideoBlock from "../mdx-blocks/SimpleVideoBlock";
 import FeathersPlayground from "../surreal-systems/FeathersPlayground";
 import FirePlayground from "../surreal-systems/FirePlayground";
 import { rustVeilPreset, glacialStrikePreset } from "@/lib/data/firePresets";
-import SpatialSynthesizerSketch from "../surreal-systems/SpatialSynthesizerSketch";
+import SpatialSynthesizer from "../surreal-systems/SpatialSynthesizer/index";
 import EncasedMeltingSphere from "../mdx-blocks/EncasedMeltingSphere";
 import MeltdownDiptych from "../surreal-systems/MeltdownDiptych";
 type ComponentType = React.ComponentType<any> | string;
@@ -78,7 +78,7 @@ const baseComponents = {
   SectionNav,
   ShatterPlayground,
   EncasedMeltingSphere,
-  SpatialSynthesizerSketch,
+  SpatialSynthesizer,
   WisdomTeethCodex,
   HeroTitleBlock,
   SimpleVideoBlock,

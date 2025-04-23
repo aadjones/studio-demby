@@ -15,6 +15,7 @@ export interface SliderControlProps {
   shaderValueRef: React.MutableRefObject<number>;
   labels?: EmotionLabel[];
   sliderRef?: (el: HTMLInputElement | null) => void;
+  vertical?: boolean;
 }
 
 function getEmotionLabel(value: number, labels?: EmotionLabel[]) {
@@ -22,6 +23,8 @@ function getEmotionLabel(value: number, labels?: EmotionLabel[]) {
   const match = labels.find(({ range }) => value >= range[0] && value <= range[1]);
   return match ? match.label : value.toFixed(2);
 }
+
+const TRACK_LENGTH = 120; // px, adjust to taste
 
 export default function SliderControl({
   label,
@@ -33,29 +36,53 @@ export default function SliderControl({
   shaderValueRef,
   labels,
   sliderRef,
+  vertical = false,
 }: SliderControlProps) {
   const [localVal, setLocalVal] = useState(value);
 
   return (
-    <div className="flex flex-col gap-1 w-full">
-      <div className="flex justify-between">
-        <label className="text-sm font-medium">{label}</label>
-        <span className="text-sm text-gray-600">{getEmotionLabel(localVal, labels)}</span>
+    <div className="flex flex-col items-center gap-2">
+      {/* Display current value or emotion label */}
+      <span className="text-[10px] font-medium text-gray-400">
+        {getEmotionLabel(localVal, labels)}
+      </span>
+
+      {/* Slider track container with fixed height */}
+      <div
+        className="flex items-center"
+        style={{ height: vertical ? TRACK_LENGTH : undefined }}
+      >
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={localVal}
+          onChange={(e) => {
+            const v = Number(e.target.value);
+            setLocalVal(v);
+            onChange(v);
+          }}
+          ref={sliderRef}
+          className="vertical-slider"
+          style={
+            vertical
+              ? {
+                  writingMode: 'vertical-lr' as const,
+                  WebkitAppearance: 'slider-vertical',
+                  width: '20px',
+                  height: '100%',
+                  transform: 'rotate(180deg)',
+                }
+              : {}
+          }
+        />
       </div>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={localVal}
-        onChange={(e) => {
-          const v = Number(e.target.value);
-          setLocalVal(v);
-          onChange(v);
-        }}
-        ref={sliderRef}
-        className="w-full"
-      />
+
+      {/* Label below slider */}
+      <span className="text-[10px] font-medium text-gray-600 whitespace-nowrap">
+        {label}
+      </span>
     </div>
   );
 }
