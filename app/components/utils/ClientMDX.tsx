@@ -38,7 +38,7 @@ import FirePlayground from "../surreal-systems/FirePlayground";
 import { rustVeilPreset, glacialStrikePreset } from "@/lib/data/firePresets";
 import SpatialSynthesizerSketch from "../surreal-systems/SpatialSynthesizerSketch";
 import EncasedMeltingSphere from "../mdx-blocks/EncasedMeltingSphere";
-
+import MeltdownDiptych from "../surreal-systems/MeltdownDiptych";
 type ComponentType = React.ComponentType<any> | string;
 
 type ClientMDXProps = {
@@ -83,7 +83,8 @@ const baseComponents = {
   HeroTitleBlock,
   SimpleVideoBlock,
   FeathersPlayground,
-  FirePlayground
+  FirePlayground,
+  MeltdownDiptych,
 };
 
 export default function ClientMDX({

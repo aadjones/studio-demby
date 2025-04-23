@@ -23,6 +23,10 @@ module.exports = {
             transform:
               'translate(var(--x, 0px), var(--y, 0px)) rotate(var(--r, 0deg))',
           },
+          subtlePulse: {
+            '0%, 100%': { opacity: '1' },
+            '50%': { opacity: '0.98' }
+          },
         },
         fadeSlideIn: {
           "0%": { opacity: "0", transform: "translateY(6px)" },
@@ -32,6 +36,7 @@ module.exports = {
       animation: {
         'errant-flinch': 'errant-flinch 0.15s ease-out forwards',
         fadeSlideIn: "fadeSlideIn 0.4s ease-out forwards",
+        subtlePulse: 'subtlePulse 6s ease-in-out infinite',
       },
     },
   },
