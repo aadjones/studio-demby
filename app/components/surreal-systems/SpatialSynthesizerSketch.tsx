@@ -183,13 +183,11 @@ export default function SpatialSynthesizerSketch({
     }
   }, [concertMode]);
 
-  // Modify the handleParamChange to only update the shader ref if it's being controlled by LFO
+  // Modify the handleParamChange to only update the shader ref
   const handleParamChange = (key: keyof SynthParams) => (value: number) => {
+    // Only update the shader ref
     shaderParamsRef.current[key].current = value;
-    // Only update React state if this parameter isn't being controlled by LFO
-    if (!(key in lfoMap)) {
-      setParams(prev => ({ ...prev, [key]: value }));
-    }
+    
     // Remove from LFO control if it was being controlled
     if (key in lfoMap) {
       setLfoMap(prev => {
