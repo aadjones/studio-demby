@@ -24,6 +24,7 @@ export default function SpatialSynthesizer() {
   const [visible, setVisible] = useState(false);
   const [concertMode, setConcertMode] = useState<ConcertMode>("manual");
   const [lfoMap, setLfoMap] = useState<SynthLFOMap>({});
+  const [resetTrigger, setResetTrigger] = useState(0);
 
   // slider refs
   const sliderRefs = useRef<Record<keyof SynthParams, HTMLInputElement | null>>({
@@ -118,6 +119,7 @@ export default function SpatialSynthesizer() {
       });
     setLfoMap({});
     setConcertMode("manual");
+    setResetTrigger(prev => prev + 1);
   };
 
   return (
@@ -164,7 +166,7 @@ export default function SpatialSynthesizer() {
               <div className="grid grid-cols-2 gap-6">
                 {groupsConfig.map(({ title, controls }) => (
                   <SliderGroup
-                    key={title}
+                    key={`${title}-${resetTrigger}`}
                     title={title}
                     controls={controls}
                     defaultParams={defaultParams}

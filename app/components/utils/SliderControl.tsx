@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export interface EmotionLabel {
   range: [number, number];
@@ -39,6 +39,10 @@ export default function SliderControl({
   vertical = false,
 }: SliderControlProps) {
   const [localVal, setLocalVal] = useState(value);
+
+  useEffect(() => {
+    setLocalVal(value);
+  }, [value]);
 
   return (
     <div className="flex flex-col items-center gap-2">
