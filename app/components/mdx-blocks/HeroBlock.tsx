@@ -91,7 +91,7 @@ export default function HeroBlock({
         <div className="w-full">
           <div
             ref={containerRef}
-            className="relative w-full aspect-square bg-black rounded-xl overflow-hidden"
+            className="relative w-full aspect-square bg-black rounded-xl overflow-hidden group"
           >
             <video
               ref={videoRef}
@@ -104,7 +104,12 @@ export default function HeroBlock({
               Your browser does not support the video tag.
             </video>
 
-           {/* Custom button centered with limited hitbox */}
+            {/* Preview Mix Label */}
+            <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm text-white px-3.5 py-2 rounded-full text-sm font-semibold tracking-wide shadow-lg shadow-black/20 ring-1 ring-white/20">
+              Preview Mix
+            </div>
+
+            {/* Custom button centered with limited hitbox */}
 <div
   className={`absolute top-1/2 left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2 transition-opacity duration-500 ease-in-out
     ${!hasInteracted || showControls ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
@@ -151,7 +156,7 @@ export default function HeroBlock({
           )}
         </div>
 
-        <div className="space-y-4 text-base">
+        <div className="space-y-3 text-base">
           {tracklistSections.map((section) => {
             const sectionId = section.title
               .replace(/^[IVXLCDM]+\.\s*/, "")
@@ -159,11 +164,11 @@ export default function HeroBlock({
               .replace(/\s+/g, "-");
 
             return (
-              <div key={section.title} className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-lg">
-                <strong className="text-lg block mb-3 font-medium">
+              <div key={section.title} className="bg-gray-50/70 dark:bg-gray-900/30 px-4 py-3 rounded-lg inline-block min-w-[200px]">
+                <strong className="text-lg block mb-2 font-medium">
                   <a
                     href={`#${sectionId}`}
-                    className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 cursor-pointer"
+                    className="group hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 cursor-pointer inline-flex items-center"
                     onClick={(e) => {
                       e.preventDefault();
                       const el = document.getElementById(sectionId);
@@ -173,19 +178,20 @@ export default function HeroBlock({
                     {section.title}
                   </a>
                 </strong>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   {section.links.map((link) => (
                     <a
                       key={link.id}
                       href={`#${link.id}`}
-                      className="block pl-3 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors duration-200 cursor-pointer"
+                      className="block pl-3 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-all duration-200 cursor-pointer group hover:translate-x-0.5"
                       onClick={(e) => {
                         e.preventDefault();
                         const el = document.getElementById(link.id);
                         if (el) el.scrollIntoView({ behavior: "smooth" });
                       }}
                     >
-                      {link.label}
+                      <span className="underline decoration-gray-400 dark:decoration-gray-600 group-hover:decoration-black dark:group-hover:decoration-white transition-colors duration-200">{link.label}</span>
+                      <span className="ml-1 opacity-60 text-sm group-hover:opacity-100 transition-opacity duration-200">🎧</span>
                     </a>
                   ))}
                 </div>

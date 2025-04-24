@@ -20,14 +20,17 @@ import { CaptionComponent as Caption } from '@/app/components/mdx-blocks/Caption
 import ZoomImage from "@/components/ZoomImage";
 import SimpleVideoBlock from "@/components/SimpleVideoBlock"
 
-<div className="not-prose">
-  <SimpleVideoBlock
-    title="Rain"
-    subtitle="A composition that recursively removes itself."
-    poster="/photos/rain/rain.png"
-    videoSrc="https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/rain-U9Ba3gqJzy6amdj4Y4Ilaffh8wsLz7.mp4"
-    caption="Audiovisual work built from recursive silence."
-  />
+<div className="not-prose flex justify-center">
+  <div className="w-full max-w-3xl">
+    <SimpleVideoBlock
+      title="Rain 🎵"
+      subtitle="A composition that recursively removes itself."
+      poster="/photos/rain/rain.png"
+      videoSrc="https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/rain-U9Ba3gqJzy6amdj4Y4Ilaffh8wsLz7.mp4"
+      caption=""
+      className="max-w-md px-4"
+    />
+  </div>
 </div>
 
 <ProjectOverview>

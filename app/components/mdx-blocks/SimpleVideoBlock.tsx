@@ -69,13 +69,13 @@ export default function SimpleVideoBlock({
   }, [hasInteracted]);
 
   return (
-    <section className="my-8">
+    <section className={`my-8 mx-auto ${className ?? "max-w-sm"}`}>
        <div className="text-center">
-    {title && <h1 className="text-3xl md:text-4xl font-bold mb-2">{title}</h1>}
-    {subtitle && <p className="italic text-lg text-gray-600 mb-2">{subtitle}</p>}
+    {title && <h1 className="text-2xl md:text-3xl font-bold mb-2">{title}</h1>}
+    {subtitle && <p className="italic text-base text-gray-600 mb-2">{subtitle}</p>}
   </div>
 
-      <div className={`w-full mx-auto ${className ?? "max-w-sm"}`}>
+      <div className="w-full mx-auto">
         <div
           ref={containerRef}
           className="relative w-full aspect-square bg-black rounded-xl overflow-hidden"

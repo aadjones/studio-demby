@@ -2,7 +2,6 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { ThemeSwitch } from "./ThemeSwitch";
 import { metaData } from "../../config";
 import { JSX, useRef } from "react";
 
@@ -106,7 +105,6 @@ export function Navbar() {
               </Link>
             );
           })}
-          <ThemeSwitch />
         </div>
       </div>
     </nav>
