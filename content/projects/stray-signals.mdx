@@ -1,7 +1,7 @@
 ---
 title: Stray Signals 🎵
 slug: stray-signals
-summary: 'Uncollected improvisations. Each one alone, unfinished, yet complete.'
+summary: 'Uncollected piano improvisations.'
 cluster: enclosed
 isFeatured: true
 featuredOrder: 1
@@ -14,36 +14,66 @@ tags:
 whisper: Not everything belongs. Some things just arrive.
 collapseMode: true
 clusterOrder: 2
+overrideHero: true
 ---
 
-<ProjectOverview>
-These pieces were never meant to belong anywhere.  
-They just happened — sudden, honest, alone.  
+import HeroBlock from '@/components/HeroBlock';
+import MovementBlock from '@/components/MovementBlock';
+import CallToAction from '@/components/CallToAction';
+import CollapseMetadata from '@/components/CollapseMetadata';
+import FieldNote from '@/components/FieldNote';
 
-Each one is a stray signal, a moment that didn’t want a second take.  
-Just a feeling, played once.
-</ProjectOverview>
+<div className="not-prose">
+  <HeroBlock
+    title="Stray Signals 🎵"
+    subtitle="Three free improvisations; each one alone."
+    subtext=""
+    videoSrc="https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/stray-signals-81qEEE6qtj4LZdWnj8pXJOPAFJ7aIc.mp4"
+    poster="/photos/stray-signals/stray-signals.png"
+    caption="2-minute preview mix. Full tracks below ↓"
+    tracklistSections={[
+      {
+        title: 'Signals',
+        links: [
+          { id: 'circles', label: '1. Circles' },
+          { id: 'waiting', label: '2. Waiting' },
+          { id: 'sunlight', label: '3. Sunlight' }
+        ]
+      }
+    ]}
+  />
+</div>
 
-<MediaSection title="Signals">
-  <MediaItem
-    title="Circles"
-    description="Loosely tethered. Slowly turning. Accepting repetition as a kind of peace."
-    soundCloudUrl="https://soundcloud.com/aaron-demby-jones/circles"
+<div className="not-prose">
+  <MovementBlock
+    id="signals"
+    title="Signals"
+    description=""
+    tracks={[
+      {
+        id: "circles",
+        title: "1. Circles",
+        src: "https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/circles-p5URLBhMdW6n5X1ychmzrQz3a468A1.mp3",
+        thumbnail: "/photos/stray-signals/circles.png",
+      },
+      {
+        id: "waiting",
+        title: "2. Waiting",
+        src: "https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/Waiting-U6t1WKDQPyNbNOFhd7h5pSEJ7bGjqB.mp3",
+        thumbnail: "/photos/stray-signals/waiting.png",
+      },
+      {
+        id: "sunlight",
+        title: "3. Sunlight",
+        src: "https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/sunlight-JI7F76Mgli5PUtMLGidlQ4MQA0xs4Y.mp3",
+        thumbnail: "/photos/stray-signals/sunlight.png",
+      }
+    ]}
   />
-  <MediaItem
-    title="Waiting"
-    description="Muted midrange wrapped in felt. A soft war between the machine and the soul."
-    soundCloudUrl="https://soundcloud.com/aaron-demby-jones/waiting"
-  />
-  <MediaItem
-    title="Sunlight"
-    description="A hesitant bloom of hope, layered with hushed electronics."
-    soundCloudUrl="https://soundcloud.com/aaron-demby-jones/sunlight"
-  />
-</MediaSection>
+</div>
 
 <FieldNote>
-They don’t add up. That’s why they matter.
+They don't add up. That's why they matter.
 </FieldNote>
 
 <CollapseMetadata>
