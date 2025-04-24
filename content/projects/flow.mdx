@@ -12,41 +12,71 @@ tags:
   - synth
 whisper: 'Eventually, stillness gets weird.'
 collapseMode: true
-externalUrl: 'https://soundcloud.com/aaron-demby-jones/sets/flow'
 clusterOrder: 4
+overrideHero: true
 ---
 
-<ProjectOverview>
-If *Escape* was survival, *Flow* was adaptation.  
-Recorded one year deeper into isolation, these improvisations grew wider and more introspective.
+import HeroBlock from '@/components/HeroBlock';
+import MovementBlock from '@/components/MovementBlock';
+import CallToAction from '@/components/CallToAction';
+import CollapseMetadata from '@/components/CollapseMetadata';
+import FieldNote from '@/components/FieldNote';
 
-Prepared piano, mini synthesizers — I reached for new tools to stretch the boundaries of free play. 
-
-Some pieces are gentle. Others spiral ruefully into nothing.
-All of them are chambers I built to wait out the world.
-</ProjectOverview>
-
-<MediaSection title="Selected Movements">
-  <MediaItem
-    title="Boredom Blues"
-    description="A wistful fusion of blues and classical, culminating with guarded optimism."
-    soundCloudUrl="https://soundcloud.com/aaron-demby-jones/boredom-blues"
+<div className="not-prose">
+  <HeroBlock
+    title="Flow 🎵"
+    subtitle="A second album of solitude for the confusing year 2021."
+    subtext=""
+    videoSrc="https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/flow-montage-xcVfVWYTZzmTWoC09KQ4W9yhfTN0jR.mp4"
+    poster="/photos/flow/flow.jpg"
+    caption="2-minute preview mix. Full tracks below ↓"
+    tracklistSections={[
+      {
+        title: 'Flow',
+        links: [
+          { id: 'boredom-blues', label: '1. Boredom Blues' },
+          { id: 'lullaby', label: '2. Lullaby' },
+          { id: 'is-it-the-same', label: '3. Is It The Same?' },
+          { id: 'inside', label: '4. Inside' }
+        ]
+      }
+    ]}
   />
+</div>
 
-  <MediaItem
-    title="Lullaby"
-    description="A soothing relaxation, in honor of my baby nephew."
-    soundCloudUrl="https://soundcloud.com/aaron-demby-jones/lullaby"
+<div className="not-prose">
+  <MovementBlock
+    id="flow"
+    title="Flow"
+    description=""
+    tracks={[
+      {
+        id: "boredom-blues",
+        title: "1. Boredom Blues",
+        src: "https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/boredom_blues-a0PyXrIT8m95eeEbwncGaAxkkHeyxU.mp3",
+        thumbnail: "/photos/flow/boredom-blues.jpg",
+      },
+      {
+        id: "lullaby",
+        title: "2. Lullaby",
+        src: "https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/lullaby-ZdmGiu1C7YAKsw6pX7CIDtICPOEFQe.mp3",
+        thumbnail: "/photos/flow/lullaby.jpg",
+      },
+      {
+        id: "is-it-the-same",
+        title: "3. Is It The Same?",
+        src: "https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/is_it_the_same-hOF6KmlAurnD8Hxc9L1RjyqTLK5aGp.mp3",
+        thumbnail: "/photos/flow/is-it-the-same.jpg",
+      },
+      {
+        id: "inside",
+        title: "4. Inside",
+        src: "https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/inside-fssKhv8DGPHwPPoGEVrrFLCSY0Gdnd.mp3",
+        thumbnail: "/photos/flow/inside.jpg",
+      }
+    ]}
   />
-</MediaSection>
-
-<MediaSection title="Full Suite">
-  <MediaItem
-    title="Flow (Full Album)"
-    description="The complete Flow suite — strange music for a year no one understood."
-    soundCloudUrl="https://soundcloud.com/aaron-demby-jones/sets/flow"
-  />
-</MediaSection>
+</div>
 
 <FieldNote>
 The second winter was longer. But the music got braver.
