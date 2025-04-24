@@ -15,13 +15,13 @@ export default function AboutPage() {
         className="rounded-full mb-4"
       />
       <p className="text-lg mb-4">
-        I build systems that sing. Sometimes they melt. Sometimes they loop forever. I like when structure forgets itself.
+        I build systems that sing. Sometimes they melt. Sometimes they loop forever. 
       </p>
       <p className="text-lg mb-4">
-        My work blends improvisation, computation, and a stubborn sense of wonder. It lives at the intersection of sound and shape: where math becomes feeling, and code turns uncanny.
+        My work blends improvisation, computation, and mischief. It lives at the intersection logic and feeling.
       </p>
       <p className="text-lg mb-4">
-        I&rsquo;ve spent time with pianos, particles, and unstable systems. My background touches experimental music, digital art, mathematics, and computer programming—but these days, I&rsquo;m more interested in how they blur.
+        I&rsquo;ve spent time with pianos, particles, and unstable systems. My background includes experimental music, digital art, mathematics, and computer programming—but these days, I&rsquo;m more interested in how they blur.
       </p>
       <p className="text-lg mb-4">
         My work is organized by clusters. You&rsquo;ll find pieces in <Link href="/resonant" className="text-blue-500">Resonant</Link>, <Link href="/errant" className="text-blue-500">Errant</Link>, <Link href="/fractured" className="text-blue-500">Fractured</Link>, and <Link href="/enclosed" className="text-blue-500">Enclosed</Link>. If something echoes in you, <a href="mailto:aaron.demby.jones@gmail.com" className="text-blue-500">reach out</a>.
