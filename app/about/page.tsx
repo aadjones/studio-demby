@@ -18,7 +18,7 @@ export default function AboutPage() {
         I build systems that sing. Sometimes they melt. Sometimes they loop forever. 
       </p>
       <p className="text-lg mb-4">
-        My work blends improvisation, computation, and mischief. It lives at the intersection logic and feeling.
+        My work blends improvisation, computation, and mischief. It lives at the intersection of logic and feeling.
       </p>
       <p className="text-lg mb-4">
         I&rsquo;ve spent time with pianos, particles, and unstable systems. My background includes experimental music, digital art, mathematics, and computer programming—but these days, I&rsquo;m more interested in how they blur.
