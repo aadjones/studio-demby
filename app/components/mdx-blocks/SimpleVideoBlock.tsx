@@ -8,6 +8,7 @@ interface SimpleVideoBlockProps {
   caption?: string;
   videoSrc: string;
   poster: string;
+  className?: string;
 }
 
 export default function SimpleVideoBlock({
@@ -16,6 +17,7 @@ export default function SimpleVideoBlock({
   caption,
   videoSrc,
   poster,
+  className,
 }: SimpleVideoBlockProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -73,7 +75,7 @@ export default function SimpleVideoBlock({
     {subtitle && <p className="italic text-lg text-gray-600 mb-2">{subtitle}</p>}
   </div>
 
-      <div className="w-full mx-auto max-w-sm">
+      <div className={`w-full mx-auto ${className ?? "max-w-sm"}`}>
         <div
           ref={containerRef}
           className="relative w-full aspect-square bg-black rounded-xl overflow-hidden"

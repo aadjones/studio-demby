@@ -151,7 +151,7 @@ export default function HeroBlock({
           )}
         </div>
 
-        <div className="space-y-4 text-sm">
+        <div className="space-y-4 text-base">
           {tracklistSections.map((section) => {
             const sectionId = section.title
               .replace(/^[IVXLCDM]+\.\s*/, "")
@@ -159,11 +159,11 @@ export default function HeroBlock({
               .replace(/\s+/g, "-");
 
             return (
-              <div key={section.title}>
-                <strong className="text-base block mb-1">
+              <div key={section.title} className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-lg">
+                <strong className="text-lg block mb-3 font-medium">
                   <a
                     href={`#${sectionId}`}
-                    className="hover:underline cursor-pointer"
+                    className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 cursor-pointer"
                     onClick={(e) => {
                       e.preventDefault();
                       const el = document.getElementById(sectionId);
@@ -173,20 +173,22 @@ export default function HeroBlock({
                     {section.title}
                   </a>
                 </strong>
-                {section.links.map((link) => (
-                  <a
-                    key={link.id}
-                    href={`#${link.id}`}
-                    className="block pl-4 hover:underline cursor-pointer"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      const el = document.getElementById(link.id);
-                      if (el) el.scrollIntoView({ behavior: "smooth" });
-                    }}
-                  >
-                    {link.label}
-                  </a>
-                ))}
+                <div className="space-y-2">
+                  {section.links.map((link) => (
+                    <a
+                      key={link.id}
+                      href={`#${link.id}`}
+                      className="block pl-3 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors duration-200 cursor-pointer"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const el = document.getElementById(link.id);
+                        if (el) el.scrollIntoView({ behavior: "smooth" });
+                      }}
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
               </div>
             );
           })}
