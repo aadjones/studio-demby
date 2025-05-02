@@ -210,7 +210,7 @@ export default function SpatialSynthesizer() {
                 </button>
               </div>
             ) : (
-              <div className="w-full flex flex-col items-center justify-center py-8">
+              <div className="w-full flex flex-col items-center justify-center py-3">
                 <div className="text-center text-gray-500 text-sm bg-white bg-opacity-80 rounded-lg px-4 py-3 shadow">
                   For the full manual controls experience, try this on a desktop or larger screen.
                 </div>

@@ -85,19 +85,17 @@ export default function FirePlaygroundClient({ preset, title }: FirePlaygroundCl
             ref={ref}
             className="flex flex-col items-center gap-1"
           >
-            {visible && (
-              <div className="w-full aspect-square rounded-lg shadow-md overflow-hidden bg-white dark:bg-black">
-                {sketchRef.current && (
-                  <P5Container
-                    key={triggerRender}
-                    sketch={(p, parent) => {
-                      canvasRef.current = p;
-                      if (sketchRef.current) sketchRef.current(p, parent);
-                    }}
-                  />
-                )}
-              </div>
-            )}
+            <div className="w-full aspect-square rounded-lg shadow-md overflow-hidden bg-white dark:bg-black min-h-[240px]">
+              {visible && sketchRef.current && (
+                <P5Container
+                  key={triggerRender}
+                  sketch={(p, parent) => {
+                    canvasRef.current = p;
+                    if (sketchRef.current) sketchRef.current(p, parent);
+                  }}
+                />
+              )}
+            </div>
             <button
               onClick={handleGenerate}
               className="mt-0.5 px-2.5 py-1 bg-black text-white rounded shadow hover:bg-gray-800 text-sm"
