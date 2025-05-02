@@ -16,13 +16,15 @@ export default async function HomePage() {
     });
 
   return (
-    <main className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">Aaron Demby Jones</h1>
-      <p className="text-xl mb-12">
+    <main className="container mx-auto px-4 pt-4 sm:pt-8">
+      <h1 className="text-[2rem] sm:text-[2.5rem] md:text-4xl font-bold mb-3 leading-none tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">
+        Aaron Demby Jones
+      </h1>
+      <p className="text-[0.9rem] sm:text-lg md:text-xl mb-8 leading-none tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">
         Artist. Improviser. Builder of strange systems.
       </p>
 
-      <h2 className="text-2xl font-semibold mb-6">Featured Work</h2>
+      <h2 className="text-2xl font-semibold mb-4">Featured Work</h2>
       
       {/* Mobile Carousel */}
       <div className="sm:hidden -mx-4">
