@@ -46,25 +46,27 @@ export default function ProjectNavBar({
       } bg-white/80 backdrop-blur-sm border-t border-gray-300`}
     >
       <div className="max-w-screen-lg mx-auto px-4 py-2 flex justify-between text-sm font-medium text-gray-800">
-        {previousSlug && previousCluster ? (
-          <Link href={`/${previousCluster}/${previousSlug}`} className="hover:underline">
-            ← Previous
-          </Link>
-        ) : (
-          <span className="text-gray-400">← Previous</span>
-        )}
+        <div className="flex items-center gap-4 w-full justify-between">
+          {previousSlug && previousCluster ? (
+            <Link href={`/${previousCluster}/${previousSlug}`} className="hover:underline truncate">
+              ← Previous
+            </Link>
+          ) : (
+            <span className="text-gray-400">← Previous</span>
+          )}
 
-        <Link href={`/${clusterSlug}`} className="hover:underline">
-          ↻ Back to {clusterName}
-        </Link>
-
-        {nextSlug && nextCluster ? (
-          <Link href={`/${nextCluster}/${nextSlug}`} className="hover:underline">
-            Next →
+          <Link href={`/${clusterSlug}`} className="hover:underline hidden sm:block">
+            ↻ Back to {clusterName}
           </Link>
-        ) : (
-          <span className="text-gray-400">Next →</span>
-        )}
+
+          {nextSlug && nextCluster ? (
+            <Link href={`/${nextCluster}/${nextSlug}`} className="hover:underline truncate">
+              Next →
+            </Link>
+          ) : (
+            <span className="text-gray-400">Next →</span>
+          )}
+        </div>
       </div>
     </div>
   );

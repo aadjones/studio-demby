@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from "react";
+import Image from "next/image";
 
 interface SimpleVideoBlockProps {
   title?: string;
@@ -25,6 +26,7 @@ export default function SimpleVideoBlock({
   const [showControls, setShowControls] = useState(true);
   const hideControlsTimer = useRef<NodeJS.Timeout | null>(null);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [posterLoaded, setPosterLoaded] = useState(false);
 
   const togglePlayback = () => {
     const video = videoRef.current;
@@ -70,19 +72,31 @@ export default function SimpleVideoBlock({
 
   return (
     <section className={`my-8 mx-auto ${className ?? "max-w-sm"}`}>
-       <div className="text-center">
-    {title && <h1 className="text-2xl md:text-3xl font-bold mb-2">{title}</h1>}
-    {subtitle && <p className="italic text-base text-gray-600 mb-2">{subtitle}</p>}
-  </div>
+      <div className="text-center">
+        {title && <h1 className="text-2xl md:text-3xl font-bold mb-2">{title}</h1>}
+        {subtitle && <p className="italic text-base text-gray-600 mb-2">{subtitle}</p>}
+      </div>
 
       <div className="w-full mx-auto">
         <div
           ref={containerRef}
           className="relative w-full aspect-square bg-black rounded-xl overflow-hidden"
         >
+          {/* Optimized poster image */}
+          <div className={`absolute inset-0 transition-opacity duration-300 ${posterLoaded ? 'opacity-0' : 'opacity-100'}`}>
+            <Image
+              src={poster}
+              alt="Video poster"
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 800px"
+              className="object-cover"
+              priority
+              onLoad={() => setPosterLoaded(true)}
+            />
+          </div>
+
           <video
             ref={videoRef}
-            poster={poster}
             className="w-full h-full object-cover"
             playsInline
             controls

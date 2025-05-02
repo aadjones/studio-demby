@@ -53,24 +53,61 @@ But not how.
 
 <h2 id="gallery"></h2>
 <MediaSection title="Survivors">
-  <div className="flex flex-col items-center">
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-2">
-      <ZoomImage src="/photos/shatter/shatter1.png" alt="Shatter 1" />
-      <ZoomImage src="/photos/shatter/shatter2.png" alt="Shatter 2" />
-      <ZoomImage src="/photos/shatter/shatter3.png" alt="Shatter 3" />
-      <ZoomImage src="/photos/shatter/shatter4.png" alt="Shatter 4" />
+  <div className="flex flex-col items-center px-4 sm:px-0">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-2 w-full">
       <ZoomImage 
-        src="/photos/shatter/shatter5.png" alt="Shatter 5"
-        caption="Variations on a rupture."
+        src="/photos/shatter/shatter1.png" 
+        alt="Shatter 1" 
+        width={800}
+        height={800}
+        quality={75}
       />
-      <ZoomImage src="/photos/shatter/shatter6.png" alt="Shatter 6" />
+      <ZoomImage 
+        src="/photos/shatter/shatter2.png" 
+        alt="Shatter 2"
+        width={800}
+        height={800}
+        quality={75}
+      />
+      <ZoomImage 
+        src="/photos/shatter/shatter3.png" 
+        alt="Shatter 3"
+        width={800}
+        height={800}
+        quality={75}
+      />
+      <ZoomImage 
+        src="/photos/shatter/shatter4.png" 
+        alt="Shatter 4"
+        width={800}
+        height={800}
+        quality={75}
+      />
+      <ZoomImage 
+        src="/photos/shatter/shatter5.png" 
+        alt="Shatter 5"
+        caption="Variations on a rupture."
+        width={800}
+        height={800}
+        quality={75}
+      />
+      <ZoomImage 
+        src="/photos/shatter/shatter6.png" 
+        alt="Shatter 6"
+        width={800}
+        height={800}
+        quality={75}
+      />
     </div>
   </div>
   <ZoomImage
     src="/photos/shatter/metaplane.png"
     alt="Metaplane sculpture of intersecting planes"
     caption="Intersecting the intersected."
-    className="mt-6"
+    className="mt-8 sm:mt-6"
+    width={1200}
+    height={800}
+    quality={75}
   />
 </MediaSection>
 

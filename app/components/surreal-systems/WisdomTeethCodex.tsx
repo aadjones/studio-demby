@@ -93,7 +93,7 @@ export default function WisdomTeethCodex() {
         <div ref={imageRef} className="relative w-full max-w-md mx-auto mb-6 p-2 bg-transparent rounded-lg">
           <div className="relative w-full">
             <Image 
-              src="/photos/wisdom/wisdom-teeth-codex.png" 
+              src="/photos/wisdom/wisdom-teeth-codex.jpg" 
               alt="Dental panoramic X-ray with ancient symbols" 
               className="w-full h-auto rounded-lg shadow-lg"
               width={512}

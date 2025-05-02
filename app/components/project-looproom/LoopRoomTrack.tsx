@@ -4,53 +4,54 @@ import clsx from 'clsx'; // Using clsx library for cleaner className merging (in
                         // Or manually merge: `baseClasses ${className || ''}`
 import Image from 'next/image';
 
-type Props = {
+interface Props {
   title: string;
   description?: string;
   src: string;
   thumbnail: string;
-  // --- ADD id and className ---
   id?: string;
-  className?: string; // For scroll-margin or other styling
-};
+  className?: string;
+}
 
 export default function LoopRoomTrack({
   title,
   description,
   src,
   thumbnail,
-  // --- Destructure id and className ---
   id,
   className
 }: Props) {
-  const baseClasses = "my-16 flex flex-col md:flex-row md:items-end md:justify-center md:gap-10 text-left";
-
   return (
-    // --- Apply id and merged className ---
     <section
-      id={id} // Apply the id here
-      className={clsx(baseClasses, className)} // Merge base classes with passed className
-      // Or without clsx: className={`${baseClasses} ${className || ''}`.trim()}
+      id={id}
+      className={clsx(
+        "grid grid-cols-[64px_1fr] gap-3 sm:gap-4 items-start px-3 sm:px-4",
+        className
+      )}
     >
-      <Image
-        src={thumbnail}
-        alt={`${title} cover art`}
-        width={128}
-        height={128}
-        className="w-32 h-32 rounded-md shadow-md object-cover mx-auto md:mx-0"
-      />
-      <div className="flex-1 max-w-xl mt-6 md:mt-0 space-y-2">
-        <h2 className="text-base font-medium text-zinc-800 dark:text-zinc-200">
+      <div className="w-full">
+        <Image
+          src={thumbnail}
+          alt={`${title} cover art`}
+          width={64}
+          height={64}
+          className="w-full aspect-square rounded shadow-sm object-cover"
+        />
+      </div>
+      
+      <div className="w-full min-w-0 space-y-1.5">
+        <h2 className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
           {title}
         </h2>
         <audio
           src={src}
           loop
           controls
-          className="w-full border border-zinc-600/40 rounded-md shadow"
+          controlsList="nodownload noplaybackrate"
+          className="w-full h-[32px] border border-zinc-600/40 rounded shadow-sm [&::-webkit-media-controls-panel]:!bg-white dark:[&::-webkit-media-controls-panel]:!bg-zinc-900 [&::-webkit-media-controls-current-time-display]:hidden [&::-webkit-media-controls-time-remaining-display]:hidden"
         />
         {description && (
-          <p className="text-sm italic text-zinc-500 dark:text-zinc-400 mt-1">
+          <p className="text-xs italic text-zinc-500 dark:text-zinc-400">
             {description}
           </p>
         )}

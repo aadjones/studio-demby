@@ -43,6 +43,7 @@ export default function ZoomImage({
             width={width}
             height={height}
             className="w-full h-auto rounded-lg shadow cursor-zoom-in object-cover"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 800px"
           />
         </Zoom>
         {caption && (

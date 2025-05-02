@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { featureFlags } from "../../config/features";
 
 const clusters = [
   {
@@ -72,6 +73,9 @@ export default function FloatingClusterNav() {
     setTimeout(() => el.classList.remove("animated"), 150);
   };
 
+  // If the feature is disabled, don't render anything
+  if (!featureFlags.showFloatingClusterNav) return null;
+
   return (
     <div
       className={`fixed top-4 right-4 z-50 transition-opacity duration-300 pointer-events-none ${
@@ -79,7 +83,7 @@ export default function FloatingClusterNav() {
       }`}
     >
       <div className="bg-white/90 dark:bg-black/80 border border-zinc-300 dark:border-zinc-700 rounded-xl px-4 py-2 shadow-lg backdrop-blur-md">
-        <div className="flex space-x-4 text-sm">
+        <div className="flex flex-wrap gap-3 text-sm">
           {clusters.map(({ path, name, className }) => {
             const isActive = pathname.startsWith(path);
             const isErrant = path === "/errant";
@@ -90,7 +94,7 @@ export default function FloatingClusterNav() {
                 href={path}
                 ref={isErrant ? errantRef : undefined}
                 onMouseEnter={isErrant ? handleErrantHover : undefined}
-                className={`relative ${className ?? ""} ${
+                className={`relative whitespace-nowrap ${className ?? ""} ${
                   isActive ? "font-semibold underline" : ""
                 }`}
                 style={
