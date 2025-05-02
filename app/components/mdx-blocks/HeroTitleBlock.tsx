@@ -9,7 +9,7 @@ export default function HeroTitleBlock({
   }) {
     return (
       <section className="text-center my-8 sm:my-12">
-        <h1 className="text-3xl sm:text-4xl font-bold mb-2 tracking-tight">{title}</h1>
+        <h1 className="text-2xl sm:text-4xl font-bold mb-2 tracking-tight">{title}</h1>
         {subtitle && (
           <p className="italic text-base sm:text-lg text-gray-600 dark:text-gray-400">
             {subtitle}
