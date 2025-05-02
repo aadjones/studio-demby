@@ -33,23 +33,10 @@ import { rustVeilPreset } from "@/lib/data/firePresets";
 
 <SectionNav />
 
-<h2 id="overview"></h2>
-<ProjectOverview centered>
-*Fire* is a smear of layers.  
-
-This piece emerges from recursive distortion of polygons, accumulating geometry until it flickers like a digital combustion. Two opposing forces bloom into the same space:  
-
-— one searing, one cool
-
-— one dissolving, one devouring
-
-</ProjectOverview>
-
-
 <h2 id="control-panel"></h2>
-<div className="not-prose mt-4">
-  <h2 className="text-3xl font-bold text-center mb-2">Furnace</h2>
-  <div className="flex flex-col md:flex-row gap-8 justify-center">
+<div className="not-prose mt-2">
+  <h2 className="text-3xl font-bold text-center mb-1">Furnace</h2>
+  <div className="flex flex-col md:flex-row gap-2 justify-center">
     <div className="w-full max-w-[240px]">
       <FirePlayground title="Rust Veil" preset={rustVeilPreset} />
     </div>
@@ -69,6 +56,17 @@ This piece emerges from recursive distortion of polygons, accumulating geometry 
     <ZoomImage src="/photos/fire/fire4.png" alt="Fire, Part 4" />
   </div>
 </MediaSection>
+
+<ProjectOverview header={null}>
+*Fire* is a smear of layers.  
+
+This piece emerges from recursive distortion of polygons, accumulating geometry until it flickers like a digital combustion. Two opposing forces bloom into the same space:  
+
+— one searing, one cool
+
+— one dissolving, one devouring
+
+</ProjectOverview>
 
 <FieldNote>
 The algorithm wasn't built to choose sides.

@@ -19,7 +19,6 @@ export default function SectionNav() {
   };
 
   const items = [
-    { label: "What This Is", id: "overview" },
     { label: "Make Your Own!", id: "control-panel" },
     { label: "Gallery", id: "gallery" },
   ];

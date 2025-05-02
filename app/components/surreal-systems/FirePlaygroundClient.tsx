@@ -77,13 +77,13 @@ export default function FirePlaygroundClient({ preset, title }: FirePlaygroundCl
   }, [preset]);
 
   return (
-    <div className="not-prose flex flex-col md:flex-row gap-8 justify-center scale-75">
+    <div className="not-prose flex flex-col md:flex-row gap-1 justify-center scale-75">
       <div className="w-full max-w-[512px]">
-        <section className="mb-12">
-          {title && <h2 className="text-2xl font-semibold mb-4">{title}</h2>}
+        <section className="mb-1">
+          {title && <h2 className="text-xl font-semibold mb-1 leading-tight">{title}</h2>}
           <div
             ref={ref}
-            className="flex flex-col items-center gap-4"
+            className="flex flex-col items-center gap-1"
           >
             {visible && (
               <div className="w-full aspect-square rounded-lg shadow-md overflow-hidden bg-white dark:bg-black">
@@ -100,7 +100,7 @@ export default function FirePlaygroundClient({ preset, title }: FirePlaygroundCl
             )}
             <button
               onClick={handleGenerate}
-              className="mt-2 px-4 py-2 bg-black text-white rounded shadow hover:bg-gray-800"
+              className="mt-0.5 px-2.5 py-1 bg-black text-white rounded shadow hover:bg-gray-800 text-sm"
             >
               Regenerate
             </button>
