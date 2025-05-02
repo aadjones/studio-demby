@@ -159,3 +159,10 @@ table {
 .errant-hover.animated {
   animation: errant-flinch 0.15s ease-out forwards;
 }
+
+/* Hide synth controls below md breakpoint as a fallback */
+@media (max-width: 767px) {
+  .synth-controls {
+    display: none !important;
+  }
+}

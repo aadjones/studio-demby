@@ -26,11 +26,13 @@ export default function HeroCarouselBlock({
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'center',
     containScroll: 'trimSnaps',
-    dragFree: true
+    dragFree: true,
+    loop: true
   });
 
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [loaded, setLoaded] = useState(false);
+  // Per-image loaded state
+  const [loadedArr, setLoadedArr] = useState<boolean[]>(() => imageList.map(() => false));
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
@@ -39,19 +41,25 @@ export default function HeroCarouselBlock({
 
   useEffect(() => {
     if (!emblaApi) return;
-    
     onSelect();
     emblaApi.on('select', onSelect);
-    
     return () => {
       emblaApi.off('select', onSelect);
     };
   }, [emblaApi, onSelect]);
 
-  // Reset fade animation on image index change
+  // Reset loadedArr if imageList changes (e.g. on prop change)
   useEffect(() => {
-    setLoaded(false);
-  }, [selectedIndex]);
+    setLoadedArr(imageList.map(() => false));
+  }, [imageList.length]);
+
+  const handleImageLoad = (i: number) => {
+    setLoadedArr(prev => {
+      const next = [...prev];
+      next[i] = true;
+      return next;
+    });
+  };
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
@@ -84,9 +92,9 @@ export default function HeroCarouselBlock({
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 1024px"
                       className={`object-cover transition-opacity duration-500 ease-in-out ${
-                        loaded ? "opacity-100" : "opacity-0"
+                        loadedArr[i] ? "opacity-100" : "opacity-0"
                       }`}
-                      onLoad={() => setLoaded(true)}
+                      onLoad={() => handleImageLoad(i)}
                       priority={i === 0}
                       loading={i === 0 ? "eager" : "lazy"}
                       quality={75}

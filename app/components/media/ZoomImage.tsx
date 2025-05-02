@@ -9,6 +9,7 @@ interface ZoomImageProps {
   alt: string;
   caption?: string;
   className?: string;
+  captionClassName?: string;
   width?: number;
   height?: number;
   rotateDeg?: number; // ← Add this!
@@ -19,6 +20,7 @@ export default function ZoomImage({
   alt, 
   caption, 
   className = "",
+  captionClassName = "",
   width = 800,
   height = 600,
   rotateDeg = 0, // ← Default to no rotation
@@ -47,7 +49,7 @@ export default function ZoomImage({
           />
         </Zoom>
         {caption && (
-          <figcaption className="mt-2 text-sm text-gray-500 italic text-center max-w-md">
+          <figcaption className={clsx("mt-2 text-sm text-gray-500 italic text-center max-w-md", captionClassName)}>
             {caption}
           </figcaption>
         )}
