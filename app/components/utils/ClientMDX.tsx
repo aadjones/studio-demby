@@ -1,7 +1,7 @@
 "use client";
 
 import { MDXRemote, type MDXRemoteSerializeResult } from "next-mdx-remote";
-import Image from "next/image";
+import MDXImage from "../media/MDXImage";
 
 // Components
 import { YouTubeComponent } from "../media/YouTube";
@@ -50,7 +50,7 @@ type ClientMDXProps = {
 // Custom component map
 const baseComponents = {
   p: "p",
-  Image,
+  Image: MDXImage,
   YouTube: YouTubeComponent,
   SoundCloudEmbed,
   Callout,

@@ -98,6 +98,7 @@ export default async function ProjectPage({ params }: Props) {
                 height={720}
                 className="rounded-lg object-cover mx-auto max-w-md w-full"
                 priority
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 720px"
               />
             )}
             {project.frontMatter.title && <h1 className="text-3xl font-bold">{project.frontMatter.title}</h1>}

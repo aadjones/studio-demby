@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import Image from "next/image";
 
 interface TracklistLink {
   id: string;
@@ -35,6 +36,7 @@ export default function HeroBlock({
   const [showControls, setShowControls] = useState(true);
   const hideControlsTimer = useRef<NodeJS.Timeout | null>(null);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [posterLoaded, setPosterLoaded] = useState(false);
 
   const togglePlayback = () => {
     const video = videoRef.current;
@@ -92,9 +94,21 @@ export default function HeroBlock({
             ref={containerRef}
             className="relative w-full aspect-square bg-black rounded-lg sm:rounded-xl overflow-hidden group"
           >
+            {/* Optimized poster image */}
+            <div className={`absolute inset-0 transition-opacity duration-300 ${posterLoaded ? 'opacity-0' : 'opacity-100'}`}>
+              <Image
+                src={poster}
+                alt="Video poster"
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
+                className="object-cover"
+                priority
+                onLoad={() => setPosterLoaded(true)}
+              />
+            </div>
+
             <video
               ref={videoRef}
-              poster={poster}
               className="w-full h-full object-cover [&::-webkit-media-controls-panel]:!bg-black/60 [&::-webkit-media-controls-current-time-display]:hidden [&::-webkit-media-controls-time-remaining-display]:hidden"
               playsInline
               controls

@@ -8,14 +8,21 @@ import useEmblaCarousel from 'embla-carousel-react';
 interface HeroCarouselBlockProps {
   title?: string;
   subtitle?: string;
-  images: string[];
+  images?: string[];
+  frontmatter?: {
+    images?: string[];
+  };
 }
 
 export default function HeroCarouselBlock({
   title,
   subtitle,
   images = [],
+  frontmatter = {},
 }: HeroCarouselBlockProps) {
+  // Use images from props or fallback to frontmatter
+  const imageList = images.length > 0 ? images : (frontmatter.images || []);
+
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'center',
     containScroll: 'trimSnaps',
@@ -49,7 +56,7 @@ export default function HeroCarouselBlock({
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
-  if (!images.length) return null;
+  if (!imageList.length) return null;
 
   return (
     <section className="text-center mt-0 mb-6">
@@ -64,7 +71,7 @@ export default function HeroCarouselBlock({
         {/* Carousel Container */}
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex">
-            {images.map((image, i) => (
+            {imageList.map((image, i) => (
               <div 
                 key={i}
                 className="flex-[0_0_100%] min-w-0 pl-4 relative"
@@ -109,7 +116,7 @@ export default function HeroCarouselBlock({
 
         {/* Touch indicator for mobile */}
         <div className="sm:hidden absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
-          {images.map((_, i) => (
+          {imageList.map((_, i) => (
             <div
               key={i}
               className={`w-2 h-2 rounded-full transition-colors ${
