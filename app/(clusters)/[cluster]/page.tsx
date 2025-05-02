@@ -1,6 +1,7 @@
 import { getAllProjects } from "@/lib/content/projects-loader";
 import Link from "next/link";
 import Image from "next/image";
+import ProjectCarousel from "@/app/components/carousel/ProjectCarousel";
 
 type Props = {
   params: {
@@ -19,12 +20,12 @@ export default async function ClusterLandingPage({ params }: Props) {
   const projects = await getAllProjects();
   const cluster = params.cluster;
   const filtered = projects
-  .filter((p) => p.cluster === cluster)
-  .sort((a, b) => {
-    const orderA = Number(a.clusterOrder) ?? 999;
-    const orderB = Number(b.clusterOrder) ?? 999;
-    return orderA - orderB;
-  });
+    .filter((p) => p.cluster === cluster)
+    .sort((a, b) => {
+      const orderA = Number(a.clusterOrder) ?? 999;
+      const orderB = Number(b.clusterOrder) ?? 999;
+      return orderA - orderB;
+    });
   const description = clusterDescriptions[cluster] ?? "";
 
   return (
@@ -32,20 +33,33 @@ export default async function ClusterLandingPage({ params }: Props) {
       <h1 className="text-4xl font-bold mb-4 capitalize">{cluster}</h1>
       <p className="text-lg italic mb-8 text-zinc-600">{description}</p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* Mobile Carousel */}
+      <div className="sm:hidden -mx-4">
+        <ProjectCarousel 
+          projects={filtered}
+          imageSize="large"
+          showDots={filtered.length > 1}
+        />
+      </div>
+
+      {/* Desktop Grid */}
+      <div className="hidden sm:grid grid-cols-2 lg:grid-cols-3 gap-8">
         {filtered.map((project) => (
           <Link key={project.slug} href={`/${cluster}/${project.slug}`}>
             <div className="group">
               {project.image && (
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  width={400}
-                  height={400}
-                  className="rounded-md object-cover group-hover:opacity-90"
-                />
+                <div className="aspect-square relative rounded-xl overflow-hidden">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                  />
+                </div>
               )}
-              <h2 className="mt-4 text-xl font-medium">{project.title}</h2>
+              <h2 className="mt-4 text-xl font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                {project.title}
+              </h2>
               <p className="italic text-gray-600">{project.summary}</p>
             </div>
           </Link>

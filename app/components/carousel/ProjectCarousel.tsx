@@ -6,11 +6,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 
-interface FeaturedCarouselProps {
+interface ProjectCarouselProps {
   projects: MDXProject[];
+  imageSize?: 'normal' | 'large';
+  showDots?: boolean;
 }
 
-export default function FeaturedCarousel({ projects }: FeaturedCarouselProps) {
+export default function ProjectCarousel({ 
+  projects,
+  imageSize = 'normal',
+  showDots = true
+}: ProjectCarouselProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'start',
     containScroll: 'trimSnaps',
@@ -35,6 +41,9 @@ export default function FeaturedCarousel({ projects }: FeaturedCarouselProps) {
     };
   }, [emblaApi, onSelect]);
 
+  // Always use square aspect ratio
+  const imageSizeClasses = 'aspect-square';
+
   return (
     <div className="relative">
       <div className="overflow-hidden" ref={emblaRef}>
@@ -47,7 +56,7 @@ export default function FeaturedCarousel({ projects }: FeaturedCarouselProps) {
               <Link href={`/${project.cluster}/${project.slug}`}>
                 <div className="mr-4">
                   {project.image && (
-                    <div className="aspect-square relative rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-900">
+                    <div className={`relative rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-900 ${imageSizeClasses}`}>
                       <Image
                         src={project.image}
                         alt={project.title}
@@ -67,20 +76,22 @@ export default function FeaturedCarousel({ projects }: FeaturedCarouselProps) {
       </div>
 
       {/* Dots */}
-      <div className="flex justify-center gap-2 mt-4">
-        {projects.map((_, index) => (
-          <button
-            key={index}
-            className={`w-2 h-2 rounded-full transition-colors ${
-              index === selectedIndex 
-                ? 'bg-gray-800 dark:bg-gray-200' 
-                : 'bg-gray-300 dark:bg-gray-700'
-            }`}
-            onClick={() => emblaApi?.scrollTo(index)}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
+      {showDots && projects.length > 1 && (
+        <div className="flex justify-center gap-2 mt-4">
+          {projects.map((_, index) => (
+            <button
+              key={index}
+              className={`w-2 h-2 rounded-full transition-colors ${
+                index === selectedIndex 
+                  ? 'bg-gray-800 dark:bg-gray-200' 
+                  : 'bg-gray-300 dark:bg-gray-700'
+              }`}
+              onClick={() => emblaApi?.scrollTo(index)}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 } 

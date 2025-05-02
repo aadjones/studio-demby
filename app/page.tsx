@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getAllProjects } from "@/lib/content/projects-loader";
 import { MDXProject } from "@/types/mdx";
-import FeaturedCarousel from "./components/carousel/FeaturedCarousel";
+import ProjectCarousel from "./components/carousel/ProjectCarousel";
 
 export default async function HomePage() {
   const projects = await getAllProjects();
@@ -28,7 +28,7 @@ export default async function HomePage() {
       
       {/* Mobile Carousel */}
       <div className="sm:hidden -mx-4">
-        <FeaturedCarousel projects={featuredProjects} />
+        <ProjectCarousel projects={featuredProjects} />
       </div>
 
       {/* Desktop Grid */}
