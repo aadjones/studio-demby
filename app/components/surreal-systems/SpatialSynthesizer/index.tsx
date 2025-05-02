@@ -15,9 +15,20 @@ const modeList = [
   { key: "manual",      label: "Manual" },
   { key: "gentleWaves", label: "Gentle Waves" },
   { key: "wildRipples", label: "Wild Ripples" },
-  { key: "pulsatingEye",label: "Pulsating Eye" },
+  { key: "pulsatingEye",label: "Pulsing Eye" },
 ] as const;
 type ConcertMode = (typeof modeList)[number]["key"];
+
+// Custom hook for media query
+function useAboveMdBreakpoint() {
+  const [isAbove, setIsAbove] = useState(() => typeof window !== 'undefined' ? window.innerWidth >= 768 : true);
+  useEffect(() => {
+    const onResize = () => setIsAbove(window.innerWidth >= 768);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+  return isAbove;
+}
 
 export default function SpatialSynthesizer() {
   const ref = useRef<HTMLDivElement>(null);
@@ -58,6 +69,11 @@ export default function SpatialSynthesizer() {
     lfoAmplitude: lfoAmplitudeRef,
   });
 
+  const isWide = useAboveMdBreakpoint();
+
+  // Filter modeList for tabs: hide 'Manual' on small screens
+  const visibleModes = isWide ? modeList : modeList.filter(m => m.key !== 'manual');
+
   // lazy‐load canvas
   useEffect(() => {
     if (!ref.current) return;
@@ -80,6 +96,13 @@ export default function SpatialSynthesizer() {
       default:             setLfoMap({});           break;
     }
   }, [concertMode]);
+
+  // If on small screen and manual mode is selected, switch to first available mode
+  useEffect(() => {
+    if (!isWide && concertMode === 'manual') {
+      setConcertMode(visibleModes[0]?.key || 'gentleWaves');
+    }
+  }, [isWide]);
 
   // animate LFOs
   useEffect(() => {
@@ -130,25 +153,25 @@ export default function SpatialSynthesizer() {
             
             {/* ── Canvas & Mode Tabs ── */}
             <div className="md:w-1/2 bg-white rounded-lg p-4 flex flex-col items-center">
-              <div className="w-[360px] h-[360px] rounded-lg overflow-hidden mb-4">
+              <div className="w-full max-w-[360px] aspect-square rounded-lg overflow-hidden mb-4">
                 <P5Container
                   sketch={createSketch(shaderParamsRef)}
-                  width={360}
-                  height={360}
+                  width="100%"
+                  height="100%"
                 />
               </div>
               <Tab.Group
-                selectedIndex={modeList.findIndex(m => m.key === concertMode)}
-                onChange={i => setConcertMode(modeList[i].key)}
+                selectedIndex={visibleModes.findIndex(m => m.key === concertMode)}
+                onChange={i => setConcertMode(visibleModes[i].key)}
                 as="div"
                 className="w-full"
               >
-                <Tab.List className="flex space-x-2 bg-gray-100 rounded-full p-1">
-                  {modeList.map(({ key, label }) => (
+                <Tab.List className="flex space-x-1 bg-gray-100 rounded-full p-0.5">
+                  {visibleModes.map(({ key, label }) => (
                     <Tab
                       key={key}
                       className={({ selected }) =>
-                        `flex-1 text-sm py-1 rounded-full text-center cursor-pointer
+                        `flex-1 text-xs font-mono px-2 py-0.5 rounded-full text-center cursor-pointer transition-all
                          ${selected
                            ? "bg-white text-blue-600 shadow"
                            : "text-gray-600 hover:text-gray-800"}`
@@ -162,29 +185,37 @@ export default function SpatialSynthesizer() {
             </div>
 
             {/* ── 2×2 Slider Groups ── */}
-            <div className="md:w-1/2 bg-white rounded-lg p-4">
-              <div className="grid grid-cols-2 gap-6">
-                {groupsConfig.map(({ title, controls }) => (
-                  <SliderGroup
-                    key={`${title}-${resetTrigger}`}
-                    title={title}
-                    controls={controls}
-                    defaultParams={defaultParams}
-                    paramRanges={paramRanges}
-                    shaderRefs={shaderParamsRef.current}
-                    onParamChange={handleParamChange}
-                    sliderRefs={sliderRefs.current}
-                  />
-                ))}
-              </div>
+            {isWide ? (
+              <div className="md:w-1/2 bg-white rounded-lg p-4 synth-controls">
+                <div className="grid grid-cols-2 gap-6">
+                  {groupsConfig.map(({ title, controls }) => (
+                    <SliderGroup
+                      key={`${title}-${resetTrigger}`}
+                      title={title}
+                      controls={controls}
+                      defaultParams={defaultParams}
+                      paramRanges={paramRanges}
+                      shaderRefs={shaderParamsRef.current}
+                      onParamChange={handleParamChange}
+                      sliderRefs={sliderRefs.current}
+                    />
+                  ))}
+                </div>
 
-              <button
-                onClick={resetAll}
-                className="mt-4 text-xs text-red-500 hover:text-red-700"
-              >
-                Reset All
-              </button>
-            </div>
+                <button
+                  onClick={resetAll}
+                  className="mt-4 text-xs text-red-500 hover:text-red-700"
+                >
+                  Reset All
+                </button>
+              </div>
+            ) : (
+              <div className="w-full flex flex-col items-center justify-center py-8">
+                <div className="text-center text-gray-500 text-sm bg-white bg-opacity-80 rounded-lg px-4 py-3 shadow">
+                  For the full manual controls experience, try this on a desktop or larger screen.
+                </div>
+              </div>
+            )}
 
           </div>
         </div>
