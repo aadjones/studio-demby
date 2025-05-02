@@ -21,21 +21,28 @@ const PLANE_SIZES = [
 
 function FunnySlider({ label, options, value, onChange }) {
   return (
-    <div className="flex flex-col items-start text-sm">
+    <div className="flex flex-col items-start w-full text-sm relative">
       <label className="mb-1 font-medium text-gray-700 dark:text-gray-300">
         {label}
       </label>
-      <select
-        className="w-60 text-sm rounded border border-gray-400 bg-white dark:border-gray-600 dark:bg-gray-800 dark:text-white px-2 py-1 shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-      >
-        {options.map((opt) => (
-          <option key={opt.value} value={opt.value} className="bg-white dark:bg-gray-800">
-            {opt.label}
-          </option>
-        ))}
-      </select>
+      <div className="w-full max-w-[360px] relative">
+        <select
+          className="w-full text-sm rounded-lg border border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800 dark:text-white px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-black appearance-none"
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
+        >
+          {options.map((opt) => (
+            <option key={opt.value} value={opt.value} className="bg-white dark:bg-gray-800">
+              {opt.label}
+            </option>
+          ))}
+        </select>
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+          <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+          </svg>
+        </div>
+      </div>
     </div>
   );
 }
@@ -99,34 +106,19 @@ export default function ShatterPlayground() {
     setTriggerRender(prev => prev + 1);
   }, [numPlanes, planeSize]);
 
-  if (isMobile) {
-    return (
-      <section id="playground" className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4 text-left w-full">Control Panel</h2>
-        <div className="flex flex-col items-center justify-center p-8 bg-gray-50 dark:bg-gray-900 rounded-lg">
-          <div className="text-center max-w-md">
-            <h3 className="text-xl font-medium mb-3">Desktop Only Experience</h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
-              Please visit on a desktop computer to experience the full interactive version.
-            </p>
-            <div className="text-sm text-gray-500 dark:text-gray-500">
-              In the meantime, you can explore the gallery below to see some pre-rendered examples.
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
   return (
     <section id="playground" className="mb-12">
       <h2 className="text-2xl font-semibold mb-4 text-left w-full">Control Panel</h2>
       <div ref={ref} className="flex flex-col sm:flex-row sm:items-start sm:justify-center gap-8 w-full max-w-5xl">
         {visible && sketchRef.current && (
-          <P5Container
-            key={triggerRender}
-            sketch={sketchRef.current}
-          />
+          <div className="w-full sm:w-[512px] aspect-square rounded-lg shadow-md overflow-hidden bg-white dark:bg-black">
+            <P5Container
+              key={triggerRender}
+              sketch={sketchRef.current}
+              width="100%"
+              height="100%"
+            />
+          </div>
         )}
         <div className="flex flex-col gap-4">
           <FunnySlider
@@ -180,31 +172,29 @@ function shatterSketch(p, parent, { numPlanes, planeSize }) {
     if (numPlanes === 1) {
       p.resetShader();
       p.fill(200);
+      p.push();
+      p.translate(0, 0, 0);
+      p.rotateX(p.PI * p.random(0.12, 0.18));
+      p.rotateY(p.PI * p.random(0.08, 0.12));
+      p.rotateZ(p.PI * p.random(0.03, 0.07));
+      p.plane(planeSize, planeSize);
+      p.pop();
     } else {
       p.shader(shaderProgram);
       p.directionalLight(255, 255, 255, 1, 1, 0);
       shaderProgram.setUniform("uTime", timeOffset);
       shaderProgram.setUniform("uAmplitude", amplitude);
       shaderProgram.setUniform("uNoiseScale", noiseScale);
-    }
 
-    for (let i = 0; i < numPlanes; i++) {
-      p.push();
-
-      if (numPlanes === 1) {
-        p.translate(0, 0, 0);
-        p.rotateX(0);
-        p.rotateY(0);
-        p.rotateZ(0);
-      } else {
+      for (let i = 0; i < numPlanes; i++) {
+        p.push();
         p.translate(p.random(-300, 300), p.random(-300, 300), p.random(-300, 300));
         p.rotateX(p.random(p.TWO_PI));
         p.rotateY(p.random(p.TWO_PI));
         p.rotateZ(p.random(p.TWO_PI));
+        p.plane(planeSize, planeSize);
+        p.pop();
       }
-
-      p.plane(planeSize, planeSize);
-      p.pop();
     }
   };
 }

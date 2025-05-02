@@ -8,7 +8,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 interface ProjectCarouselProps {
   projects: MDXProject[];
-  imageSize?: 'normal' | 'large';
+  imageSize?: 'small' | 'normal' | 'large';
   showDots?: boolean;
 }
 
@@ -41,17 +41,39 @@ export default function ProjectCarousel({
     };
   }, [emblaApi, onSelect]);
 
-  // Always use square aspect ratio
-  const imageSizeClasses = 'aspect-square';
+  // Size classes based on imageSize prop
+  const containerSizeClasses = {
+    small: 'flex-[0_0_60%]',
+    normal: 'flex-[0_0_85%]',
+    large: 'flex-[0_0_95%]'
+  }[imageSize];
+
+  // Text size classes based on imageSize prop
+  const titleSizeClasses = {
+    small: 'text-base',
+    normal: 'text-lg',
+    large: 'text-xl'
+  }[imageSize];
+
+  const summarySizeClasses = {
+    small: 'text-xs',
+    normal: 'text-sm',
+    large: 'text-base'
+  }[imageSize];
+
+  // Always use square aspect ratio with padding options
+  const imageSizeClasses = imageSize === 'small' 
+    ? 'aspect-square px-2 py-1' 
+    : 'aspect-square';
 
   return (
-    <div className="relative">
+    <div className="relative mb-6">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {projects.map((project) => (
             <div 
               key={project.slug}
-              className="flex-[0_0_85%] min-w-0 pl-4 relative"
+              className={`${containerSizeClasses} min-w-0 pl-4 relative`}
             >
               <Link href={`/${project.cluster}/${project.slug}`}>
                 <div className="mr-4">
@@ -66,8 +88,8 @@ export default function ProjectCarousel({
                       />
                     </div>
                   )}
-                  <h3 className="text-lg font-bold mt-3">{project.title}</h3>
-                  <p className="text-sm italic text-gray-500">{project.summary}</p>
+                  <h3 className={`${titleSizeClasses} font-bold mt-3`}>{project.title}</h3>
+                  <p className={`${summarySizeClasses} italic text-gray-500`}>{project.summary}</p>
                 </div>
               </Link>
             </div>
