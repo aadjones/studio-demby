@@ -47,6 +47,17 @@ export default function ShatterPlayground() {
   const sketchRef = useRef<((p: any, parent: any) => void) | null>(null);
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Check if we're on mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -87,6 +98,25 @@ export default function ShatterPlayground() {
 
     setTriggerRender(prev => prev + 1);
   }, [numPlanes, planeSize]);
+
+  if (isMobile) {
+    return (
+      <section id="playground" className="mb-12">
+        <h2 className="text-2xl font-semibold mb-4 text-left w-full">Control Panel</h2>
+        <div className="flex flex-col items-center justify-center p-8 bg-gray-50 dark:bg-gray-900 rounded-lg">
+          <div className="text-center max-w-md">
+            <h3 className="text-xl font-medium mb-3">Desktop Only Experience</h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
+              Please visit on a desktop computer to experience the full interactive version.
+            </p>
+            <div className="text-sm text-gray-500 dark:text-gray-500">
+              In the meantime, you can explore the gallery below to see some pre-rendered examples.
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="playground" className="mb-12">
