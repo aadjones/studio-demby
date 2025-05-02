@@ -19,13 +19,16 @@ export default function MovementBlock({
 }) {
   return (
     <section id={id} className="my-8 sm:my-12 scroll-mt-16 sm:scroll-mt-20">
-      {description && (
-        <div className="text-center mb-6 px-3 sm:px-4">
-          <p className="italic text-sm text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto">
+      <div className="text-center mb-6 px-3 sm:px-4">
+        <h2 className="text-base sm:text-lg md:text-xl font-medium text-zinc-800 dark:text-zinc-200 mb-2">
+          {title}
+        </h2>
+        {description && (
+          <p className="italic text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto">
             {description}
           </p>
-        </div>
-      )}
+        )}
+      </div>
 
       <div className="space-y-6 sm:space-y-8 max-w-3xl mx-auto">
         {tracks.map((track) => (

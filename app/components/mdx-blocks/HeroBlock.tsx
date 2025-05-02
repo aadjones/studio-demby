@@ -180,14 +180,14 @@ export default function HeroBlock({
                     <a
                       key={link.id}
                       href={`#${link.id}`}
-                      className="flex items-center px-1.5 py-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800/50 transition-all duration-200 group"
+                      className="flex items-center px-1 py-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800/50 transition-all duration-200 group"
                       onClick={(e) => {
                         e.preventDefault();
                         const el = document.getElementById(link.id);
                         if (el) el.scrollIntoView({ behavior: "smooth" });
                       }}
                     >
-                      <span className="flex-1 text-sm text-zinc-700 dark:text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 underline decoration-zinc-400/50 dark:decoration-zinc-600/50 group-hover:decoration-zinc-500 dark:group-hover:decoration-zinc-400">
+                      <span className="flex-1 text-[11px] sm:text-sm text-zinc-700 dark:text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 underline decoration-zinc-400/50 dark:decoration-zinc-600/50 group-hover:decoration-zinc-500 dark:group-hover:decoration-zinc-400">
                         {link.label}
                       </span>
                       <span className="ml-2 text-zinc-400 dark:text-zinc-600 group-hover:text-zinc-600 dark:group-hover:text-zinc-400">
