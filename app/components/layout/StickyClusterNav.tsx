@@ -79,7 +79,7 @@ export default function FloatingClusterNav() {
       }`}
     >
       <div className="bg-white/90 dark:bg-black/80 border border-zinc-300 dark:border-zinc-700 rounded-xl px-4 py-2 shadow-lg backdrop-blur-md">
-        <div className="flex space-x-4 text-sm">
+        <div className="flex flex-wrap gap-3 text-sm">
           {clusters.map(({ path, name, className }) => {
             const isActive = pathname.startsWith(path);
             const isErrant = path === "/errant";
@@ -90,7 +90,7 @@ export default function FloatingClusterNav() {
                 href={path}
                 ref={isErrant ? errantRef : undefined}
                 onMouseEnter={isErrant ? handleErrantHover : undefined}
-                className={`relative ${className ?? ""} ${
+                className={`relative whitespace-nowrap ${className ?? ""} ${
                   isActive ? "font-semibold underline" : ""
                 }`}
                 style={
