@@ -83,7 +83,7 @@ export function Navbar() {
             {metaData.title}
           </Link>
         </div>
-        <div className="flex flex-wrap gap-3 sm:gap-4 mt-6 sm:mt-0 sm:ml-auto items-center">
+        <div className="flex flex-wrap gap-2 sm:gap-4 mt-6 sm:mt-0 sm:ml-auto items-center">
           {Object.entries(allNavItems).map(([path, item]) => {
             const { className } = item;
             const isActive = pathname.startsWith(path);
@@ -97,7 +97,7 @@ export function Navbar() {
                 href={path}
                 ref={isErrant ? errantRef : undefined}
                 onMouseEnter={isErrant ? handleErrantHover : undefined}
-                className={`flex align-middle relative whitespace-nowrap text-[15px] sm:text-base ${className ?? ""} ${
+                className={`flex align-middle relative whitespace-nowrap text-[13px] sm:text-[15px] ${className ?? ""} ${
                   isActive ? "font-semibold underline" : ""
                 }`}
                 style={

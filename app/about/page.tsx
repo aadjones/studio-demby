@@ -5,17 +5,17 @@ import GalleryOfLies from "@/app/components/surreal-systems/GalleryOfLies";
 
 export default function AboutPage() {
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-      <h1 className="text-3xl sm:text-4xl font-bold mb-6">About Me</h1>
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-12">
+      <h1 className="text-2xl sm:text-4xl font-bold mb-4 sm:mb-6">About Me</h1>
       <div className="flex flex-col items-center sm:items-start">
         <Image
           src="/photos/about/profile.png"
           alt="Aaron Demby Jones"
-          width={160}
-          height={160}
-          className="rounded-full mb-6 sm:mb-8 w-[160px] sm:w-[200px] h-[160px] sm:h-[200px]"
+          width={140}
+          height={140}
+          className="rounded-full mb-4 sm:mb-8 w-[140px] sm:w-[200px] h-[140px] sm:h-[200px]"
         />
-        <div className="space-y-4 text-base sm:text-lg">
+        <div className="space-y-3 sm:space-y-4 text-sm sm:text-lg">
           <p>
             I build systems that sing. Sometimes they melt. Sometimes they loop forever. 
           </p>
@@ -36,7 +36,7 @@ export default function AboutPage() {
           </p>
         </div>
       </div>
-      <div className="mt-8 sm:mt-12">
+      <div className="mt-6 sm:mt-12">
         <GalleryOfLies prompt="Lie to me" />
       </div>
     </div>

@@ -30,7 +30,17 @@ export default function P5Container({ sketch, width = 600, height = 600 }: {
           originalSetup();
           const container = ref.current;
           if (container) {
-            p.createCanvas(container.clientWidth, container.clientWidth, p.WEBGL);
+            const size = Math.min(container.clientWidth, container.clientHeight);
+            p.createCanvas(size, size, p.WEBGL);
+          }
+        };
+
+        // Add window resize handler
+        p.windowResized = () => {
+          const container = ref.current;
+          if (container) {
+            const size = Math.min(container.clientWidth, container.clientHeight);
+            p.resizeCanvas(size, size);
           }
         };
 

@@ -29,15 +29,15 @@ export default async function ClusterLandingPage({ params }: Props) {
   const description = clusterDescriptions[cluster] ?? "";
 
   return (
-    <main className="px-4 py-8">
-      <h1 className="text-4xl font-bold mb-4 capitalize">{cluster}</h1>
-      <p className="text-lg italic mb-8 text-zinc-600">{description}</p>
+    <main className="px-4 py-6 sm:py-8 pb-0">
+      <h1 className="text-3xl sm:text-4xl font-bold mb-2 sm:mb-4 capitalize">{cluster}</h1>
+      <p className="text-base sm:text-lg italic mb-6 sm:mb-8 text-zinc-600">{description}</p>
 
       {/* Mobile Carousel */}
-      <div className="sm:hidden -mx-4">
+      <div className="sm:hidden -mx-4 mb-0">
         <ProjectCarousel 
           projects={filtered}
-          imageSize="large"
+          imageSize="small"
           showDots={filtered.length > 1}
         />
       </div>
