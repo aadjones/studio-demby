@@ -3,9 +3,10 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { metaData } from "../../config";
+import { featureFlags } from "../../config/features";
 import { JSX, useRef } from "react";
 
-const navItems: Record<
+const clusterNavItems: Record<
   string,
   { name: string | JSX.Element; className?: string }
 > = {
@@ -43,6 +44,12 @@ const navItems: Record<
     className:
       "hover:text-zinc-600 hover:tracking-tighter hover:opacity-80",
   },
+};
+
+const navItems: Record<
+  string,
+  { name: string | JSX.Element; className?: string }
+> = {
   "/about": {
     name: "About",
     className: "hover:text-neutral-600",
@@ -64,6 +71,10 @@ export function Navbar() {
     setTimeout(() => el.classList.remove("animated"), 150);
   };
 
+  const allNavItems = featureFlags.showClusterNav 
+    ? { ...clusterNavItems, ...navItems }
+    : navItems;
+
   return (
     <nav className="lg:mb-16 mb-12 py-5">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between">
@@ -73,7 +84,7 @@ export function Navbar() {
           </Link>
         </div>
         <div className="flex flex-wrap gap-3 sm:gap-4 mt-6 sm:mt-0 sm:ml-auto items-center">
-          {Object.entries(navItems).map(([path, item]) => {
+          {Object.entries(allNavItems).map(([path, item]) => {
             const { className } = item;
             const isActive = pathname.startsWith(path);
             const isErrant = path === "/errant";

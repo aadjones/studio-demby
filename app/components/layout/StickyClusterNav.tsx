@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { featureFlags } from "../../config/features";
 
 const clusters = [
   {
@@ -71,6 +72,9 @@ export default function FloatingClusterNav() {
     el.style.setProperty("--r", `${(Math.random() - 0.5) * 6}deg`);
     setTimeout(() => el.classList.remove("animated"), 150);
   };
+
+  // If the feature is disabled, don't render anything
+  if (!featureFlags.showFloatingClusterNav) return null;
 
   return (
     <div
