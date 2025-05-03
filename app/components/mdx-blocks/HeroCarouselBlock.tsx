@@ -12,6 +12,8 @@ interface HeroCarouselBlockProps {
   frontmatter?: {
     images?: string[];
   };
+  dotActiveClass?: string;
+  dotInactiveClass?: string;
 }
 
 export default function HeroCarouselBlock({
@@ -19,6 +21,8 @@ export default function HeroCarouselBlock({
   subtitle,
   images = [],
   frontmatter = {},
+  dotActiveClass = "bg-white",
+  dotInactiveClass = "bg-white/50",
 }: HeroCarouselBlockProps) {
   // Use images from props or fallback to frontmatter
   const imageList = images.length > 0 ? images : (frontmatter.images || []);
@@ -123,14 +127,14 @@ export default function HeroCarouselBlock({
         </button>
 
         {/* Touch indicator for mobile */}
-        <div className="sm:hidden absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+        <div className="sm:hidden absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-50">
           {imageList.map((_, i) => (
             <div
               key={i}
-              className={`w-2 h-2 rounded-full transition-colors ${
+              className={`w-3 h-3 rounded-full transition-colors border border-zinc-200 ${
                 i === selectedIndex
-                  ? "bg-white"
-                  : "bg-white/50"
+                  ? dotActiveClass
+                  : dotInactiveClass
               }`}
             />
           ))}
