@@ -102,7 +102,7 @@ export default function SpatialSynthesizer() {
     if (!isWide && concertMode === 'manual') {
       setConcertMode(visibleModes[0]?.key || 'gentleWaves');
     }
-  }, [isWide]);
+  }, [isWide, concertMode, visibleModes]);
 
   // animate LFOs
   useEffect(() => {

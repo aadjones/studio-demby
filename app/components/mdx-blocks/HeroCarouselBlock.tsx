@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import useEmblaCarousel from 'embla-carousel-react';
 
@@ -25,7 +25,10 @@ export default function HeroCarouselBlock({
   dotInactiveClass = "bg-white/50",
 }: HeroCarouselBlockProps) {
   // Use images from props or fallback to frontmatter
-  const imageList = images.length > 0 ? images : (frontmatter.images || []);
+  const imageList = useMemo(() => 
+    images.length > 0 ? images : (frontmatter.images || []),
+    [images, frontmatter.images]
+  );
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'center',
@@ -55,7 +58,7 @@ export default function HeroCarouselBlock({
   // Reset loadedArr if imageList changes (e.g. on prop change)
   useEffect(() => {
     setLoadedArr(imageList.map(() => false));
-  }, [imageList.length]);
+  }, [imageList]);
 
   const handleImageLoad = (i: number) => {
     setLoadedArr(prev => {
