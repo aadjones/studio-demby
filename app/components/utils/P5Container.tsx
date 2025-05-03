@@ -1,10 +1,16 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 
-export default function P5Container({ sketch, width = 600, height = 600 }: { 
+export default function P5Container({ 
+  sketch, 
+  width = "100%", 
+  height = "100%",
+  className = "" 
+}: { 
   sketch: any;
   width?: number | string;
   height?: number | string;
+  className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -22,30 +28,38 @@ export default function P5Container({ sketch, width = 600, height = 600 }: {
 
     // Create p5 instance
     const instance: any = new (window as any).p5((p: any) => {
+      // Store original methods
+      let originalSetup: () => void;
+      let originalWindowResized: () => void;
+
       // Wrap the sketch to ensure proper sizing
       const wrappedSketch = (p: any) => {
-        // Override setup to ensure canvas size matches container
-        const originalSetup = p.setup || (() => {});
+        // Call the original sketch to get its methods
+        sketch(p, ref.current);
+
+        // Store original methods
+        originalSetup = p.setup || (() => {});
+        originalWindowResized = p.windowResized || (() => {});
+
+        // Override setup
         p.setup = () => {
-          originalSetup();
           const container = ref.current;
           if (container) {
             const size = Math.min(container.clientWidth, container.clientHeight);
             p.createCanvas(size, size, p.WEBGL);
           }
+          originalSetup();
         };
 
-        // Add window resize handler
+        // Override windowResized
         p.windowResized = () => {
           const container = ref.current;
           if (container) {
             const size = Math.min(container.clientWidth, container.clientHeight);
             p.resizeCanvas(size, size);
           }
+          originalWindowResized();
         };
-
-        // Call the original sketch
-        sketch(p, ref.current);
       };
       
       return wrappedSketch(p);
@@ -69,6 +83,7 @@ export default function P5Container({ sketch, width = 600, height = 600 }: {
   return (
     <div 
       ref={ref} 
+      className={className}
       style={{ 
         width: typeof width === 'number' ? `${width}px` : width,
         height: typeof height === 'number' ? `${height}px` : height,
