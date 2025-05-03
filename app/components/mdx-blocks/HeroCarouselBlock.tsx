@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import useEmblaCarousel from 'embla-carousel-react';
 
@@ -12,6 +12,8 @@ interface HeroCarouselBlockProps {
   frontmatter?: {
     images?: string[];
   };
+  dotActiveClass?: string;
+  dotInactiveClass?: string;
 }
 
 export default function HeroCarouselBlock({
@@ -19,9 +21,14 @@ export default function HeroCarouselBlock({
   subtitle,
   images = [],
   frontmatter = {},
+  dotActiveClass = "bg-white",
+  dotInactiveClass = "bg-white/50",
 }: HeroCarouselBlockProps) {
   // Use images from props or fallback to frontmatter
-  const imageList = images.length > 0 ? images : (frontmatter.images || []);
+  const imageList = useMemo(() => 
+    images.length > 0 ? images : (frontmatter.images || []),
+    [images, frontmatter.images]
+  );
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'center',
@@ -51,7 +58,7 @@ export default function HeroCarouselBlock({
   // Reset loadedArr if imageList changes (e.g. on prop change)
   useEffect(() => {
     setLoadedArr(imageList.map(() => false));
-  }, [imageList.length]);
+  }, [imageList]);
 
   const handleImageLoad = (i: number) => {
     setLoadedArr(prev => {
@@ -123,14 +130,14 @@ export default function HeroCarouselBlock({
         </button>
 
         {/* Touch indicator for mobile */}
-        <div className="sm:hidden absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+        <div className="sm:hidden absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-50">
           {imageList.map((_, i) => (
             <div
               key={i}
-              className={`w-2 h-2 rounded-full transition-colors ${
+              className={`w-3 h-3 rounded-full transition-colors border border-zinc-200 ${
                 i === selectedIndex
-                  ? "bg-white"
-                  : "bg-white/50"
+                  ? dotActiveClass
+                  : dotInactiveClass
               }`}
             />
           ))}

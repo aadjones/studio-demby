@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from "react";
 
-export default function SectionNav() {
+interface SectionNavProps {
+  customLabel?: string;
+  customId?: string;
+}
+
+export default function SectionNav({ customLabel, customId }: SectionNavProps) {
   const [hasAnimated, setHasAnimated] = useState(true);
 
   useEffect(() => {
@@ -19,7 +24,7 @@ export default function SectionNav() {
   };
 
   const items = [
-    { label: "Make Your Own!", id: "control-panel" },
+    { label: customLabel || "Make Your Own!", id: customId || "control-panel" },
     { label: "Gallery", id: "gallery" },
   ];
 
