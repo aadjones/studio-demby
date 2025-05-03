@@ -3,6 +3,7 @@ import Zoom from "react-medium-image-zoom";
 import 'react-medium-image-zoom/dist/styles.css';
 import Image from 'next/image';
 import clsx from 'clsx';
+import { useState } from 'react';
 
 interface ZoomImageProps {
   src: string;
@@ -12,7 +13,7 @@ interface ZoomImageProps {
   captionClassName?: string;
   width?: number;
   height?: number;
-  rotateDeg?: number; // ← Add this!
+  rotateDeg?: number;
 }
 
 export default function ZoomImage({ 
@@ -21,10 +22,14 @@ export default function ZoomImage({
   caption, 
   className = "",
   captionClassName = "",
-  width = 800,
-  height = 600,
-  rotateDeg = 0, // ← Default to no rotation
+  width = 1200,
+  height = 800,
+  rotateDeg = 0,
 }: ZoomImageProps) {
+  const [naturalWidth, setNaturalWidth] = useState<number>(width);
+  const [naturalHeight, setNaturalHeight] = useState<number>(height);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
   const rotationStyle = {
     transform: `rotate(${rotateDeg}deg)`,
   };
@@ -33,21 +38,37 @@ export default function ZoomImage({
     <div
       className={clsx(
         "transition-transform duration-500 ease-in-out",
-        rotateDeg !== 0 && "hover:rotate-0" // or use a class like hover:rotate-2 if you want more flair
+        rotateDeg !== 0 && "hover:rotate-0"
       )}
       style={rotationStyle}
     >
       <figure className={`flex flex-col items-center ${className}`}>
-        <Zoom>
-          <Image
-            src={src}
-            alt={alt}
-            width={width}
-            height={height}
-            className="w-full h-auto rounded-lg shadow cursor-zoom-in object-cover"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 800px"
-          />
-        </Zoom>
+        <div style={{ maxWidth: '100%', width: 'auto' }}>
+          <Zoom
+            zoomImg={{
+              src: src,
+              alt: alt,
+              width: naturalWidth,
+              height: naturalHeight,
+            }}
+          >
+            <Image
+              src={src}
+              alt={alt}
+              width={width}
+              height={height}
+              className="w-full h-auto rounded-lg shadow cursor-zoom-in object-cover"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 1200px"
+              onLoad={(e) => {
+                const img = e.target as HTMLImageElement;
+                setNaturalWidth(img.naturalWidth);
+                setNaturalHeight(img.naturalHeight);
+                setIsImageLoaded(true);
+              }}
+              priority
+            />
+          </Zoom>
+        </div>
         {caption && (
           <figcaption className={clsx("mt-2 text-sm text-gray-500 italic text-center max-w-md", captionClassName)}>
             {caption}
