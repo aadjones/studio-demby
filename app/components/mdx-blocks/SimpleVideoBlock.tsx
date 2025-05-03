@@ -10,6 +10,7 @@ interface SimpleVideoBlockProps {
   videoSrc: string;
   poster: string;
   className?: string;
+  aspectRatio?: 'square' | 'video';
 }
 
 export default function SimpleVideoBlock({
@@ -19,6 +20,7 @@ export default function SimpleVideoBlock({
   videoSrc,
   poster,
   className,
+  aspectRatio = 'square',
 }: SimpleVideoBlockProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -80,7 +82,7 @@ export default function SimpleVideoBlock({
       <div className="w-full mx-auto">
         <div
           ref={containerRef}
-          className="relative w-full aspect-square bg-black rounded-xl overflow-hidden"
+          className={`relative w-full ${aspectRatio === 'video' ? 'aspect-video' : 'aspect-square'} bg-black rounded-xl overflow-hidden`}
         >
           {/* Optimized poster image */}
           <div className={`absolute inset-0 transition-opacity duration-300 ${posterLoaded ? 'opacity-0' : 'opacity-100'}`}>

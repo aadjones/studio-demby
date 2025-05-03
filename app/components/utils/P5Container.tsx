@@ -5,12 +5,14 @@ export default function P5Container({
   sketch, 
   width = "100%", 
   height = "100%",
-  className = "" 
+  className = "",
+  renderer = "P2D"
 }: { 
   sketch: any;
   width?: number | string;
   height?: number | string;
   className?: string;
+  renderer?: "P2D" | "WEBGL";
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -46,7 +48,11 @@ export default function P5Container({
           const container = ref.current;
           if (container) {
             const size = Math.min(container.clientWidth, container.clientHeight);
-            p.createCanvas(size, size, p.WEBGL);
+            if (renderer === "WEBGL") {
+              p.createCanvas(size, size, p.WEBGL);
+            } else {
+              p.createCanvas(size, size);
+            }
           }
           originalSetup();
         };
@@ -78,7 +84,7 @@ export default function P5Container({
       instance.gui?.destroy();
       instance.remove();
     };
-  }, [sketch, width, height]);
+  }, [sketch, width, height, renderer]);
 
   return (
     <div 
