@@ -43,6 +43,7 @@ export default function EncasedMeltingSphere() {
       const size = Math.min(parent.clientWidth, parent.clientHeight);
       canvas = p.createCanvas(size, size, p.WEBGL);
       canvas.parent(parent);
+      p.camera(0, 0, (size * 4.5), 0, 0, 0, 0, 1, 0);
       lastSwitchTime = p.millis();
     };
 
@@ -65,7 +66,7 @@ export default function EncasedMeltingSphere() {
       p.rotateY(p.TWO_PI * t);
       
       const baseScale = p.width / 600;
-      p.scale(baseScale * p.map(p.sin(p.TWO_PI * t), -1, 1, 2.0, 2.5));
+      p.scale(baseScale * p.map(p.sin(p.TWO_PI * t), -1, 1, 1.5, 2.0));
 
       const timeSinceSwitch = p.millis() - lastSwitchTime;
       const fade = p.constrain(timeSinceSwitch / 1000, 0, 1);
