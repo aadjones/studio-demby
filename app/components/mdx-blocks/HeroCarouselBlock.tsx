@@ -33,7 +33,7 @@ export default function HeroCarouselBlock({
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'center',
     containScroll: 'trimSnaps',
-    dragFree: true,
+    dragFree: false,
     loop: true
   });
 

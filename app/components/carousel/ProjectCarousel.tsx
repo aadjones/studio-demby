@@ -20,7 +20,7 @@ export default function ProjectCarousel({
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'start',
     containScroll: 'trimSnaps',
-    dragFree: true
+    dragFree: false
   });
 
   const [selectedIndex, setSelectedIndex] = useState(0);

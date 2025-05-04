@@ -30,13 +30,13 @@ export default function MediaItem({
           />
         )}
         {youtubeUrl && (
-          <div className="aspect-video">
+          <div className="w-full max-w-xl mx-auto rounded-xl shadow-lg overflow-hidden aspect-[16/9] bg-black">
             <iframe
               src={youtubeUrl}
-              frameBorder="0"
+              title={title}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
-              className="w-full h-full rounded-lg shadow"
+              className="w-full h-full"
             />
           </div>
         )}

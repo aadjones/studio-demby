@@ -32,7 +32,7 @@ export default function WisdomTeethCodex() {
       mythicTrait: "Visible in vision, invisible in war",
       crimes: "Fomenting migraines",
       deathCause: "Betrayed by the second molar",
-      coords: { top: "38%", left: "15%" }
+      coords: { top: "42%", left: "20.5%" }
     },
     {
       id: 16,
@@ -44,7 +44,7 @@ export default function WisdomTeethCodex() {
       mythicTrait: "Holds the line — cannot be moved by mortal floss",
       crimes: "Hoarding calcium",
       deathCause: "Internment by drillwork",
-      coords: { top: "38%", left: "74%" }
+      coords: { top: "43.5%", left: "79.5%" }
     },
     {
       id: 17,
@@ -56,7 +56,7 @@ export default function WisdomTeethCodex() {
       mythicTrait: "Knows not what he presses against",
       crimes: "Pocketing bacteria",
       deathCause: "Crown amputation",
-      coords: { top: "49%", left: "76%" }
+      coords: { top: "53.5%", left: "82%" }
     },
     {
       id: 32,
@@ -68,7 +68,7 @@ export default function WisdomTeethCodex() {
       mythicTrait: "Leans eternally left",
       crimes: "Hygienist bribery",
       deathCause: "Root severance",
-      coords: { top: "49%", left: "12%" }
+      coords: { top: "53.5%", left: "17%" }
     }
   ];
 
@@ -88,40 +88,34 @@ export default function WisdomTeethCodex() {
       <h1 className="text-2xl sm:text-4xl font-bold text-amber-900 mb-1 sm:mb-2 tracking-wider font-serif text-center px-2">
         THE CODEX OF MOLAR WISDOM
       </h1>
-      {!isMobile && (
-        <p className="text-amber-800/80 mb-4 sm:mb-6 text-center font-medium">
-          ~ Click on a tooth marker to reveal its ancient wisdom ~
-        </p>
-      )}
       <div className="w-full rounded-t-2xl sm:rounded-t-3xl rounded-b-2xl sm:rounded-b-3xl px-2 sm:px-8 py-6 sm:py-12 font-serif relative bg-gradient-to-b from-amber-50 via-amber-100/70 to-amber-50 shadow-[inset_0_0_30px_rgba(217,119,6,0.1)] border-l border-r border-amber-200/50">
-        <div ref={imageRef} className="relative w-full max-w-md mx-auto mb-4 sm:mb-6 p-2 bg-transparent rounded-lg">
+        <div className="relative w-full max-w-md mx-auto mb-4 sm:mb-6">
           <div className="relative w-full">
-            <Image 
-              src="/photos/wisdom/wisdom-teeth-codex.jpg" 
-              alt="Dental panoramic X-ray with ancient symbols" 
-              className="w-full h-auto rounded-lg shadow-lg"
+            <Image
+              src="/photos/wisdom/wisdom-teeth-codex.jpg"
+              alt="Dental panoramic X‑ray"
+              className="block w-full h-auto select-none"
               width={512}
               height={512}
               priority
             />
             {teeth.map((tooth) => (
-              <div 
+              <button
                 key={tooth.id}
                 onClick={() => handleToothClick(tooth.id)}
-                className="absolute rounded-full cursor-pointer border border-amber-400/60 flex items-center justify-center"
+                className="absolute flex items-center justify-center rounded-full ring-2 ring-amber-400/60 border-2 border-amber-300 bg-amber-200/40 transition-transform hover:scale-110 animate-pulseRing"
                 style={{
                   top: tooth.coords.top,
                   left: tooth.coords.left,
-                  width: isMobile ? '10vw' : '8vw',
-                  height: isMobile ? '10vw' : '8vw',
-                  maxWidth: '40px',
-                  maxHeight: '40px',
-                  animation: 'pulseRing 3s infinite',
-                  backgroundColor: 'transparent'
+                  width: '10%',
+                  aspectRatio: '1 / 1',
+                  translate: '-50% -50%'
                 }}
               >
-                <span className="text-amber-200 text-xs font-bold">{tooth.id}</span>
-              </div>
+                <span className="text-[clamp(8px,2vw,14px)] font-bold text-amber-200">
+                  {tooth.id}
+                </span>
+              </button>
             ))}
           </div>
         </div>
@@ -134,44 +128,54 @@ export default function WisdomTeethCodex() {
         </div>
 
         {selectedTooth && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
-            <div className="bg-gradient-to-b from-amber-50 via-amber-100/80 to-amber-50 max-w-2xl w-full rounded-lg shadow-2xl overflow-hidden border border-amber-300/50">
-              <div className="bg-gradient-to-r from-amber-800 to-amber-700 p-3 sm:p-4 flex justify-between items-center">
-                <h2 className="text-lg sm:text-xl font-bold text-amber-50">
+          <div
+            className={`fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4 ${isMobile ? 'items-end' : ''}`}
+          >
+            <div
+              className={`bg-gradient-to-b from-amber-50 via-amber-100/80 to-amber-50 w-full max-w-2xl rounded-lg shadow-2xl overflow-hidden border border-amber-300/50
+                ${isMobile ? 'rounded-b-none rounded-t-2xl max-w-full w-full mb-0' : ''}
+              `}
+              style={isMobile ? { maxHeight: '80vh', minHeight: '40vh', height: 'auto' } : {}}
+            >
+              <div
+                className={`bg-gradient-to-r from-amber-800 to-amber-700 p-3 sm:p-4 flex justify-between items-center ${isMobile ? 'sticky top-0 z-10' : ''}`}
+                style={isMobile ? { borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem' } : {}}
+              >
+                <h2 className={`font-bold text-amber-50 ${isMobile ? 'text-base' : 'text-lg sm:text-xl'}`}>
                   {selectedTooth.name} <span className="font-normal text-amber-200">({selectedTooth.position})</span>
                 </h2>
-                <button onClick={closeModal} className="text-amber-200 hover:text-amber-50 transition-colors">
-                  <X size={24} />
+                <button onClick={closeModal} className="text-amber-200 hover:text-amber-50 transition-colors" style={isMobile ? { fontSize: 28 } : {}}>
+                  <X size={isMobile ? 28 : 24} />
                 </button>
               </div>
-              <div className="p-4 sm:p-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+              <div className={`p-4 sm:p-8 ${isMobile ? 'pt-3 pb-5 px-3' : ''}`} style={isMobile ? { overflowY: 'auto', maxHeight: 'calc(80vh - 56px)' } : {}}>
+                <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 ${isMobile ? 'gap-3' : ''}`}>
                   <div>
-                    <div className="mb-4 sm:mb-6">
-                      <h3 className="text-amber-900/90 font-semibold uppercase tracking-wider text-sm">Alignment</h3>
-                      <p className="text-amber-800/80">{selectedTooth.alignment}</p>
+                    <div className={`mb-4 sm:mb-6 ${isMobile ? 'mb-3' : ''}`}>
+                      <h3 className={`text-amber-900/90 font-semibold uppercase tracking-wider text-sm ${isMobile ? 'text-xs' : ''}`}>Alignment</h3>
+                      <p className={`text-amber-800/80 ${isMobile ? 'text-sm' : ''}`}>{selectedTooth.alignment}</p>
                     </div>
-                    <div className="mb-4 sm:mb-6">
-                      <h3 className="text-amber-900/90 font-semibold uppercase tracking-wider text-sm">Motto</h3>
-                      <p className="text-amber-800/80 italic">&ldquo;{selectedTooth.motto}&rdquo;</p>
+                    <div className={`mb-4 sm:mb-6 ${isMobile ? 'mb-3' : ''}`}>
+                      <h3 className={`text-amber-900/90 font-semibold uppercase tracking-wider text-sm ${isMobile ? 'text-xs' : ''}`}>Motto</h3>
+                      <p className={`text-amber-800/80 italic ${isMobile ? 'text-sm' : ''}`}>&ldquo;{selectedTooth.motto}&rdquo;</p>
                     </div>
-                    <div className="mb-4 sm:mb-6">
-                      <h3 className="text-amber-900/90 font-semibold uppercase tracking-wider text-sm">Wisdom Imparted</h3>
-                      <p className="text-amber-800/80 italic">&ldquo;{selectedTooth.wisdom}&rdquo;</p>
+                    <div className={`mb-4 sm:mb-6 ${isMobile ? 'mb-3' : ''}`}>
+                      <h3 className={`text-amber-900/90 font-semibold uppercase tracking-wider text-sm ${isMobile ? 'text-xs' : ''}`}>Wisdom Imparted</h3>
+                      <p className={`text-amber-800/80 italic ${isMobile ? 'text-sm' : ''}`}>&ldquo;{selectedTooth.wisdom}&rdquo;</p>
                     </div>
                   </div>
                   <div>
-                    <div className="mb-4 sm:mb-6">
-                      <h3 className="text-amber-900/90 font-semibold uppercase tracking-wider text-sm">Mythic Trait</h3>
-                      <p className="text-amber-800/80">{selectedTooth.mythicTrait}</p>
+                    <div className={`mb-4 sm:mb-6 ${isMobile ? 'mb-3' : ''}`}>
+                      <h3 className={`text-amber-900/90 font-semibold uppercase tracking-wider text-sm ${isMobile ? 'text-xs' : ''}`}>Mythic Trait</h3>
+                      <p className={`text-amber-800/80 ${isMobile ? 'text-sm' : ''}`}>{selectedTooth.mythicTrait}</p>
                     </div>
-                    <div className="mb-4 sm:mb-6">
-                      <h3 className="text-amber-900/90 font-semibold uppercase tracking-wider text-sm">Known Crimes</h3>
-                      <p className="text-amber-800/80">{selectedTooth.crimes}</p>
+                    <div className={`mb-4 sm:mb-6 ${isMobile ? 'mb-3' : ''}`}>
+                      <h3 className={`text-amber-900/90 font-semibold uppercase tracking-wider text-sm ${isMobile ? 'text-xs' : ''}`}>Known Crimes</h3>
+                      <p className={`text-amber-800/80 ${isMobile ? 'text-sm' : ''}`}>{selectedTooth.crimes}</p>
                     </div>
-                    <div className="mb-4 sm:mb-6">
-                      <h3 className="text-amber-900/90 font-semibold uppercase tracking-wider text-sm">Cause of Death</h3>
-                      <p className="text-amber-800/80">{selectedTooth.deathCause}</p>
+                    <div className={`mb-4 sm:mb-6 ${isMobile ? 'mb-3' : ''}`}>
+                      <h3 className={`text-amber-900/90 font-semibold uppercase tracking-wider text-sm ${isMobile ? 'text-xs' : ''}`}>Cause of Death</h3>
+                      <p className={`text-amber-800/80 ${isMobile ? 'text-sm' : ''}`}>{selectedTooth.deathCause}</p>
                     </div>
                   </div>
                 </div>
@@ -179,24 +183,28 @@ export default function WisdomTeethCodex() {
             </div>
           </div>
         )}
-
-        <style jsx>{`
-          @keyframes pulseRing {
-            0% {
-              transform: scale(1);
-              box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.3);
-            }
-            70% {
-              transform: scale(1.4);
-              box-shadow: 0 0 0 10px rgba(251, 191, 36, 0);
-            }
-            100% {
-              transform: scale(1);
-              box-shadow: 0 0 0 0 rgba(251, 191, 36, 0);
-            }
-          }
-        `}</style>
       </div>
+
+      {/* Breathing animation for marker circles */}
+      <style jsx>{`
+        @keyframes pulseRing {
+          0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.3);
+          }
+          70% {
+            transform: scale(1.25);
+            box-shadow: 0 0 0 10px rgba(251, 191, 36, 0);
+          }
+          100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(251, 191, 36, 0);
+          }
+        }
+        .animate-pulseRing {
+          animation: pulseRing 3s infinite;
+        }
+      `}</style>
     </div>
   );
 }

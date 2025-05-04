@@ -35,10 +35,13 @@ import HeroTitleBlock from "../mdx-blocks/HeroTitleBlock";
 import SimpleVideoBlock from "../mdx-blocks/SimpleVideoBlock";
 import FeathersPlayground from "../surreal-systems/FeathersPlayground";
 import FirePlayground from "../surreal-systems/FirePlayground";
+import GospelCarousel from "../surreal-systems/GospelCarousel";
 import { rustVeilPreset, glacialStrikePreset } from "@/lib/data/firePresets";
 import SpatialSynthesizer from "../surreal-systems/SpatialSynthesizer/index";
 import EncasedMeltingSphere from "../mdx-blocks/EncasedMeltingSphere";
 import MeltdownDiptych from "../surreal-systems/MeltdownDiptych";
+import ShrimpJesusFAQ from "../surreal-systems/ShrimpJesusFAQ";
+import FullscreenVideo from "../FullscreenVideo";
 type ComponentType = React.ComponentType<any> | string;
 
 type ClientMDXProps = {
@@ -85,6 +88,9 @@ const baseComponents = {
   FeathersPlayground,
   FirePlayground,
   MeltdownDiptych,
+  GospelCarousel,
+  ShrimpJesusFAQ,
+  FullscreenVideo,
 };
 
 export default function ClientMDX({
