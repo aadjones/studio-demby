@@ -18,12 +18,31 @@ overrideHero: true
 ---
 
 import ZoomImage from "@/components/ZoomImage"
+import FullscreenVideo from "../../app/components/FullscreenVideo"
 
 <HeroTitleBlock />
 
-<MeltdownDiptych />
+<div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-[1024px] mx-auto mb-12 px-4">
+  <div className="w-full aspect-square">
+    <FullscreenVideo src="/photos/degradation/crows.mp4" />
+  </div>
+  <div className="w-full aspect-square">
+    <FullscreenVideo src="/photos/degradation/piano.mp4" />
+  </div>
+  <div className="w-full aspect-square">
+    <FullscreenVideo src="/photos/degradation/cathedral.mp4" />
+  </div>
+</div>
 
-<div className="prose dark:prose-invert max-w-2xl mx-auto mb-12 text-lg leading-relaxed">
+<ZoomImage 
+  src="/photos/degradation/cathedral_1600.webp"
+  alt="Cathedral"
+  width={1600}
+  height={900}
+  className="max-w-[80vw] max-w-[1024px] w-full h-auto object-contain mb-12 mx-auto"
+/>
+
+<div className="prose dark:prose-invert max-w-3xl text-left mb-12 leading-relaxed">
   <div>This began as precision.</div>
 
   <div>
@@ -36,7 +55,7 @@ import ZoomImage from "@/components/ZoomImage"
   </div>
 
   <div>
-    The result: a looping entropy. Birds that flock into a melting streak of abstraction. A piano that smears into a grid of noise.
+    The result: a looping entropy. Birds that flock into a melting streak of abstraction. A piano that smears into a grid of noise. A cathedral made of feathers, or a feather made of cathedrals.
   </div>
 </div>
 

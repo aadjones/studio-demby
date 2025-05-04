@@ -41,6 +41,7 @@ import SpatialSynthesizer from "../surreal-systems/SpatialSynthesizer/index";
 import EncasedMeltingSphere from "../mdx-blocks/EncasedMeltingSphere";
 import MeltdownDiptych from "../surreal-systems/MeltdownDiptych";
 import ShrimpJesusFAQ from "../surreal-systems/ShrimpJesusFAQ";
+import FullscreenVideo from "../FullscreenVideo";
 type ComponentType = React.ComponentType<any> | string;
 
 type ClientMDXProps = {
@@ -89,6 +90,7 @@ const baseComponents = {
   MeltdownDiptych,
   GospelCarousel,
   ShrimpJesusFAQ,
+  FullscreenVideo,
 };
 
 export default function ClientMDX({
