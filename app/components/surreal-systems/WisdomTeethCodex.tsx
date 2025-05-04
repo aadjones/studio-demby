@@ -134,44 +134,54 @@ export default function WisdomTeethCodex() {
         </div>
 
         {selectedTooth && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
-            <div className="bg-gradient-to-b from-amber-50 via-amber-100/80 to-amber-50 max-w-2xl w-full rounded-lg shadow-2xl overflow-hidden border border-amber-300/50">
-              <div className="bg-gradient-to-r from-amber-800 to-amber-700 p-3 sm:p-4 flex justify-between items-center">
-                <h2 className="text-lg sm:text-xl font-bold text-amber-50">
+          <div
+            className={`fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4 ${isMobile ? 'items-end' : ''}`}
+          >
+            <div
+              className={`bg-gradient-to-b from-amber-50 via-amber-100/80 to-amber-50 w-full max-w-2xl rounded-lg shadow-2xl overflow-hidden border border-amber-300/50
+                ${isMobile ? 'rounded-b-none rounded-t-2xl max-w-full w-full mb-0' : ''}
+              `}
+              style={isMobile ? { maxHeight: '80vh', minHeight: '40vh', height: 'auto' } : {}}
+            >
+              <div
+                className={`bg-gradient-to-r from-amber-800 to-amber-700 p-3 sm:p-4 flex justify-between items-center ${isMobile ? 'sticky top-0 z-10' : ''}`}
+                style={isMobile ? { borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem' } : {}}
+              >
+                <h2 className={`font-bold text-amber-50 ${isMobile ? 'text-base' : 'text-lg sm:text-xl'}`}>
                   {selectedTooth.name} <span className="font-normal text-amber-200">({selectedTooth.position})</span>
                 </h2>
-                <button onClick={closeModal} className="text-amber-200 hover:text-amber-50 transition-colors">
-                  <X size={24} />
+                <button onClick={closeModal} className="text-amber-200 hover:text-amber-50 transition-colors" style={isMobile ? { fontSize: 28 } : {}}>
+                  <X size={isMobile ? 28 : 24} />
                 </button>
               </div>
-              <div className="p-4 sm:p-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+              <div className={`p-4 sm:p-8 ${isMobile ? 'pt-3 pb-5 px-3' : ''}`} style={isMobile ? { overflowY: 'auto', maxHeight: 'calc(80vh - 56px)' } : {}}>
+                <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 ${isMobile ? 'gap-3' : ''}`}>
                   <div>
-                    <div className="mb-4 sm:mb-6">
-                      <h3 className="text-amber-900/90 font-semibold uppercase tracking-wider text-sm">Alignment</h3>
-                      <p className="text-amber-800/80">{selectedTooth.alignment}</p>
+                    <div className={`mb-4 sm:mb-6 ${isMobile ? 'mb-3' : ''}`}>
+                      <h3 className={`text-amber-900/90 font-semibold uppercase tracking-wider text-sm ${isMobile ? 'text-xs' : ''}`}>Alignment</h3>
+                      <p className={`text-amber-800/80 ${isMobile ? 'text-sm' : ''}`}>{selectedTooth.alignment}</p>
                     </div>
-                    <div className="mb-4 sm:mb-6">
-                      <h3 className="text-amber-900/90 font-semibold uppercase tracking-wider text-sm">Motto</h3>
-                      <p className="text-amber-800/80 italic">&ldquo;{selectedTooth.motto}&rdquo;</p>
+                    <div className={`mb-4 sm:mb-6 ${isMobile ? 'mb-3' : ''}`}>
+                      <h3 className={`text-amber-900/90 font-semibold uppercase tracking-wider text-sm ${isMobile ? 'text-xs' : ''}`}>Motto</h3>
+                      <p className={`text-amber-800/80 italic ${isMobile ? 'text-sm' : ''}`}>&ldquo;{selectedTooth.motto}&rdquo;</p>
                     </div>
-                    <div className="mb-4 sm:mb-6">
-                      <h3 className="text-amber-900/90 font-semibold uppercase tracking-wider text-sm">Wisdom Imparted</h3>
-                      <p className="text-amber-800/80 italic">&ldquo;{selectedTooth.wisdom}&rdquo;</p>
+                    <div className={`mb-4 sm:mb-6 ${isMobile ? 'mb-3' : ''}`}>
+                      <h3 className={`text-amber-900/90 font-semibold uppercase tracking-wider text-sm ${isMobile ? 'text-xs' : ''}`}>Wisdom Imparted</h3>
+                      <p className={`text-amber-800/80 italic ${isMobile ? 'text-sm' : ''}`}>&ldquo;{selectedTooth.wisdom}&rdquo;</p>
                     </div>
                   </div>
                   <div>
-                    <div className="mb-4 sm:mb-6">
-                      <h3 className="text-amber-900/90 font-semibold uppercase tracking-wider text-sm">Mythic Trait</h3>
-                      <p className="text-amber-800/80">{selectedTooth.mythicTrait}</p>
+                    <div className={`mb-4 sm:mb-6 ${isMobile ? 'mb-3' : ''}`}>
+                      <h3 className={`text-amber-900/90 font-semibold uppercase tracking-wider text-sm ${isMobile ? 'text-xs' : ''}`}>Mythic Trait</h3>
+                      <p className={`text-amber-800/80 ${isMobile ? 'text-sm' : ''}`}>{selectedTooth.mythicTrait}</p>
                     </div>
-                    <div className="mb-4 sm:mb-6">
-                      <h3 className="text-amber-900/90 font-semibold uppercase tracking-wider text-sm">Known Crimes</h3>
-                      <p className="text-amber-800/80">{selectedTooth.crimes}</p>
+                    <div className={`mb-4 sm:mb-6 ${isMobile ? 'mb-3' : ''}`}>
+                      <h3 className={`text-amber-900/90 font-semibold uppercase tracking-wider text-sm ${isMobile ? 'text-xs' : ''}`}>Known Crimes</h3>
+                      <p className={`text-amber-800/80 ${isMobile ? 'text-sm' : ''}`}>{selectedTooth.crimes}</p>
                     </div>
-                    <div className="mb-4 sm:mb-6">
-                      <h3 className="text-amber-900/90 font-semibold uppercase tracking-wider text-sm">Cause of Death</h3>
-                      <p className="text-amber-800/80">{selectedTooth.deathCause}</p>
+                    <div className={`mb-4 sm:mb-6 ${isMobile ? 'mb-3' : ''}`}>
+                      <h3 className={`text-amber-900/90 font-semibold uppercase tracking-wider text-sm ${isMobile ? 'text-xs' : ''}`}>Cause of Death</h3>
+                      <p className={`text-amber-800/80 ${isMobile ? 'text-sm' : ''}`}>{selectedTooth.deathCause}</p>
                     </div>
                   </div>
                 </div>
