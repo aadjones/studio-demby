@@ -32,7 +32,7 @@ export default function WisdomTeethCodex() {
       mythicTrait: "Visible in vision, invisible in war",
       crimes: "Fomenting migraines",
       deathCause: "Betrayed by the second molar",
-      coords: { top: "38%", left: "15%" }
+      coords: { top: "42%", left: "20.5%" }
     },
     {
       id: 16,
@@ -44,7 +44,7 @@ export default function WisdomTeethCodex() {
       mythicTrait: "Holds the line — cannot be moved by mortal floss",
       crimes: "Hoarding calcium",
       deathCause: "Internment by drillwork",
-      coords: { top: "38%", left: "74%" }
+      coords: { top: "43.5%", left: "79.5%" }
     },
     {
       id: 17,
@@ -56,7 +56,7 @@ export default function WisdomTeethCodex() {
       mythicTrait: "Knows not what he presses against",
       crimes: "Pocketing bacteria",
       deathCause: "Crown amputation",
-      coords: { top: "49%", left: "76%" }
+      coords: { top: "53.5%", left: "82%" }
     },
     {
       id: 32,
@@ -68,7 +68,7 @@ export default function WisdomTeethCodex() {
       mythicTrait: "Leans eternally left",
       crimes: "Hygienist bribery",
       deathCause: "Root severance",
-      coords: { top: "49%", left: "12%" }
+      coords: { top: "53.5%", left: "17%" }
     }
   ];
 
@@ -88,40 +88,34 @@ export default function WisdomTeethCodex() {
       <h1 className="text-2xl sm:text-4xl font-bold text-amber-900 mb-1 sm:mb-2 tracking-wider font-serif text-center px-2">
         THE CODEX OF MOLAR WISDOM
       </h1>
-      {!isMobile && (
-        <p className="text-amber-800/80 mb-4 sm:mb-6 text-center font-medium">
-          ~ Click on a tooth marker to reveal its ancient wisdom ~
-        </p>
-      )}
       <div className="w-full rounded-t-2xl sm:rounded-t-3xl rounded-b-2xl sm:rounded-b-3xl px-2 sm:px-8 py-6 sm:py-12 font-serif relative bg-gradient-to-b from-amber-50 via-amber-100/70 to-amber-50 shadow-[inset_0_0_30px_rgba(217,119,6,0.1)] border-l border-r border-amber-200/50">
-        <div ref={imageRef} className="relative w-full max-w-md mx-auto mb-4 sm:mb-6 p-2 bg-transparent rounded-lg">
+        <div className="relative w-full max-w-md mx-auto mb-4 sm:mb-6">
           <div className="relative w-full">
-            <Image 
-              src="/photos/wisdom/wisdom-teeth-codex.jpg" 
-              alt="Dental panoramic X-ray with ancient symbols" 
-              className="w-full h-auto rounded-lg shadow-lg"
+            <Image
+              src="/photos/wisdom/wisdom-teeth-codex.jpg"
+              alt="Dental panoramic X‑ray"
+              className="block w-full h-auto select-none"
               width={512}
               height={512}
               priority
             />
             {teeth.map((tooth) => (
-              <div 
+              <button
                 key={tooth.id}
                 onClick={() => handleToothClick(tooth.id)}
-                className="absolute rounded-full cursor-pointer border border-amber-400/60 flex items-center justify-center"
+                className="absolute flex items-center justify-center rounded-full ring-2 ring-amber-400/60 border-2 border-amber-300 bg-amber-200/40 transition-transform hover:scale-110 animate-pulseRing"
                 style={{
                   top: tooth.coords.top,
                   left: tooth.coords.left,
-                  width: isMobile ? '10vw' : '8vw',
-                  height: isMobile ? '10vw' : '8vw',
-                  maxWidth: '40px',
-                  maxHeight: '40px',
-                  animation: 'pulseRing 3s infinite',
-                  backgroundColor: 'transparent'
+                  width: '10%',
+                  aspectRatio: '1 / 1',
+                  translate: '-50% -50%'
                 }}
               >
-                <span className="text-amber-200 text-xs font-bold">{tooth.id}</span>
-              </div>
+                <span className="text-[clamp(8px,2vw,14px)] font-bold text-amber-200">
+                  {tooth.id}
+                </span>
+              </button>
             ))}
           </div>
         </div>
@@ -189,24 +183,28 @@ export default function WisdomTeethCodex() {
             </div>
           </div>
         )}
-
-        <style jsx>{`
-          @keyframes pulseRing {
-            0% {
-              transform: scale(1);
-              box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.3);
-            }
-            70% {
-              transform: scale(1.4);
-              box-shadow: 0 0 0 10px rgba(251, 191, 36, 0);
-            }
-            100% {
-              transform: scale(1);
-              box-shadow: 0 0 0 0 rgba(251, 191, 36, 0);
-            }
-          }
-        `}</style>
       </div>
+
+      {/* Breathing animation for marker circles */}
+      <style jsx>{`
+        @keyframes pulseRing {
+          0% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.3);
+          }
+          70% {
+            transform: scale(1.25);
+            box-shadow: 0 0 0 10px rgba(251, 191, 36, 0);
+          }
+          100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 0 rgba(251, 191, 36, 0);
+          }
+        }
+        .animate-pulseRing {
+          animation: pulseRing 3s infinite;
+        }
+      `}</style>
     </div>
   );
 }
