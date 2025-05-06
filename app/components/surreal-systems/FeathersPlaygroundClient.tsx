@@ -60,7 +60,7 @@ export default function FeathersPlaygroundClient() {
           <div className="w-full sm:w-[512px] aspect-square rounded-lg shadow-md overflow-hidden bg-white dark:bg-black">
             <P5Container
               key={triggerRender}
-              sketch={(p, parent) => {
+              sketch={(p: P5, parent: HTMLElement) => {
                 console.log('P5Container sketch called');
                 canvasRef.current = p;
                 if (sketchRef.current) {

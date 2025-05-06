@@ -11,6 +11,7 @@ interface VideoPlayerProps {
   className?: string;
   aspectRatio?: 'square' | 'video';
   showPreviewLabel?: boolean;
+  controlsList?: string;
 }
 
 export default function VideoPlayer({
@@ -22,6 +23,7 @@ export default function VideoPlayer({
   className = "",
   aspectRatio = 'square',
   showPreviewLabel = false,
+  controlsList = "nodownload nofullscreen",
 }: VideoPlayerProps) {
   const isYouTube = src.includes('youtube.com') || src.includes('youtu.be');
   const videoId = isYouTube
@@ -56,7 +58,7 @@ export default function VideoPlayer({
               src={src}
               poster={poster}
               controls
-              controlsList="nodownload nofullscreen"
+              controlsList={controlsList}
               className="w-full h-full bg-black"
             />
           )}

@@ -89,7 +89,7 @@ export default function FirePlaygroundClient({ preset, title }: FirePlaygroundCl
               {visible && sketchRef.current && (
                 <P5Container
                   key={triggerRender}
-                  sketch={(p, parent) => {
+                  sketch={(p: P5, parent: HTMLElement) => {
                     canvasRef.current = p;
                     if (sketchRef.current) sketchRef.current(p, parent);
                   }}

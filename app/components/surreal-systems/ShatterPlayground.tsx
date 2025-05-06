@@ -2,6 +2,19 @@
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import P5Container from "../utils/P5Container";
+import P5 from "p5";
+
+interface Option {
+  label: string;
+  value: number;
+}
+
+interface FunnySliderProps {
+  label: string;
+  options: Option[];
+  value: number;
+  onChange: (value: number) => void;
+}
 
 const PLANE_COUNTS = [
   { label: "A single plane", value: 1 },
@@ -19,7 +32,7 @@ const PLANE_SIZES = [
   { label: "Half the distance to the moon", value: 20000 },
 ];
 
-function FunnySlider({ label, options, value, onChange }) {
+function FunnySlider({ label, options, value, onChange }: FunnySliderProps) {
   return (
     <div className="flex flex-col items-start w-full text-sm relative">
       <label className="mb-1 font-medium text-gray-700 dark:text-gray-300">
@@ -145,8 +158,13 @@ export default function ShatterPlayground() {
   );
 }
 
-function shatterSketch(p, parent, { numPlanes, planeSize }) {
-  let shaderProgram;
+interface SketchParams {
+  numPlanes: number;
+  planeSize: number;
+}
+
+function shatterSketch(p: P5, parent: HTMLElement, { numPlanes, planeSize }: SketchParams) {
+  let shaderProgram: P5.Shader;
   let amplitude = 20;
   let noiseScale = 0.01;
   let timeOffset = 0;

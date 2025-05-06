@@ -4,7 +4,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -14,12 +14,12 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "baseUrl": ".",
-    "incremental": true,
+    "incremental": false,
     "strictNullChecks": true,
     "paths": {
       "@/*": ["./*"]
     },
-    "types": ["vitest"],  // 👈 Add this line
+    "types": ["vitest"],
     "plugins": [
       {
         "name": "next"
