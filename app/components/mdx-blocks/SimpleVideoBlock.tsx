@@ -145,48 +145,26 @@ export default function SimpleVideoBlock({
             className="w-full h-full object-cover"
             playsInline
             controls
-            onDoubleClick={!isMobile ? handleFullscreen : undefined}
+            controlsList="nodownload"
+            style={{ zIndex: 1 }}
           >
             <source src={videoSrc} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
 
-          {/* Fullscreen button for mobile */}
-          {isMobile && (
-            <button
-              onClick={handleFullscreen}
-              className="absolute top-2 right-2 z-20 bg-black/60 rounded-full p-2"
-              aria-label="Enter fullscreen"
+          {/* Only show custom controls when video is not playing */}
+          {!isPlaying && (
+            <div
+              className={`absolute top-1/2 left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2 transition-opacity duration-500 ease-in-out
+                ${!hasInteracted || showControls ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
             >
-              <svg
-                className="w-6 h-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
+              <button
+                onClick={togglePlayback}
+                className={`absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-500 ease-in-out pointer-events-auto ${
+                  !hasInteracted || showControls ? "opacity-100" : "opacity-0"
+                }`}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5"
-                />
-              </svg>
-            </button>
-          )}
-
-          <div
-            className={`absolute top-1/2 left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2 transition-opacity duration-500 ease-in-out
-              ${!hasInteracted || showControls ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
-          >
-            <button
-              onClick={togglePlayback}
-              className={`absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-500 ease-in-out pointer-events-auto ${
-                !hasInteracted || showControls ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <div className="bg-black/60 rounded-full w-40 aspect-square flex items-center justify-center">
-                {!isPlaying ? (
+                <div className="bg-black/60 rounded-full w-40 aspect-square flex items-center justify-center">
                   <svg
                     className="w-16 h-16 text-white"
                     viewBox="0 0 100 100"
@@ -195,19 +173,10 @@ export default function SimpleVideoBlock({
                   >
                     <polygon points="35,25 75,50 35,75" fill="white" />
                   </svg>
-                ) : (
-                  <svg
-                    className="w-16 h-16 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <rect x="6" y="5" width="4" height="14" />
-                    <rect x="14" y="5" width="4" height="14" />
-                  </svg>
-                )}
-              </div>
-            </button>
-          </div>
+                </div>
+              </button>
+            </div>
+          )}
         </div>
 
         {caption && (
