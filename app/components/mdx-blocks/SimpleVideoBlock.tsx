@@ -29,6 +29,43 @@ export default function SimpleVideoBlock({
   const hideControlsTimer = useRef<NodeJS.Timeout | null>(null);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [posterLoaded, setPosterLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Check if we're on a mobile device
+    const checkMobile = () => {
+      setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const handleFullscreen = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    
+    // For mobile devices, we'll try to use the video element's native fullscreen
+    if (isMobile) {
+      if ((video as any).webkitEnterFullscreen) {
+        (video as any).webkitEnterFullscreen();
+      } else if ((video as any).webkitRequestFullscreen) {
+        (video as any).webkitRequestFullscreen();
+      }
+      return;
+    }
+    
+    // Desktop fullscreen handling
+    if (video.requestFullscreen) {
+      video.requestFullscreen();
+    } else if ((video as any).webkitRequestFullscreen) {
+      (video as any).webkitRequestFullscreen();
+    } else if ((video as any).mozRequestFullScreen) {
+      (video as any).mozRequestFullScreen();
+    } else if ((video as any).msRequestFullscreen) {
+      (video as any).msRequestFullscreen();
+    }
+  };
 
   const togglePlayback = () => {
     const video = videoRef.current;
@@ -102,6 +139,8 @@ export default function SimpleVideoBlock({
             className="w-full h-full object-cover"
             playsInline
             controls
+            onDoubleClick={!isMobile ? handleFullscreen : undefined}
+            onClick={isMobile ? handleFullscreen : undefined}
           >
             <source src={videoSrc} type="video/mp4" />
             Your browser does not support the video tag.
