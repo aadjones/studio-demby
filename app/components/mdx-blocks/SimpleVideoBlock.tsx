@@ -45,12 +45,18 @@ export default function SimpleVideoBlock({
     const video = videoRef.current;
     if (!video) return;
     
-    // For mobile devices, we'll try to use the video element's native fullscreen
+    // For mobile devices, try all possible fullscreen methods
     if (isMobile) {
       if ((video as any).webkitEnterFullscreen) {
         (video as any).webkitEnterFullscreen();
       } else if ((video as any).webkitRequestFullscreen) {
         (video as any).webkitRequestFullscreen();
+      } else if ((video as any).mozRequestFullScreen) {
+        (video as any).mozRequestFullScreen();
+      } else if ((video as any).msRequestFullscreen) {
+        (video as any).msRequestFullscreen();
+      } else if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
       }
       return;
     }
@@ -140,11 +146,34 @@ export default function SimpleVideoBlock({
             playsInline
             controls
             onDoubleClick={!isMobile ? handleFullscreen : undefined}
-            onClick={isMobile ? handleFullscreen : undefined}
           >
             <source src={videoSrc} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
+
+          {/* Fullscreen button for mobile */}
+          {isMobile && (
+            <button
+              onClick={handleFullscreen}
+              className="absolute top-2 right-2 z-20 bg-black/60 rounded-full p-2"
+              aria-label="Enter fullscreen"
+            >
+              <svg
+                className="w-6 h-6 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5"
+                />
+              </svg>
+            </button>
+          )}
 
           <div
             className={`absolute top-1/2 left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2 transition-opacity duration-500 ease-in-out
