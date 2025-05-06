@@ -42,6 +42,7 @@ import EncasedMeltingSphere from "../mdx-blocks/EncasedMeltingSphere";
 import MeltdownDiptych from "../surreal-systems/MeltdownDiptych";
 import ShrimpJesusFAQ from "../surreal-systems/ShrimpJesusFAQ";
 import FullscreenVideo from "../FullscreenVideo";
+import VideoPlayer from "../media/VideoPlayer";
 type ComponentType = React.ComponentType<any> | string;
 
 type ClientMDXProps = {
@@ -91,6 +92,7 @@ const baseComponents = {
   GospelCarousel,
   ShrimpJesusFAQ,
   FullscreenVideo,
+  VideoPlayer,
 };
 
 export default function ClientMDX({
