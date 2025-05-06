@@ -152,8 +152,8 @@ export default function SimpleVideoBlock({
             Your browser does not support the video tag.
           </video>
 
-          {/* Only show custom controls when video is not playing */}
-          {!isPlaying && (
+          {/* Only show custom controls on desktop when video is not playing */}
+          {!isMobile && !isPlaying && (
             <div
               className={`absolute top-1/2 left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2 transition-opacity duration-500 ease-in-out
                 ${!hasInteracted || showControls ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
