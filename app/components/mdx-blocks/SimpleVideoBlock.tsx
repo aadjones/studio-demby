@@ -30,90 +30,85 @@ export default function SimpleVideoBlock({
   const [hasInteracted, setHasInteracted] = useState(false);
   const [posterLoaded, setPosterLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
+  // Mobile detection with more reliable method
   useEffect(() => {
-    // Check if we're on a mobile device
     const checkMobile = () => {
-      setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+      const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || 
+        (navigator.maxTouchPoints && navigator.maxTouchPoints > 2) || false;
+      setIsMobile(isMobileDevice);
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const handleFullscreen = () => {
+  // Handle video loading and errors
+  useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    
-    // For mobile devices, try all possible fullscreen methods
-    if (isMobile) {
-      if ((video as any).webkitEnterFullscreen) {
-        (video as any).webkitEnterFullscreen();
-      } else if ((video as any).webkitRequestFullscreen) {
-        (video as any).webkitRequestFullscreen();
-      } else if ((video as any).mozRequestFullScreen) {
-        (video as any).mozRequestFullScreen();
-      } else if ((video as any).msRequestFullscreen) {
-        (video as any).msRequestFullscreen();
-      } else if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen();
-      }
-      return;
-    }
-    
-    // Desktop fullscreen handling
-    if (video.requestFullscreen) {
-      video.requestFullscreen();
-    } else if ((video as any).webkitRequestFullscreen) {
-      (video as any).webkitRequestFullscreen();
-    } else if ((video as any).mozRequestFullScreen) {
-      (video as any).mozRequestFullScreen();
-    } else if ((video as any).msRequestFullscreen) {
-      (video as any).msRequestFullscreen();
-    }
-  };
+
+    const handleLoadStart = () => setIsLoading(true);
+    const handleCanPlay = () => setIsLoading(false);
+    const handleError = (e: Event) => {
+      setError('Error loading video');
+      setIsLoading(false);
+    };
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+    const handleEnded = () => setIsPlaying(false);
+
+    video.addEventListener('loadstart', handleLoadStart);
+    video.addEventListener('canplay', handleCanPlay);
+    video.addEventListener('error', handleError);
+    video.addEventListener('play', handlePlay);
+    video.addEventListener('pause', handlePause);
+    video.addEventListener('ended', handleEnded);
+
+    return () => {
+      video.removeEventListener('loadstart', handleLoadStart);
+      video.removeEventListener('canplay', handleCanPlay);
+      video.removeEventListener('error', handleError);
+      video.removeEventListener('play', handlePlay);
+      video.removeEventListener('pause', handlePause);
+      video.removeEventListener('ended', handleEnded);
+    };
+  }, []);
 
   const togglePlayback = () => {
     const video = videoRef.current;
     if (!video) return;
     setHasInteracted(true);
     if (video.paused || video.ended) {
-      video.play();
-      setIsPlaying(true);
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.error('Playback failed:', error);
+          setError('Playback failed. Please try again.');
+        });
+      }
     } else {
       video.pause();
-      setIsPlaying(false);
     }
   };
 
+  // Handle touch events for mobile
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !isMobile) return;
 
-    const handleMouseMove = () => {
-      if (!hasInteracted) return;
-      setShowControls(true);
-      if (hideControlsTimer.current) clearTimeout(hideControlsTimer.current);
-      hideControlsTimer.current = setTimeout(() => setShowControls(false), 2000);
-    };
-
-    const handleClick = () => {
-      setHasInteracted(true);
-    };
-
-    const containerEl = containerRef.current;
-    if (containerEl) {
-      containerEl.addEventListener("mousemove", handleMouseMove);
-    }
-    video.addEventListener("click", handleClick);
-
-    return () => {
-      if (containerEl) {
-        containerEl.removeEventListener("mousemove", handleMouseMove);
+    const handleTouchStart = (e: TouchEvent) => {
+      // Prevent default only if we're showing custom controls
+      if (!hasInteracted) {
+        e.preventDefault();
       }
-      video.removeEventListener("click", handleClick);
     };
-  }, [hasInteracted]);
+
+    video.addEventListener('touchstart', handleTouchStart, { passive: false });
+    return () => video.removeEventListener('touchstart', handleTouchStart);
+  }, [isMobile, hasInteracted]);
 
   return (
     <section className={`my-8 mx-auto ${className ?? "max-w-sm"}`}>
@@ -127,18 +122,34 @@ export default function SimpleVideoBlock({
           ref={containerRef}
           className={`relative w-full ${aspectRatio === 'video' ? 'aspect-video' : 'aspect-square'} bg-black rounded-xl overflow-hidden`}
         >
-          {/* Optimized poster image */}
-          <div className={`absolute inset-0 transition-opacity duration-300 ${posterLoaded ? 'opacity-0' : 'opacity-100'}`}>
-            <Image
-              src={poster}
-              alt="Video poster"
-              fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 800px"
-              className="object-cover"
-              priority
-              onLoad={() => setPosterLoaded(true)}
-            />
-          </div>
+          {/* Loading state */}
+          {isLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-20">
+              <div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin" />
+            </div>
+          )}
+
+          {/* Error state */}
+          {error && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-20">
+              <p className="text-white text-center px-4">{error}</p>
+            </div>
+          )}
+
+          {/* Optimized poster image - only show on desktop or before interaction on mobile */}
+          {(!isMobile || !hasInteracted) && !error && (
+            <div className={`absolute inset-0 transition-opacity duration-300 ${posterLoaded ? 'opacity-0' : 'opacity-100'}`}>
+              <Image
+                src={poster}
+                alt="Video poster"
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 800px"
+                className="object-cover"
+                priority
+                onLoad={() => setPosterLoaded(true)}
+              />
+            </div>
+          )}
 
           <video
             ref={videoRef}
@@ -146,14 +157,16 @@ export default function SimpleVideoBlock({
             playsInline
             controls
             controlsList="nodownload"
+            poster={isMobile ? poster : undefined}
             style={{ zIndex: 1 }}
+            preload="metadata"
           >
             <source src={videoSrc} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
 
           {/* Only show custom controls on desktop when video is not playing */}
-          {!isMobile && !isPlaying && (
+          {!isMobile && !isPlaying && !error && (
             <div
               className={`absolute top-1/2 left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2 transition-opacity duration-500 ease-in-out
                 ${!hasInteracted || showControls ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
