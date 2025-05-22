@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title>Studio Demby • New drops</title>
         <link>https://www.studiodemby.com</link>
         <description>Fresh audiovisual rituals and generative art.</description>
-        <lastBuildDate>Thu, 22 May 2025 19:22:22 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 22 May 2025 19:38:40 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>feed (npm)</generator>
         <language>en</language>
@@ -15,6 +15,7 @@
             <guid>https://www.studiodemby.com/resonant/above</guid>
             <pubDate>Tue, 10 Jan 2023 08:00:00 GMT</pubDate>
             <description><![CDATA[A loop caught between stillness and motion.]]></description>
+            <content:encoded><![CDATA[<p><img src="https://www.studiodemby.com/photos/above/above.jpg" alt="Above 🎵🎬" /></p><p>A loop caught between stillness and motion.</p>]]></content:encoded>
             <enclosure url="https://www.studiodemby.com/photos/above/above.jpg" length="0" type="image/jpg"/>
         </item>
         <item>
@@ -23,6 +24,7 @@
             <guid>https://www.studiodemby.com/errant/degradation</guid>
             <pubDate>Thu, 02 Feb 2023 00:00:00 GMT</pubDate>
             <description><![CDATA[Every glitch believes it's a pattern.]]></description>
+            <content:encoded><![CDATA[<p><img src="https://www.studiodemby.com/photos/degradation/degradation.gif" alt="Degradation 🎨" /></p><p>Every glitch believes it's a pattern.</p>]]></content:encoded>
             <enclosure url="https://www.studiodemby.com/photos/degradation/degradation.gif" length="0" type="image/gif"/>
         </item>
         <item>
@@ -31,6 +33,7 @@
             <guid>https://www.studiodemby.com/enclosed/encased-melting</guid>
             <pubDate>Fri, 15 Nov 2024 00:00:00 GMT</pubDate>
             <description><![CDATA[Solid forms haunted by soft motion.]]></description>
+            <content:encoded><![CDATA[<p><img src="https://www.studiodemby.com/photos/encased-melting/encased-melting-preview.png" alt="Encased Melting 🎨🕹" /></p><p>Solid forms haunted by soft motion.</p>]]></content:encoded>
             <enclosure url="https://www.studiodemby.com/photos/encased-melting/encased-melting-preview.png" length="0" type="image/png"/>
         </item>
         <item>
@@ -39,6 +42,7 @@
             <guid>https://www.studiodemby.com/enclosed/escape</guid>
             <pubDate>Tue, 30 Jun 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[Free improvisations recorded in isolation.]]></description>
+            <content:encoded><![CDATA[<p><img src="https://www.studiodemby.com/photos/escape/reaching.jpg" alt="Escape 🎵" /></p><p>Free improvisations recorded in isolation.</p>]]></content:encoded>
             <enclosure url="https://www.studiodemby.com/photos/escape/reaching.jpg" length="0" type="image/jpg"/>
         </item>
         <item>
@@ -47,6 +51,7 @@
             <guid>https://www.studiodemby.com/fractured/feathers</guid>
             <pubDate>Sat, 02 Nov 2024 00:00:00 GMT</pubDate>
             <description><![CDATA[Organic motion, born of failed intention.]]></description>
+            <content:encoded><![CDATA[<p><img src="https://www.studiodemby.com/photos/feathers/feathers1.png" alt="Feathers 🎨🕹️" /></p><p>Organic motion, born of failed intention.</p>]]></content:encoded>
             <enclosure url="https://www.studiodemby.com/photos/feathers/feathers1.png" length="0" type="image/png"/>
         </item>
         <item>
@@ -55,6 +60,7 @@
             <guid>https://www.studiodemby.com/fractured/fire</guid>
             <pubDate>Wed, 04 Dec 2024 00:00:00 GMT</pubDate>
             <description><![CDATA[An algorithmic bloom of opposition and collapse.]]></description>
+            <content:encoded><![CDATA[<p><img src="https://www.studiodemby.com/photos/fire/fire2.png" alt="Fire 🎨🕹️" /></p><p>An algorithmic bloom of opposition and collapse.</p>]]></content:encoded>
             <enclosure url="https://www.studiodemby.com/photos/fire/fire2.png" length="0" type="image/png"/>
         </item>
         <item>
@@ -63,6 +69,7 @@
             <guid>https://www.studiodemby.com/enclosed/flow</guid>
             <pubDate>Sun, 20 Jun 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[More tools. More risk. A second album of solitude.]]></description>
+            <content:encoded><![CDATA[<p><img src="https://www.studiodemby.com/photos/flow/flow.jpg" alt="Flow 🎵" /></p><p>More tools. More risk. A second album of solitude.</p>]]></content:encoded>
             <enclosure url="https://www.studiodemby.com/photos/flow/flow.jpg" length="0" type="image/jpg"/>
         </item>
         <item>
@@ -71,6 +78,7 @@
             <guid>https://www.studiodemby.com/resonant/fluid-subspaces</guid>
             <pubDate>Sun, 01 Jan 2017 00:00:00 GMT</pubDate>
             <description><![CDATA[Sound from flow. Geometry from tone.]]></description>
+            <content:encoded><![CDATA[<p><img src="https://www.studiodemby.com/photos/fluid-subspaces/fluid-subspaces.jpg" alt="Fluid Subspaces 🎵🎬" /></p><p>Sound from flow. Geometry from tone.</p>]]></content:encoded>
             <enclosure url="https://www.studiodemby.com/photos/fluid-subspaces/fluid-subspaces.jpg" length="0" type="image/jpg"/>
         </item>
         <item>
@@ -78,6 +86,7 @@
             <link>https://www.studiodemby.com/errant/gallery-of-lies</link>
             <guid>https://www.studiodemby.com/errant/gallery-of-lies</guid>
             <pubDate>Tue, 04 Mar 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<p><img src="https://www.studiodemby.com/photos/gallery-of-lies/lies.jpg" alt="The Gallery of Lies" /></p><p></p>]]></content:encoded>
             <enclosure url="https://www.studiodemby.com/photos/gallery-of-lies/lies.jpg" length="0" type="image/jpg"/>
         </item>
         <item>
@@ -86,6 +95,7 @@
             <guid>https://www.studiodemby.com/resonant/improvisation-simple-melody</guid>
             <pubDate>Thu, 02 Jan 2025 00:00:00 GMT</pubDate>
             <description><![CDATA[Melody as experiment.]]></description>
+            <content:encoded><![CDATA[<p><img src="https://www.studiodemby.com/photos/improvisation-simple-melody/improvisation.jpg" alt="Improvisation on a Simple Melody 🎵🎬" /></p><p>Melody as experiment.</p>]]></content:encoded>
             <enclosure url="https://www.studiodemby.com/photos/improvisation-simple-melody/improvisation.jpg" length="0" type="image/jpg"/>
         </item>
         <item>
@@ -94,6 +104,7 @@
             <guid>https://www.studiodemby.com/fractured/rain</guid>
             <pubDate>Fri, 30 May 2014 00:00:00 GMT</pubDate>
             <description><![CDATA[A composition that recursively removes itself.]]></description>
+            <content:encoded><![CDATA[<p><img src="https://www.studiodemby.com/photos/rain/rain.jpg" alt="Rain 🎵" /></p><p>A composition that recursively removes itself.</p>]]></content:encoded>
             <enclosure url="https://www.studiodemby.com/photos/rain/rain.jpg" length="0" type="image/jpg"/>
         </item>
         <item>
@@ -102,6 +113,7 @@
             <guid>https://www.studiodemby.com/fractured/shatter</guid>
             <pubDate>Fri, 01 Nov 2024 00:00:00 GMT</pubDate>
             <description><![CDATA[A scream rendered in polygons.]]></description>
+            <content:encoded><![CDATA[<p><img src="https://www.studiodemby.com/photos/shatter/shatter.png" alt="Shatter 🎨🕹️" /></p><p>A scream rendered in polygons.</p>]]></content:encoded>
             <enclosure url="https://www.studiodemby.com/photos/shatter/shatter.png" length="0" type="image/png"/>
         </item>
         <item>
@@ -110,6 +122,7 @@
             <guid>https://www.studiodemby.com/errant/shrimp-jesus</guid>
             <pubDate>Sun, 31 Mar 2024 00:00:00 GMT</pubDate>
             <description><![CDATA[He died for your fins.]]></description>
+            <content:encoded><![CDATA[<p><img src="https://www.studiodemby.com/photos/shrimp-jesus/shrimp-jesus.jpg" alt="Shrimp Jesus 🎵🎬" /></p><p>He died for your fins.</p>]]></content:encoded>
             <enclosure url="https://www.studiodemby.com/photos/shrimp-jesus/shrimp-jesus.jpg" length="0" type="image/jpg"/>
         </item>
         <item>
@@ -118,7 +131,8 @@
             <guid>https://www.studiodemby.com/resonant/spatial-synthesizer</guid>
             <pubDate>Tue, 05 Nov 2024 00:00:00 GMT</pubDate>
             <description><![CDATA[A visual instrument made of ripples and control knobs.]]></description>
-            <enclosure url="https://www.studiodemby.comhttps://kr3e5ferkjmujweh.public.blob.vercel-storage.com/spatial-synthesizer-Z7AHr6O6CJegZhGN83HW94rVY2RGP9.gif" length="0" type="image/gif"/>
+            <content:encoded><![CDATA[<p><img src="https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/spatial-synthesizer-Z7AHr6O6CJegZhGN83HW94rVY2RGP9.gif" alt="Spatial Synthesizer 🎨🕹" /></p><p>A visual instrument made of ripples and control knobs.</p>]]></content:encoded>
+            <enclosure url="https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/spatial-synthesizer-Z7AHr6O6CJegZhGN83HW94rVY2RGP9.gif" length="0" type="image/gif"/>
         </item>
         <item>
             <title><![CDATA[Stray Signals 🎵]]></title>
@@ -126,6 +140,7 @@
             <guid>https://www.studiodemby.com/enclosed/stray-signals</guid>
             <pubDate>Sun, 01 Jan 2023 00:00:00 GMT</pubDate>
             <description><![CDATA[Uncollected piano improvisations.]]></description>
+            <content:encoded><![CDATA[<p><img src="https://www.studiodemby.com/photos/stray-signals/stray-signals.jpg" alt="Stray Signals 🎵" /></p><p>Uncollected piano improvisations.</p>]]></content:encoded>
             <enclosure url="https://www.studiodemby.com/photos/stray-signals/stray-signals.jpg" length="0" type="image/jpg"/>
         </item>
         <item>
@@ -134,6 +149,7 @@
             <guid>https://www.studiodemby.com/errant/wisdom-teeth-codex</guid>
             <pubDate>Tue, 15 Apr 2025 00:00:00 GMT</pubDate>
             <description><![CDATA[Before extraction, they whispered one final truth.]]></description>
+            <content:encoded><![CDATA[<p><img src="https://www.studiodemby.com/photos/wisdom/wisdom-teeth-codex.jpg" alt="The Codex of Molar Wisdom" /></p><p>Before extraction, they whispered one final truth.</p>]]></content:encoded>
             <enclosure url="https://www.studiodemby.com/photos/wisdom/wisdom-teeth-codex.jpg" length="0" type="image/jpg"/>
         </item>
     </channel>

@@ -35,8 +35,17 @@ async function buildFeed() {
     // Skip if no cluster
     if (!data.cluster) continue
 
-    // Construct image URL if image exists in frontmatter
-    const imageUrl = data.image ? `${siteUrl}${data.image}` : null
+    // Handle image URL - support both relative and absolute URLs
+    let imageUrl = null
+    if (data.image) {
+      if (/^https?:\/\//.test(data.image)) {
+        // Already a full URL, use it directly
+        imageUrl = data.image
+      } else {
+        // Relative path on your site
+        imageUrl = `${siteUrl}${data.image}`
+      }
+    }
 
     feed.addItem({
       title: data.title,

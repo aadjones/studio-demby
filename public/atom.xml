@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.studiodemby.com</id>
     <title>Studio Demby • New drops</title>
-    <updated>2025-05-22T19:22:22.070Z</updated>
+    <updated>2025-05-22T19:38:40.445Z</updated>
     <generator>feed (npm)</generator>
     <link rel="alternate" href="https://www.studiodemby.com"/>
     <subtitle>Fresh audiovisual rituals and generative art.</subtitle>
@@ -14,6 +14,7 @@
         <link href="https://www.studiodemby.com/resonant/above"/>
         <updated>2023-01-10T08:00:00.000Z</updated>
         <summary type="html"><![CDATA[A loop caught between stillness and motion.]]></summary>
+        <content type="html"><![CDATA[<p><img src="https://www.studiodemby.com/photos/above/above.jpg" alt="Above 🎵🎬" /></p><p>A loop caught between stillness and motion.</p>]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[Degradation 🎨]]></title>
@@ -21,6 +22,7 @@
         <link href="https://www.studiodemby.com/errant/degradation"/>
         <updated>2023-02-02T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Every glitch believes it's a pattern.]]></summary>
+        <content type="html"><![CDATA[<p><img src="https://www.studiodemby.com/photos/degradation/degradation.gif" alt="Degradation 🎨" /></p><p>Every glitch believes it's a pattern.</p>]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[Encased Melting 🎨🕹]]></title>
@@ -28,6 +30,7 @@
         <link href="https://www.studiodemby.com/enclosed/encased-melting"/>
         <updated>2024-11-15T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Solid forms haunted by soft motion.]]></summary>
+        <content type="html"><![CDATA[<p><img src="https://www.studiodemby.com/photos/encased-melting/encased-melting-preview.png" alt="Encased Melting 🎨🕹" /></p><p>Solid forms haunted by soft motion.</p>]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[Escape 🎵]]></title>
@@ -35,6 +38,7 @@
         <link href="https://www.studiodemby.com/enclosed/escape"/>
         <updated>2020-06-30T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Free improvisations recorded in isolation.]]></summary>
+        <content type="html"><![CDATA[<p><img src="https://www.studiodemby.com/photos/escape/reaching.jpg" alt="Escape 🎵" /></p><p>Free improvisations recorded in isolation.</p>]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[Feathers 🎨🕹️]]></title>
@@ -42,6 +46,7 @@
         <link href="https://www.studiodemby.com/fractured/feathers"/>
         <updated>2024-11-02T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Organic motion, born of failed intention.]]></summary>
+        <content type="html"><![CDATA[<p><img src="https://www.studiodemby.com/photos/feathers/feathers1.png" alt="Feathers 🎨🕹️" /></p><p>Organic motion, born of failed intention.</p>]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[Fire 🎨🕹️]]></title>
@@ -49,6 +54,7 @@
         <link href="https://www.studiodemby.com/fractured/fire"/>
         <updated>2024-12-04T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[An algorithmic bloom of opposition and collapse.]]></summary>
+        <content type="html"><![CDATA[<p><img src="https://www.studiodemby.com/photos/fire/fire2.png" alt="Fire 🎨🕹️" /></p><p>An algorithmic bloom of opposition and collapse.</p>]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[Flow 🎵]]></title>
@@ -56,6 +62,7 @@
         <link href="https://www.studiodemby.com/enclosed/flow"/>
         <updated>2021-06-20T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[More tools. More risk. A second album of solitude.]]></summary>
+        <content type="html"><![CDATA[<p><img src="https://www.studiodemby.com/photos/flow/flow.jpg" alt="Flow 🎵" /></p><p>More tools. More risk. A second album of solitude.</p>]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[Fluid Subspaces 🎵🎬]]></title>
@@ -63,12 +70,14 @@
         <link href="https://www.studiodemby.com/resonant/fluid-subspaces"/>
         <updated>2017-01-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Sound from flow. Geometry from tone.]]></summary>
+        <content type="html"><![CDATA[<p><img src="https://www.studiodemby.com/photos/fluid-subspaces/fluid-subspaces.jpg" alt="Fluid Subspaces 🎵🎬" /></p><p>Sound from flow. Geometry from tone.</p>]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[The Gallery of Lies]]></title>
         <id>https://www.studiodemby.com/errant/gallery-of-lies</id>
         <link href="https://www.studiodemby.com/errant/gallery-of-lies"/>
         <updated>2025-03-04T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[<p><img src="https://www.studiodemby.com/photos/gallery-of-lies/lies.jpg" alt="The Gallery of Lies" /></p><p></p>]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[Improvisation on a Simple Melody 🎵🎬]]></title>
@@ -76,6 +85,7 @@
         <link href="https://www.studiodemby.com/resonant/improvisation-simple-melody"/>
         <updated>2025-01-02T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Melody as experiment.]]></summary>
+        <content type="html"><![CDATA[<p><img src="https://www.studiodemby.com/photos/improvisation-simple-melody/improvisation.jpg" alt="Improvisation on a Simple Melody 🎵🎬" /></p><p>Melody as experiment.</p>]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[Rain 🎵]]></title>
@@ -83,6 +93,7 @@
         <link href="https://www.studiodemby.com/fractured/rain"/>
         <updated>2014-05-30T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[A composition that recursively removes itself.]]></summary>
+        <content type="html"><![CDATA[<p><img src="https://www.studiodemby.com/photos/rain/rain.jpg" alt="Rain 🎵" /></p><p>A composition that recursively removes itself.</p>]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[Shatter 🎨🕹️]]></title>
@@ -90,6 +101,7 @@
         <link href="https://www.studiodemby.com/fractured/shatter"/>
         <updated>2024-11-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[A scream rendered in polygons.]]></summary>
+        <content type="html"><![CDATA[<p><img src="https://www.studiodemby.com/photos/shatter/shatter.png" alt="Shatter 🎨🕹️" /></p><p>A scream rendered in polygons.</p>]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[Shrimp Jesus 🎵🎬]]></title>
@@ -97,6 +109,7 @@
         <link href="https://www.studiodemby.com/errant/shrimp-jesus"/>
         <updated>2024-03-31T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[He died for your fins.]]></summary>
+        <content type="html"><![CDATA[<p><img src="https://www.studiodemby.com/photos/shrimp-jesus/shrimp-jesus.jpg" alt="Shrimp Jesus 🎵🎬" /></p><p>He died for your fins.</p>]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[Spatial Synthesizer 🎨🕹]]></title>
@@ -104,6 +117,7 @@
         <link href="https://www.studiodemby.com/resonant/spatial-synthesizer"/>
         <updated>2024-11-05T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[A visual instrument made of ripples and control knobs.]]></summary>
+        <content type="html"><![CDATA[<p><img src="https://kr3e5ferkjmujweh.public.blob.vercel-storage.com/spatial-synthesizer-Z7AHr6O6CJegZhGN83HW94rVY2RGP9.gif" alt="Spatial Synthesizer 🎨🕹" /></p><p>A visual instrument made of ripples and control knobs.</p>]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[Stray Signals 🎵]]></title>
@@ -111,6 +125,7 @@
         <link href="https://www.studiodemby.com/enclosed/stray-signals"/>
         <updated>2023-01-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Uncollected piano improvisations.]]></summary>
+        <content type="html"><![CDATA[<p><img src="https://www.studiodemby.com/photos/stray-signals/stray-signals.jpg" alt="Stray Signals 🎵" /></p><p>Uncollected piano improvisations.</p>]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[The Codex of Molar Wisdom]]></title>
@@ -118,5 +133,6 @@
         <link href="https://www.studiodemby.com/errant/wisdom-teeth-codex"/>
         <updated>2025-04-15T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Before extraction, they whispered one final truth.]]></summary>
+        <content type="html"><![CDATA[<p><img src="https://www.studiodemby.com/photos/wisdom/wisdom-teeth-codex.jpg" alt="The Codex of Molar Wisdom" /></p><p>Before extraction, they whispered one final truth.</p>]]></content>
     </entry>
 </feed>
