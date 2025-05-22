@@ -32,7 +32,7 @@ export default function AboutPage() {
             <Link href="/fractured" className="text-blue-500 hover:text-blue-600 transition-colors">Fractured</Link>, and{" "}
             <Link href="/enclosed" className="text-blue-500 hover:text-blue-600 transition-colors">Enclosed</Link>.{" "}
             If something echoes in you,{" "}
-            <a href="mailto:aaron.demby.jones@gmail.com" className="text-blue-500 hover:text-blue-600 transition-colors">reach out</a>.
+            <a href="mailto:aaron.demby.jones@gmail.com" className="text-blue-500 hover:text-blue-600 transition-colors">reach out</a> or subscribe below for updates.
           </p>
         </div>
       </div>
