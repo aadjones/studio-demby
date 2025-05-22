@@ -3,7 +3,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/generateRss.js",
     "start": "next start",
     "test": "vitest",
     "lint": "next lint"
