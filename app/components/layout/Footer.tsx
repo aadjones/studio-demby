@@ -10,6 +10,7 @@ import {
 import { TbMailFilled } from "react-icons/tb";
 import { metaData, socialLinks } from "app/config";
 import { IconType } from "react-icons";
+import { SubscribeForm } from "@/components/SubscribeForm";
 
 const YEAR = new Date().getFullYear();
 
@@ -28,28 +29,43 @@ function SocialLink({ href, icon: Icon }: SocialLinkProps) {
 
 function SocialLinks() {
   return (
-    <div className="flex text-lg gap-3.5 float-right transition-opacity duration-300 hover:opacity-90">
+    <div className="flex text-lg gap-3.5 items-center">
       <SocialLink href={socialLinks.soundcloud} icon={FaSoundcloud} />
-      <SocialLink href={socialLinks.github} icon={FaGithub} />
       <SocialLink href={socialLinks.instagram} icon={FaInstagram} />
-      <SocialLink href={socialLinks.linkedin} icon={FaLinkedinIn} />
-      <SocialLink href={socialLinks.email} icon={TbMailFilled} />
+      <a
+        href="/feed.xml"
+        title="Subscribe via RSS"
+        className="text-xl hover:opacity-80 transition-opacity"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        📡
+      </a>
     </div>
   );
 }
 
 export default function Footer() {
   return (
-    <small className="block lg:mt-24 mt-16 text-[#1C1C1C] dark:text-[#D4D4D4]">
-      <time>© {YEAR}</time>{" "}
-      <a
-        className="no-underline"
-        href={socialLinks.soundcloud}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {metaData.title}
-      </a>
+    <footer className="block lg:mt-24 mt-16 text-[#1C1C1C] dark:text-[#D4D4D4]">
+      <div className="flex flex-col items-center gap-8 mb-8">
+        <div className="text-center">
+          <p className="mb-4">🔔 Get a ping when a new ritual drops:</p>
+          <SubscribeForm />
+        </div>
+        <SocialLinks />
+      </div>
+      <div className="text-center">
+        <time>© {YEAR}</time>{" "}
+        <a
+          className="no-underline"
+          href={socialLinks.soundcloud}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {metaData.title}
+        </a>
+      </div>
       <style jsx>{`
         @media screen and (max-width: 480px) {
           article {
@@ -58,7 +74,6 @@ export default function Footer() {
           }
         }
       `}</style>
-      <SocialLinks />
-    </small>
+    </footer>
   );
 }
