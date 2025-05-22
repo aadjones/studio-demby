@@ -1,120 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.studiodemby.com</id>
-    <title>Studio Demy • New drops</title>
-    <updated>2025-05-22T19:05:52.525Z</updated>
+    <title>Studio Demby • New drops</title>
+    <updated>2025-05-22T19:17:39.923Z</updated>
     <generator>feed (npm)</generator>
     <link rel="alternate" href="https://www.studiodemby.com"/>
+    <subtitle>Fresh audiovisual rituals and generative art.</subtitle>
     <icon>https://www.studiodemby.com/favicon.ico</icon>
-    <rights>© 2025 Studio Demy. All rights reserved.</rights>
+    <rights>© 2025 Studio Demby. All rights reserved.</rights>
     <entry>
         <title type="html"><![CDATA[Above 🎵🎬]]></title>
-        <id>https://www.studiodemby.com/projects/above</id>
-        <link href="https://www.studiodemby.com/projects/above"/>
+        <id>https://www.studiodemby.com/resonant/above</id>
+        <link href="https://www.studiodemby.com/resonant/above"/>
         <updated>2023-01-10T08:00:00.000Z</updated>
         <summary type="html"><![CDATA[A loop caught between stillness and motion.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Degradation 🎨]]></title>
-        <id>https://www.studiodemby.com/projects/degradation</id>
-        <link href="https://www.studiodemby.com/projects/degradation"/>
+        <id>https://www.studiodemby.com/errant/degradation</id>
+        <link href="https://www.studiodemby.com/errant/degradation"/>
         <updated>2023-02-02T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Every glitch believes it's a pattern.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Encased Melting 🎨🕹]]></title>
-        <id>https://www.studiodemby.com/projects/encased-melting</id>
-        <link href="https://www.studiodemby.com/projects/encased-melting"/>
+        <id>https://www.studiodemby.com/enclosed/encased-melting</id>
+        <link href="https://www.studiodemby.com/enclosed/encased-melting"/>
         <updated>2024-11-15T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Solid forms haunted by soft motion.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Escape 🎵]]></title>
-        <id>https://www.studiodemby.com/projects/escape</id>
-        <link href="https://www.studiodemby.com/projects/escape"/>
+        <id>https://www.studiodemby.com/enclosed/escape</id>
+        <link href="https://www.studiodemby.com/enclosed/escape"/>
         <updated>2020-06-30T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Free improvisations recorded in isolation.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Feathers 🎨🕹️]]></title>
-        <id>https://www.studiodemby.com/projects/feathers</id>
-        <link href="https://www.studiodemby.com/projects/feathers"/>
+        <id>https://www.studiodemby.com/fractured/feathers</id>
+        <link href="https://www.studiodemby.com/fractured/feathers"/>
         <updated>2024-11-02T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Organic motion, born of failed intention.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Fire 🎨🕹️]]></title>
-        <id>https://www.studiodemby.com/projects/fire</id>
-        <link href="https://www.studiodemby.com/projects/fire"/>
+        <id>https://www.studiodemby.com/fractured/fire</id>
+        <link href="https://www.studiodemby.com/fractured/fire"/>
         <updated>2024-12-04T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[An algorithmic bloom of opposition and collapse.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Flow 🎵]]></title>
-        <id>https://www.studiodemby.com/projects/flow</id>
-        <link href="https://www.studiodemby.com/projects/flow"/>
+        <id>https://www.studiodemby.com/enclosed/flow</id>
+        <link href="https://www.studiodemby.com/enclosed/flow"/>
         <updated>2021-06-20T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[More tools. More risk. A second album of solitude.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Fluid Subspaces 🎵🎬]]></title>
-        <id>https://www.studiodemby.com/projects/fluid-subspaces</id>
-        <link href="https://www.studiodemby.com/projects/fluid-subspaces"/>
+        <id>https://www.studiodemby.com/resonant/fluid-subspaces</id>
+        <link href="https://www.studiodemby.com/resonant/fluid-subspaces"/>
         <updated>2017-01-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Sound from flow. Geometry from tone.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[The Gallery of Lies]]></title>
-        <id>https://www.studiodemby.com/projects/gallery-of-lies</id>
-        <link href="https://www.studiodemby.com/projects/gallery-of-lies"/>
+        <id>https://www.studiodemby.com/errant/gallery-of-lies</id>
+        <link href="https://www.studiodemby.com/errant/gallery-of-lies"/>
         <updated>2025-03-04T00:00:00.000Z</updated>
     </entry>
     <entry>
         <title type="html"><![CDATA[Improvisation on a Simple Melody 🎵🎬]]></title>
-        <id>https://www.studiodemby.com/projects/improvisation-simple-melody</id>
-        <link href="https://www.studiodemby.com/projects/improvisation-simple-melody"/>
+        <id>https://www.studiodemby.com/resonant/improvisation-simple-melody</id>
+        <link href="https://www.studiodemby.com/resonant/improvisation-simple-melody"/>
         <updated>2025-01-02T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Melody as experiment.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Rain 🎵]]></title>
-        <id>https://www.studiodemby.com/projects/rain</id>
-        <link href="https://www.studiodemby.com/projects/rain"/>
+        <id>https://www.studiodemby.com/fractured/rain</id>
+        <link href="https://www.studiodemby.com/fractured/rain"/>
         <updated>2014-05-30T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[A composition that recursively removes itself.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Shatter 🎨🕹️]]></title>
-        <id>https://www.studiodemby.com/projects/shatter</id>
-        <link href="https://www.studiodemby.com/projects/shatter"/>
+        <id>https://www.studiodemby.com/fractured/shatter</id>
+        <link href="https://www.studiodemby.com/fractured/shatter"/>
         <updated>2024-11-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[A scream rendered in polygons.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Shrimp Jesus 🎵🎬]]></title>
-        <id>https://www.studiodemby.com/projects/shrimp-jesus</id>
-        <link href="https://www.studiodemby.com/projects/shrimp-jesus"/>
+        <id>https://www.studiodemby.com/errant/shrimp-jesus</id>
+        <link href="https://www.studiodemby.com/errant/shrimp-jesus"/>
         <updated>2024-03-31T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[He died for your fins.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Spatial Synthesizer 🎨🕹]]></title>
-        <id>https://www.studiodemby.com/projects/spatial-synthesizer</id>
-        <link href="https://www.studiodemby.com/projects/spatial-synthesizer"/>
+        <id>https://www.studiodemby.com/resonant/spatial-synthesizer</id>
+        <link href="https://www.studiodemby.com/resonant/spatial-synthesizer"/>
         <updated>2024-11-05T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[A visual instrument made of ripples and control knobs.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[Stray Signals 🎵]]></title>
-        <id>https://www.studiodemby.com/projects/stray-signals</id>
-        <link href="https://www.studiodemby.com/projects/stray-signals"/>
+        <id>https://www.studiodemby.com/enclosed/stray-signals</id>
+        <link href="https://www.studiodemby.com/enclosed/stray-signals"/>
         <updated>2023-01-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Uncollected piano improvisations.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[The Codex of Molar Wisdom]]></title>
-        <id>https://www.studiodemby.com/projects/wisdom-teeth-codex</id>
-        <link href="https://www.studiodemby.com/projects/wisdom-teeth-codex"/>
+        <id>https://www.studiodemby.com/errant/wisdom-teeth-codex</id>
+        <link href="https://www.studiodemby.com/errant/wisdom-teeth-codex"/>
         <updated>2025-04-15T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Before extraction, they whispered one final truth.]]></summary>
     </entry>

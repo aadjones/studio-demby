@@ -32,10 +32,13 @@ async function buildFeed() {
     // Skip if no date
     if (!data.date) continue
 
+    // Skip if no cluster
+    if (!data.cluster) continue
+
     feed.addItem({
       title: data.title,
-      id: `${siteUrl}/projects/${slug}`,
-      link: `${siteUrl}/projects/${slug}`,
+      id: `${siteUrl}/${data.cluster}/${slug}`,
+      link: `${siteUrl}/${data.cluster}/${slug}`,
       description: data.summary || '',
       date: new Date(data.date)
     })
