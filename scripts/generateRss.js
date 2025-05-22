@@ -72,9 +72,8 @@ async function buildFeed() {
   // Write feeds
   fs.mkdirSync('public', { recursive: true })
   fs.writeFileSync('public/feed.xml', feed.rss2())
-  fs.writeFileSync('public/atom.xml', feed.atom1())
 
-  console.log('✅ feed.xml & atom.xml generated in public/')
+  console.log('✅ feed.xml generated in public/')
 }
 
 buildFeed().catch(err => {

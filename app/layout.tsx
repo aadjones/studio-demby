@@ -57,12 +57,6 @@ export default function RootLayout({
           href="/feed.xml"
           title="RSS Feed"
         />
-        <link
-          rel="alternate"
-          type="application/atom+xml"
-          href="/atom.xml"
-          title="Atom Feed"
-        />
         <script src="/p5.min.js" defer />
       </head>
       <body className="antialiased">
