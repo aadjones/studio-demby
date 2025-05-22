@@ -8,14 +8,15 @@ const projectsDirectory = path.join(process.cwd(), 'content/projects')
 async function buildFeed() {
   const siteUrl = 'https://www.studiodemby.com'
   const feed = new Feed({
-    title: 'Studio Demy • New drops',
+    title: 'Studio Demby • New drops',
+    description: "Fresh audiovisual rituals and generative art.",
     id: siteUrl,
     link: siteUrl,
     language: 'en',
     favicon: `${siteUrl}/favicon.ico`,
     updated: new Date(),
     generator: 'feed (npm)',
-    copyright: '© 2025 Studio Demy. All rights reserved.'
+    copyright: '© 2025 Studio Demby. All rights reserved.'
   })
 
   // Iterate all MDX files
