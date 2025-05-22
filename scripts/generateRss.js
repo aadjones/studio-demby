@@ -43,6 +43,9 @@ async function buildFeed() {
       id: `${siteUrl}/${data.cluster}/${slug}`,
       link: `${siteUrl}/${data.cluster}/${slug}`,
       description: data.summary || '',
+      content: imageUrl ? 
+        `<p><img src="${imageUrl}" alt="${data.title}" /></p><p>${data.summary || ''}</p>` :
+        `<p>${data.summary || ''}</p>`,
       date: new Date(data.date),
       ...(imageUrl && {
         image: imageUrl,
