@@ -6,6 +6,7 @@ import {
   FaGithub,
   FaInstagram,
   FaLinkedinIn,
+  FaRss,
 } from "react-icons/fa6";
 import { TbMailFilled } from "react-icons/tb";
 import { metaData, socialLinks } from "app/config";
@@ -39,7 +40,7 @@ function SocialLinks() {
         target="_blank"
         rel="noopener noreferrer"
       >
-        📡
+        <FaRss />
       </a>
     </div>
   );
@@ -47,15 +48,17 @@ function SocialLinks() {
 
 export default function Footer() {
   return (
-    <footer className="block lg:mt-24 mt-16 text-[#1C1C1C] dark:text-[#D4D4D4]">
-      <div className="flex flex-col items-center gap-8 mb-8">
-        <div className="text-center">
-          <p className="mb-4">🔔 Get a ping when a new ritual drops:</p>
-          <SubscribeForm />
+    <footer className="block lg:mt-24 mt-16 text-[#1C1C1C] dark:text-[#D4D4D4] w-full px-4">
+      <div className="flex flex-col items-center gap-8 mb-8 w-full max-w-xl mx-auto">
+        <div className="text-center w-full">
+          <p className="mb-4 text-base sm:text-lg">🔔 Get a ping when a new ritual drops:</p>
+          <div className="w-full flex flex-col sm:flex-row gap-2 items-center justify-center">
+            <SubscribeForm />
+          </div>
         </div>
         <SocialLinks />
       </div>
-      <div className="text-center">
+      <div className="text-center text-sm sm:text-base mt-6">
         <time>© {YEAR}</time>{" "}
         <a
           className="no-underline"
