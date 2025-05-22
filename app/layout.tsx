@@ -53,6 +53,12 @@ export default function RootLayout({
       <head>
         <link
           rel="alternate"
+          type="application/rss+xml"
+          href="/feed.xml"
+          title="RSS Feed"
+        />
+        <link
+          rel="alternate"
           type="application/atom+xml"
           href="/atom.xml"
           title="Atom Feed"
