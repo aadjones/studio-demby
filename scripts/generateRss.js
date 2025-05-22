@@ -35,12 +35,25 @@ async function buildFeed() {
     // Skip if no cluster
     if (!data.cluster) continue
 
+    // Construct image URL if image exists in frontmatter
+    const imageUrl = data.image ? `${siteUrl}${data.image}` : null
+
     feed.addItem({
       title: data.title,
       id: `${siteUrl}/${data.cluster}/${slug}`,
       link: `${siteUrl}/${data.cluster}/${slug}`,
       description: data.summary || '',
-      date: new Date(data.date)
+      date: new Date(data.date),
+      ...(imageUrl && {
+        image: imageUrl,
+        enclosure: {
+          url: imageUrl,
+          type: imageUrl.endsWith('.png') ? 'image/png' : 
+                imageUrl.endsWith('.webp') ? 'image/webp' : 
+                (imageUrl.endsWith('.jpg') || imageUrl.endsWith('.jpeg')) ? 'image/jpeg' : 
+                'image/jpeg' // fallback to jpeg
+        }
+      })
     })
   }
 
