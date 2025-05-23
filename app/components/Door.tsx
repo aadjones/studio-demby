@@ -1,6 +1,7 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
-import React from "react";
+import React, { useRef } from "react";
 
 interface DoorProps {
   name: string;
@@ -10,6 +11,21 @@ interface DoorProps {
 }
 
 const Door: React.FC<DoorProps> = ({ name, description, href, image }) => {
+  const textRef = useRef<HTMLDivElement>(null);
+
+  // Only for Errant: silly hover effect
+  const handleErrantHover = () => {
+    const el = textRef.current;
+    if (!el) return;
+    el.classList.add("animated");
+    el.style.setProperty("--x", `${(Math.random() - 0.5) * 12}px`);
+    el.style.setProperty("--y", `${(Math.random() - 0.5) * 12}px`);
+    el.style.setProperty("--r", `${(Math.random() - 0.5) * 6}deg`);
+    setTimeout(() => el.classList.remove("animated"), 150);
+  };
+
+  const isErrant = name === "Errant";
+
   return (
     <Link
       href={href}
@@ -28,7 +44,22 @@ const Door: React.FC<DoorProps> = ({ name, description, href, image }) => {
         />
         <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 group-focus:bg-black/20 transition" aria-hidden="true" />
       </div>
-      <div className="relative z-10 flex flex-col justify-center items-center h-full px-4 text-center">
+      <div
+        ref={isErrant ? textRef : undefined}
+        className={`relative z-10 flex flex-col justify-center items-center h-full px-4 text-center ${isErrant ? "errant-hover" : ""}`}
+        onMouseEnter={isErrant ? handleErrantHover : undefined}
+        style={
+          isErrant
+            ? ({
+                ["--x" as any]: "0px",
+                ["--y" as any]: "0px",
+                ["--r" as any]: "0deg",
+                transform:
+                  "translate(var(--x, 0px), var(--y, 0px)) rotate(var(--r, 0deg))",
+              } as React.CSSProperties)
+            : undefined
+        }
+      >
         <h3 className="text-2xl font-bold text-white drop-shadow mb-2">{name}</h3>
         <p className="text-white text-base drop-shadow max-w-[90%]">{description}</p>
       </div>
