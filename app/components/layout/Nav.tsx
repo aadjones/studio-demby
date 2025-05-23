@@ -46,16 +46,6 @@ const clusterNavItems: Record<
   },
 };
 
-const navItems: Record<
-  string,
-  { name: string | JSX.Element; className?: string }
-> = {
-  "/about": {
-    name: "About",
-    className: "hover:text-neutral-600",
-  },
-};
-
 export function Navbar() {
   const pathname = usePathname();
   const errantRef = useRef<HTMLAnchorElement>(null);
@@ -63,7 +53,6 @@ export function Navbar() {
   const handleErrantHover = () => {
     const el = errantRef.current;
     if (!el) return;
-
     el.classList.add("animated");
     el.style.setProperty("--x", `${(Math.random() - 0.5) * 12}px`);
     el.style.setProperty("--y", `${(Math.random() - 0.5) * 12}px`);
@@ -71,9 +60,8 @@ export function Navbar() {
     setTimeout(() => el.classList.remove("animated"), 150);
   };
 
-  const allNavItems = featureFlags.showClusterNav 
-    ? { ...clusterNavItems, ...navItems }
-    : navItems;
+  // Cluster paths for easy mapping
+  const clusterPaths = Object.keys(clusterNavItems);
 
   return (
     <nav className="lg:mb-16 mb-12 py-5">
@@ -84,22 +72,34 @@ export function Navbar() {
           </Link>
         </div>
         <div className="flex flex-wrap gap-2 sm:gap-4 mt-6 sm:mt-0 sm:ml-auto items-center">
-          {Object.entries(allNavItems).map(([path, item]) => {
+          {/* Browse All */}
+          <Link
+            href="/projects"
+            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-2 py-1 rounded-md text-[13px] sm:text-[15px] ${pathname.startsWith("/projects") ? "font-semibold underline text-blue-700" : ""}`}
+            aria-label="Browse All Projects"
+          >
+            {/* Grid Icon */}
+            <svg width="16" height="16" fill="none" viewBox="0 0 16 16" aria-hidden="true" className="inline-block align-middle"><rect x="2" y="2" width="4" height="4" rx="1" fill="currentColor"/><rect x="10" y="2" width="4" height="4" rx="1" fill="currentColor"/><rect x="2" y="10" width="4" height="4" rx="1" fill="currentColor"/><rect x="10" y="10" width="4" height="4" rx="1" fill="currentColor"/></svg>
+            <span>Browse All</span>
+          </Link>
+
+          {/* Divider before clusters */}
+          <span className="hidden sm:inline-block border-l border-zinc-300 h-5 mx-2" aria-hidden="true" />
+
+          {/* Cluster Links */}
+          {clusterPaths.map((path) => {
+            const item = clusterNavItems[path];
             const { className } = item;
             const isActive = pathname.startsWith(path);
             const isErrant = path === "/errant";
-            const content =
-              typeof item.name === "string" ? item.name : item.name;
-
+            const content = typeof item.name === "string" ? item.name : item.name;
             return (
               <Link
                 key={path}
                 href={path}
                 ref={isErrant ? errantRef : undefined}
                 onMouseEnter={isErrant ? handleErrantHover : undefined}
-                className={`flex align-middle relative whitespace-nowrap text-[13px] sm:text-[15px] ${className ?? ""} ${
-                  isActive ? "font-semibold underline" : ""
-                }`}
+                className={`flex align-middle relative whitespace-nowrap text-[13px] sm:text-[15px] ${className ?? ""} ${isActive ? "font-semibold underline" : ""}`}
                 style={
                   isErrant
                     ? ({
@@ -116,6 +116,20 @@ export function Navbar() {
               </Link>
             );
           })}
+
+          {/* Divider after clusters */}
+          <span className="hidden sm:inline-block border-l border-zinc-300 h-5 mx-2" aria-hidden="true" />
+
+          {/* About Link */}
+          <Link
+            href="/about"
+            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-2 py-1 rounded-md text-[13px] sm:text-[15px] ${pathname.startsWith("/about") ? "font-semibold underline text-blue-700" : ""}`}
+            aria-label="About"
+          >
+            {/* User Icon */}
+            <svg width="16" height="16" fill="none" viewBox="0 0 16 16" aria-hidden="true" className="inline-block align-middle"><circle cx="8" cy="6" r="3" stroke="currentColor" strokeWidth="1.5"/><path d="M2.5 13c.5-2 2.5-3 5.5-3s5 1 5.5 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+            <span>About</span>
+          </Link>
         </div>
       </div>
     </nav>
