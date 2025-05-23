@@ -1,20 +1,10 @@
 // app/page.tsx
 import Link from "next/link";
 import Image from "next/image";
-import { getAllProjects } from "@/lib/content/projects-loader";
-import { MDXProject } from "@/types/mdx";
-import ProjectCarousel from "./components/carousel/ProjectCarousel";
+import { clusters } from "@/app/components/utils/clusters";
+import Door from "@/app/components/Door";
 
-export default async function HomePage() {
-  const projects = await getAllProjects();
-  const featuredProjects = projects
-    .filter((p) => p.isFeatured)
-    .sort((a, b) => {
-      const orderA = a.featuredOrder ?? 999;
-      const orderB = b.featuredOrder ?? 999;
-      return orderA - orderB;
-    });
-
+export default function HomePage() {
   return (
     <main className="container mx-auto px-4 pt-4 sm:pt-8">
       <h1 className="text-[1.75rem] sm:text-[2.5rem] md:text-4xl font-bold mb-2 leading-[1.15] tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">
@@ -24,36 +14,19 @@ export default async function HomePage() {
         Artist. Improviser. Builder of strange systems.
       </p>
 
-      <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">Featured Work</h2>
-      
-      {/* Mobile Carousel */}
-      <div className="sm:hidden -mx-4">
-        <ProjectCarousel projects={featuredProjects} imageSize="small" />
-      </div>
-
-      {/* Desktop Grid */}
-      <div className="hidden sm:grid grid-cols-2 lg:grid-cols-3 gap-6">
-        {featuredProjects.map((project) => (
-          <div key={project.slug} className="flex flex-col group">
-            <Link href={`/${project.cluster}/${project.slug}`}>
-              <div className="space-y-3">
-                {project.image && (
-                  <div className="aspect-square relative rounded-xl overflow-hidden">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                    />
-                  </div>
-                )}
-                <h3 className="text-lg font-bold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-sm italic text-gray-500">{project.summary}</p>
-              </div>
-            </Link>
-          </div>
+      <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-center">Choose Your Door</h2>
+      <p className="text-center mb-8 text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
+        Each door leads to a different world of work. Where will you go?
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-10 justify-items-center">
+        {clusters.map((cluster) => (
+          <Door
+            key={cluster.name}
+            name={cluster.name}
+            description={cluster.description}
+            href={cluster.href}
+            image={cluster.image}
+          />
         ))}
       </div>
     </main>
