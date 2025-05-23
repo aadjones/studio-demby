@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { clusters } from "@/app/components/utils/clusters";
 import Door from "@/app/components/Door";
+import RandomProjectButton from "@/app/components/RandomProjectButton";
 
 export default function HomePage() {
   return (
@@ -14,20 +15,23 @@ export default function HomePage() {
         Artist. Improviser. Builder of strange systems.
       </p> */}
 
-      <h2 className="text-xl sm:text-2xl font-semibold mb-1 sm:mb-2 text-center">Choose Your Door</h2>
-      <p className="text-center mb-4 text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
+      <h2 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2 text-center">Choose Your Door</h2>
+      <p className="text-center mb-2 text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
       </p>
-      <div className="grid grid-cols-2 gap-x-4 gap-y-6 justify-items-center">
-        {clusters.map((cluster) => (
+      <div className="grid grid-cols-2 gap-x-0 gap-y-3 justify-items-center">
+        {clusters.map((cluster, i) => (
           <Door
             key={cluster.name}
             name={cluster.name}
             description={cluster.description}
             href={cluster.href}
             image={cluster.image}
+            delay={i * 0.12}
           />
         ))}
       </div>
+      <div className="mb-2" />
+      <RandomProjectButton />
     </main>
   );
 }
