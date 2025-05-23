@@ -16,7 +16,6 @@ export default function HomePage() {
 
       <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-center">Choose Your Door</h2>
       <p className="text-center mb-8 text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
-        Each door leads to a different world of work. Where will you go?
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-10 justify-items-center">
         {clusters.map((cluster) => (
