@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import React, { useRef } from "react";
+import React from "react";
+import { useClusterTextEffect } from "@/app/components/utils/useClusterTextEffect";
 
 interface DoorProps {
   name: string;
@@ -11,25 +12,14 @@ interface DoorProps {
 }
 
 const Door: React.FC<DoorProps> = ({ name, description, href, image }) => {
-  const textRef = useRef<HTMLDivElement>(null);
-
-  // Only for Errant: silly hover effect
-  const handleErrantHover = () => {
-    const el = textRef.current;
-    if (!el) return;
-    el.classList.add("animated");
-    el.style.setProperty("--x", `${(Math.random() - 0.5) * 12}px`);
-    el.style.setProperty("--y", `${(Math.random() - 0.5) * 12}px`);
-    el.style.setProperty("--r", `${(Math.random() - 0.5) * 6}deg`);
-    setTimeout(() => el.classList.remove("animated"), 150);
-  };
-
-  const isErrant = name === "Errant";
+  // Use the cluster name in lowercase for consistency
+  const cluster = name.toLowerCase();
+  const textEffect = useClusterTextEffect(cluster, name, description);
 
   return (
     <Link
       href={href}
-      className="group relative block w-full max-w-[240px] aspect-[2/3] rounded-t-full rounded-b-xl overflow-hidden shadow-lg focus:outline-none focus:ring-4 focus:ring-indigo-400 transition"
+      className="group relative block w-full max-w-[180px] aspect-[2/3] rounded-t-full rounded-b-xl overflow-hidden shadow-lg focus:outline-none focus:ring-4 focus:ring-indigo-400 transition"
       tabIndex={0}
       aria-label={`Enter the ${name} cluster`}
     >
@@ -45,23 +35,12 @@ const Door: React.FC<DoorProps> = ({ name, description, href, image }) => {
         <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 group-focus:bg-black/20 transition" aria-hidden="true" />
       </div>
       <div
-        ref={isErrant ? textRef : undefined}
-        className={`relative z-10 flex flex-col justify-center items-center h-full px-4 text-center ${isErrant ? "errant-hover" : ""}`}
-        onMouseEnter={isErrant ? handleErrantHover : undefined}
-        style={
-          isErrant
-            ? ({
-                ["--x" as any]: "0px",
-                ["--y" as any]: "0px",
-                ["--r" as any]: "0deg",
-                transform:
-                  "translate(var(--x, 0px), var(--y, 0px)) rotate(var(--r, 0deg))",
-              } as React.CSSProperties)
-            : undefined
-        }
+        ref={textEffect.ref}
+        className={textEffect.className}
+        onMouseEnter={textEffect.onMouseEnter}
+        style={textEffect.style}
       >
-        <h3 className="text-2xl font-bold text-white drop-shadow mb-2">{name}</h3>
-        <p className="text-white text-base drop-shadow max-w-[90%]">{description}</p>
+        {textEffect.children}
       </div>
     </Link>
   );

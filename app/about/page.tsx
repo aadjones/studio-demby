@@ -17,7 +17,7 @@ export default function AboutPage() {
         />
         <div className="space-y-3 sm:space-y-4 text-sm sm:text-lg">
           <p>
-            I build systems that sing. Sometimes they melt. Sometimes they loop forever. 
+            I'm Aaron Demby Jones. I build systems that sing. Sometimes they melt. Sometimes they loop forever. 
           </p>
           <p>
             My work blends improvisation, computation, and mischief. It lives at the intersection of logic and feeling.
