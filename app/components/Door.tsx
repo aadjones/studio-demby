@@ -37,16 +37,18 @@ const Door: React.FC<DoorProps> = ({ name, description, href, image, delay = 0 }
         {/* Middle: Art */}
         <div className="flex-1 flex items-center justify-center w-full">
           <div className="w-full h-full flex items-center justify-center">
-            <div className="w-[90%] h-[90%] rounded-xl overflow-hidden shadow-md bg-zinc-200 dark:bg-zinc-800 transition-transform group-hover:scale-105 group-focus:scale-105">
-              <Image
-                src={image}
-                alt={name}
-                width={300}
-                height={225}
-                className="object-cover object-center w-full h-full transition-transform duration-700"
-                priority={false}
-                aria-hidden="true"
-              />
+            <div className="w-[90%] h-[90%] rounded-xl overflow-hidden shadow-md bg-zinc-200 dark:bg-zinc-800">
+              <div className="w-full h-full overflow-hidden">
+                <Image
+                  src={image}
+                  alt={name}
+                  width={300}
+                  height={225}
+                  className="object-cover object-center w-full h-full transition-transform duration-1000 scale-100 hover:scale-[2]"
+                  priority={false}
+                  aria-hidden="true"
+                />
+              </div>
             </div>
           </div>
         </div>
