@@ -26,28 +26,31 @@ const Door: React.FC<DoorProps> = ({ name, description, href, image, delay = 0 }
     >
       <Link
         href={href}
-        className="group relative block w-full max-w-[48vw] sm:max-w-[170px] aspect-[2/3] rounded-t-full rounded-b-xl overflow-hidden shadow-lg focus:outline-none focus:ring-4 focus:ring-indigo-400 transition"
+        className="group w-full max-w-[340px] rounded-2xl bg-white/80 dark:bg-zinc-900/80 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-indigo-400 transition p-5 flex flex-col items-center justify-between min-h-[340px] h-full"
         tabIndex={0}
         aria-label={`Enter the ${name} cluster`}
       >
-        <div className="absolute inset-0">
-          <Image
-            src={image}
-            alt=""
-            fill
-            className="object-cover object-center scale-110 opacity-40 group-hover:scale-[2.5] group-focus:scale-[1.5] group-hover:opacity-60 group-focus:opacity-60 transition duration-1000"
-            priority={false}
-            aria-hidden="true"
-          />
-          <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 group-focus:bg-black/20 transition" aria-hidden="true" />
+        {/* Top: Cluster Name */}
+        <div className="w-full text-center mb-3">
+          <span className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">{name}</span>
         </div>
-        <div
-          ref={textEffect.ref}
-          className={textEffect.className}
-          onMouseEnter={textEffect.onMouseEnter}
-          style={textEffect.style}
-        >
-          {textEffect.children}
+        {/* Middle: Art */}
+        <div className="flex items-center justify-center w-full">
+          <div className="rounded-xl overflow-hidden shadow-md bg-zinc-200 dark:bg-zinc-800 w-[180px] aspect-[4/3] flex items-center justify-center transition-transform group-hover:scale-105 group-focus:scale-105">
+            <Image
+              src={image}
+              alt={name}
+              width={180}
+              height={135}
+              className="object-cover object-center transition-transform duration-700"
+              priority={false}
+              aria-hidden="true"
+            />
+          </div>
+        </div>
+        {/* Bottom: Subtitle */}
+        <div className="w-full text-center mt-3">
+          <span className="text-sm text-zinc-600 dark:text-zinc-300 font-medium">{description}</span>
         </div>
       </Link>
     </motion.div>
