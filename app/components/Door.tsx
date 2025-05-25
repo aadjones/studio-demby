@@ -24,7 +24,7 @@ const Door: React.FC<DoorProps> = ({ name, description, href, image, delay = 0 }
     >
       <Link
         href={href}
-        className="group w-full max-w-[380px] aspect-[4/3] rounded-2xl bg-white/80 dark:bg-zinc-900/80 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-indigo-400 transition flex flex-col items-center justify-between p-3 sm:p-4 gap-1"
+        className="group w-full max-w-[380px] aspect-[4/3] rounded-2xl bg-zinc-100 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-indigo-400 transition flex flex-col items-center justify-between p-3 sm:p-4 gap-1"
         tabIndex={0}
         aria-label={`Enter the ${name} cluster`}
       >
@@ -82,14 +82,14 @@ const Door: React.FC<DoorProps> = ({ name, description, href, image, delay = 0 }
         {/* Middle: Art */}
         <div className="flex-1 flex items-center justify-center w-full">
           <div className="w-full h-full flex items-center justify-center">
-            <div className="w-[90%] h-[90%] rounded-xl overflow-hidden shadow-md bg-zinc-200 dark:bg-zinc-800">
+            <div className="w-[90%] h-[90%] rounded-xl overflow-hidden bg-zinc-200 border-4 border-zinc-200">
               <div className="w-full h-full overflow-hidden">
                 <Image
                   src={image}
                   alt={name}
                   width={300}
                   height={225}
-                  className="object-cover object-center w-full h-full transition-transform duration-1000 scale-100 hover:scale-[2]"
+                  className="object-cover object-center w-full h-full transition-transform duration-1000 scale-100 group-hover:scale-[2]"
                   priority={false}
                   aria-hidden="true"
                 />
