@@ -1,61 +1,37 @@
 // app/page.tsx
 import Link from "next/link";
 import Image from "next/image";
-import { getAllProjects } from "@/lib/content/projects-loader";
-import { MDXProject } from "@/types/mdx";
-import ProjectCarousel from "./components/carousel/ProjectCarousel";
+import { clusters } from "@/app/components/utils/clusters";
+import Door from "@/app/components/Door";
+import RandomProjectButton from "@/app/components/RandomProjectButton";
 
-export default async function HomePage() {
-  const projects = await getAllProjects();
-  const featuredProjects = projects
-    .filter((p) => p.isFeatured)
-    .sort((a, b) => {
-      const orderA = a.featuredOrder ?? 999;
-      const orderB = b.featuredOrder ?? 999;
-      return orderA - orderB;
-    });
-
+export default function HomePage() {
   return (
-    <main className="container mx-auto px-4 pt-4 sm:pt-8">
+    <main className="container mx-auto px-4 pt-1 sm:pt-2">
       <h1 className="text-[1.75rem] sm:text-[2.5rem] md:text-4xl font-bold mb-2 leading-[1.15] tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">
         Aaron Demby Jones
       </h1>
-      <p className="text-[0.85rem] sm:text-lg md:text-xl mb-6 sm:mb-8 leading-[1.2] tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">
-        Artist. Improviser. Builder of strange systems.
+      <p className="text-[0.85rem] sm:text-lg md:text-xl mb-6 sm:mb-8 leading-[1.2] tracking-tight sm:whitespace-nowrap sm:overflow-hidden sm:text-ellipsis">
+        Artist, improviser, builder of strange systems. <span className="italic">Choose your window.</span>
       </p>
 
-      <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">Featured Work</h2>
-      
-      {/* Mobile Carousel */}
-      <div className="sm:hidden -mx-4">
-        <ProjectCarousel projects={featuredProjects} imageSize="small" />
-      </div>
-
-      {/* Desktop Grid */}
-      <div className="hidden sm:grid grid-cols-2 lg:grid-cols-3 gap-6">
-        {featuredProjects.map((project) => (
-          <div key={project.slug} className="flex flex-col group">
-            <Link href={`/${project.cluster}/${project.slug}`}>
-              <div className="space-y-3">
-                {project.image && (
-                  <div className="aspect-square relative rounded-xl overflow-hidden">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                    />
-                  </div>
-                )}
-                <h3 className="text-lg font-bold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-sm italic text-gray-500">{project.summary}</p>
-              </div>
-            </Link>
-          </div>
+      <p className="text-center mb-2 text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
+      </p>
+      {/* <h2 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2 text-center">Choose Your Door</h2> */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-10 justify-items-center mx-auto">
+        {clusters.map((cluster, i) => (
+          <Door
+            key={cluster.name}
+            name={cluster.name}
+            description={cluster.description}
+            href={cluster.href}
+            image={cluster.image}
+            delay={i * 0.12}
+          />
         ))}
       </div>
+      <div className="mb-2" />
+      <RandomProjectButton />
     </main>
   );
 }

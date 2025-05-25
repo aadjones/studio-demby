@@ -82,7 +82,7 @@ export default function HeroCarouselBlock({
         <p className="italic text-base text-gray-600 mb-4">{subtitle}</p>
       )}
 
-      <div className="relative max-w-5xl mx-auto">
+      <div className="relative max-w-4xl mx-auto">
         {/* Carousel Container */}
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex">
@@ -92,7 +92,7 @@ export default function HeroCarouselBlock({
                 className="flex-[0_0_100%] min-w-0 pl-4 relative"
               >
                 <div className="mr-4">
-                  <div className="relative aspect-[4/3] sm:aspect-[3/2] rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-900">
+                  <div className="relative aspect-[16/9] rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-900">
                     <Image
                       src={image}
                       alt={`Slide ${i + 1}`}

@@ -31,7 +31,7 @@ export default function HeroBlock({
   tracklistSections = [],
 }: HeroBlockProps) {
   return (
-    <section className="my-8 sm:my-12">
+    <section className="mt-2 mb-8 sm:mt-4 sm:mb-12">
       <div className="text-center mb-6">
         {title && <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">{title}</h1>}
         {subtitle && <p className="italic text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-2">{subtitle}</p>}

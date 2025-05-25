@@ -11,6 +11,7 @@ import ProjectContentShell from "@/app/components/layout/ProjectContentShell";
 import ProjectNavBar from "@/app/components/layout/ProjectNavBar";
 import StickyClusterNav from "@/app/components/layout/StickyClusterNav";
 import { clusterMeta } from "@/lib/clusterMeta";
+import ClusterProjectNav from "@/app/components/layout/ClusterProjectNav";
 
 const clusterOrder = ["resonant", "errant", "fractured", "enclosed"];
 
@@ -85,6 +86,15 @@ export default async function ProjectPage({ params }: Props) {
   return (
     <>
       <StickyClusterNav />
+      <ClusterProjectNav
+        previousSlug={previousProjectData?.slug || null}
+        previousCluster={previousProjectData?.cluster || null}
+        nextSlug={nextProjectData?.slug || null}
+        nextCluster={nextProjectData?.cluster || null}
+        clusterSlug={cluster}
+        clusterName={clusterName}
+        currentProjectTitle={project.frontMatter.title}
+      />
       <ProjectContentShell>
         {/* HERO BLOCK - Conditionally Rendered */}
         {/* Data comes from project.frontMatter (MDXSource) */}
@@ -116,15 +126,16 @@ export default async function ProjectPage({ params }: Props) {
         </article>
 
         {/* STICKY NAV */}
-        <ProjectNavBar
-          // Use previousProjectData and nextProjectData (MDXProject | undefined)
-          previousSlug={previousProjectData?.slug || null} // Access slug directly
-          nextSlug={nextProjectData?.slug || null}         // Access slug directly
-          previousCluster={previousProjectData?.cluster || null} // Access cluster directly
-          nextCluster={nextProjectData?.cluster || null}     // Access cluster directly
-          clusterSlug={cluster} // Current cluster from params
-          clusterName={clusterName} // Determined above
-        />
+        <div className="sm:hidden">
+          <ProjectNavBar
+            previousSlug={previousProjectData?.slug || null}
+            nextSlug={nextProjectData?.slug || null}
+            previousCluster={previousProjectData?.cluster || null}
+            nextCluster={nextProjectData?.cluster || null}
+            clusterSlug={cluster}
+            clusterName={clusterName}
+          />
+        </div>
       </ProjectContentShell>
     </>
   );
