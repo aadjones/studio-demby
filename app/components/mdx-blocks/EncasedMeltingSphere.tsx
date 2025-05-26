@@ -101,7 +101,7 @@ export default function EncasedMeltingSphere() {
 
   return (
     <div ref={ref} className="flex flex-col items-center">
-      <div className="w-full aspect-square">
+      <div className="w-4/5 aspect-square">
         {visible && <P5Container sketch={sketch} className="w-full h-full" />}
       </div>
       <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400 text-center italic">
