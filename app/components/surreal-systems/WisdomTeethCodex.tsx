@@ -41,7 +41,7 @@ export default function WisdomTeethCodex() {
       alignment: "Lawful Stasis",
       motto: "I was built for the war that never came.",
       wisdom: "Always die with your boots on.",
-      mythicTrait: "Holds the line — cannot be moved by mortal floss",
+      mythicTrait: "Holds the line—cannot be moved by mortal floss",
       crimes: "Hoarding calcium",
       deathCause: "Internment by drillwork",
       coords: { top: "43.5%", left: "79.5%" }
