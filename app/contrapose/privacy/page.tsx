@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - Rephrase",
+  title: "Privacy Policy - Contrapose",
   description:
-    "Privacy Policy for Rephrase by Studio Demby. We don't collect your data, period.",
+    "Privacy Policy for Contrapose by Studio Demby. We don't collect your data, period.",
 };
 
 export default function PrivacyPolicy() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
       <article className="prose prose-neutral dark:prose-invert max-w-none">
-        <h1>Privacy Policy for Rephrase</h1>
+        <h1>Privacy Policy for Contrapose</h1>
 
         <p>
           <strong>Effective Date:</strong> October 6, 2025
@@ -19,7 +19,7 @@ export default function PrivacyPolicy() {
         </p>
 
         <p>
-          Studio Demby (&ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;) operates the Rephrase mobile
+          Studio Demby (&ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;) operates the Contrapose mobile
           application (the &ldquo;App&rdquo;). This Privacy Policy explains our practices
           regarding data collection and use.
         </p>
@@ -30,7 +30,7 @@ export default function PrivacyPolicy() {
           <strong>We do not collect, store, or transmit any personal information.</strong>
         </p>
 
-        <p>The Rephrase app:</p>
+        <p>The Contrapose app:</p>
         <ul>
           <li>
             <strong>Does not require account creation</strong> or login
@@ -148,7 +148,7 @@ export default function PrivacyPolicy() {
         <hr />
 
         <p>
-          <strong>Summary:</strong> Rephrase is a privacy-first app. We don&apos;t
+          <strong>Summary:</strong> Contrapose is a privacy-first app. We don&apos;t
           collect your data, period.
         </p>
       </article>
