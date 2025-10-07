@@ -10,8 +10,8 @@ export default async function ProjectsPage() {
   // Sort projects by cluster and then by clusterOrder
   const sortedProjects = [...projects].sort((a: MDXProject, b: MDXProject) => {
     const clusterOrder = ["resonant", "errant", "fractured", "enclosed"];
-    const clusterIndexA = clusterOrder.indexOf(a.cluster);
-    const clusterIndexB = clusterOrder.indexOf(b.cluster);
+    const clusterIndexA = clusterOrder.indexOf(a.cluster || "");
+    const clusterIndexB = clusterOrder.indexOf(b.cluster || "");
 
     if (clusterIndexA === clusterIndexB) {
       const orderA = Number(a.clusterOrder) ?? 999;

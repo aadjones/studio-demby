@@ -16,6 +16,8 @@ describe('getProjectBySlug', () => {
 title: Slug Project
 slug: slug-project
 summary: Test description
+type: audio
+categories: [sound-vision]
 cluster: fractured
 isFeatured: false
 tags: [test]
@@ -39,6 +41,8 @@ tags: [test]
         title: 'Slug Project',
         slug: 'slug-project',
         summary: 'Test description',
+        type: 'audio',
+        categories: ['sound-vision'],
         cluster: 'fractured',
         isFeatured: false,
         tags: ['test'],

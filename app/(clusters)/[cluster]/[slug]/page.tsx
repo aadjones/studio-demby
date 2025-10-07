@@ -26,11 +26,13 @@ export async function generateStaticParams() {
   // Assuming getAllProjects returns: MDXProject[]
   // (or similar array where each item has at least slug and cluster)
   const projects = await getAllProjects();
-  // Map over MDXProject directly
-  return projects.map((project: MDXProject) => ({
-    cluster: project.cluster, // Access directly from project (MDXProject)
-    slug: project.slug,       // Access directly from project (MDXProject)
-  }));
+  // Map over MDXProject directly, filter out projects without cluster (legacy field)
+  return projects
+    .filter((project: MDXProject) => project.cluster) // Only include projects with cluster field
+    .map((project: MDXProject) => ({
+      cluster: project.cluster!, // Access directly from project (MDXProject), ! since we filtered
+      slug: project.slug,        // Access directly from project (MDXProject)
+    }));
 }
 
 export default async function ProjectPage({ params }: Props) {
@@ -47,9 +49,9 @@ export default async function ProjectPage({ params }: Props) {
 
   // Step 1: Sort all projects (array of MDXProject)
   const sortedProjects = [...allProjects].sort((a: MDXProject, b: MDXProject) => { // Type a, b as MDXProject
-    // Access properties directly from a and b
-    const clusterIndexA = clusterOrder.indexOf(a.cluster);
-    const clusterIndexB = clusterOrder.indexOf(b.cluster);
+    // Access properties directly from a and b (cluster is now optional, provide fallback)
+    const clusterIndexA = clusterOrder.indexOf(a.cluster || "");
+    const clusterIndexB = clusterOrder.indexOf(b.cluster || "");
 
     if (clusterIndexA === clusterIndexB) {
       const orderA = a.clusterOrder ?? 999;
@@ -72,7 +74,9 @@ export default async function ProjectPage({ params }: Props) {
   const nextProjectData: MDXProject | undefined = sortedProjects[(currentIndex + 1) % totalProjects];
 
   // Use project.frontMatter (from MDXSource) for current page data
-  const clusterName = clusterMeta[project.frontMatter.cluster].title;
+  const clusterName = project.frontMatter.cluster
+    ? clusterMeta[project.frontMatter.cluster].title
+    : "Projects";
 
   // --- Logic for Conditional Rendering using project.frontMatter (from MDXSource) ---
   const renderDefaultHero = !project.frontMatter.overrideHero;
