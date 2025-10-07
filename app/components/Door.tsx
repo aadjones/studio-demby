@@ -13,9 +13,6 @@ interface DoorProps {
 }
 
 const Door: React.FC<DoorProps> = ({ name, description, href, image, delay = 0 }) => {
-  // Use the cluster name in lowercase for consistency
-  const cluster = name.toLowerCase();
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 40, scale: 0.95 }}
@@ -26,57 +23,12 @@ const Door: React.FC<DoorProps> = ({ name, description, href, image, delay = 0 }
         href={href}
         className="group w-full max-w-[380px] aspect-[4/3] rounded-2xl bg-zinc-100 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-indigo-400 transition flex flex-col items-center justify-between p-3 sm:p-4 gap-1"
         tabIndex={0}
-        aria-label={`Enter the ${name} cluster`}
+        aria-label={`View ${name} category`}
       >
-        {/* Top: Cluster Name */}
+        {/* Top: Category Name */}
         <div className="w-full text-center text-lg font-bold text-zinc-900 dark:text-zinc-100 mb-1 mt-1 truncate">
-          <span className="relative inline-flex group-hover:text-blue-600 transition-all duration-150">
-            {cluster === "fractured" ? (
-              <>
-                <span className="group-hover:opacity-0 transition-opacity duration-150">
-                  {name}
-                </span>
-                <span className="absolute left-0 top-0 w-full flex items-center justify-center gap-[0.15em] group-hover:opacity-100 opacity-0 transition-opacity duration-150">
-                  <span className="text-red-600">Frac</span>
-                  <span className="text-red-600">|</span>
-                  <span className="text-red-600">tured</span>
-                </span>
-              </>
-            ) : cluster === "errant" ? (
-              <>
-                <span className="group-hover:opacity-0 transition-opacity duration-150">
-                  {name}
-                </span>
-                <span className="absolute left-0 top-0 w-full flex items-center justify-center group-hover:opacity-100 opacity-0 transition-opacity duration-150 group-hover:text-pink-600">
-                  <span className="animate-pulse">E</span>
-                  <span className="animate-bounce">r</span>
-                  <span className="animate-pulse">r</span>
-                  <span className="animate-bounce">a</span>
-                  <span className="animate-pulse">n</span>
-                  <span className="animate-bounce">t</span>
-                </span>
-              </>
-            ) : cluster === "resonant" ? (
-              <>
-                <span className="group-hover:opacity-0 transition-opacity duration-150">
-                  {name}
-                </span>
-                <span className="absolute left-0 top-0 w-full flex items-center justify-center group-hover:opacity-100 opacity-0 transition-opacity duration-150 group-hover:text-blue-600 group-hover:scale-110">
-                  {name}
-                </span>
-              </>
-            ) : cluster === "enclosed" ? (
-              <>
-                <span className="group-hover:opacity-0 transition-opacity duration-150">
-                  {name}
-                </span>
-                <span className="absolute left-0 top-0 w-full flex items-center justify-center group-hover:opacity-100 opacity-0 transition-opacity duration-150 group-hover:text-gray-600 group-hover:tracking-tighter">
-                  {name}
-                </span>
-              </>
-            ) : (
-              name
-            )}
+          <span className="group-hover:text-blue-600 transition-colors duration-150">
+            {name}
           </span>
         </div>
         {/* Middle: Art */}
