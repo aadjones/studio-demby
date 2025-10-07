@@ -26,11 +26,11 @@ export default function AboutPage() {
             I&rsquo;ve spent time with pianos, particles, and unstable systems. My background includes experimental music, digital art, mathematics, and computer programming—but these days, I&rsquo;m more interested in how they blur.
           </p>
           <p>
-            My work is organized by clusters. You&rsquo;ll find pieces in{" "}
-            <Link href="/resonant" className="text-blue-500 hover:text-blue-600 transition-colors">Resonant</Link>,{" "}
-            <Link href="/errant" className="text-blue-500 hover:text-blue-600 transition-colors">Errant</Link>,{" "}
-            <Link href="/fractured" className="text-blue-500 hover:text-blue-600 transition-colors">Fractured</Link>, and{" "}
-            <Link href="/enclosed" className="text-blue-500 hover:text-blue-600 transition-colors">Enclosed</Link>.{" "}
+            My work is organized by type. You&rsquo;ll find pieces in{" "}
+            <Link href="/sound-vision" className="text-blue-500 hover:text-blue-600 transition-colors">Sound & Vision</Link>,{" "}
+            <Link href="/systems-tools" className="text-blue-500 hover:text-blue-600 transition-colors">Systems & Tools</Link>,{" "}
+            <Link href="/provocations" className="text-blue-500 hover:text-blue-600 transition-colors">Provocations</Link>, and{" "}
+            <Link href="/practice-pedagogy" className="text-blue-500 hover:text-blue-600 transition-colors">Practice & Pedagogy</Link>.{" "}
             If something echoes in you,{" "}
             <a href="mailto:aaron.demby.jones@gmail.com" className="text-blue-500 hover:text-blue-600 transition-colors">reach out</a> or subscribe below for updates.
           </p>
