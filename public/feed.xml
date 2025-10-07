@@ -4,7 +4,7 @@
         <title>Studio Demby • New drops</title>
         <link>https://www.studiodemby.com</link>
         <description>Fresh audiovisual rituals and generative art.</description>
-        <lastBuildDate>Thu, 22 May 2025 19:42:57 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 07 Oct 2025 18:49:35 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>feed (npm)</generator>
         <language>en</language>
@@ -76,7 +76,7 @@
             <title><![CDATA[Fluid Subspaces 🎵🎬]]></title>
             <link>https://www.studiodemby.com/resonant/fluid-subspaces</link>
             <guid>https://www.studiodemby.com/resonant/fluid-subspaces</guid>
-            <pubDate>Sun, 01 Jan 2017 00:00:00 GMT</pubDate>
+            <pubDate>Thu, 01 Jun 2017 00:00:00 GMT</pubDate>
             <description><![CDATA[Sound from flow. Geometry from tone.]]></description>
             <content:encoded><![CDATA[<p><img src="https://www.studiodemby.com/photos/fluid-subspaces/fluid-subspaces.jpg" alt="Fluid Subspaces 🎵🎬" /></p><p>Sound from flow. Geometry from tone.</p>]]></content:encoded>
             <enclosure url="https://www.studiodemby.com/photos/fluid-subspaces/fluid-subspaces.jpg" length="0" type="image/jpg"/>
@@ -88,6 +88,15 @@
             <pubDate>Tue, 04 Mar 2025 00:00:00 GMT</pubDate>
             <content:encoded><![CDATA[<p><img src="https://www.studiodemby.com/photos/gallery-of-lies/lies.jpg" alt="The Gallery of Lies" /></p><p></p>]]></content:encoded>
             <enclosure url="https://www.studiodemby.com/photos/gallery-of-lies/lies.jpg" length="0" type="image/jpg"/>
+        </item>
+        <item>
+            <title><![CDATA[Ghostly Double 🎵🎬]]></title>
+            <link>https://www.studiodemby.com/resonant/ghostly-double</link>
+            <guid>https://www.studiodemby.com/resonant/ghostly-double</guid>
+            <pubDate>Fri, 01 Aug 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[Call and response with a phantom.]]></description>
+            <content:encoded><![CDATA[<p><img src="https://www.studiodemby.com/photos/ghostly-double/ghostly-double.jpg" alt="Ghostly Double 🎵🎬" /></p><p>Call and response with a phantom.</p>]]></content:encoded>
+            <enclosure url="https://www.studiodemby.com/photos/ghostly-double/ghostly-double.jpg" length="0" type="image/jpg"/>
         </item>
         <item>
             <title><![CDATA[Improvisation on a Simple Melody 🎵🎬]]></title>
