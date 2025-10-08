@@ -1,7 +1,7 @@
 ---
-title: "FrogMath: Making Number Theory Tangible"
+title: "FrogMath: Making Number Theory Amphibious"
 slug: frogmath
-summary: Teaching divisibility, GCD, and linear combinations through the spatial metaphor of frogs hopping on lily pads.
+summary: Teaching divisibility, gcd, linear combinations, and more through frogs hopping on lily pads.
 type: app
 categories: ["practice-pedagogy"]
 isFeatured: true
@@ -18,9 +18,7 @@ githubLink: https://github.com/aadjones/frog-math
 overrideHero: true
 ---
 
-<HeroTitleBlock
-  title="FrogMath: Making Number Theory Tangible"
-/>
+<HeroTitleBlock title="FrogMath: Making Number Theory Amphibious" />
 
 <div className="mb-12 flex justify-center">
   <div className="w-full max-w-2xl">
@@ -57,22 +55,27 @@ overrideHero: true
 
 ## The Problem
 
-Most students encounter number theory as a wall of abstract symbols—integers, divisibility, GCD—completely divorced from physical intuition. They memorize the Euclidean algorithm without understanding *why* it works. They calculate linear combinations mechanically, never seeing the elegant structure beneath.
+Most students encounter number theory as a wall of abstract symbols—integers, divisibility, gcd, etc. They might learn the Euclidean algorithm without understanding _why_ it works.
 
-**FrogMath** grounds these concepts in a spatial, interactive model that students can see and manipulate before they ever encounter formal notation.
+**FrogMath** (the brainchild of Jamie Pommersheim and myself) grounds these concepts in a playful visual model that students can see and interact with before they have to learn formal notation.
 
 ## The Core Metaphor
 
-Instead of asking "Does 3 divide 12?", we ask: **"Can a frog that hops in intervals of 3 reach lily pad 12?"**
+We represent the integers as a river of lily pads. Then, we introduce the **hoppers**: frogs that always hop either direction a certain number of lily pads. For example, the 3-hopping frog always hops a distance of 3 lily pads.
+Then instead of asking questions like "Does 3 divide 12?", we can ask: **"Can a 3-hopper reach lily pad 12?"**
 
-The answer is the same, but the question now has spatial meaning. Students can *see* the pattern of where a 3-hopper can land. They build intuition through exploration before encountering formal definitions.
+The answer is the same, but the question now has a concrete spatial meaning. Students can _see_ the pattern of where a 3-hopper can land. They can explore the space of possibilities, ask interesting questions, and develop intuition in a playful way.
 
 </div>
 
 <div className="my-12 bg-gradient-to-br from-teal-50 to-green-50 rounded-xl p-8 border-2 border-green-200">
-  <h3 className="text-green-800 font-semibold mb-4">🐸 Core Concept: The <em>a</em>-hopper</h3>
+  <h3 className="text-green-800 font-semibold mb-4">
+    🐸 Core Concept: The <em>a</em>-hopper
+  </h3>
   <div className="text-green-900">
-    An <em>a</em>-hopper is a frog that jumps in intervals of <em>a</em>. The set of lily pads it can reach from position 0 is exactly the set of multiples of <em>a</em>. This spatial metaphor makes abstract number theory concepts feel tangible and explorable.
+    An <em>a</em>-hopper is a frog that jumps in intervals of <em>a</em>. The
+    set of lily pads it can reach from position 0 is exactly the set of
+    multiples of <em>a</em>.
   </div>
 </div>
 
@@ -85,38 +88,56 @@ The answer is the same, but the question now has spatial meaning. Students can *
     <img src="/photos/frogmath/single_hopper.jpg" alt="Single-hopper mode" className="w-full rounded-lg mb-4" />
     <h3 className="text-xl font-semibold text-green-800 mb-2">Single-hopper: Explore the River</h3>
     <p className="text-zinc-700">
-      Meet individual hoppers and see where they can land. Build intuition for multiples and divisibility through free exploration.
+      Meet single-hoppers and see where they can land. Build intuition for multiples and divisibility through free exploration.
     </p>
   </div>
 
-  <div className="bg-white rounded-lg p-6 border-2 border-blue-200 shadow-sm">
-    <img src="/photos/frogmath/multi-hopper.jpg" alt="Multi-hopper mode" className="w-full rounded-lg mb-4" />
-    <h3 className="text-xl font-semibold text-blue-800 mb-2">Multi-hopper: Discover Your True Potential</h3>
-    <p className="text-zinc-700">
-      Work with pairs of hoppers. Can a 5-hopper and 7-hopper reach the same lily pad? This mode builds intuition for GCD and linear combinations.
-    </p>
-  </div>
+{" "}
+<div className="bg-white rounded-lg p-6 border-2 border-blue-200 shadow-sm">
+  <img
+    src="/photos/frogmath/multi-hopper.jpg"
+    alt="Multi-hopper mode"
+    className="w-full rounded-lg mb-4"
+  />
+  <h3 className="text-xl font-semibold text-blue-800 mb-2">
+    Multi-hopper: Discover Your True Potential
+  </h3>
+  <p className="text-zinc-700">
+    Work with <strong>multihoppers</strong>: the offspring of a pair of hoppers.
+    Which lily pads can a (5, 7)-multihopper reach? This mode is a series of
+    puzzles that has surprisingly deep connections to the Euclidean algorithm
+    and linear Diophantine equations.
+  </p>
+</div>
 
-  <div className="bg-white rounded-lg p-6 border-2 border-red-200 shadow-sm">
-    <img src="/photos/frogmath/pond.jpg" alt="Pond mode" className="w-full rounded-lg mb-4" />
-    <h3 className="text-xl font-semibold text-red-800 mb-2">Pond: Hoppin' Around</h3>
-    <p className="text-zinc-700">
-      Free exploration mode. Place multiple hoppers and see the patterns emerge. Perfect for teacher demonstrations or student investigation.
-    </p>
-  </div>
+{" "}
+<div className="bg-white rounded-lg p-6 border-2 border-red-200 shadow-sm">
+  <img
+    src="/photos/frogmath/pond.jpg"
+    alt="Pond mode"
+    className="w-full rounded-lg mb-4"
+  />
+  <h3 className="text-xl font-semibold text-red-800 mb-2">
+    Pond: Hoppin' Around
+  </h3>
+  <p className="text-zinc-700">
+    What happens when the lily pads are arranged in a circle rather than a line?
+    This is a free exploration mode of <strong>pond hoppers.</strong>
+  </p>
+</div>
 
   <div className="bg-white rounded-lg p-6 border-2 border-zinc-300 shadow-sm">
     <img src="/photos/frogmath/uberhopper.jpg" alt="Überhopper mode" className="w-full rounded-lg mb-4" />
-    <h3 className="text-xl font-semibold text-zinc-800 mb-2">Überhopper: Progress Idealized</h3>
+    <h3 className="text-xl font-semibold text-zinc-800 mb-2">Überhopper: Frogness Idealized</h3>
     <p className="text-zinc-700">
-      Advanced challenges for students ready to think about divisibility relationships and GCD algorithmically.
+      A challenge for advanced students: which lily pads can the überhopper reach? This module teases the idea of quadratic residues.
     </p>
   </div>
 </div>
 
 ## Bridging to Formal Mathematics
 
-The real pedagogical power comes from the **Math Concepts** reference sheet, which explicitly connects the informal frog language to standard mathematical notation:
+The real pedagogical power comes from the **Math Concepts** reference sheet, which is a translation between froggish and standard mathematical notation.
 
 <div className="my-8">
   <img
@@ -126,40 +147,30 @@ The real pedagogical power comes from the **Math Concepts** reference sheet, whi
   />
 </div>
 
-Students learn that:
+We can see:
+
 - **"The river"** = The set of integers (ℤ)
 - **"The fly set"** = The set of multiples of a hopper's jump size (formally, the ideal aℤ)
-- **"Alice mimics Bob"** = Alice's fly set contains Bob's fly set (equivalently, Alice's hop divides Bob's hop)
+- **"Alice mimics Bob"** = aℤ ⊇ bℤ (equivalently, _a_ divides _b_)
 - **"Hop combos"** = Linear combinations
 
-This isn't just metaphor—it's a genuine conceptual scaffold that transfers to formal mathematics.
+We see that froggish is a genuine conceptual scaffold that transfers to formal mathematics.
 
 ## What Works (and What Doesn't)
 
 ### Strengths
 
-**Spatial intuition is powerful.** Students report that the frog model is "sticky" and memorable. Seeing that a 6-hopper can reach anywhere a 3-hopper can reach (because 3 divides 6) creates lasting understanding.
+**Spatial (and froggish) intuition is powerful.** The frog model is memorable and intuitive. The proof of the linear combination lemma in froggish is frogvious.
 
-**Progression from play to proof.** Students explore freely in Pond mode, solve structured problems in Multi-hopper, then see the formal mathematics in the Concepts sheet. This matches how mathematical understanding actually develops.
+**Progression from play to proof.** Students explore freely in Single-hopper mode, solve structured problems in Multihopper, then see the formal mathematics in the Concepts sheet.
 
-**The Euclidean algorithm becomes visible.** Finding which pads two hoppers can both reach naturally leads to questions about GCD. Students discover the algorithm before being told it.
+**The Euclidean algorithm becomes visible.** Finding which pads a multihopper can reach naturally leads to questions about gcd. Students discover the algorithm before being told it.
 
 ### Limitations
 
-**Some concepts don't map naturally.** Prime factorization and modular arithmetic are harder to represent with hopping frogs. FrogMath works best as an *introduction* to number theory, not a complete curriculum.
+**Some concepts don't map naturally.** Prime factorization (and multiplication in general) can be less intuitive to represent with hoppers.
 
-**The metaphor creates scaffolding debt.** At some point, students need to work abstractly with symbols. There's pedagogical tension between making math accessible and ensuring students can eventually transcend the concrete model.
-
-**It's not a substitute for proof.** FrogMath builds intuition, but students still need to learn rigorous argumentation. The spatial model can sometimes make things *seem* more obvious than they are, potentially undermining the need for proof.
-
-## Design Philosophy
-
-Every design choice serves the learning goal:
-
-- **Constrained exploration before open play**: Single-hopper mode introduces one concept at a time before Pond mode opens everything up
-- **Visual clarity over realism**: The lily pads are arranged in a circle for visibility, not ecological accuracy
-- **Problems provoke discovery**: Multi-hopper challenges are designed to make students notice patterns, not drill procedures
-- **Terminology builds bridges**: "Mimicry" and "hop combos" feel playful but map directly to divisibility and linear combinations
+**The metaphor can create scaffolding debt.** At some point, students need to work abstractly with symbols. However, we believe building the intuition first is a richer path.
 
 ## Technical Implementation
 
@@ -169,6 +180,6 @@ The hopping animations use CSS transforms for smooth, 60fps movement across diff
 
 ## Try It Yourself
 
-FrogMath is free and open-source. Try it with your students, or just hop around yourself to rediscover number theory through a frog's eyes.
+FrogMath is free and open-source. <a href="https://aadjones.github.io/frog-math/" target="_blank" rel="noopener noreferrer">Try it yourself</a> with your students, or just hop around yourself to rediscover number theory through the eyes of a frog. Ribbit!
 
 </div>

@@ -17,22 +17,38 @@ export default function AboutPage() {
         />
         <div className="space-y-3 sm:space-y-4 text-sm sm:text-lg">
           <p>
-            I&rsquo;m Aaron Demby Jones. I build systems that sing. Sometimes they melt. Sometimes they loop forever. 
+            I&rsquo;m Aaron Demby Jones. I improvise, build tools, write things down when they bother me, and teach.
           </p>
           <p>
-            My work blends improvisation, computation, and mischief. It lives at the intersection of logic and feeling.
+            <strong>Music:</strong> Piano since age 5, from classical to free improvisation. Also drums, violin, guitar. I&rsquo;ve recorded albums and work with digital audio synthesis.
           </p>
           <p>
-            I&rsquo;ve spent time with pianos, particles, and unstable systems. My background includes experimental music, digital art, mathematics, and computer programming—but these days, I&rsquo;m more interested in how they blur.
+            <strong>Visual Art:</strong> Inspired by generative systems and built from creative coding tools like p5.js.
           </p>
           <p>
-            My work is organized by type. You&rsquo;ll find pieces in{" "}
+            <strong>Tools:</strong> I like to tinker to try to create solutions to niche problems—like hacking iPhone shortcuts into Rube Goldberg machines. If a tool seems like it might help others, I flesh it out and share it with the world.
+          </p>
+          <p>
+            <strong>Writing:</strong> Analytical takes, weird observations, occasional jokes. I think about structure a lot.
+          </p>
+          <p>
+            <strong>Teaching:</strong> Math, piano, and chess, mostly. My philosophy is rooted in play and exploration.
+          </p>
+          <p>
+            The work here often crosses categories:{" "}
             <Link href="/sound-vision" className="text-blue-500 hover:text-blue-600 transition-colors">Sound & Vision</Link>,{" "}
             <Link href="/systems-tools" className="text-blue-500 hover:text-blue-600 transition-colors">Systems & Tools</Link>,{" "}
-            <Link href="/provocations" className="text-blue-500 hover:text-blue-600 transition-colors">Provocations</Link>, and{" "}
-            <Link href="/practice-pedagogy" className="text-blue-500 hover:text-blue-600 transition-colors">Practice & Pedagogy</Link>.{" "}
-            If something echoes in you,{" "}
-            <a href="mailto:aaron.demby.jones@gmail.com" className="text-blue-500 hover:text-blue-600 transition-colors">reach out</a> or subscribe below for updates.
+            <Link href="/provocations" className="text-blue-500 hover:text-blue-600 transition-colors">Provocations</Link>,{" "}
+            <Link href="/practice-pedagogy" className="text-blue-500 hover:text-blue-600 transition-colors">Practice & Pedagogy</Link>.
+          </p>
+          <p className="pt-4 sm:pt-6 border-t border-gray-200 mt-4 sm:mt-6">
+            Open to collaborations, commissions, and interesting projects. Reach out if you want to work together:{" "}
+            <a
+              href="mailto:aaron.demby.jones@gmail.com"
+              className="text-blue-500 hover:text-blue-600 transition-colors underline"
+            >
+              aaron.demby.jones@gmail.com
+            </a>
           </p>
         </div>
       </div>

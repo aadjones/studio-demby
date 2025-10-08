@@ -28,9 +28,14 @@ export default function ContraposeMarketingPage() {
           <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8">
             Break through practice plateaus with creative constraints.
           </p>
-          <p className="text-sm text-gray-500 dark:text-gray-600">
-            Coming soon to the App Store
-          </p>
+          <a
+            href="https://apps.apple.com/us/app/contrapose/id6753694877"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white font-medium rounded-lg transition-colors"
+          >
+            Download on the App Store
+          </a>
         </div>
 
         {/* Features Section */}
@@ -86,13 +91,13 @@ export default function ContraposeMarketingPage() {
         <footer className="mt-32 pt-8 border-t border-gray-200 dark:border-gray-800">
           <div className="flex justify-center gap-12 text-sm text-gray-600 dark:text-gray-400">
             <Link
-              href="/contrapose/support"
+              href="/projects/contrapose/support"
               className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
             >
               Support
             </Link>
             <Link
-              href="/contrapose/privacy"
+              href="/projects/contrapose/privacy"
               className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
             >
               Privacy

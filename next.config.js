@@ -37,6 +37,12 @@ module.exports = {
         destination: '/projects/:slug',
         permanent: true,
       },
+      // Redirect old contrapose routes to new location
+      {
+        source: '/contrapose/:path*',
+        destination: '/projects/contrapose/:path*',
+        permanent: true,
+      },
     ];
   },
 };
