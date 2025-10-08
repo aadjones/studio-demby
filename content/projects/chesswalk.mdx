@@ -3,10 +3,10 @@ title: ChessWalk
 slug: chesswalk
 summary: Find the exact moves where stronger players outthink you—and steal them.
 type: app
-categories: ['systems-tools', 'provocations']
+categories: ["systems-tools", "provocations"]
 isFeatured: true
-image: /photos/chesswalk/steal-header.png
-date: '2025-08-01'
+image: /photos/chesswalk/chesswalk.jpg
+date: "2025-08-01"
 tags:
   - chess
   - data-analysis
@@ -18,20 +18,29 @@ githubLink: https://github.com/aadjones/chess_walk
 overrideHero: true
 ---
 
-import CollapseMetadata from '@/app/components/mdx-blocks/CollapseMetadata'
+import CollapseMetadata from "@/app/components/mdx-blocks/CollapseMetadata";
 
 <HeroTitleBlock title="ChessWalk" />
 
+<div className="mb-12 flex justify-center">
+  <img
+    src="/photos/chesswalk/steal-header.png"
+    alt="ChessWalk - Find the exact moments where stronger players outthink you"
+    className="w-full max-w-xl rounded-lg"
+  />
+</div>
+
 <div className="text-center mb-8">
-  <p className="text-xl italic text-zinc-600 mb-6">
-    What if you could find the exact moments where stronger players outthink you, and steal those moves?
-  </p>
-  <div className="flex gap-4 justify-center">
+  <div className="text-xl italic text-zinc-600 mb-6">
+    What if you could find the exact moments where stronger players outthink
+    you, and steal those moves?
+  </div>
+  <div className="flex gap-4 justify-center flex-wrap">
     <a
       href="https://chesswalk.streamlit.app"
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+      className="inline-block px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition duration-200"
     >
       Try ChessWalk →
     </a>
@@ -39,14 +48,14 @@ import CollapseMetadata from '@/app/components/mdx-blocks/CollapseMetadata'
       href="https://github.com/aadjones/chess_walk"
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-block px-6 py-2 border border-gray-400 text-gray-700 rounded-lg hover:border-blue-600 hover:text-blue-600 transition-colors"
+      className="inline-block px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition duration-200"
     >
       View on GitHub
     </a>
   </div>
 </div>
 
-## The Core Idea
+## Introduction
 
 Every chess player learns from stronger opponents. But what if you knew **exactly where** stronger players choose a different move—and that move wins more games for people at your rating?
 
@@ -64,12 +73,13 @@ Let's take a closer look.
     alt="Comparing what 1200s and 1600s do in the same position"
     className="rounded-lg mx-auto"
   />
-  <p className="text-center text-sm text-gray-600 italic mt-2">
+  <div className="text-center text-sm text-gray-600 italic mt-2">
     Comparing what 1200s and 1600s do in the same position.
-  </p>
+  </div>
 </div>
 
 **Takeaways:**
+
 - 1600s choose **e5** over **Qxf6** by a factor of more than **2×**.
 - 1200s have the reverse preference, choosing **Qxf6** over **e5** by a factor of ~**1.25×**.
 
@@ -81,14 +91,15 @@ Okay, so maybe 1200s should be playing **e5** more. But to be sure, we should ch
     alt="1200 cohort win rate comparison"
     className="rounded-lg mx-auto"
   />
-  <p className="text-center text-sm text-gray-600 italic mt-2">
+  <div className="text-center text-sm text-gray-600 italic mt-2">
     Win rates for 1200s choosing e5 vs Qxf6.
-  </p>
+  </div>
 </div>
 
 **Bingo!** When 1200s do play **e5** instead of **Qxf6**, they have a **+11% win rate**! So if you're in the 1200s yourself, studying moments like this one can help you think more like the next tier up.
 
 ### Why the difference?
+
 - **1200s** see a Queen trade and figure it's even, without considering the aftereffects.
 - **1600s** recognize **Qxf6 Nxf6** as replacing White's Queen with a Black Knight—worsening board control and tempo—so they reject Qxf6 in favor of active moves like **e5**.
 
@@ -117,18 +128,20 @@ Let's see what happens further up the rating ladder with 1400s vs 1800s.
     alt="Comparing what 1400s and 1800s do in the same position"
     className="rounded-lg mx-auto"
   />
-  <p className="text-center text-sm text-gray-600 italic mt-2">
+  <div className="text-center text-sm text-gray-600 italic mt-2">
     Comparing what 1400s and 1800s do in the same position.
-  </p>
+  </div>
 </div>
 
 **Takeaways:**
+
 - 1800s are almost **twice as likely** to choose **Bd3** over **Bb5**.
 - 1400s reverse that, choosing **Bb5** over **Bd3** nearly **3× more**.
 
 However, when I looked at the win rate data, switching to **Bd3** raises 1400 win rates by **+7%** (52% vs 45%).
 
 ### Why the difference?
+
 - **1400s** feel the Knight pin is aggressive, but here it's easily neutralized with **Bd7**.
 - **1800s** see more long-term value in the **b1–h7 diagonal**.
 
@@ -146,18 +159,20 @@ Let's look at one final example even higher up, comparing 1600s to 2000s.
     alt="Comparing what 1600s and 2000s do in the same position"
     className="rounded-lg mx-auto"
   />
-  <p className="text-center text-sm text-gray-600 italic mt-2">
+  <div className="text-center text-sm text-gray-600 italic mt-2">
     Comparing what 1600s and 2000s do in the same position.
-  </p>
+  </div>
 </div>
 
 **Takeaways:**
+
 - 2000s are **~1.5× as likely** to choose **f5** over **Nf6**.
 - 1600s have completely inverted preferences, going for **Nf6** more than **3× as often** as **f5**.
 
 However, when I looked at the win rate data, switching to **f5** boosts 1600 win rates by **+8%** (55% vs 47%).
 
 ### Why the difference?
+
 - **1600s** default to "develop the Knight."
 - **2000s** know that setting up the **e5/f5 pawn duo** is effective here since White can't exploit the usual weaknesses it leaves behind.
 
