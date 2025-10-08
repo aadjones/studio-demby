@@ -18,6 +18,7 @@ import { CaptionComponent } from "../mdx-blocks/Caption";
 import CollapseMetadata from "../mdx-blocks/CollapseMetadata";
 import FieldNote from "../mdx-blocks/FieldNote";
 import Whisper from "../mdx-blocks/Whisper";
+import Footnote from "../mdx-blocks/Footnote";
 import SacredScroll from "../surreal-systems/SacredScroll";
 import GalleryOfLies from "../surreal-systems/GalleryOfLies";
 import LoopRoomTrack from "../project-looproom/LoopRoomTrack";
@@ -69,6 +70,7 @@ const baseComponents = {
   CollapseMetadata,
   FieldNote,
   Whisper,
+  Footnote,
   SacredScroll,
   GalleryOfLies,
   LoopRoomTrack,
