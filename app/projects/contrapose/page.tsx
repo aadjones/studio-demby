@@ -19,7 +19,7 @@ export default function ContraposeMarketingPage() {
       <main className="container mx-auto px-4 py-16 md:py-24 max-w-5xl">
         {/* Hero Section */}
         <div className="text-center mb-20">
-          <h1 className="text-7xl md:text-9xl font-extrabold mb-3 text-gray-900 dark:text-gray-100 tracking-tight">
+          <h1 className="text-5xl md:text-7xl font-extrabold mb-3 text-gray-900 dark:text-gray-100 tracking-tight">
             Contrapose
           </h1>
           <p className="text-xl md:text-2xl text-violet-600 dark:text-violet-400 font-medium mb-6 tracking-wide">
@@ -29,10 +29,10 @@ export default function ContraposeMarketingPage() {
             Break through practice plateaus with creative constraints.
           </p>
           <a
-            href="https://apps.apple.com/us/app/contrapose/id6753694877"
+            href="https://apps.apple.com/us/app/id6753694877"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white font-medium rounded-lg transition-colors"
+            className="inline-block px-8 py-3 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
           >
             Download on the App Store
           </a>
