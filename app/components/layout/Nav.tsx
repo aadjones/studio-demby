@@ -4,51 +4,32 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { metaData } from "../../config";
 import { featureFlags } from "../../config/features";
-import { JSX, useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-const clusterNavItems: Record<
+const categoryNavItems: Record<
   string,
-  { name: string | JSX.Element; className?: string }
+  { name: string; className?: string }
 > = {
-  "/resonant": {
-    name: "Resonant",
-    className:
-      "hover:scale-105 hover:text-blue-700 transition-transform duration-200",
+  "/sound-vision": {
+    name: "Sound & Vision",
+    className: "hover:text-blue-600 transition-colors duration-150",
   },
-  "/errant": {
-    name: "Errant",
-    className: "errant-hover transition-all duration-150 ease-out",
+  "/systems-tools": {
+    name: "Systems & Tools",
+    className: "hover:text-blue-600 transition-colors duration-150",
   },
-  "/fractured": {
-    name: (
-      <>
-        <span className="relative inline-flex group-hover:text-red-600 transition-all duration-150">
-          {/* Default state: whole word */}
-          <span className="group-hover:opacity-0 transition-opacity duration-150">
-            Fractured
-          </span>
-
-          {/* Hover state: Frac | tured */}
-          <span className="absolute left-0 top-0 w-full h-full flex items-center justify-center gap-[0.15em] group-hover:opacity-100 opacity-0 transition-opacity duration-150">
-            <span>Frac</span>
-            <span className="text-red-600">|</span>
-            <span>tured</span>
-          </span>
-        </span>
-      </>
-    ),
-    className: "group transition-all duration-150",
+  "/provocations": {
+    name: "Provocations",
+    className: "hover:text-blue-600 transition-colors duration-150",
   },
-  "/enclosed": {
-    name: "Enclosed",
-    className:
-      "hover:text-zinc-600 hover:tracking-tighter hover:opacity-80",
+  "/practice-pedagogy": {
+    name: "Practice & Pedagogy",
+    className: "hover:text-blue-600 transition-colors duration-150",
   },
 };
 
 export function Navbar() {
   const pathname = usePathname();
-  const errantRef = useRef<HTMLAnchorElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Close menu on ESC
@@ -68,18 +49,8 @@ export function Navbar() {
     first?.focus();
   }, [menuOpen]);
 
-  const handleErrantHover = () => {
-    const el = errantRef.current;
-    if (!el) return;
-    el.classList.add("animated");
-    el.style.setProperty("--x", `${(Math.random() - 0.5) * 12}px`);
-    el.style.setProperty("--y", `${(Math.random() - 0.5) * 12}px`);
-    el.style.setProperty("--r", `${(Math.random() - 0.5) * 6}deg`);
-    setTimeout(() => el.classList.remove("animated"), 150);
-  };
-
-  // Cluster paths for easy mapping
-  const clusterPaths = Object.keys(clusterNavItems);
+  // Category paths for easy mapping
+  const categoryPaths = Object.keys(categoryNavItems);
 
   return (
     <nav className="lg:mb-16 mb-12 py-5">
@@ -102,41 +73,26 @@ export function Navbar() {
             <span>Browse All</span>
           </Link>
 
-          {/* Divider before clusters */}
+          {/* Divider before categories */}
           <span className="hidden sm:inline-block border-l border-zinc-300 h-5 mx-2" aria-hidden="true" />
 
-          {/* Cluster Links */}
-          {clusterPaths.map((path) => {
-            const item = clusterNavItems[path];
+          {/* Category Links */}
+          {categoryPaths.map((path) => {
+            const item = categoryNavItems[path];
             const { className } = item;
             const isActive = pathname.startsWith(path);
-            const isErrant = path === "/errant";
-            const content = typeof item.name === "string" ? item.name : item.name;
             return (
               <Link
                 key={path}
                 href={path}
-                ref={isErrant ? errantRef : undefined}
-                onMouseEnter={isErrant ? handleErrantHover : undefined}
                 className={`flex align-middle relative whitespace-nowrap text-[13px] sm:text-[15px] ${className ?? ""} ${isActive ? "font-semibold underline" : ""}`}
-                style={
-                  isErrant
-                    ? ({
-                        "--x": "0px",
-                        "--y": "0px",
-                        "--r": "0deg",
-                        transform:
-                          "translate(var(--x), var(--y)) rotate(var(--r))",
-                      } as React.CSSProperties)
-                    : undefined
-                }
               >
-                {content}
+                {item.name}
               </Link>
             );
           })}
 
-          {/* Divider after clusters */}
+          {/* Divider after categories */}
           <span className="hidden sm:inline-block border-l border-zinc-300 h-5 mx-2" aria-hidden="true" />
 
           {/* About Link */}
@@ -188,32 +144,17 @@ export function Navbar() {
                   <span>Browse All</span>
                 </Link>
                 <hr className="border-zinc-200 dark:border-zinc-700 my-1" />
-                {clusterPaths.map((path) => {
-                  const item = clusterNavItems[path];
+                {categoryPaths.map((path) => {
+                  const item = categoryNavItems[path];
                   const isActive = pathname.startsWith(path);
-                  const isErrant = path === "/errant";
-                  const content = typeof item.name === "string" ? item.name : item.name;
                   return (
                     <Link
                       key={path}
                       href={path}
-                      ref={isErrant ? errantRef : undefined}
-                      onMouseEnter={isErrant ? handleErrantHover : undefined}
                       className={`flex items-center gap-2 text-zinc-700 dark:text-zinc-200 px-2 py-2 rounded-md text-lg ${isActive ? "font-semibold underline" : ""}`}
-                      style={
-                        isErrant
-                          ? ({
-                              "--x": "0px",
-                              "--y": "0px",
-                              "--r": "0deg",
-                              transform:
-                                "translate(var(--x), var(--y)) rotate(var(--r))",
-                            } as React.CSSProperties)
-                          : undefined
-                      }
                       onClick={() => setMenuOpen(false)}
                     >
-                      {content}
+                      {item.name}
                     </Link>
                   );
                 })}

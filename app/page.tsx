@@ -1,7 +1,7 @@
 // app/page.tsx
 import Link from "next/link";
 import Image from "next/image";
-import { clusters } from "@/app/components/utils/clusters";
+import { categories } from "@/app/components/utils/categories";
 import Door from "@/app/components/Door";
 import RandomProjectButton from "@/app/components/RandomProjectButton";
 
@@ -12,20 +12,20 @@ export default function HomePage() {
         Aaron Demby Jones
       </h1>
       <p className="text-[0.85rem] sm:text-lg md:text-xl mb-6 sm:mb-8 leading-[1.2] tracking-tight sm:whitespace-nowrap sm:overflow-hidden sm:text-ellipsis">
-        Artist, improviser, builder of strange systems. <span className="italic">Choose your window.</span>
+        I make things that sound, analyze, provoke, and teach.{" "}
+        <span className="italic">Pick a door.</span>
       </p>
 
-      <p className="text-center mb-2 text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
-      </p>
+      <p className="text-center mb-2 text-gray-600 dark:text-gray-400 max-w-xl mx-auto"></p>
       {/* <h2 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2 text-center">Choose Your Door</h2> */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-10 justify-items-center mx-auto">
-        {clusters.map((cluster, i) => (
+        {categories.map((category, i) => (
           <Door
-            key={cluster.name}
-            name={cluster.name}
-            description={cluster.description}
-            href={cluster.href}
-            image={cluster.image}
+            key={category.name}
+            name={category.name}
+            description={category.description}
+            href={category.href}
+            image={category.image}
             delay={i * 0.12}
           />
         ))}

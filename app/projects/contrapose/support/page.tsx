@@ -22,7 +22,7 @@ export default function ContraposeSupportPage() {
 
       <section className="mb-8">
         <h2 className="mb-4 text-2xl font-semibold">Privacy</h2>
-        <p>See our <Link href="/contrapose/privacy" className="text-blue-600 hover:underline dark:text-blue-400">Privacy Policy</Link></p>
+        <p>See our <Link href="/projects/contrapose/privacy" className="text-blue-600 hover:underline dark:text-blue-400">Privacy Policy</Link></p>
       </section>
 
       <section className="mb-8">

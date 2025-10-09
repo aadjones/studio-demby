@@ -91,13 +91,13 @@ export default function ContraposeMarketingPage() {
         <footer className="mt-32 pt-8 border-t border-gray-200 dark:border-gray-800">
           <div className="flex justify-center gap-12 text-sm text-gray-600 dark:text-gray-400">
             <Link
-              href="/contrapose/support"
+              href="/projects/contrapose/support"
               className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
             >
               Support
             </Link>
             <Link
-              href="/contrapose/privacy"
+              href="/projects/contrapose/privacy"
               className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
             >
               Privacy

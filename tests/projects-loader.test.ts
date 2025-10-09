@@ -31,6 +31,8 @@ describe('getAllProjects', () => {
 title: Test Project
 slug: test-project
 summary: A test project description
+type: interactive
+categories: ['sound-vision']
 cluster: resonant
 isFeatured: true
 tags: ['react', 'typescript']
@@ -65,6 +67,8 @@ slug: incomplete
       title: 'Test Project',
       slug: 'test-project',
       summary: 'A test project description',
+      type: 'interactive',
+      categories: ['sound-vision'],
       cluster: 'resonant',
       isFeatured: true,
       tags: ['react', 'typescript'],

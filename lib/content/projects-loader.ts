@@ -65,4 +65,52 @@ export async function getAllProjects(): Promise<MDXProject[]> {
   });
 
   return projects.filter(Boolean) as MDXProject[];
+}
+
+export async function getProjectsByCategory(category: string): Promise<MDXProject[]> {
+  const allProjects = await getAllProjects();
+  return allProjects.filter((project) =>
+    project.categories?.includes(category as any)
+  );
+}
+
+export async function getRecentProjects(limit: number = 10): Promise<MDXProject[]> {
+  const allProjects = await getAllProjects();
+
+  return allProjects
+    .filter((project) => project.date) // Only projects with dates
+    .sort((a, b) => {
+      const dateA = new Date(a.date!).getTime();
+      const dateB = new Date(b.date!).getTime();
+      return dateB - dateA; // Newest first
+    })
+    .slice(0, limit);
+}
+
+export async function getProjectBySlugOnly(slug: string) {
+  const fullPath = path.join(projectsDirectory, `${slug}.mdx`);
+  if (!fs.existsSync(fullPath)) return null;
+
+  const fileContents = fs.readFileSync(fullPath, "utf8");
+  const { data, content } = matter(fileContents);
+
+  // Validate frontmatter
+  const parsed = ProjectSchema.safeParse({ slug, ...data });
+  if (!parsed.success) {
+    console.warn(`[getProjectBySlugOnly] Invalid frontmatter in ${slug}.mdx:`);
+    console.warn(parsed.error.format());
+    return null;
+  }
+
+  const mdxSource = await serialize(content, {
+    mdxOptions: {
+      remarkPlugins: [remarkMath],
+      rehypePlugins: [rehypeKatex],
+    },
+  });
+
+  return {
+    frontMatter: parsed.data,
+    mdxSource,
+  };
 } 

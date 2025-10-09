@@ -75,7 +75,7 @@ export default function ProjectCarousel({
               key={project.slug}
               className={`${containerSizeClasses} min-w-0 pl-4 relative`}
             >
-              <Link href={`/${project.cluster}/${project.slug}`}>
+              <Link href={`/projects/${project.slug}`}>
                 <div className="mr-4">
                   {project.image && (
                     <div className={`relative rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-900 ${imageSizeClasses}`}>

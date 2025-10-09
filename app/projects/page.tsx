@@ -10,8 +10,8 @@ export default async function ProjectsPage() {
   // Sort projects by cluster and then by clusterOrder
   const sortedProjects = [...projects].sort((a: MDXProject, b: MDXProject) => {
     const clusterOrder = ["resonant", "errant", "fractured", "enclosed"];
-    const clusterIndexA = clusterOrder.indexOf(a.cluster);
-    const clusterIndexB = clusterOrder.indexOf(b.cluster);
+    const clusterIndexA = clusterOrder.indexOf(a.cluster || "");
+    const clusterIndexB = clusterOrder.indexOf(b.cluster || "");
 
     if (clusterIndexA === clusterIndexB) {
       const orderA = Number(a.clusterOrder) ?? 999;
@@ -41,7 +41,7 @@ export default async function ProjectsPage() {
       {/* Desktop Grid */}
       <div className="hidden sm:grid grid-cols-2 lg:grid-cols-3 gap-8">
         {sortedProjects.map((project) => (
-          <Link key={project.slug} href={`/${project.cluster}/${project.slug}`}>
+          <Link key={project.slug} href={`/projects/${project.slug}`}>
             <div className="group">
               {project.image && (
                 <div className="aspect-square relative rounded-xl overflow-hidden">
