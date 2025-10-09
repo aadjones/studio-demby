@@ -5,7 +5,7 @@ summary: Every glitch believes it's a pattern.
 cluster: errant
 isFeatured: false
 image: /photos/degradation/degradation.gif
-date: '2023-02-02'
+date: "2023-02-02"
 tags:
   - diffusion
   - entropy
@@ -17,11 +17,11 @@ clusterOrder: 1
 overrideHero: true
 type: essay
 categories:
-  - provocations
+  - sound-vision
 ---
 
-import ZoomImage from "@/components/ZoomImage"
-import FullscreenVideo from "../../app/components/FullscreenVideo"
+import ZoomImage from "@/components/ZoomImage";
+import FullscreenVideo from "../../app/components/FullscreenVideo";
 
 <HeroTitleBlock />
 
@@ -37,7 +37,7 @@ import FullscreenVideo from "../../app/components/FullscreenVideo"
   </div>
 </div>
 
-<ZoomImage 
+<ZoomImage
   src="/photos/degradation/cathedral_1600.webp"
   alt="Cathedral"
   width={1600}
@@ -48,30 +48,42 @@ import FullscreenVideo from "../../app/components/FullscreenVideo"
 <div className="prose dark:prose-invert max-w-3xl text-left mb-12 leading-relaxed">
   <div>This began as precision.</div>
 
-  <div>
-    One image, coaxed into being by a prompt. Then another. Then another.<br />
-    Each time, the same instructions. But each time, more noise. More forgetting.
-  </div>
+{" "}
+<div>
+  One image, coaxed into being by a prompt. Then another. Then another.
+  <br />
+  Each time, the same instructions. But each time, more noise. More forgetting.
+</div>
 
-  <div>
-    <em>Degradation</em> is what happens when we reverse the diffusion process of text-to-image generation. The image is born of noise, and returns to noise.
-  </div>
+{" "}
+<div>
+  <em>Degradation</em> is what happens when we reverse the diffusion process of
+  text-to-image generation. The image is born of noise, and returns to noise.
+</div>
 
   <div>
     The result: a looping entropy. Birds that flock into a melting streak of abstraction. A piano that smears into a grid of noise. A cathedral made of feathers, or a feather made of cathedrals.
   </div>
 </div>
 
-<FieldNote>
-Noise to noise.
-</FieldNote>
+<FieldNote>Noise to noise.</FieldNote>
 
 <CollapseMetadata>
   <ul>
-    <li><strong>Date:</strong> 2022</li>
-    <li><strong>Tools:</strong> Stable Diffusion, img2img looping pipeline</li>
-    <li><strong>Process:</strong> Recursive re-prompting with increasing noise</li>
-    <li><strong>Iterations:</strong> 120</li>
-    <li><strong>Artifacts:</strong> The crows have eyes</li>
+    <li>
+      <strong>Date:</strong> 2022
+    </li>
+    <li>
+      <strong>Tools:</strong> Stable Diffusion, img2img looping pipeline
+    </li>
+    <li>
+      <strong>Process:</strong> Recursive re-prompting with increasing noise
+    </li>
+    <li>
+      <strong>Iterations:</strong> 120
+    </li>
+    <li>
+      <strong>Artifacts:</strong> The crows have eyes
+    </li>
   </ul>
 </CollapseMetadata>
