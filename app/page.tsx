@@ -4,19 +4,26 @@ import Image from "next/image";
 import { categories } from "@/app/components/utils/categories";
 import Door from "@/app/components/Door";
 import RandomProjectButton from "@/app/components/RandomProjectButton";
+import LatestActivity from "@/app/components/LatestActivity";
+import { getRecentProjects } from "@/lib/content/projects-loader";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const recentProjects = await getRecentProjects(5);
   return (
     <main className="container mx-auto px-4 pt-1 sm:pt-2">
       <h1 className="text-[1.75rem] sm:text-[2.5rem] md:text-4xl font-bold mb-2 leading-[1.15] tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">
         Aaron Demby Jones
       </h1>
       <p className="text-[0.85rem] sm:text-lg md:text-xl mb-6 sm:mb-8 leading-[1.2] tracking-tight sm:whitespace-nowrap sm:overflow-hidden sm:text-ellipsis">
-        I make things that sound, analyze, provoke, and teach.{" "}
-        <span className="italic">Pick a door.</span>
+        I make things that sound, analyze, provoke, and teach.
       </p>
 
-      <p className="text-center mb-2 text-gray-600 dark:text-gray-400 max-w-xl mx-auto"></p>
+      {/* Latest Activity */}
+      <LatestActivity projects={recentProjects} />
+
+      <p className="text-center mb-2 text-gray-600 dark:text-gray-400 max-w-xl mx-auto italic">
+        Pick a door.
+      </p>
       {/* <h2 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2 text-center">Choose Your Door</h2> */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-10 justify-items-center mx-auto">
         {categories.map((category, i) => (

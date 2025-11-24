@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getAllProjects } from "@/lib/content/projects-loader";
+import { MDXProject } from "@/types/mdx";
 
 export const metadata: Metadata = {
   title: "Contrapose - Practice at New Angles",
@@ -13,10 +15,44 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ContraposeMarketingPage() {
+export default async function ContraposeMarketingPage() {
+  // Get prev/next projects for navigation
+  const allProjects: MDXProject[] = await getAllProjects();
+  const sortedProjects = [...allProjects]
+    .filter((p) => p.date)
+    .sort((a, b) => {
+      const dateA = new Date(a.date!).getTime();
+      const dateB = new Date(b.date!).getTime();
+      return dateB - dateA;
+    });
+
+  const currentIndex = sortedProjects.findIndex((p) => p.slug === "contrapose");
+  const totalProjects = sortedProjects.length;
+
+  const previousProject =
+    currentIndex >= 0
+      ? sortedProjects[(currentIndex - 1 + totalProjects) % totalProjects]
+      : undefined;
+  const nextProject =
+    currentIndex >= 0
+      ? sortedProjects[(currentIndex + 1) % totalProjects]
+      : undefined;
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
       <main className="container mx-auto px-4 py-16 md:py-24 max-w-5xl">
+        {/* Breadcrumb */}
+        <nav className="text-sm text-gray-600 dark:text-gray-400 mb-8">
+          <Link
+            href="/practice-pedagogy"
+            className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+          >
+            Practice &amp; Pedagogy
+          </Link>
+          <span className="mx-2">→</span>
+          <span className="text-gray-900 dark:text-gray-100">Contrapose</span>
+        </nav>
+
         {/* Hero Section */}
         <div className="text-center mb-20">
           <h1 className="text-5xl md:text-7xl font-extrabold mb-3 text-gray-900 dark:text-gray-100 tracking-tight">
@@ -87,8 +123,41 @@ export default function ContraposeMarketingPage() {
           </div>
         </div>
 
+        {/* Project Navigation */}
+        <nav className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-800">
+          <div className="flex justify-between items-center text-sm">
+            {previousProject ? (
+              <Link
+                href={`/projects/${previousProject.slug}`}
+                className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+              >
+                <span>←</span>
+                <span>Previous</span>
+              </Link>
+            ) : (
+              <div className="text-gray-300 dark:text-gray-700">
+                <span>← Previous</span>
+              </div>
+            )}
+
+            {nextProject ? (
+              <Link
+                href={`/projects/${nextProject.slug}`}
+                className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+              >
+                <span>Next</span>
+                <span>→</span>
+              </Link>
+            ) : (
+              <div className="text-gray-300 dark:text-gray-700">
+                <span>Next →</span>
+              </div>
+            )}
+          </div>
+        </nav>
+
         {/* Footer Links */}
-        <footer className="mt-32 pt-8 border-t border-gray-200 dark:border-gray-800">
+        <footer className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-800">
           <div className="flex justify-center gap-12 text-sm text-gray-600 dark:text-gray-400">
             <Link
               href="/projects/contrapose/support"
