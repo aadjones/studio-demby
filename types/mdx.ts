@@ -59,6 +59,7 @@ export const SketchSchema = z.object({
   image: z.string().optional(),
   video: z.string().optional(),
   tags: z.array(z.string()).optional().default([]),
+  description: z.string().optional(), // Short description for activity feed
 });
 
 // 5. Type inferred from the Sketch schema

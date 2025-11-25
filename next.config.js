@@ -16,31 +16,37 @@ module.exports = {
   },
   async redirects() {
     return [
-      // Redirect old cluster routes to new project routes
+      // Redirect old cluster routes to featured
       {
         source: '/resonant/:slug',
-        destination: '/projects/:slug',
+        destination: '/featured/:slug',
         permanent: true,
       },
       {
         source: '/errant/:slug',
-        destination: '/projects/:slug',
+        destination: '/featured/:slug',
         permanent: true,
       },
       {
         source: '/fractured/:slug',
-        destination: '/projects/:slug',
+        destination: '/featured/:slug',
         permanent: true,
       },
       {
         source: '/enclosed/:slug',
-        destination: '/projects/:slug',
+        destination: '/featured/:slug',
+        permanent: true,
+      },
+      // Redirect /projects/* to /featured/*
+      {
+        source: '/projects/:slug*',
+        destination: '/featured/:slug*',
         permanent: true,
       },
       // Redirect old contrapose routes to new location
       {
         source: '/contrapose/:path*',
-        destination: '/projects/contrapose/:path*',
+        destination: '/featured/contrapose/:path*',
         permanent: true,
       },
     ];

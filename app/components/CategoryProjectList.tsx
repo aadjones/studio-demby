@@ -1,39 +1,23 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { MDXProject } from "@/types/mdx";
 import ProjectCarousel from "@/app/components/carousel/ProjectCarousel";
-import SortToggle from "@/app/components/SortToggle";
-
-type SortMode = "latest" | "title";
 
 type Props = {
   projects: MDXProject[];
 };
 
 export default function CategoryProjectList({ projects }: Props) {
-  const [sortMode, setSortMode] = useState<SortMode>("latest");
-  const [sortedProjects, setSortedProjects] = useState(projects);
-
-  useEffect(() => {
-    const sorted = [...projects].sort((a, b) => {
-      if (sortMode === "title") {
-        return a.title.localeCompare(b.title);
-      } else {
-        // Latest (by date)
-        if (!a.date || !b.date) return 0;
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
-      }
-    });
-    setSortedProjects(sorted);
-  }, [sortMode, projects]);
+  // Always sort by date, newest first
+  const sortedProjects = [...projects].sort((a, b) => {
+    if (!a.date || !b.date) return 0;
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
 
   return (
     <>
-      <SortToggle onSortChange={setSortMode} />
-
       {sortedProjects.length === 0 ? (
         <p className="text-gray-500 italic">No projects in this category yet.</p>
       ) : (
@@ -50,7 +34,7 @@ export default function CategoryProjectList({ projects }: Props) {
           {/* Desktop Grid */}
           <div className="hidden sm:grid grid-cols-2 lg:grid-cols-3 gap-8">
             {sortedProjects.map((project) => (
-              <Link key={project.slug} href={`/projects/${project.slug}`}>
+              <Link key={project.slug} href={`/featured/${project.slug}`}>
                 <div className="group">
                   {project.image && (
                     <div className="aspect-square relative rounded-xl overflow-hidden">

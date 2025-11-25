@@ -1,14 +1,14 @@
 import { getAllProjects } from "@/lib/content/projects-loader";
 import CategoryProjectList from "@/app/components/CategoryProjectList";
 
-export default async function ProjectsPage() {
+export default async function FeaturedPage() {
   const projects = await getAllProjects();
 
   return (
     <main className="px-4 py-6 sm:py-8 pb-0">
-      <h1 className="text-3xl sm:text-4xl font-bold mb-2 sm:mb-4">All Projects</h1>
-      <p className="text-base sm:text-lg italic mb-6 sm:mb-8 text-zinc-600">
-        A collection of all works across clusters
+      <h1 className="text-3xl sm:text-4xl font-bold mb-2 sm:mb-4">Featured</h1>
+      <p className="text-base sm:text-lg italic mb-6 sm:mb-8 text-zinc-600 dark:text-zinc-400">
+        Polished work across all four areas
       </p>
 
       <CategoryProjectList projects={projects} />

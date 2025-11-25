@@ -12,8 +12,8 @@ export default function RandomProjectButton() {
     setLoading(true);
     if (projectList.length === 0) return;
     const random = projectList[Math.floor(Math.random() * projectList.length)];
-    if (random && random.slug && random.cluster) {
-      router.push(`/${random.cluster}/${random.slug}`);
+    if (random && random.slug) {
+      router.push(`/featured/${random.slug}`);
     }
     setLoading(false);
   }, [router]);
