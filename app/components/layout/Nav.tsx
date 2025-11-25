@@ -15,7 +15,7 @@ const categoryNavItems: Record<
     className: "hover:text-blue-600 transition-colors duration-150",
   },
   "/systems-tools": {
-    name: "Systems & Tools",
+    name: "Systems",
     className: "hover:text-blue-600 transition-colors duration-150",
   },
   "/provocations": {
@@ -23,7 +23,7 @@ const categoryNavItems: Record<
     className: "hover:text-blue-600 transition-colors duration-150",
   },
   "/practice-pedagogy": {
-    name: "Practice & Pedagogy",
+    name: "Practice",
     className: "hover:text-blue-600 transition-colors duration-150",
   },
 };
@@ -61,20 +61,31 @@ export function Navbar() {
           </Link>
         </div>
         {/* Desktop Nav */}
-        <div className="hidden sm:flex flex-wrap gap-2 sm:gap-4 mt-6 sm:mt-0 sm:ml-auto items-center">
-          {/* Browse All */}
+        <div className="hidden sm:flex flex-wrap gap-1.5 sm:gap-2.5 mt-6 sm:mt-0 sm:ml-auto items-center">
+          {/* Projects */}
           <Link
             href="/projects"
-            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-2 py-1 rounded-md text-[13px] sm:text-[15px] ${pathname.startsWith("/projects") ? "font-semibold underline text-blue-700" : ""}`}
-            aria-label="Browse All Projects"
+            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-1.5 py-1 rounded-md text-[13px] sm:text-[15px] ${pathname.startsWith("/projects") ? "font-semibold underline text-blue-700" : ""}`}
+            aria-label="Projects"
           >
             {/* Grid Icon */}
             <svg width="16" height="16" fill="none" viewBox="0 0 16 16" aria-hidden="true" className="inline-block align-middle"><rect x="2" y="2" width="4" height="4" rx="1" fill="currentColor"/><rect x="10" y="2" width="4" height="4" rx="1" fill="currentColor"/><rect x="2" y="10" width="4" height="4" rx="1" fill="currentColor"/><rect x="10" y="10" width="4" height="4" rx="1" fill="currentColor"/></svg>
-            <span>Browse All</span>
+            <span>Projects</span>
+          </Link>
+
+          {/* Sketches */}
+          <Link
+            href="/sketches"
+            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-1.5 py-1 rounded-md text-[13px] sm:text-[15px] ${pathname.startsWith("/sketches") ? "font-semibold underline text-blue-700" : ""}`}
+            aria-label="Sketches"
+          >
+            {/* Pencil Icon */}
+            <svg width="16" height="16" fill="none" viewBox="0 0 16 16" aria-hidden="true" className="inline-block align-middle"><path d="M11.5 2.5l2 2-7 7-2.5.5.5-2.5 7-7z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M10 4l2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+            <span>Sketches</span>
           </Link>
 
           {/* Divider before categories */}
-          <span className="hidden sm:inline-block border-l border-zinc-300 h-5 mx-2" aria-hidden="true" />
+          <span className="hidden sm:inline-block border-l border-zinc-300 h-5 mx-1.5" aria-hidden="true" />
 
           {/* Category Links */}
           {categoryPaths.map((path) => {
@@ -93,12 +104,12 @@ export function Navbar() {
           })}
 
           {/* Divider after categories */}
-          <span className="hidden sm:inline-block border-l border-zinc-300 h-5 mx-2" aria-hidden="true" />
+          <span className="hidden sm:inline-block border-l border-zinc-300 h-5 mx-1.5" aria-hidden="true" />
 
           {/* About Link */}
           <Link
             href="/about"
-            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-2 py-1 rounded-md text-[13px] sm:text-[15px] ${pathname.startsWith("/about") ? "font-semibold underline text-blue-700" : ""}`}
+            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-1.5 py-1 rounded-md text-[13px] sm:text-[15px] ${pathname.startsWith("/about") ? "font-semibold underline text-blue-700" : ""}`}
             aria-label="About"
           >
             {/* User Icon */}
@@ -137,11 +148,20 @@ export function Navbar() {
                 <Link
                   href="/projects"
                   className={`flex items-center gap-2 text-zinc-700 dark:text-zinc-200 hover:text-blue-600 transition-colors px-2 py-2 rounded-md text-lg ${pathname.startsWith("/projects") ? "font-semibold underline text-blue-700" : ""}`}
-                  aria-label="Browse All Projects"
+                  aria-label="Projects"
                   onClick={() => setMenuOpen(false)}
                 >
                   <svg width="18" height="18" fill="none" viewBox="0 0 16 16" aria-hidden="true" className="inline-block align-middle"><rect x="2" y="2" width="4" height="4" rx="1" fill="currentColor"/><rect x="10" y="2" width="4" height="4" rx="1" fill="currentColor"/><rect x="2" y="10" width="4" height="4" rx="1" fill="currentColor"/><rect x="10" y="10" width="4" height="4" rx="1" fill="currentColor"/></svg>
-                  <span>Browse All</span>
+                  <span>Projects</span>
+                </Link>
+                <Link
+                  href="/sketches"
+                  className={`flex items-center gap-2 text-zinc-700 dark:text-zinc-200 hover:text-blue-600 transition-colors px-2 py-2 rounded-md text-lg ${pathname.startsWith("/sketches") ? "font-semibold underline text-blue-700" : ""}`}
+                  aria-label="Sketches"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <svg width="18" height="18" fill="none" viewBox="0 0 16 16" aria-hidden="true" className="inline-block align-middle"><path d="M11.5 2.5l2 2-7 7-2.5.5.5-2.5 7-7z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M10 4l2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                  <span>Sketches</span>
                 </Link>
                 <hr className="border-zinc-200 dark:border-zinc-700 my-1" />
                 {categoryPaths.map((path) => {

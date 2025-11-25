@@ -5,6 +5,10 @@ import ClientMDX from "@/app/components/utils/ClientMDX";
 import Image from "next/image";
 import ProjectContentShell from "@/app/components/layout/ProjectContentShell";
 import ProjectNavBar from "@/app/components/layout/ProjectNavBar";
+import Breadcrumb from "@/app/components/Breadcrumb";
+import RelatedWorks from "@/app/components/RelatedWorks";
+import ProjectNavigation from "@/app/components/ProjectNavigation";
+import { categories } from "@/app/components/utils/categories";
 
 type Props = {
   params: {
@@ -58,9 +62,32 @@ export default async function ProjectPage({ params }: Props) {
     ? "mx-auto w-full max-w-3xl px-4 sm:px-6 md:px-8 text-base leading-relaxed space-y-6"
     : "w-full";
 
+  // Get category info for breadcrumb
+  const primaryCategory = project.frontMatter.categories?.[0];
+  const categoryMeta = categories.find((c) => c.slug === primaryCategory);
+
+  // Get related projects (same category, excluding current project)
+  const relatedProjects = allProjects
+    .filter((p) =>
+      p.slug !== slug &&
+      p.categories?.some(cat => project.frontMatter.categories?.includes(cat))
+    )
+    .slice(0, 4);
+
   return (
     <>
       <ProjectContentShell>
+        {/* Breadcrumb */}
+        {categoryMeta && (
+          <div className="px-4 sm:px-6 md:px-8 pt-4">
+            <Breadcrumb
+              categoryName={categoryMeta.name}
+              categorySlug={categoryMeta.slug}
+              projectTitle={project.frontMatter.title}
+            />
+          </div>
+        )}
+
         {/* Default Hero Block */}
         {renderDefaultHero && (
           <section className="text-center space-y-4 mb-8 md:mb-12">
@@ -78,6 +105,14 @@ export default async function ProjectPage({ params }: Props) {
             {project.frontMatter.title && (
               <h1 className="text-3xl font-bold">{project.frontMatter.title}</h1>
             )}
+            {project.frontMatter.date && (
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                {new Date(project.frontMatter.date).toLocaleDateString("en-US", {
+                  month: "short",
+                  year: "numeric",
+                })}
+              </p>
+            )}
             {project.frontMatter.summary && (
               <p className="italic text-zinc-600">{project.frontMatter.summary}</p>
             )}
@@ -91,6 +126,17 @@ export default async function ProjectPage({ params }: Props) {
             frontMatter={project.frontMatter}
           />
         </article>
+
+        {/* Related Works */}
+        <div className="mx-auto w-full max-w-3xl px-4 sm:px-6 md:px-8">
+          <RelatedWorks projects={relatedProjects} />
+
+          {/* Desktop Navigation */}
+          <ProjectNavigation
+            previousSlug={previousProjectData?.slug || null}
+            nextSlug={nextProjectData?.slug || null}
+          />
+        </div>
 
         {/* Mobile Navigation */}
         <div className="sm:hidden">
