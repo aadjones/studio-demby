@@ -50,7 +50,7 @@ export default function AboutPage() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/sketches/move-to-in-progress"
+                  href="/activity/move-to-in-progress"
                   className="text-blue-500 hover:text-blue-600 transition-colors"
                 >
                   Move to &lsquo;In Progress&rsquo;
@@ -59,7 +59,7 @@ export default function AboutPage() {
               </li>
               <li>
                 <Link
-                  href="/projects/ghostly-double"
+                  href="/featured/ghostly-double"
                   className="text-blue-500 hover:text-blue-600 transition-colors"
                 >
                   Ghostly Double
@@ -68,7 +68,7 @@ export default function AboutPage() {
               </li>
               <li>
                 <Link
-                  href="/projects/frogmath"
+                  href="/featured/frogmath"
                   className="text-blue-500 hover:text-blue-600 transition-colors"
                 >
                   FrogMath
@@ -77,7 +77,7 @@ export default function AboutPage() {
               </li>
               <li>
                 <Link
-                  href="/projects/feathers"
+                  href="/featured/feathers"
                   className="text-blue-500 hover:text-blue-600 transition-colors"
                 >
                   Feathers

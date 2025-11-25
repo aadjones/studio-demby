@@ -128,7 +128,7 @@ export default async function ContraposeMarketingPage() {
           <div className="flex justify-between items-center text-sm">
             {previousProject ? (
               <Link
-                href={`/projects/${previousProject.slug}`}
+                href={`/featured/${previousProject.slug}`}
                 className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
               >
                 <span>←</span>
@@ -142,7 +142,7 @@ export default async function ContraposeMarketingPage() {
 
             {nextProject ? (
               <Link
-                href={`/projects/${nextProject.slug}`}
+                href={`/featured/${nextProject.slug}`}
                 className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
               >
                 <span>Next</span>

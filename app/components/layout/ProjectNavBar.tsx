@@ -49,7 +49,7 @@ export default function ProjectNavBar({
         <div className="flex items-center gap-4 w-full justify-between">
           {previousSlug ? (
             <Link
-              href={previousCluster ? `/${previousCluster}/${previousSlug}` : `/projects/${previousSlug}`}
+              href={previousCluster ? `/${previousCluster}/${previousSlug}` : `/featured/${previousSlug}`}
               className="hover:underline truncate"
             >
               ← Previous
@@ -70,7 +70,7 @@ export default function ProjectNavBar({
 
           {nextSlug ? (
             <Link
-              href={nextCluster ? `/${nextCluster}/${nextSlug}` : `/projects/${nextSlug}`}
+              href={nextCluster ? `/${nextCluster}/${nextSlug}` : `/featured/${nextSlug}`}
               className="hover:underline truncate"
             >
               Next →

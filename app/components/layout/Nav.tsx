@@ -62,26 +62,26 @@ export function Navbar() {
         </div>
         {/* Desktop Nav */}
         <div className="hidden sm:flex flex-wrap gap-1.5 sm:gap-2.5 mt-6 sm:mt-0 sm:ml-auto items-center">
-          {/* Projects */}
+          {/* Featured */}
           <Link
-            href="/projects"
-            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-1.5 py-1 rounded-md text-[13px] sm:text-[15px] ${pathname.startsWith("/projects") ? "font-semibold underline text-blue-700" : ""}`}
-            aria-label="Projects"
+            href="/featured"
+            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-1.5 py-1 rounded-md text-[13px] sm:text-[15px] ${pathname.startsWith("/featured") ? "font-semibold underline text-blue-700" : ""}`}
+            aria-label="Featured"
           >
-            {/* Grid Icon */}
-            <svg width="16" height="16" fill="none" viewBox="0 0 16 16" aria-hidden="true" className="inline-block align-middle"><rect x="2" y="2" width="4" height="4" rx="1" fill="currentColor"/><rect x="10" y="2" width="4" height="4" rx="1" fill="currentColor"/><rect x="2" y="10" width="4" height="4" rx="1" fill="currentColor"/><rect x="10" y="10" width="4" height="4" rx="1" fill="currentColor"/></svg>
-            <span>Projects</span>
+            {/* Star Icon */}
+            <svg width="16" height="16" fill="none" viewBox="0 0 16 16" aria-hidden="true" className="inline-block align-middle"><path d="M8 2l1.5 4.5H14l-3.5 2.5 1.5 4.5L8 11l-4 2.5 1.5-4.5L2 6.5h4.5L8 2z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" fill="none"/></svg>
+            <span>Featured</span>
           </Link>
 
-          {/* Sketches */}
+          {/* Activity */}
           <Link
-            href="/sketches"
-            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-1.5 py-1 rounded-md text-[13px] sm:text-[15px] ${pathname.startsWith("/sketches") ? "font-semibold underline text-blue-700" : ""}`}
-            aria-label="Sketches"
+            href="/activity"
+            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-1.5 py-1 rounded-md text-[13px] sm:text-[15px] ${pathname.startsWith("/activity") ? "font-semibold underline text-blue-700" : ""}`}
+            aria-label="Activity"
           >
             {/* Pencil Icon */}
             <svg width="16" height="16" fill="none" viewBox="0 0 16 16" aria-hidden="true" className="inline-block align-middle"><path d="M11.5 2.5l2 2-7 7-2.5.5.5-2.5 7-7z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M10 4l2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
-            <span>Sketches</span>
+            <span>Activity</span>
           </Link>
 
           {/* Divider before categories */}
@@ -146,22 +146,22 @@ export function Navbar() {
               </button>
               <nav className="flex flex-col gap-4 mt-2" aria-label="Mobile menu">
                 <Link
-                  href="/projects"
-                  className={`flex items-center gap-2 text-zinc-700 dark:text-zinc-200 hover:text-blue-600 transition-colors px-2 py-2 rounded-md text-lg ${pathname.startsWith("/projects") ? "font-semibold underline text-blue-700" : ""}`}
-                  aria-label="Projects"
+                  href="/featured"
+                  className={`flex items-center gap-2 text-zinc-700 dark:text-zinc-200 hover:text-blue-600 transition-colors px-2 py-2 rounded-md text-lg ${pathname.startsWith("/featured") ? "font-semibold underline text-blue-700" : ""}`}
+                  aria-label="Featured"
                   onClick={() => setMenuOpen(false)}
                 >
-                  <svg width="18" height="18" fill="none" viewBox="0 0 16 16" aria-hidden="true" className="inline-block align-middle"><rect x="2" y="2" width="4" height="4" rx="1" fill="currentColor"/><rect x="10" y="2" width="4" height="4" rx="1" fill="currentColor"/><rect x="2" y="10" width="4" height="4" rx="1" fill="currentColor"/><rect x="10" y="10" width="4" height="4" rx="1" fill="currentColor"/></svg>
-                  <span>Projects</span>
+                  <svg width="18" height="18" fill="none" viewBox="0 0 16 16" aria-hidden="true" className="inline-block align-middle"><path d="M8 2l1.5 4.5H14l-3.5 2.5 1.5 4.5L8 11l-4 2.5 1.5-4.5L2 6.5h4.5L8 2z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" fill="none"/></svg>
+                  <span>Featured</span>
                 </Link>
                 <Link
-                  href="/sketches"
-                  className={`flex items-center gap-2 text-zinc-700 dark:text-zinc-200 hover:text-blue-600 transition-colors px-2 py-2 rounded-md text-lg ${pathname.startsWith("/sketches") ? "font-semibold underline text-blue-700" : ""}`}
-                  aria-label="Sketches"
+                  href="/activity"
+                  className={`flex items-center gap-2 text-zinc-700 dark:text-zinc-200 hover:text-blue-600 transition-colors px-2 py-2 rounded-md text-lg ${pathname.startsWith("/activity") ? "font-semibold underline text-blue-700" : ""}`}
+                  aria-label="Activity"
                   onClick={() => setMenuOpen(false)}
                 >
                   <svg width="18" height="18" fill="none" viewBox="0 0 16 16" aria-hidden="true" className="inline-block align-middle"><path d="M11.5 2.5l2 2-7 7-2.5.5.5-2.5 7-7z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M10 4l2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
-                  <span>Sketches</span>
+                  <span>Activity</span>
                 </Link>
                 <hr className="border-zinc-200 dark:border-zinc-700 my-1" />
                 {categoryPaths.map((path) => {

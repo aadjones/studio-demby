@@ -7,10 +7,10 @@ import rehypeKatex from "rehype-katex";
 
 import { SketchSchema, MDXSketch } from "@/types/mdx";
 
-const sketchesDirectory = path.join(process.cwd(), "content/sketches");
+const activityDirectory = path.join(process.cwd(), "content/activity");
 
-export async function getSketchBySlug(slug: string) {
-  const fullPath = path.join(sketchesDirectory, `${slug}.mdx`);
+export async function getActivityBySlug(slug: string) {
+  const fullPath = path.join(activityDirectory, `${slug}.mdx`);
   if (!fs.existsSync(fullPath)) return null;
 
   const fileContents = fs.readFileSync(fullPath, "utf8");
@@ -19,7 +19,7 @@ export async function getSketchBySlug(slug: string) {
   // Validate frontmatter
   const parsed = SketchSchema.safeParse({ slug, ...data });
   if (!parsed.success) {
-    console.warn(`[getSketchBySlug] Invalid frontmatter in ${slug}.mdx:`);
+    console.warn(`[getActivityBySlug] Invalid frontmatter in ${slug}.mdx:`);
     console.warn(parsed.error.format());
     return null;
   }
@@ -37,23 +37,23 @@ export async function getSketchBySlug(slug: string) {
   };
 }
 
-export async function getAllSketches(): Promise<MDXSketch[]> {
+export async function getAllActivity(): Promise<MDXSketch[]> {
   // Check if directory exists
-  if (!fs.existsSync(sketchesDirectory)) {
+  if (!fs.existsSync(activityDirectory)) {
     return [];
   }
 
-  const fileNames = fs.readdirSync(sketchesDirectory);
+  const fileNames = fs.readdirSync(activityDirectory);
 
-  const sketches = fileNames.map((fileName) => {
+  const activity = fileNames.map((fileName) => {
     const slug = fileName.replace(/\.mdx$/, "");
-    const fullPath = path.join(sketchesDirectory, fileName);
+    const fullPath = path.join(activityDirectory, fileName);
     const fileContents = fs.readFileSync(fullPath, "utf8");
     const { data } = matter(fileContents);
 
     const parsed = SketchSchema.safeParse({ slug, ...data });
     if (!parsed.success) {
-      console.warn(`[getAllSketches] Invalid frontmatter in ${fileName}:`);
+      console.warn(`[getAllActivity] Invalid frontmatter in ${fileName}:`);
       console.warn(parsed.error.format());
       return null;
     }
@@ -61,13 +61,13 @@ export async function getAllSketches(): Promise<MDXSketch[]> {
     return parsed.data;
   });
 
-  return sketches.filter(Boolean) as MDXSketch[];
+  return activity.filter(Boolean) as MDXSketch[];
 }
 
-export async function getRecentSketches(limit: number = 10): Promise<MDXSketch[]> {
-  const allSketches = await getAllSketches();
+export async function getRecentActivity(limit: number = 10): Promise<MDXSketch[]> {
+  const allActivity = await getAllActivity();
 
-  return allSketches
+  return allActivity
     .sort((a, b) => {
       const dateA = new Date(a.date).getTime();
       const dateB = new Date(b.date).getTime();

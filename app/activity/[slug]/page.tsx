@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getAllSketches, getSketchBySlug } from "@/lib/content/sketches-loader";
+import { getAllActivity, getActivityBySlug } from "@/lib/content/activity-loader";
 import { MDXSketch } from "@/types/mdx";
 import ClientMDX from "@/app/components/utils/ClientMDX";
 import Link from "next/link";
@@ -11,39 +11,39 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  const sketches = await getAllSketches();
-  return sketches.map((sketch: MDXSketch) => ({
-    slug: sketch.slug,
+  const activity = await getAllActivity();
+  return activity.map((item: MDXSketch) => ({
+    slug: item.slug,
   }));
 }
 
-export default async function SketchPage({ params }: Props) {
+export default async function ActivityItemPage({ params }: Props) {
   const { slug } = params;
 
-  const allSketches: MDXSketch[] = await getAllSketches();
-  const sketch = await getSketchBySlug(slug);
+  const allActivity: MDXSketch[] = await getAllActivity();
+  const item = await getActivityBySlug(slug);
 
-  if (!sketch) {
+  if (!item) {
     notFound();
   }
 
-  // Sort sketches by date (most recent first) for prev/next navigation
-  const sortedSketches = [...allSketches].sort((a, b) => {
+  // Sort activity by date (most recent first) for prev/next navigation
+  const sortedActivity = [...allActivity].sort((a, b) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
 
-  // Find current sketch index
-  const currentIndex = sortedSketches.findIndex((s) => s.slug === slug);
-  const totalSketches = sortedSketches.length;
+  // Find current item index
+  const currentIndex = sortedActivity.findIndex((s) => s.slug === slug);
+  const totalItems = sortedActivity.length;
 
-  // Get prev/next sketches (with wrap-around)
-  const previousSketch: MDXSketch | undefined =
+  // Get prev/next items (with wrap-around)
+  const previousItem: MDXSketch | undefined =
     currentIndex >= 0
-      ? sortedSketches[(currentIndex - 1 + totalSketches) % totalSketches]
+      ? sortedActivity[(currentIndex - 1 + totalItems) % totalItems]
       : undefined;
-  const nextSketch: MDXSketch | undefined =
+  const nextItem: MDXSketch | undefined =
     currentIndex >= 0
-      ? sortedSketches[(currentIndex + 1) % totalSketches]
+      ? sortedActivity[(currentIndex + 1) % totalItems]
       : undefined;
 
   // Format date
@@ -61,32 +61,32 @@ export default async function SketchPage({ params }: Props) {
       {/* Minimal header */}
       <header className="mb-8 border-b border-gray-200 dark:border-gray-800 pb-6">
         <Link
-          href="/sketches"
+          href="/activity"
           className="text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 mb-4 inline-block"
         >
-          ← All Sketches
+          ← All Activity
         </Link>
         <h1 className="text-2xl sm:text-3xl font-normal mb-2">
-          {sketch.frontMatter.title}
+          {item.frontMatter.title}
         </h1>
         <time className="text-sm text-gray-500 dark:text-gray-400">
-          {formatDate(sketch.frontMatter.date)}
+          {formatDate(item.frontMatter.date)}
         </time>
       </header>
 
       {/* MDX Content */}
-      <article className="prose prose-sm sm:prose dark:prose-invert max-w-none">
+      <div className="prose prose-sm sm:prose dark:prose-invert max-w-none">
         <ClientMDX
-          mdxSource={sketch.mdxSource}
-          frontMatter={sketch.frontMatter}
+          mdxSource={item.mdxSource}
+          frontMatter={item.frontMatter}
         />
-      </article>
+      </div>
 
       {/* Metadata Footer */}
-      {sketch.frontMatter.tags && sketch.frontMatter.tags.length > 0 && (
+      {item.frontMatter.tags && item.frontMatter.tags.length > 0 && (
         <footer className="mt-8 pt-4 border-t border-gray-200 dark:border-gray-800">
           <div className="flex flex-wrap gap-2 text-xs text-gray-500 dark:text-gray-400">
-            {sketch.frontMatter.tags.map((tag) => (
+            {item.frontMatter.tags.map((tag) => (
               <span key={tag}>#{tag}</span>
             ))}
           </div>
@@ -96,23 +96,23 @@ export default async function SketchPage({ params }: Props) {
       {/* Prev/Next Navigation */}
       <nav className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-800">
         <div className="flex justify-between items-center text-sm">
-          {previousSketch ? (
+          {previousItem ? (
             <Link
-              href={`/sketches/${previousSketch.slug}`}
+              href={`/activity/${previousItem.slug}`}
               className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
             >
-              ← {previousSketch.title}
+              ← {previousItem.title}
             </Link>
           ) : (
             <span className="text-gray-400 dark:text-gray-600">← Previous</span>
           )}
 
-          {nextSketch ? (
+          {nextItem ? (
             <Link
-              href={`/sketches/${nextSketch.slug}`}
+              href={`/activity/${nextItem.slug}`}
               className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
             >
-              {nextSketch.title} →
+              {nextItem.title} →
             </Link>
           ) : (
             <span className="text-gray-400 dark:text-gray-600">Next →</span>
