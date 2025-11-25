@@ -7,7 +7,7 @@ export const categories = [
     image: "/photos/clusters/resonant.jpg", // Repurposed from Resonant
   },
   {
-    name: "Systems & Tools",
+    name: "Systems",
     slug: "systems-tools",
     description: "Instruments for analysis and play",
     href: "/systems-tools",
@@ -21,7 +21,7 @@ export const categories = [
     image: "/photos/shrimp-jesus/shrimp-jesus-4x3.jpg",
   },
   {
-    name: "Practice & Pedagogy",
+    name: "Practice",
     slug: "practice-pedagogy",
     description: "How I teach and learn",
     href: "/practice-pedagogy",

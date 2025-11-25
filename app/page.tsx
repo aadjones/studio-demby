@@ -6,9 +6,23 @@ import Door from "@/app/components/Door";
 import RandomProjectButton from "@/app/components/RandomProjectButton";
 import LatestActivity from "@/app/components/LatestActivity";
 import { getRecentProjects } from "@/lib/content/projects-loader";
+import { getRecentSketches } from "@/lib/content/sketches-loader";
+import { StreamItem } from "@/types/mdx";
 
 export default async function HomePage() {
-  const recentProjects = await getRecentProjects(5);
+  // Load both projects and sketches
+  const recentProjects = await getRecentProjects(10);
+  const recentSketches = await getRecentSketches(10);
+
+  // Combine and sort by date
+  const streamItems: StreamItem[] = [
+    ...recentProjects.map(p => ({ type: 'project' as const, data: p })),
+    ...recentSketches.map(s => ({ type: 'sketch' as const, data: s })),
+  ].sort((a, b) => {
+    const dateA = new Date(a.data.date || '').getTime();
+    const dateB = new Date(b.data.date || '').getTime();
+    return dateB - dateA; // Newest first
+  });
   return (
     <main className="container mx-auto px-4 pt-1 sm:pt-2">
       <h1 className="text-[1.75rem] sm:text-[2.5rem] md:text-4xl font-bold mb-2 leading-[1.15] tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">
@@ -19,7 +33,7 @@ export default async function HomePage() {
       </p>
 
       {/* Latest Activity */}
-      <LatestActivity projects={recentProjects} />
+      <LatestActivity items={streamItems} />
 
       <p className="text-center mb-2 text-gray-600 dark:text-gray-400 max-w-xl mx-auto italic">
         Pick a door.

@@ -49,3 +49,28 @@ export type MDXSource = {
   frontMatter: MDXProject;
   mdxSource: any;
 };
+
+// 4. Define Zod schema for Sketch content type
+export const SketchSchema = z.object({
+  title: z.string(),
+  slug: z.string(),
+  date: z.string(), // Required for sketches
+  body: z.string().optional(), // The markdown/MDX content
+  image: z.string().optional(),
+  video: z.string().optional(),
+  tags: z.array(z.string()).optional().default([]),
+});
+
+// 5. Type inferred from the Sketch schema
+export type MDXSketch = z.infer<typeof SketchSchema>;
+
+// 6. Full MDXSource shape for sketches
+export type SketchMDXSource = {
+  frontMatter: MDXSketch;
+  mdxSource: any;
+};
+
+// 7. Unified stream item type for homepage
+export type StreamItem =
+  | { type: 'project'; data: MDXProject }
+  | { type: 'sketch'; data: MDXSketch };
