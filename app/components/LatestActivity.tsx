@@ -30,16 +30,10 @@ export default function LatestActivity({ items }: Props) {
 
   return (
     <section className="mb-8 sm:mb-10">
-      <div className="flex justify-between items-center mb-4">
+      <div className="mb-4">
         <h2 className="text-base sm:text-lg font-semibold text-gray-700 dark:text-gray-300">
           Latest Activity
         </h2>
-        <Link
-          href="/recent"
-          className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
-        >
-          View All →
-        </Link>
       </div>
 
       {/* Sketches row - max 3, horizontal only */}
