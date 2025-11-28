@@ -54,18 +54,24 @@ export function Navbar() {
 
   return (
     <nav className="lg:mb-16 mb-12 py-5">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between">
-        <div className="flex items-center">
-          <Link href="/" className="text-3xl font-semibold tracking-tight">
-            {metaData.title}
-          </Link>
-        </div>
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between">
         {/* Desktop Nav */}
-        <div className="hidden sm:flex flex-wrap gap-1.5 sm:gap-2.5 mt-6 sm:mt-0 sm:ml-auto items-center">
+        <div className="hidden lg:flex gap-2 items-center">
+          {/* Home */}
+          <Link
+            href="/"
+            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-1.5 py-1 rounded-md text-[15px] ${pathname === "/" ? "font-semibold underline text-blue-700" : ""}`}
+            aria-label="Home"
+          >
+            {/* House Icon */}
+            <svg width="16" height="16" fill="none" viewBox="0 0 16 16" aria-hidden="true" className="inline-block align-middle"><path d="M2 6l6-4 6 4v7a1 1 0 01-1 1H3a1 1 0 01-1-1V6z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M6 13V9h4v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <span>Home</span>
+          </Link>
+
           {/* Featured */}
           <Link
             href="/featured"
-            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-1.5 py-1 rounded-md text-[13px] sm:text-[15px] ${pathname.startsWith("/featured") ? "font-semibold underline text-blue-700" : ""}`}
+            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-1.5 py-1 rounded-md text-[15px] ${pathname.startsWith("/featured") ? "font-semibold underline text-blue-700" : ""}`}
             aria-label="Featured"
           >
             {/* Star Icon */}
@@ -76,7 +82,7 @@ export function Navbar() {
           {/* Activity */}
           <Link
             href="/activity"
-            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-1.5 py-1 rounded-md text-[13px] sm:text-[15px] ${pathname.startsWith("/activity") ? "font-semibold underline text-blue-700" : ""}`}
+            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-1.5 py-1 rounded-md text-[15px] ${pathname.startsWith("/activity") ? "font-semibold underline text-blue-700" : ""}`}
             aria-label="Activity"
           >
             {/* Pencil Icon */}
@@ -85,7 +91,7 @@ export function Navbar() {
           </Link>
 
           {/* Divider before categories */}
-          <span className="hidden sm:inline-block border-l border-zinc-300 h-5 mx-1.5" aria-hidden="true" />
+          <span className="inline-block border-l border-zinc-300 h-6 mx-1.5" aria-hidden="true" />
 
           {/* Category Links */}
           {categoryPaths.map((path) => {
@@ -96,7 +102,7 @@ export function Navbar() {
               <Link
                 key={path}
                 href={path}
-                className={`flex align-middle relative whitespace-nowrap text-[13px] sm:text-[15px] ${className ?? ""} ${isActive ? "font-semibold underline" : ""}`}
+                className={`flex items-center px-1.5 py-1 relative whitespace-nowrap text-[15px] ${className ?? ""} ${isActive ? "font-semibold underline" : ""}`}
               >
                 {item.name}
               </Link>
@@ -104,12 +110,12 @@ export function Navbar() {
           })}
 
           {/* Divider after categories */}
-          <span className="hidden sm:inline-block border-l border-zinc-300 h-5 mx-1.5" aria-hidden="true" />
+          <span className="inline-block border-l border-zinc-300 h-6 mx-1.5" aria-hidden="true" />
 
           {/* About Link */}
           <Link
             href="/about"
-            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-1.5 py-1 rounded-md text-[13px] sm:text-[15px] ${pathname.startsWith("/about") ? "font-semibold underline text-blue-700" : ""}`}
+            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-1.5 py-1 rounded-md text-[15px] ${pathname.startsWith("/about") ? "font-semibold underline text-blue-700" : ""}`}
             aria-label="About"
           >
             {/* User Icon */}
@@ -119,7 +125,7 @@ export function Navbar() {
         </div>
         {/* Hamburger for Mobile */}
         <button
-          className="sm:hidden ml-auto p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="lg:hidden ml-auto p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
           aria-label="Open menu"
           onClick={() => setMenuOpen(true)}
         >
@@ -131,7 +137,7 @@ export function Navbar() {
         </button>
         {/* Mobile Menu Modal */}
         {menuOpen && (
-          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-start justify-end sm:hidden">
+          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-start justify-end lg:hidden">
             <div className="w-full max-w-xs bg-white h-full shadow-xl flex flex-col p-6 relative animate-slideInRight">
               <button
                 id="mobile-menu-close"
@@ -145,6 +151,15 @@ export function Navbar() {
                 </svg>
               </button>
               <nav className="flex flex-col gap-4 mt-2" aria-label="Mobile menu">
+                <Link
+                  href="/"
+                  className={`flex items-center gap-2 text-zinc-700 hover:text-blue-600 transition-colors px-2 py-2 rounded-md text-lg ${pathname === "/" ? "font-semibold underline text-blue-700" : ""}`}
+                  aria-label="Home"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <svg width="18" height="18" fill="none" viewBox="0 0 16 16" aria-hidden="true" className="inline-block align-middle"><path d="M2 6l6-4 6 4v7a1 1 0 01-1 1H3a1 1 0 01-1-1V6z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M6 13V9h4v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  <span>Home</span>
+                </Link>
                 <Link
                   href="/featured"
                   className={`flex items-center gap-2 text-zinc-700 hover:text-blue-600 transition-colors px-2 py-2 rounded-md text-lg ${pathname.startsWith("/featured") ? "font-semibold underline text-blue-700" : ""}`}
