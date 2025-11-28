@@ -57,7 +57,7 @@ export default async function ClusterLandingPage({ params }: Props) {
                   />
                 </div>
               )}
-              <h2 className="mt-4 text-xl font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              <h2 className="mt-4 text-xl font-medium group-hover:text-blue-600 transition-colors">
                 {project.title}
               </h2>
               <p className="italic text-gray-600">{project.summary}</p>

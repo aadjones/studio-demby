@@ -35,17 +35,17 @@ const PLANE_SIZES = [
 function FunnySlider({ label, options, value, onChange }: FunnySliderProps) {
   return (
     <div className="flex flex-col items-start w-full text-sm relative">
-      <label className="mb-1 font-medium text-gray-700 dark:text-gray-300">
+      <label className="mb-1 font-medium text-gray-700">
         {label}
       </label>
       <div className="w-full max-w-[360px] relative">
         <select
-          className="w-full text-sm rounded-lg border border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800 dark:text-white px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-black appearance-none"
+          className="w-full text-sm rounded-lg border border-gray-300 bg-white px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-black appearance-none"
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
         >
           {options.map((opt) => (
-            <option key={opt.value} value={opt.value} className="bg-white dark:bg-gray-800">
+            <option key={opt.value} value={opt.value} className="bg-white">
               {opt.label}
             </option>
           ))}
@@ -124,7 +124,7 @@ export default function ShatterPlayground() {
       <h2 className="text-2xl font-semibold mb-4 text-left w-full">Control Panel</h2>
       <div ref={ref} className="flex flex-col sm:flex-row sm:items-start sm:justify-center gap-8 w-full max-w-5xl">
         {visible && sketchRef.current && (
-          <div className="w-full sm:w-[512px] aspect-square rounded-lg shadow-md overflow-hidden bg-white dark:bg-black">
+          <div className="w-full sm:w-[512px] aspect-square rounded-lg shadow-md overflow-hidden bg-white">
             <P5Container
               key={triggerRender}
               sketch={sketchRef.current}

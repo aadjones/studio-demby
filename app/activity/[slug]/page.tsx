@@ -59,23 +59,23 @@ export default async function ActivityItemPage({ params }: Props) {
   return (
     <main className="container mx-auto max-w-2xl px-4 py-8">
       {/* Minimal header */}
-      <header className="mb-8 border-b border-gray-200 dark:border-gray-800 pb-6">
+      <header className="mb-8 border-b border-gray-200 pb-6">
         <Link
           href="/activity"
-          className="text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 mb-4 inline-block"
+          className="text-sm text-gray-500 hover:text-blue-600 mb-4 inline-block"
         >
           ← All Activity
         </Link>
         <h1 className="text-2xl sm:text-3xl font-normal mb-2">
           {item.frontMatter.title}
         </h1>
-        <time className="text-sm text-gray-500 dark:text-gray-400">
+        <time className="text-sm text-gray-500">
           {formatDate(item.frontMatter.date)}
         </time>
       </header>
 
       {/* MDX Content */}
-      <div className="prose prose-sm sm:prose dark:prose-invert max-w-none">
+      <div className="prose prose-sm sm:prose max-w-none">
         <ClientMDX
           mdxSource={item.mdxSource}
           frontMatter={item.frontMatter}
@@ -84,8 +84,8 @@ export default async function ActivityItemPage({ params }: Props) {
 
       {/* Metadata Footer */}
       {item.frontMatter.tags && item.frontMatter.tags.length > 0 && (
-        <footer className="mt-8 pt-4 border-t border-gray-200 dark:border-gray-800">
-          <div className="flex flex-wrap gap-2 text-xs text-gray-500 dark:text-gray-400">
+        <footer className="mt-8 pt-4 border-t border-gray-200">
+          <div className="flex flex-wrap gap-2 text-xs text-gray-500">
             {item.frontMatter.tags.map((tag) => (
               <span key={tag}>#{tag}</span>
             ))}
@@ -94,28 +94,28 @@ export default async function ActivityItemPage({ params }: Props) {
       )}
 
       {/* Prev/Next Navigation */}
-      <nav className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-800">
+      <nav className="mt-12 pt-6 border-t border-gray-200">
         <div className="flex justify-between items-center text-sm">
           {previousItem ? (
             <Link
               href={`/activity/${previousItem.slug}`}
-              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
+              className="text-gray-600 hover:text-blue-600"
             >
               ← {previousItem.title}
             </Link>
           ) : (
-            <span className="text-gray-400 dark:text-gray-600">← Previous</span>
+            <span className="text-gray-400">← Previous</span>
           )}
 
           {nextItem ? (
             <Link
               href={`/activity/${nextItem.slug}`}
-              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
+              className="text-gray-600 hover:text-blue-600"
             >
               {nextItem.title} →
             </Link>
           ) : (
-            <span className="text-gray-400 dark:text-gray-600">Next →</span>
+            <span className="text-gray-400">Next →</span>
           )}
         </div>
       </nav>

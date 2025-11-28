@@ -92,7 +92,7 @@ export default function HeroCarouselBlock({
                 className="flex-[0_0_100%] min-w-0 pl-4 relative"
               >
                 <div className="mr-4">
-                  <div className="relative aspect-[16/9] rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-900">
+                  <div className="relative aspect-[16/9] rounded-xl overflow-hidden bg-gray-100">
                     <Image
                       src={image}
                       alt={`Slide ${i + 1}`}

@@ -22,7 +22,7 @@ export default async function ActivityPage() {
   return (
     <main className="px-4 py-6 sm:py-8 pb-0">
       <h1 className="text-3xl sm:text-4xl font-bold mb-2 sm:mb-4">Activity</h1>
-      <p className="text-base sm:text-lg italic mb-6 sm:mb-8 text-zinc-600 dark:text-zinc-400">
+      <p className="text-base sm:text-lg italic mb-6 sm:mb-8 text-zinc-600">
         Quick thoughts, works in progress, field notes
       </p>
 
@@ -36,11 +36,11 @@ export default async function ActivityPage() {
               href={`/activity/${item.slug}`}
               className="block group"
             >
-              <article className="border-l-2 border-gray-200 dark:border-gray-800 pl-4 py-2 hover:border-blue-400 dark:hover:border-blue-600 transition-colors">
+              <article className="border-l-2 border-gray-200 pl-4 py-2 hover:border-blue-400 transition-colors">
                 <div className="flex gap-4">
                   {/* Thumbnail */}
                   {item.image && (
-                    <div className="relative w-20 h-20 flex-shrink-0 rounded overflow-hidden opacity-90 group-hover:opacity-100 transition-opacity border border-gray-300 dark:border-gray-600">
+                    <div className="relative w-20 h-20 flex-shrink-0 rounded overflow-hidden opacity-90 group-hover:opacity-100 transition-opacity border border-gray-300">
                       <Image
                         src={item.image}
                         alt={item.title}
@@ -53,10 +53,10 @@ export default async function ActivityPage() {
                   {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-baseline justify-between gap-4 mb-2">
-                      <h2 className="text-xl font-normal group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      <h2 className="text-xl font-normal group-hover:text-blue-600 transition-colors">
                         {item.title}
                       </h2>
-                      <time className="text-sm text-gray-400 dark:text-gray-500 whitespace-nowrap">
+                      <time className="text-sm text-gray-400 whitespace-nowrap">
                         {formatDate(item.date)}
                       </time>
                     </div>
@@ -65,7 +65,7 @@ export default async function ActivityPage() {
                         {item.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="text-xs text-gray-500 dark:text-gray-400"
+                            className="text-xs text-gray-500"
                           >
                             #{tag}
                           </span>

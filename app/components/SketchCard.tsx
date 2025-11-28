@@ -19,7 +19,7 @@ export default function SketchCard({ sketch }: Props) {
   return (
     <Link
       href={`/sketches/${sketch.slug}`}
-      className="group block border-l-2 border-gray-300 dark:border-gray-700 pl-3 py-2 hover:border-blue-400 dark:hover:border-blue-600 transition-colors bg-gray-50/50 dark:bg-gray-900/20 rounded-r"
+      className="group block border-l-2 border-gray-300 pl-3 py-2 hover:border-blue-400 transition-colors bg-gray-50/50/20 rounded-r"
     >
       {/* Compact horizontal layout */}
       <div className="flex items-start gap-3">
@@ -38,14 +38,14 @@ export default function SketchCard({ sketch }: Props) {
         {/* Content */}
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline gap-2 mb-1">
-            <span className="text-[9px] uppercase tracking-wider text-gray-500 dark:text-gray-400 font-semibold">
+            <span className="text-[9px] uppercase tracking-wider text-gray-500 font-semibold">
               Sketch
             </span>
-            <span className="text-[11px] text-gray-400 dark:text-gray-500">
+            <span className="text-[11px] text-gray-400">
               {formatDate(sketch.date)}
             </span>
           </div>
-          <h3 className="font-light text-sm leading-snug text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+          <h3 className="font-light text-sm leading-snug text-gray-700 group-hover:text-blue-600 transition-colors">
             {sketch.title}
           </h3>
         </div>

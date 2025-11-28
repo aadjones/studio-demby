@@ -24,12 +24,12 @@ export default function LatestActivity({ items }: Props) {
   return (
     <section className="mb-10 sm:mb-12">
       <div className="flex items-baseline justify-between mb-4">
-        <h2 className="text-base sm:text-lg font-semibold text-gray-700 dark:text-gray-300">
+        <h2 className="text-base sm:text-lg font-semibold text-gray-700">
           Latest Activity
         </h2>
         <Link
           href="/activity"
-          className="text-sm text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          className="text-sm text-gray-500 hover:text-blue-600 transition-colors"
         >
           View all →
         </Link>
@@ -43,12 +43,12 @@ export default function LatestActivity({ items }: Props) {
             <Link
               key={activity.slug}
               href={`/activity/${activity.slug}`}
-              className="group block border-l-2 border-gray-300 dark:border-gray-700 pl-4 py-3 hover:border-blue-400 dark:hover:border-blue-600 transition-colors bg-gray-50 dark:bg-gray-800/20 rounded-r"
+              className="group block border-l-2 border-gray-300 pl-4 py-3 hover:border-blue-400 transition-colors bg-gray-50/20 rounded-r"
             >
               <div className="flex items-start gap-4">
                 {/* Thumbnail if present */}
                 {activity.image && (
-                  <div className="relative w-20 h-20 flex-shrink-0 rounded overflow-hidden opacity-90 group-hover:opacity-100 transition-opacity border border-gray-300 dark:border-gray-600">
+                  <div className="relative w-20 h-20 flex-shrink-0 rounded overflow-hidden opacity-90 group-hover:opacity-100 transition-opacity border border-gray-300">
                     <Image
                       src={activity.image}
                       alt={activity.title}
@@ -61,18 +61,18 @@ export default function LatestActivity({ items }: Props) {
                 {/* Content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-baseline gap-3 mb-1">
-                    <span className="text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-400 font-semibold">
+                    <span className="text-[10px] uppercase tracking-wider text-gray-500 font-semibold">
                       {activity.tags && activity.tags[0] ? activity.tags[0] : 'Sketch'}
                     </span>
-                    <span className="text-xs text-gray-400 dark:text-gray-500">
+                    <span className="text-xs text-gray-400">
                       {formatDate(activity.date)}
                     </span>
                   </div>
-                  <h3 className="font-normal text-base leading-snug text-gray-800 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  <h3 className="font-normal text-base leading-snug text-gray-800 group-hover:text-blue-600 transition-colors">
                     {activity.title}
                   </h3>
                   {activity.description && (
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">
+                    <p className="text-sm text-gray-600 mt-1 line-clamp-2">
                       {activity.description}
                     </p>
                   )}

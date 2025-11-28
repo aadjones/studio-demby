@@ -46,11 +46,11 @@ export default function CategoryProjectList({ projects }: Props) {
                       />
                     </div>
                   )}
-                  <h2 className="mt-4 text-xl font-medium group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  <h2 className="mt-4 text-xl font-medium group-hover:text-blue-600 transition-colors">
                     {project.title}
                   </h2>
                   {project.date && (
-                    <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
+                    <p className="text-sm text-gray-400 mt-1">
                       {new Date(project.date).toLocaleDateString("en-US", {
                         month: "short",
                         year: "numeric",

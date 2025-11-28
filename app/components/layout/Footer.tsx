@@ -48,7 +48,7 @@ function SocialLinks() {
 
 export default function Footer() {
   return (
-    <footer className="block lg:mt-24 mt-16 text-[#1C1C1C] dark:text-[#D4D4D4] w-full px-4">
+    <footer className="block lg:mt-24 mt-16 text-[#1C1C1C] w-full px-4">
       <div className="flex flex-col items-center gap-8 mb-8 w-full max-w-xl mx-auto">
         <div className="text-center w-full">
           <p className="mb-4 text-base sm:text-lg">

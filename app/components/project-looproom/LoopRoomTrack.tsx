@@ -40,7 +40,7 @@ export default function LoopRoomTrack({
       </div>
       
       <div className="w-full min-w-0 space-y-1.5">
-        <h2 className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+        <h2 className="text-sm font-medium text-zinc-800">
           {title}
         </h2>
         <audio
@@ -48,10 +48,10 @@ export default function LoopRoomTrack({
           loop
           controls
           controlsList="nodownload noplaybackrate"
-          className="w-full h-[32px] border border-zinc-600/40 rounded shadow-sm [&::-webkit-media-controls-panel]:!bg-white dark:[&::-webkit-media-controls-panel]:!bg-zinc-900 [&::-webkit-media-controls-current-time-display]:hidden [&::-webkit-media-controls-time-remaining-display]:hidden"
+          className="w-full h-[32px] border border-zinc-600/40 rounded shadow-sm [&::-webkit-media-controls-panel]:!bg-white[&::-webkit-media-controls-panel]:!bg-zinc-900 [&::-webkit-media-controls-current-time-display]:hidden [&::-webkit-media-controls-time-remaining-display]:hidden"
         />
         {description && (
-          <p className="text-xs italic text-zinc-500 dark:text-zinc-400">
+          <p className="text-xs italic text-zinc-500">
             {description}
           </p>
         )}

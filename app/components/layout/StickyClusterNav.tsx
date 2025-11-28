@@ -52,7 +52,7 @@ export default function FloatingClusterNav() {
         show ? "opacity-100 pointer-events-auto" : "opacity-0"
       }`}
     >
-      <div className="bg-white/90 dark:bg-black/80 border border-zinc-300 dark:border-zinc-700 rounded-xl px-4 py-2 shadow-lg backdrop-blur-md">
+      <div className="bg-white/90/80 border border-zinc-300 rounded-xl px-4 py-2 shadow-lg backdrop-blur-md">
         <div className="flex flex-wrap gap-3 text-sm">
           {categories.map(({ path, name, className }) => {
             const isActive = pathname.startsWith(path);

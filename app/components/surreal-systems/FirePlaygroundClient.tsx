@@ -85,7 +85,7 @@ export default function FirePlaygroundClient({ preset, title }: FirePlaygroundCl
             ref={ref}
             className="flex flex-col items-center gap-1"
           >
-            <div className="w-full aspect-square rounded-lg shadow-md overflow-hidden bg-white dark:bg-black min-h-[240px]">
+            <div className="w-full aspect-square rounded-lg shadow-md overflow-hidden bg-white min-h-[240px]">
               {visible && sketchRef.current && (
                 <P5Container
                   key={triggerRender}

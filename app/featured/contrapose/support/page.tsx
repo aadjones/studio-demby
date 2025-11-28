@@ -12,17 +12,17 @@ export default function ContraposeSupportPage() {
 
       <section className="mb-8">
         <h2 className="mb-4 text-2xl font-semibold">Contact</h2>
-        <p>Email: <a href="mailto:aaron.demby.jones@gmail.com" className="text-blue-600 hover:underline dark:text-blue-400">aaron.demby.jones@gmail.com</a></p>
+        <p>Email: <a href="mailto:aaron.demby.jones@gmail.com" className="text-blue-600 hover:underline">aaron.demby.jones@gmail.com</a></p>
       </section>
 
       <section className="mb-8">
         <h2 className="mb-4 text-2xl font-semibold">Request a Card</h2>
-        <p>Have an idea for a new practice prompt? <a href="https://docs.google.com/forms/d/e/1FAIpQLSdzOwEXaYVf_UT2h9x0UE3y70z0hXSTx4qwLhL1GoA1RMDWLQ/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline dark:text-blue-400">Submit your suggestion here</a></p>
+        <p>Have an idea for a new practice prompt? <a href="https://docs.google.com/forms/d/e/1FAIpQLSdzOwEXaYVf_UT2h9x0UE3y70z0hXSTx4qwLhL1GoA1RMDWLQ/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Submit your suggestion here</a></p>
       </section>
 
       <section className="mb-8">
         <h2 className="mb-4 text-2xl font-semibold">Privacy</h2>
-        <p>See our <Link href="/projects/contrapose/privacy" className="text-blue-600 hover:underline dark:text-blue-400">Privacy Policy</Link></p>
+        <p>See our <Link href="/projects/contrapose/privacy" className="text-blue-600 hover:underline">Privacy Policy</Link></p>
       </section>
 
       <section className="mb-8">

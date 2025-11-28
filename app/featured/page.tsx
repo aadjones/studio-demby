@@ -7,7 +7,7 @@ export default async function FeaturedPage() {
   return (
     <main className="px-4 py-6 sm:py-8 pb-0">
       <h1 className="text-3xl sm:text-4xl font-bold mb-2 sm:mb-4">Featured</h1>
-      <p className="text-base sm:text-lg italic mb-6 sm:mb-8 text-zinc-600 dark:text-zinc-400">
+      <p className="text-base sm:text-lg italic mb-6 sm:mb-8 text-zinc-600">
         Polished work across all four areas
       </p>
 

@@ -35,11 +35,11 @@ export default function SectionNav({ customLabel, customId }: SectionNavProps) {
           key={id}
           onClick={() => scrollTo(id)}
           onMouseEnter={() => setHasAnimated(false)}
-          className={`px-4 py-2.5 rounded-md shadow-sm border border-zinc-300 dark:border-zinc-700
+          className={`px-4 py-2.5 rounded-md shadow-sm border border-zinc-300
             text-sm sm:text-base font-semibold tracking-wide w-full sm:w-auto
-            bg-white dark:bg-zinc-900
-            text-zinc-800 dark:text-zinc-100
-            hover:bg-zinc-100 dark:hover:bg-zinc-800
+            bg-white
+            text-zinc-800
+            hover:bg-zinc-100
             active:scale-95 transition-all duration-200 ease-in-out
             ${hasAnimated ? "opacity-0 animate-fadeSlideIn" : ""}`}
           style={{ animationDelay: `${i * 150}ms` }}

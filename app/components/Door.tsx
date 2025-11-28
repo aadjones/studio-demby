@@ -21,20 +21,20 @@ const Door: React.FC<DoorProps> = ({ name, description, href, image, delay = 0 }
     >
       <Link
         href={href}
-        className="group w-full max-w-[420px] aspect-[4/3] rounded-2xl bg-zinc-100 dark:bg-zinc-800 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-indigo-400 transition-all flex flex-col items-center justify-between p-4 sm:p-5 gap-1"
+        className="group w-full max-w-[420px] aspect-[4/3] rounded-2xl bg-zinc-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-indigo-400 transition-all flex flex-col items-center justify-between p-4 sm:p-5 gap-1"
         tabIndex={0}
         aria-label={`View ${name} category`}
       >
         {/* Top: Category Name */}
-        <div className="w-full text-center text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-1 mt-1 truncate">
-          <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-150">
+        <div className="w-full text-center text-xl font-bold text-zinc-900 mb-1 mt-1 truncate">
+          <span className="group-hover:text-blue-600 transition-colors duration-150">
             {name}
           </span>
         </div>
         {/* Middle: Art */}
         <div className="flex-1 flex items-center justify-center w-full">
           <div className="w-full h-full flex items-center justify-center">
-            <div className="w-[92%] h-[92%] rounded-xl overflow-hidden bg-zinc-200 dark:bg-zinc-700 border-4 border-zinc-200 dark:border-zinc-700">
+            <div className="w-[92%] h-[92%] rounded-xl overflow-hidden bg-zinc-200 border-4 border-zinc-200">
               <div className="w-full h-full overflow-hidden">
                 <Image
                   src={image}
@@ -50,7 +50,7 @@ const Door: React.FC<DoorProps> = ({ name, description, href, image, delay = 0 }
           </div>
         </div>
         {/* Bottom: Subtitle */}
-        <div className="w-full text-center text-sm text-zinc-600 dark:text-zinc-300 font-medium mt-1 mb-1 truncate">
+        <div className="w-full text-center text-sm text-zinc-600 font-medium mt-1 mb-1 truncate">
           {description}
         </div>
       </Link>

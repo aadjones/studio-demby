@@ -14,7 +14,7 @@ export default function ProjectOverview({
           {header}
         </h2>
       )}
-      <div className="text-[17px] sm:text-lg leading-relaxed sm:leading-relaxed space-y-5 sm:space-y-6 text-zinc-800 dark:text-zinc-200 max-w-prose">
+      <div className="text-[17px] sm:text-lg leading-relaxed sm:leading-relaxed space-y-5 sm:space-y-6 text-zinc-800 max-w-prose">
         {children}
       </div>
     </section>

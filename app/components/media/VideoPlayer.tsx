@@ -36,7 +36,7 @@ export default function VideoPlayer({
       {(title || subtitle) && (
         <div className="text-center mb-6">
           {title && <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">{title}</h1>}
-          {subtitle && <p className="italic text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-2">{subtitle}</p>}
+          {subtitle && <p className="italic text-base sm:text-lg text-gray-600 mb-2">{subtitle}</p>}
         </div>
       )}
 
@@ -74,7 +74,7 @@ export default function VideoPlayer({
         {/* Caption */}
         {caption && (
           <div className="mt-2 sm:mt-3 text-center">
-            <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 italic">{caption}</p>
+            <p className="text-[10px] sm:text-xs text-gray-500 italic">{caption}</p>
           </div>
         )}
       </div>

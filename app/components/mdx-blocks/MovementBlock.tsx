@@ -20,11 +20,11 @@ export default function MovementBlock({
   return (
     <section id={id} className="my-8 sm:my-12 scroll-mt-16 sm:scroll-mt-20">
       <div className="text-center mb-6 px-3 sm:px-4">
-        <h2 className="text-base sm:text-lg md:text-xl font-medium text-zinc-800 dark:text-zinc-200 mb-2">
+        <h2 className="text-base sm:text-lg md:text-xl font-medium text-zinc-800 mb-2">
           {title}
         </h2>
         {description && (
-          <p className="italic text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto">
+          <p className="italic text-xs sm:text-sm text-zinc-600 max-w-xl mx-auto">
             {description}
           </p>
         )}

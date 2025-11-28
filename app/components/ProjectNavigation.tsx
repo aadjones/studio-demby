@@ -7,18 +7,18 @@ type Props = {
 
 export default function ProjectNavigation({ previousSlug, nextSlug }: Props) {
   return (
-    <nav className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
+    <nav className="mt-12 pt-8 border-t border-gray-200">
       <div className="flex justify-between items-center text-sm">
         {previousSlug ? (
           <Link
             href={`/featured/${previousSlug}`}
-            className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
           >
             <span>←</span>
             <span>Previous</span>
           </Link>
         ) : (
-          <div className="text-gray-300 dark:text-gray-700">
+          <div className="text-gray-300">
             <span>← Previous</span>
           </div>
         )}
@@ -26,13 +26,13 @@ export default function ProjectNavigation({ previousSlug, nextSlug }: Props) {
         {nextSlug ? (
           <Link
             href={`/featured/${nextSlug}`}
-            className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
           >
             <span>Next</span>
             <span>→</span>
           </Link>
         ) : (
-          <div className="text-gray-300 dark:text-gray-700">
+          <div className="text-gray-300">
             <span>Next →</span>
           </div>
         )}

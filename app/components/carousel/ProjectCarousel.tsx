@@ -78,7 +78,7 @@ export default function ProjectCarousel({
               <Link href={`/featured/${project.slug}`}>
                 <div className="mr-4">
                   {project.image && (
-                    <div className={`relative rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-900 ${imageSizeClasses}`}>
+                    <div className={`relative rounded-xl overflow-hidden bg-gray-100 ${imageSizeClasses}`}>
                       <Image
                         src={project.image}
                         alt={project.title}
@@ -105,8 +105,8 @@ export default function ProjectCarousel({
               key={index}
               className={`w-2 h-2 rounded-full transition-colors ${
                 index === selectedIndex 
-                  ? 'bg-gray-800 dark:bg-gray-200' 
-                  : 'bg-gray-300 dark:bg-gray-700'
+                  ? 'bg-gray-800' 
+                  : 'bg-gray-300'
               }`}
               onClick={() => emblaApi?.scrollTo(index)}
               aria-label={`Go to slide ${index + 1}`}

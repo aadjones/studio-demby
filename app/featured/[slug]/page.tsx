@@ -106,7 +106,7 @@ export default async function ProjectPage({ params }: Props) {
               <h1 className="text-3xl font-bold">{project.frontMatter.title}</h1>
             )}
             {project.frontMatter.date && (
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-gray-500">
                 {new Date(project.frontMatter.date).toLocaleDateString("en-US", {
                   month: "short",
                   year: "numeric",

@@ -39,29 +39,29 @@ export default async function ContraposeMarketingPage() {
       : undefined;
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
+    <div className="min-h-screen bg-white">
       <main className="container mx-auto px-4 py-16 md:py-24 max-w-5xl">
         {/* Breadcrumb */}
-        <nav className="text-sm text-gray-600 dark:text-gray-400 mb-8">
+        <nav className="text-sm text-gray-600 mb-8">
           <Link
             href="/practice-pedagogy"
-            className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+            className="hover:text-purple-600 transition-colors"
           >
             Practice &amp; Pedagogy
           </Link>
           <span className="mx-2">→</span>
-          <span className="text-gray-900 dark:text-gray-100">Contrapose</span>
+          <span className="text-gray-900">Contrapose</span>
         </nav>
 
         {/* Hero Section */}
         <div className="text-center mb-20">
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-3 text-gray-900 dark:text-gray-100 tracking-tight">
+          <h1 className="text-5xl md:text-7xl font-extrabold mb-3 text-gray-900 tracking-tight">
             Contrapose
           </h1>
-          <p className="text-xl md:text-2xl text-violet-600 dark:text-violet-400 font-medium mb-6 tracking-wide">
+          <p className="text-xl md:text-2xl text-violet-600 font-medium mb-6 tracking-wide">
             <span className="font-mono font-bold">73</span> Cards for Piano Practice
           </p>
-          <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8">
+          <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto mb-8">
             Break through practice plateaus with creative constraints.
           </p>
           <a
@@ -76,29 +76,29 @@ export default async function ContraposeMarketingPage() {
 
         {/* Features Section */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900 dark:text-gray-100">
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-900">
             Two Practice Modes
           </h2>
 
           <div className="grid md:grid-cols-2 gap-8">
             {/* General Practice Card */}
-            <div className="group bg-gradient-to-br from-white to-violet-50/30 dark:from-gray-900 dark:to-violet-950/10 rounded-lg p-8 border border-gray-200 dark:border-gray-800 shadow-sm hover:border-violet-400 dark:hover:border-violet-600 transition-all duration-500 ease-out hover:shadow-[0_8px_30px_rgb(124,58,237,0.12)]">
+            <div className="group bg-gradient-to-br from-white to-violet-50/30/10 rounded-lg p-8 border border-gray-200 shadow-sm hover:border-violet-400 transition-all duration-500 ease-out hover:shadow-[0_8px_30px_rgb(124,58,237,0.12)]">
               <div className="text-4xl mb-4">🎯</div>
-              <h3 className="text-2xl font-bold mb-3 text-gray-900 dark:text-gray-100">
+              <h3 className="text-2xl font-bold mb-3 text-gray-900">
                 General Practice
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+              <p className="text-gray-600 leading-relaxed">
                 Mindful prompts for focused, intentional practice sessions
               </p>
             </div>
 
             {/* Improvisation Card */}
-            <div className="group bg-gradient-to-br from-white to-orange-50/30 dark:from-gray-900 dark:to-orange-950/10 rounded-lg p-8 border border-gray-200 dark:border-gray-800 shadow-sm hover:border-orange-400 dark:hover:border-orange-600 transition-all duration-500 ease-out hover:shadow-[0_8px_30px_rgb(234,88,12,0.12)]">
+            <div className="group bg-gradient-to-br from-white to-orange-50/30/10 rounded-lg p-8 border border-gray-200 shadow-sm hover:border-orange-400 transition-all duration-500 ease-out hover:shadow-[0_8px_30px_rgb(234,88,12,0.12)]">
               <div className="text-4xl mb-4">✨</div>
-              <h3 className="text-2xl font-bold mb-3 text-gray-900 dark:text-gray-100">
+              <h3 className="text-2xl font-bold mb-3 text-gray-900">
                 Improvisation
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+              <p className="text-gray-600 leading-relaxed">
                 Creative constraints to spark exploration and discovery
               </p>
             </div>
@@ -107,7 +107,7 @@ export default async function ContraposeMarketingPage() {
 
         {/* Value Proposition */}
         <div className="text-center mb-12 py-12">
-          <div className="flex flex-col md:flex-row gap-3 md:gap-8 justify-center text-base md:text-lg text-gray-600 dark:text-gray-400">
+          <div className="flex flex-col md:flex-row gap-3 md:gap-8 justify-center text-base md:text-lg text-gray-600">
             <span className="flex items-center justify-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
               No ads
@@ -124,18 +124,18 @@ export default async function ContraposeMarketingPage() {
         </div>
 
         {/* Project Navigation */}
-        <nav className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-800">
+        <nav className="mt-16 pt-8 border-t border-gray-200">
           <div className="flex justify-between items-center text-sm">
             {previousProject ? (
               <Link
                 href={`/featured/${previousProject.slug}`}
-                className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                className="flex items-center gap-2 text-gray-600 hover:text-purple-600 transition-colors"
               >
                 <span>←</span>
                 <span>Previous</span>
               </Link>
             ) : (
-              <div className="text-gray-300 dark:text-gray-700">
+              <div className="text-gray-300">
                 <span>← Previous</span>
               </div>
             )}
@@ -143,13 +143,13 @@ export default async function ContraposeMarketingPage() {
             {nextProject ? (
               <Link
                 href={`/featured/${nextProject.slug}`}
-                className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                className="flex items-center gap-2 text-gray-600 hover:text-purple-600 transition-colors"
               >
                 <span>Next</span>
                 <span>→</span>
               </Link>
             ) : (
-              <div className="text-gray-300 dark:text-gray-700">
+              <div className="text-gray-300">
                 <span>Next →</span>
               </div>
             )}
@@ -157,22 +157,22 @@ export default async function ContraposeMarketingPage() {
         </nav>
 
         {/* Footer Links */}
-        <footer className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-800">
-          <div className="flex justify-center gap-12 text-sm text-gray-600 dark:text-gray-400">
+        <footer className="mt-16 pt-8 border-t border-gray-200">
+          <div className="flex justify-center gap-12 text-sm text-gray-600">
             <Link
               href="/projects/contrapose/support"
-              className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+              className="hover:text-purple-600 transition-colors"
             >
               Support
             </Link>
             <Link
               href="/projects/contrapose/privacy"
-              className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+              className="hover:text-purple-600 transition-colors"
             >
               Privacy
             </Link>
           </div>
-          <p className="text-center mt-4 text-gray-500 dark:text-gray-600 text-sm">
+          <p className="text-center mt-4 text-gray-500 text-sm">
             © 2025 Studio Demby
           </p>
         </footer>

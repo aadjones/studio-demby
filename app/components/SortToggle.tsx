@@ -28,26 +28,26 @@ export default function SortToggle({ onSortChange }: Props) {
 
   return (
     <div className="flex gap-2 mb-6">
-      <span className="text-sm text-gray-600 dark:text-gray-400 mr-2 flex items-center">
+      <span className="text-sm text-gray-600 mr-2 flex items-center">
         Sort by:
       </span>
-      <div className="inline-flex rounded-lg border border-gray-300 dark:border-gray-700 overflow-hidden">
+      <div className="inline-flex rounded-lg border border-gray-300 overflow-hidden">
         <button
           onClick={() => handleSort("latest")}
           className={`px-4 py-1.5 text-sm font-medium transition-colors ${
             sortMode === "latest"
-              ? "bg-blue-600 text-white dark:bg-blue-500"
-              : "bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+              ? "bg-blue-600 text-white"
+              : "bg-white text-gray-700 hover:bg-gray-50"
           }`}
         >
           Latest
         </button>
         <button
           onClick={() => handleSort("title")}
-          className={`px-4 py-1.5 text-sm font-medium transition-colors border-l border-gray-300 dark:border-gray-700 ${
+          className={`px-4 py-1.5 text-sm font-medium transition-colors border-l border-gray-300 ${
             sortMode === "title"
-              ? "bg-blue-600 text-white dark:bg-blue-500"
-              : "bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+              ? "bg-blue-600 text-white"
+              : "bg-white text-gray-700 hover:bg-gray-50"
           }`}
         >
           A–Z

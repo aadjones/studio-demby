@@ -40,11 +40,11 @@ export default function AboutPage() {
             life if you actually let them.
           </p>
 
-          <div className="pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-800 mt-4 sm:mt-6">
+          <div className="pt-4 sm:pt-6 border-t border-gray-200 mt-4 sm:mt-6">
             <h2 className="text-lg sm:text-xl font-semibold mb-3">
               Start Here
             </h2>
-            <p className="mb-3 text-gray-600 dark:text-gray-400">
+            <p className="mb-3 text-gray-600">
               A few good doors into my work:
             </p>
             <ul className="space-y-2">
@@ -87,7 +87,7 @@ export default function AboutPage() {
             </ul>
           </div>
 
-          <p className="pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-800 mt-4 sm:mt-6">
+          <p className="pt-4 sm:pt-6 border-t border-gray-200 mt-4 sm:mt-6">
             If you&rsquo;re interested in collaborations, commissions, or odd
             problems that need an odd solution, reach out:{" "}
             <a

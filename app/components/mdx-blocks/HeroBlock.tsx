@@ -34,8 +34,8 @@ export default function HeroBlock({
     <section className="mt-2 mb-8 sm:mt-4 sm:mb-12">
       <div className="text-center mb-6">
         {title && <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">{title}</h1>}
-        {subtitle && <p className="italic text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-2">{subtitle}</p>}
-        {subtext && <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-500">{subtext}</p>}
+        {subtitle && <p className="italic text-base sm:text-lg text-gray-600 mb-2">{subtitle}</p>}
+        {subtext && <p className="text-xs sm:text-sm text-gray-500">{subtext}</p>}
       </div>
 
       <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:gap-8 items-start">
@@ -57,23 +57,23 @@ export default function HeroBlock({
               .replace(/\s+/g, "-");
 
             return (
-              <div key={section.title} className="backdrop-blur-sm bg-white/50 dark:bg-black/20 rounded-xl border border-zinc-200/50 dark:border-zinc-800/50">
+              <div key={section.title} className="backdrop-blur-sm bg-white/50/20 rounded-xl border border-zinc-200/50/50">
                 <div className="px-1.5 py-1.5">
                   {section.links.map((link) => (
                     <a
                       key={link.id}
                       href={`#${link.id}`}
-                      className="flex items-center px-1 py-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800/50 transition-all duration-200 group"
+                      className="flex items-center px-1 py-1 rounded-lg hover:bg-zinc-100/50 transition-all duration-200 group"
                       onClick={(e) => {
                         e.preventDefault();
                         const el = document.getElementById(link.id);
                         if (el) el.scrollIntoView({ behavior: "smooth" });
                       }}
                     >
-                      <span className="flex-1 text-[11px] sm:text-sm text-zinc-700 dark:text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 underline decoration-zinc-400/50 dark:decoration-zinc-600/50 group-hover:decoration-zinc-500 dark:group-hover:decoration-zinc-400">
+                      <span className="flex-1 text-[11px] sm:text-sm text-zinc-700 group-hover:text-zinc-900 underline decoration-zinc-400/50/50 group-hover:decoration-zinc-500">
                         {link.label}
                       </span>
-                      <span className="ml-2 text-zinc-400 dark:text-zinc-600 group-hover:text-zinc-600 dark:group-hover:text-zinc-400">
+                      <span className="ml-2 text-zinc-400 group-hover:text-zinc-600">
                         <svg className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>

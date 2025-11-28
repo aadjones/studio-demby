@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function PrivacyPolicy() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
-      <article className="prose prose-neutral dark:prose-invert max-w-none">
+      <article className="prose prose-neutral max-w-none">
         <h1>Privacy Policy for Contrapose</h1>
 
         <p>

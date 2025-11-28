@@ -57,7 +57,7 @@ export default function FeathersPlaygroundClient() {
       <h2 className="text-2xl font-semibold mb-4">Molting Grounds</h2>
       <div ref={ref} className="flex flex-col sm:flex-row sm:items-start sm:justify-center gap-8">
         {visible && sketchRef.current && (
-          <div className="w-full sm:w-[512px] aspect-square rounded-lg shadow-md overflow-hidden bg-white dark:bg-black">
+          <div className="w-full sm:w-[512px] aspect-square rounded-lg shadow-md overflow-hidden bg-white">
             <P5Container
               key={triggerRender}
               sketch={(p: P5, parent: HTMLElement) => {
