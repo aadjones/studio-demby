@@ -4,7 +4,7 @@ export const metaData = {
   name: "Aaron Demby Jones - Artist",
   ogImage: "/opengraph-image.png",
   description:
-    "Creative work organized by emotional clusters: resonant, errant, fractured, and enclosed",
+    "Sound, systems, provocations, and practice from artist Aaron Demby Jones",
 };
 
 export const socialLinks = {
