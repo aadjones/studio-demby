@@ -2,21 +2,24 @@
 import { useRouter } from "next/navigation";
 import { Dices } from "lucide-react";
 import React, { useCallback, useState } from "react";
-import { projectList } from "@/app/components/projectList";
 
-export default function RandomProjectButton() {
+interface RandomProjectButtonProps {
+  slugs: string[];
+}
+
+export default function RandomProjectButton({ slugs }: RandomProjectButtonProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const handleClick = useCallback(() => {
     setLoading(true);
-    if (projectList.length === 0) return;
-    const random = projectList[Math.floor(Math.random() * projectList.length)];
-    if (random && random.slug) {
-      router.push(`/featured/${random.slug}`);
+    if (slugs.length === 0) return;
+    const randomSlug = slugs[Math.floor(Math.random() * slugs.length)];
+    if (randomSlug) {
+      router.push(`/featured/${randomSlug}`);
     }
     setLoading(false);
-  }, [router]);
+  }, [router, slugs]);
 
   return (
     <div className="flex flex-col items-center">

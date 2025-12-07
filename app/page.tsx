@@ -6,12 +6,17 @@ import Door from "@/app/components/Door";
 import RandomProjectButton from "@/app/components/RandomProjectButton";
 import LatestActivity from "@/app/components/LatestActivity";
 import { getRecentActivity } from "@/lib/content/activity-loader";
+import { getAllProjects } from "@/lib/content/projects-loader";
 import { StreamItem } from "@/types/mdx";
 import { featureFlags } from "@/app/config/features";
 
 export default async function HomePage() {
   // Load recent activity items only
   const recentActivity = await getRecentActivity(10);
+
+  // Load all projects for random button
+  const allProjects = await getAllProjects();
+  const projectSlugs = allProjects.map(p => p.slug);
 
   // Format as stream items
   const streamItems: StreamItem[] = recentActivity.map(a => ({
@@ -64,7 +69,7 @@ export default async function HomePage() {
         </div>
       </section>
       <div className="mb-2" />
-      <RandomProjectButton />
+      <RandomProjectButton slugs={projectSlugs} />
     </main>
   );
 }
