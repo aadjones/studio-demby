@@ -12,6 +12,7 @@ export const projectList = [
   { cluster: "errant", slug: "degradation" },
   { cluster: "errant", slug: "shrimp-jesus" },
   { cluster: "errant", slug: "wisdom-teeth-codex" },
+  { cluster: "errant", slug: "healthcare-guide" },
   { cluster: "enclosed", slug: "encased-melting" },
   { cluster: "enclosed", slug: "escape" },
   { cluster: "enclosed", slug: "flow" },
