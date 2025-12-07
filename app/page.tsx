@@ -22,9 +22,11 @@ export default async function HomePage() {
     <main className="container mx-auto px-4 pt-6 sm:pt-8">
       {featureFlags.showCatsLogo ? (
         <div className="flex items-center gap-4 mb-4">
-          <img
+          <Image
             src="/photos/logo/shrimpas.png"
             alt="Studio Demby Logo"
+            width={80}
+            height={80}
             className="h-12 sm:h-16 md:h-20 opacity-80"
           />
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight tracking-tight">
