@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Portfolio site for Aaron Demby Jones (Studio Demby) - musician, artist, and creative coder. The site organizes creative work into emotional clusters: resonant, errant, fractured, and enclosed.
+Portfolio site for Aaron Demby Jones (Studio Demby) - musician, artist, and creative coder. The site organizes creative work into functional categories: sound & vision, systems & tools, provocations, and practice & pedagogy.
 
 **Tech Stack:** Next.js 14 (App Router), React 18, TypeScript, p5.js, Tailwind CSS, deployed on Vercel
 
@@ -34,7 +34,7 @@ pnpm lint
 ### Content Structure
 
 Projects live in `content/projects/` as MDX files with frontmatter defining:
-- `cluster`: One of `resonant`, `errant`, `fractured`, or `enclosed`
+- `categories`: Array of categories (e.g., `["sound-vision"]`, `["systems-tools"]`)
 - `slug`: URL identifier
 - `date`: Publication date (required for RSS feed)
 - `title`, `summary`, `image`, `tags`, etc.
@@ -42,13 +42,13 @@ Projects live in `content/projects/` as MDX files with frontmatter defining:
 ### Routing
 
 Uses Next.js App Router with a route group pattern:
-- `app/(clusters)/[cluster]/[slug]/` - Dynamic routes for project pages
-- `app/(clusters)/[cluster]/page.tsx` - Cluster landing pages
-- URL structure: `studiodemby.com/{cluster}/{slug}`
+- `app/(categories)/[category]/` - Category landing pages
+- `app/featured/[slug]/` - Individual project pages
+- URL structure: `studiodemby.com/featured/{slug}` or `studiodemby.com/{category}`
 
 ### Project Management
 
-**IMPORTANT:** When adding new projects, update `app/components/projectList.ts` with the cluster and slug. This array powers the random project navigation feature.
+When adding new projects, simply create a new MDX file in `content/projects/`. The random project navigation automatically discovers all projects via the content loader.
 
 ### Build Process
 
@@ -60,7 +60,7 @@ The build process (`pnpm build`) runs:
 
 - Tailwind with `@tailwindcss/typography` for prose content
 - Dark mode via `next-themes` (class-based)
-- Custom animations for cluster-specific effects (see `tailwind.config.js`)
+- Custom animations defined in `tailwind.config.js`
 - p5.js loaded globally via script tag in root layout for generative visuals
 
 ### ESLint Configuration
