@@ -9,42 +9,6 @@ import { ProjectSchema, MDXProject } from "@/types/mdx";
 
 const projectsDirectory = path.join(process.cwd(), "content/projects");
 
-export async function getProjectBySlug(cluster: string, slug: string) {
-  const fullPath = path.join(projectsDirectory, `${slug}.mdx`);
-  if (!fs.existsSync(fullPath)) return null;
-
-  const fileContents = fs.readFileSync(fullPath, "utf8");
-  const { data, content } = matter(fileContents);
-
-  // Verify cluster match before continuing
-  if (data.cluster !== cluster) return null;
-
-  // Validate frontmatter
-  const parsed = ProjectSchema.safeParse({ slug, ...data });
-  if (!parsed.success) {
-    console.warn(`[getProjectBySlug] Invalid frontmatter in ${slug}.mdx:`);
-    console.warn(parsed.error.format());
-    return null;
-  }
-
-  const mdxSource = await serialize(content, {
-    mdxOptions: {
-      remarkPlugins: [remarkMath],
-      rehypePlugins: [rehypeKatex],
-    },
-  });
-
-  console.log("[getProjectBySlug] Trying to read from:", fullPath);
-  console.log('[getProjectBySlug] Parsed frontmatter:', data);
-  console.log('[getProjectBySlug] Schema result:', ProjectSchema.safeParse(data));
-
-
-  return {
-    frontMatter: parsed.data,
-    mdxSource,
-  };
-}
-
 export async function getAllProjects(): Promise<MDXProject[]> {
   const fileNames = fs.readdirSync(projectsDirectory);
 

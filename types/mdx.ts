@@ -27,10 +27,6 @@ export const ProjectSchema = z.object({
   tags: z.array(z.string()),
   isFeatured: z.boolean().default(false),
 
-  // Legacy fields (keep during migration)
-  cluster: z.enum(["resonant", "errant", "fractured", "enclosed"]).optional(),
-  clusterOrder: z.number().optional(),
-
   // Optional fields
   subtitle: z.string().optional(),
   whisper: z.string().optional(),
