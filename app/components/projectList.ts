@@ -17,5 +17,8 @@ export const projectList = [
   { cluster: "enclosed", slug: "escape" },
   { cluster: "enclosed", slug: "flow" },
   { cluster: "enclosed", slug: "stray-signals" },
+  { cluster: "systems-tools", slug: "juice" },
+  { cluster: "systems-tools", slug: "chesswalk" },
+  { cluster: "systems-tools", slug: "frogmath" },
   // Add more projects here as needed
 ]; 
