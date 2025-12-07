@@ -44,6 +44,9 @@ import MeltdownDiptych from "../surreal-systems/MeltdownDiptych";
 import ShrimpJesusFAQ from "../surreal-systems/ShrimpJesusFAQ";
 import FullscreenVideo from "../FullscreenVideo";
 import VideoPlayer from "../media/VideoPlayer";
+import MechanicsVisualizer from "../mdx-blocks/MechanicsVisualizer";
+import TimeVisualizer from "../mdx-blocks/TimeVisualizer";
+import LeapSecondBettingMarket from "../mdx-blocks/LeapSecondBettingMarket";
 type ComponentType = React.ComponentType<any> | string;
 
 type ClientMDXProps = {
@@ -95,6 +98,9 @@ const baseComponents = {
   ShrimpJesusFAQ,
   FullscreenVideo,
   VideoPlayer,
+  MechanicsVisualizer,
+  TimeVisualizer,
+  LeapSecondBettingMarket,
 };
 
 export default function ClientMDX({
