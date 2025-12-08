@@ -44,9 +44,7 @@ export default function AboutPage() {
             <h2 className="text-lg sm:text-xl font-semibold mb-3">
               Start Here
             </h2>
-            <p className="mb-3 text-gray-600">
-              A few good doors into my work:
-            </p>
+            <p className="mb-3 text-gray-600">A few good doors into my work:</p>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -87,16 +85,29 @@ export default function AboutPage() {
             </ul>
           </div>
 
-          <p className="pt-4 sm:pt-6 border-t border-gray-200 mt-4 sm:mt-6">
-            If you&rsquo;re interested in collaborations, commissions, or odd
-            problems that need an odd solution, reach out:{" "}
-            <a
-              href="mailto:aaron.demby.jones@gmail.com"
-              className="text-blue-500 hover:text-blue-600 transition-colors underline"
-            >
-              aaron.demby.jones@gmail.com
-            </a>
-          </p>
+          <div className="pt-4 sm:pt-6 border-t border-gray-200 mt-4 sm:mt-6 space-y-3">
+            <p>
+              If you&rsquo;re interested in collaborations, commissions, or odd
+              problems that need an odd solution, reach out:{" "}
+              <a
+                href="mailto:aaron.demby.jones@gmail.com"
+                className="text-blue-500 hover:text-blue-600 transition-colors underline"
+              >
+                aaron.demby.jones@gmail.com
+              </a>
+            </p>
+            <p>
+              I also teach music lessons focusing on creativity and
+              exploration—learn more{" "}
+              <Link
+                href="/teaching"
+                className="text-blue-500 hover:text-blue-600 transition-colors underline"
+              >
+                here
+              </Link>
+              .
+            </p>
+          </div>
         </div>
       </div>
     </div>
