@@ -47,6 +47,7 @@ import VideoPlayer from "../media/VideoPlayer";
 import MechanicsVisualizer from "../mdx-blocks/MechanicsVisualizer";
 import TimeVisualizer from "../mdx-blocks/TimeVisualizer";
 import LeapSecondBettingMarket from "../mdx-blocks/LeapSecondBettingMarket";
+import VideoEmbed from "../mdx-blocks/VideoEmbed";
 type ComponentType = React.ComponentType<any> | string;
 
 type ClientMDXProps = {
@@ -101,6 +102,7 @@ const baseComponents = {
   MechanicsVisualizer,
   TimeVisualizer,
   LeapSecondBettingMarket,
+  VideoEmbed,
 };
 
 export default function ClientMDX({
