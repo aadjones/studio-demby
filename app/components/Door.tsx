@@ -15,13 +15,14 @@ interface DoorProps {
 const Door: React.FC<DoorProps> = ({ name, description, href, image, delay = 0 }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, delay, ease: [0.25, 0.1, 0.25, 1] }}
+      className="w-full max-w-[420px]"
     >
       <Link
         href={href}
-        className="group relative w-full max-w-[420px] rounded-3xl
+        className="group relative w-full block rounded-3xl
                    bg-gradient-to-br from-surface-100 via-surface-200 to-surface-300
                    shadow-xl hover:shadow-2xl
                    focus:outline-none focus:ring-4 focus:ring-brand-coral/50
@@ -57,7 +58,7 @@ const Door: React.FC<DoorProps> = ({ name, description, href, image, delay = 0 }
         </div>
 
         {/* Bottom: Text section with white background */}
-        <div className="relative z-10 w-full bg-white px-5 py-4 flex flex-col gap-1 min-h-[100px]">
+        <div className="relative z-10 w-full bg-white px-5 py-4 flex flex-col gap-1 h-[100px] flex-shrink-0">
           {/* Category Name */}
           <h3 className="text-lg sm:text-xl font-display font-bold text-ink-900
                          group-hover:text-brand-coral transition-colors duration-300">
