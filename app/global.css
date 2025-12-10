@@ -2,32 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-
+/* Brand selection color */
 ::selection {
-  background-color: #47a3f3;
-  color: #fefefe;
+  background-color: #FF6B6B;
+  color: #ffffff;
 }
 
-/* Syntax highlighting colors */
+/* Syntax highlighting colors - updated to brand palette */
 :root {
-  --sh-class: #2d5e9d;
-  --sh-identifier: #354150;
-  --sh-sign: #8996a3;
-  --sh-string: #007f7a;
-  --sh-keyword: #e02518;
-  --sh-comment: #a19595;
-  --sh-jsxliterals: #6266d1;
-  --sh-property: #e25a1c;
-  --sh-entity: #e25a1c;
+  --sh-class: #8B5CF6;      /* brand-violet */
+  --sh-identifier: #3D3D3D; /* ink-700 */
+  --sh-sign: #737373;       /* ink-500 */
+  --sh-string: #06B6D4;     /* brand-teal */
+  --sh-keyword: #F43F5E;    /* brand-rose */
+  --sh-comment: #A3A3A3;    /* ink-300 */
+  --sh-jsxliterals: #8B5CF6;/* brand-violet */
+  --sh-property: #F59E0B;   /* brand-amber */
+  --sh-entity: #FF6B6B;     /* brand-coral */
 }
-
 
 html {
   min-width: 360px;
 }
 
+/* Atmospheric background gradient */
+body {
+  background: linear-gradient(135deg,
+    #FFF8F0 0%,   /* atmosphere-cream */
+    #F0FDFA 50%,  /* atmosphere-mint */
+    #F5F3FF 100%  /* atmosphere-lavender */
+  );
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
 .prose {
-  @apply text-[#000000];
+  @apply text-ink-900;
 }
 
 .prose .anchor {
@@ -44,15 +54,12 @@ html {
 }
 
 .prose a {
-  @apply transition-all decoration-neutral-400 underline-offset-2 decoration-[0.1em] font-normal text-[#000000];
-}
-
-.prose a:hover {
-  @apply decoration-neutral-600;
+  @apply transition-all decoration-brand-coral/40 underline-offset-2 decoration-[0.1em]
+         font-normal text-ink-900 hover:text-brand-coral hover:decoration-brand-coral;
 }
 
 .prose .anchor:after {
-  @apply text-neutral-300;
+  @apply text-ink-300;
   content: "#";
 }
 
@@ -61,21 +68,22 @@ html {
 }
 
 .prose pre {
-  @apply bg-[#F7F7F7] rounded-lg overflow-x-auto;
+  @apply bg-surface-100/80 backdrop-blur-sm border border-ink-300/20 rounded-xl
+         overflow-x-auto shadow-sm;
 }
 
 .prose code {
-  @apply px-1 py-0.5 rounded-lg;
+  @apply px-1.5 py-0.5 rounded-md bg-surface-warm/30 text-brand-violet font-mono text-sm;
 }
 
 .prose pre code {
-  @apply p-0;
+  @apply p-0 bg-transparent;
   border: initial;
   line-height: 1.5;
 }
 
 .prose code span {
-  @apply font-medium;
+  @apply font-mono;
 }
 
 .prose img {
@@ -83,16 +91,17 @@ html {
   @apply m-0;
 }
 
+.prose h1,
 .prose h2,
-h3,
-h4,
-h5,
-h6 {
-  @apply font-medium tracking-tight !important;
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  @apply font-display font-bold tracking-tight text-ink-900 !important;
 }
 
 .prose strong {
-  @apply font-medium;
+  @apply font-semibold text-ink-900;
 }
 
 .prose > :first-child {

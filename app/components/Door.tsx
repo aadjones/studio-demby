@@ -17,41 +17,56 @@ const Door: React.FC<DoorProps> = ({ name, description, href, image, delay = 0 }
     <motion.div
       initial={{ opacity: 0, y: 40, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.7, delay, ease: "easeOut" }}
+      transition={{ duration: 0.7, delay, ease: [0.25, 0.1, 0.25, 1] }}
     >
       <Link
         href={href}
-        className="group w-full max-w-[420px] aspect-[4/3] rounded-2xl bg-zinc-100 shadow-lg hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-indigo-400 transition-all flex flex-col items-center justify-between p-4 sm:p-5 gap-1"
+        className="group relative w-full max-w-[420px] rounded-3xl
+                   bg-gradient-to-br from-surface-100 via-surface-200 to-surface-300
+                   shadow-xl hover:shadow-2xl
+                   focus:outline-none focus:ring-4 focus:ring-brand-coral/50
+                   transition-all duration-300
+                   flex flex-col
+                   border-2 border-surface-300/50
+                   hover:border-brand-coral/30
+                   overflow-hidden"
         tabIndex={0}
         aria-label={`View ${name} category`}
       >
-        {/* Top: Category Name */}
-        <div className="w-full text-center text-xl font-bold text-zinc-900 mb-1 mt-1 truncate">
-          <span className="group-hover:text-blue-600 transition-colors duration-150">
+        {/* Subtle gradient overlay for depth */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-brand-coral/5 via-transparent to-brand-violet/5
+                        opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+        {/* Image section - takes most of the space */}
+        <div className="relative z-10 w-full aspect-[4/3] overflow-hidden">
+          <Image
+            src={image}
+            alt={name}
+            width={400}
+            height={300}
+            className="object-cover object-center w-full h-full
+                       transition-transform duration-700 ease-out
+                       scale-100 group-hover:scale-105
+                       group-hover:brightness-105"
+            priority={false}
+            aria-hidden="true"
+          />
+          {/* Subtle overlay on hover */}
+          <div className="absolute inset-0 bg-gradient-to-t from-ink-900/10 to-transparent
+                          group-hover:from-brand-coral/10 transition-colors duration-500" />
+        </div>
+
+        {/* Bottom: Text section with white background */}
+        <div className="relative z-10 w-full bg-white px-5 py-4 flex flex-col gap-1">
+          {/* Category Name */}
+          <h3 className="text-lg sm:text-xl font-display font-bold text-ink-900
+                         group-hover:text-brand-coral transition-colors duration-300">
             {name}
-          </span>
-        </div>
-        {/* Middle: Art */}
-        <div className="flex-1 flex items-center justify-center w-full">
-          <div className="w-full h-full flex items-center justify-center">
-            <div className="w-[92%] h-[92%] rounded-xl overflow-hidden bg-zinc-200 border-4 border-zinc-200">
-              <div className="w-full h-full overflow-hidden">
-                <Image
-                  src={image}
-                  alt={name}
-                  width={300}
-                  height={225}
-                  className="object-cover object-center w-full h-full transition-transform duration-700 scale-100 group-hover:scale-110"
-                  priority={false}
-                  aria-hidden="true"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* Bottom: Subtitle */}
-        <div className="w-full text-center text-sm text-zinc-600 font-medium mt-1 mb-1 truncate">
-          {description}
+          </h3>
+          {/* Description */}
+          <p className="text-sm sm:text-base font-body text-ink-600">
+            {description}
+          </p>
         </div>
       </Link>
     </motion.div>

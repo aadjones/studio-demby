@@ -26,24 +26,24 @@ export default async function HomePage() {
   return (
     <main className="container mx-auto px-4 pt-6 sm:pt-8">
       {featureFlags.showCatsLogo ? (
-        <div className="flex items-center gap-4 mb-4">
+        <div className="flex items-center gap-4 mb-6 animate-fade-in-scale">
           <Image
             src="/photos/logo/shrimpas.png"
             alt="Studio Demby Logo"
             width={80}
             height={80}
-            className="h-12 sm:h-16 md:h-20 opacity-80"
+            className="h-12 sm:h-16 md:h-20 opacity-90 animate-gentle-float"
           />
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight tracking-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold leading-tight tracking-tight text-ink-900">
             Studio Demby
           </h1>
         </div>
       ) : (
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight tracking-tight mb-4">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold leading-tight tracking-tight mb-6 text-ink-900 animate-fade-in-scale">
           Studio Demby
         </h1>
       )}
-      <p className="text-base sm:text-lg md:text-xl mb-8 sm:mb-12 leading-relaxed">
+      <p className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-12 leading-relaxed text-ink-700 font-body animate-fade-in-up" style={{ animationDelay: '0.1s', animationFillMode: 'backwards' }}>
         I make things that sound, analyze, provoke, and teach.
       </p>
 
@@ -52,7 +52,7 @@ export default async function HomePage() {
 
       {/* Featured Section */}
       <section className="mt-12 sm:mt-16">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center">
+        <h2 className="text-2xl sm:text-3xl font-display font-bold mb-6 sm:mb-8 text-center text-ink-900">
           Featured
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-12 justify-items-center mx-auto">
