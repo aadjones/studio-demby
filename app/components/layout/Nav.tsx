@@ -12,19 +12,19 @@ const categoryNavItems: Record<
 > = {
   "/sound-vision": {
     name: "Sound & Vision",
-    className: "hover:text-blue-600 transition-colors duration-150",
+    className: "hover:text-brand-coral transition-colors duration-200",
   },
   "/systems-tools": {
     name: "Systems",
-    className: "hover:text-blue-600 transition-colors duration-150",
+    className: "hover:text-brand-teal transition-colors duration-200",
   },
   "/provocations": {
     name: "Provocations",
-    className: "hover:text-blue-600 transition-colors duration-150",
+    className: "hover:text-brand-violet transition-colors duration-200",
   },
   "/practice-pedagogy": {
     name: "Practice",
-    className: "hover:text-blue-600 transition-colors duration-150",
+    className: "hover:text-brand-amber transition-colors duration-200",
   },
 };
 
@@ -60,7 +60,7 @@ export function Navbar() {
           {/* Home */}
           <Link
             href="/"
-            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-1.5 py-1 rounded-md text-[15px] ${pathname === "/" ? "font-semibold underline text-blue-700" : ""}`}
+            className={`flex items-center gap-1 text-ink-500 hover:text-brand-coral transition-colors px-1.5 py-1 rounded-md text-[15px] font-body ${pathname === "/" ? "font-semibold underline text-brand-coral" : ""}`}
             aria-label="Home"
           >
             {/* House Icon */}
@@ -71,7 +71,7 @@ export function Navbar() {
           {/* Featured */}
           <Link
             href="/featured"
-            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-1.5 py-1 rounded-md text-[15px] ${pathname.startsWith("/featured") ? "font-semibold underline text-blue-700" : ""}`}
+            className={`flex items-center gap-1 text-ink-500 hover:text-brand-violet transition-colors px-1.5 py-1 rounded-md text-[15px] font-body ${pathname.startsWith("/featured") ? "font-semibold underline text-brand-violet" : ""}`}
             aria-label="Featured"
           >
             {/* Star Icon */}
@@ -82,7 +82,7 @@ export function Navbar() {
           {/* Activity */}
           <Link
             href="/activity"
-            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-1.5 py-1 rounded-md text-[15px] ${pathname.startsWith("/activity") ? "font-semibold underline text-blue-700" : ""}`}
+            className={`flex items-center gap-1 text-ink-500 hover:text-brand-teal transition-colors px-1.5 py-1 rounded-md text-[15px] font-body ${pathname.startsWith("/activity") ? "font-semibold underline text-brand-teal" : ""}`}
             aria-label="Activity"
           >
             {/* Pencil Icon */}
@@ -91,7 +91,7 @@ export function Navbar() {
           </Link>
 
           {/* Divider before categories */}
-          <span className="inline-block border-l border-zinc-300 h-6 mx-1.5" aria-hidden="true" />
+          <span className="inline-block border-l border-ink-300/30 h-6 mx-1.5" aria-hidden="true" />
 
           {/* Category Links */}
           {categoryPaths.map((path) => {
@@ -110,12 +110,12 @@ export function Navbar() {
           })}
 
           {/* Divider after categories */}
-          <span className="inline-block border-l border-zinc-300 h-6 mx-1.5" aria-hidden="true" />
+          <span className="inline-block border-l border-ink-300/30 h-6 mx-1.5" aria-hidden="true" />
 
           {/* About Link */}
           <Link
             href="/about"
-            className={`flex items-center gap-1 text-zinc-500 hover:text-blue-600 transition-colors px-1.5 py-1 rounded-md text-[15px] ${pathname.startsWith("/about") ? "font-semibold underline text-blue-700" : ""}`}
+            className={`flex items-center gap-1 text-ink-500 hover:text-brand-rose transition-colors px-1.5 py-1 rounded-md text-[15px] font-body ${pathname.startsWith("/about") ? "font-semibold underline text-brand-rose" : ""}`}
             aria-label="About"
           >
             {/* User Icon */}
@@ -125,7 +125,7 @@ export function Navbar() {
         </div>
         {/* Hamburger for Mobile */}
         <button
-          className="lg:hidden ml-auto p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="lg:hidden ml-auto p-2 rounded focus:outline-none focus:ring-2 focus:ring-brand-coral/50 text-ink-700"
           aria-label="Open menu"
           onClick={() => setMenuOpen(true)}
         >
@@ -138,10 +138,10 @@ export function Navbar() {
         {/* Mobile Menu Modal */}
         {menuOpen && (
           <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-start justify-end lg:hidden">
-            <div className="w-full max-w-xs bg-white h-full shadow-xl flex flex-col p-6 relative animate-slideInRight">
+            <div className="w-full max-w-xs bg-surface-100 h-full shadow-xl flex flex-col p-6 relative animate-slideInRight">
               <button
                 id="mobile-menu-close"
-                className="self-end mb-6 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="self-end mb-6 p-2 rounded focus:outline-none focus:ring-2 focus:ring-brand-coral/50 text-ink-700"
                 aria-label="Close menu"
                 onClick={() => setMenuOpen(false)}
                 tabIndex={0}
@@ -150,10 +150,10 @@ export function Navbar() {
                   <path d="M6 6l12 12M6 18L18 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
               </button>
-              <nav className="flex flex-col gap-4 mt-2" aria-label="Mobile menu">
+              <nav className="flex flex-col gap-4 mt-2 font-body" aria-label="Mobile menu">
                 <Link
                   href="/"
-                  className={`flex items-center gap-2 text-zinc-700 hover:text-blue-600 transition-colors px-2 py-2 rounded-md text-lg ${pathname === "/" ? "font-semibold underline text-blue-700" : ""}`}
+                  className={`flex items-center gap-2 text-ink-700 hover:text-brand-coral transition-colors px-2 py-2 rounded-md text-lg ${pathname === "/" ? "font-semibold underline text-brand-coral" : ""}`}
                   aria-label="Home"
                   onClick={() => setMenuOpen(false)}
                 >
@@ -162,7 +162,7 @@ export function Navbar() {
                 </Link>
                 <Link
                   href="/featured"
-                  className={`flex items-center gap-2 text-zinc-700 hover:text-blue-600 transition-colors px-2 py-2 rounded-md text-lg ${pathname.startsWith("/featured") ? "font-semibold underline text-blue-700" : ""}`}
+                  className={`flex items-center gap-2 text-ink-700 hover:text-brand-violet transition-colors px-2 py-2 rounded-md text-lg ${pathname.startsWith("/featured") ? "font-semibold underline text-brand-violet" : ""}`}
                   aria-label="Featured"
                   onClick={() => setMenuOpen(false)}
                 >
@@ -171,14 +171,14 @@ export function Navbar() {
                 </Link>
                 <Link
                   href="/activity"
-                  className={`flex items-center gap-2 text-zinc-700 hover:text-blue-600 transition-colors px-2 py-2 rounded-md text-lg ${pathname.startsWith("/activity") ? "font-semibold underline text-blue-700" : ""}`}
+                  className={`flex items-center gap-2 text-ink-700 hover:text-brand-teal transition-colors px-2 py-2 rounded-md text-lg ${pathname.startsWith("/activity") ? "font-semibold underline text-brand-teal" : ""}`}
                   aria-label="Activity"
                   onClick={() => setMenuOpen(false)}
                 >
                   <svg width="18" height="18" fill="none" viewBox="0 0 16 16" aria-hidden="true" className="inline-block align-middle"><path d="M11.5 2.5l2 2-7 7-2.5.5.5-2.5 7-7z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M10 4l2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
                   <span>Activity</span>
                 </Link>
-                <hr className="border-zinc-200 my-1" />
+                <hr className="border-ink-300/20 my-1" />
                 {categoryPaths.map((path) => {
                   const item = categoryNavItems[path];
                   const isActive = pathname.startsWith(path);
@@ -186,17 +186,17 @@ export function Navbar() {
                     <Link
                       key={path}
                       href={path}
-                      className={`flex items-center gap-2 text-zinc-700 px-2 py-2 rounded-md text-lg ${isActive ? "font-semibold underline" : ""}`}
+                      className={`flex items-center gap-2 text-ink-700 px-2 py-2 rounded-md text-lg ${item.className} ${isActive ? "font-semibold underline" : ""}`}
                       onClick={() => setMenuOpen(false)}
                     >
                       {item.name}
                     </Link>
                   );
                 })}
-                <hr className="border-zinc-200 my-1" />
+                <hr className="border-ink-300/20 my-1" />
                 <Link
                   href="/about"
-                  className={`flex items-center gap-2 text-zinc-700 hover:text-blue-600 transition-colors px-2 py-2 rounded-md text-lg ${pathname.startsWith("/about") ? "font-semibold underline text-blue-700" : ""}`}
+                  className={`flex items-center gap-2 text-ink-700 hover:text-brand-rose transition-colors px-2 py-2 rounded-md text-lg ${pathname.startsWith("/about") ? "font-semibold underline text-brand-rose" : ""}`}
                   aria-label="About"
                   onClick={() => setMenuOpen(false)}
                 >

@@ -1,11 +1,30 @@
 import "./global.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Outfit, Crimson_Pro, JetBrains_Mono } from "next/font/google";
 import { metaData } from "./config";
 import "katex/dist/katex.min.css";
 import PageLayout from "./components/layout/PageLayout";
 
-const inter = Inter({ subsets: ["latin"] });
+// Display font for headings - geometric, playful, distinctive
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+// Body font - editorial elegance with warmth
+const crimsonPro = Crimson_Pro({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+// Monospace for code - distinctive and intentional
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(metaData.baseUrl),
@@ -49,7 +68,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className}>
+    <html
+      lang="en"
+      className={`${outfit.variable} ${crimsonPro.variable} ${jetbrainsMono.variable}`}
+    >
       <head>
         <link
           rel="alternate"
@@ -59,7 +81,7 @@ export default function RootLayout({
         />
         <script src="/p5.min.js" defer />
       </head>
-      <body className="antialiased">
+      <body className="antialiased font-body">
         <PageLayout>{children}</PageLayout>
       </body>
     </html>
