@@ -57,14 +57,14 @@ const Door: React.FC<DoorProps> = ({ name, description, href, image, delay = 0 }
         </div>
 
         {/* Bottom: Text section with white background */}
-        <div className="relative z-10 w-full bg-white px-5 py-4 flex flex-col gap-1">
+        <div className="relative z-10 w-full bg-white px-5 py-4 flex flex-col gap-1 min-h-[100px]">
           {/* Category Name */}
           <h3 className="text-lg sm:text-xl font-display font-bold text-ink-900
                          group-hover:text-brand-coral transition-colors duration-300">
             {name}
           </h3>
           {/* Description */}
-          <p className="text-sm sm:text-base font-body text-ink-600">
+          <p className="text-sm sm:text-base font-body text-ink-600 line-clamp-2">
             {description}
           </p>
         </div>
