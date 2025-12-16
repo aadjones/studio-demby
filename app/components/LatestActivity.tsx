@@ -16,8 +16,8 @@ export default function LatestActivity({ items }: Props) {
     });
   };
 
-  // Only show sketches/activity items (no projects), max 6
-  const activityItems = items.filter(item => item.type === 'sketch').slice(0, 6);
+  // Only show sketches/activity items (no projects), max 3
+  const activityItems = items.filter(item => item.type === 'sketch').slice(0, 3);
 
   if (activityItems.length === 0) return null;
 
