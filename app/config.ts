@@ -1,10 +1,9 @@
 export const metaData = {
   baseUrl: "https://www.studiodemby.com/",
   title: "Studio Demby",
-  name: "Aaron Demby Jones - Artist",
+  name: "Studio Demby",
   ogImage: "/opengraph-image.png",
-  description:
-    "Sound, systems, provocations, and practice from artist Aaron Demby Jones",
+  description: "I make things that sound, analyze, provoke, and teach.",
 };
 
 export const socialLinks = {
