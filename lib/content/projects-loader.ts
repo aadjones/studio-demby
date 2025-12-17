@@ -1,9 +1,10 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { serialize } from "next-mdx-remote/serialize";
+import { serialize } from "next-mdx-remote-client/serialize";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import { rustVeilPreset, glacialStrikePreset } from "@/lib/data/firePresets";
 
 import { ProjectSchema, MDXProject } from "@/types/mdx";
 
@@ -66,10 +67,15 @@ export async function getProjectBySlugOnly(slug: string) {
     return null;
   }
 
-  const mdxSource = await serialize(content, {
-    mdxOptions: {
-      remarkPlugins: [remarkMath],
-      rehypePlugins: [rehypeKatex],
+  const mdxSource = await serialize({
+    source: content,
+    options: {
+      disableImports: true,
+      scope: { rustVeilPreset, glacialStrikePreset },
+      mdxOptions: {
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [rehypeKatex],
+      },
     },
   });
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { MDXRemote, type MDXRemoteSerializeResult } from "next-mdx-remote";
+import { hydrate, type SerializeResult } from "next-mdx-remote-client/csr";
 import MDXImage from "../media/MDXImage";
 
 // Components
@@ -37,7 +37,6 @@ import SimpleVideoBlock from "../mdx-blocks/SimpleVideoBlock";
 import FeathersPlayground from "../surreal-systems/FeathersPlayground";
 import FirePlayground from "../surreal-systems/FirePlayground";
 import GospelCarousel from "../surreal-systems/GospelCarousel";
-import { rustVeilPreset, glacialStrikePreset } from "@/lib/data/firePresets";
 import SpatialSynthesizer from "../surreal-systems/SpatialSynthesizer/index";
 import EncasedMeltingSphere from "../mdx-blocks/EncasedMeltingSphere";
 import MeltdownDiptych from "../surreal-systems/MeltdownDiptych";
@@ -48,10 +47,11 @@ import MechanicsVisualizer from "../mdx-blocks/MechanicsVisualizer";
 import TimeVisualizer from "../mdx-blocks/TimeVisualizer";
 import LeapSecondBettingMarket from "../mdx-blocks/LeapSecondBettingMarket";
 import VideoEmbed from "../mdx-blocks/VideoEmbed";
+
 type ComponentType = React.ComponentType<any> | string;
 
 type ClientMDXProps = {
-  mdxSource: MDXRemoteSerializeResult;
+  mdxSource: SerializeResult;
   frontMatter?: Record<string, any>;
   overrides?: Record<string, ComponentType>;
 };
@@ -110,6 +110,12 @@ export default function ClientMDX({
   frontMatter = {},
   overrides = {},
 }: ClientMDXProps) {
+  // Handle serialization errors
+  if ("error" in mdxSource) {
+    console.error("MDX serialization error:", mdxSource.error);
+    return <div className="text-red-500">Error rendering content</div>;
+  }
+
   const injectedComponents: Record<string, React.ComponentType<any>> = {};
 
   for (const [name, Component] of Object.entries({
@@ -130,13 +136,19 @@ export default function ClientMDX({
     }
   }
 
+  const { content, error } = hydrate({
+    ...mdxSource,
+    components: injectedComponents,
+  });
+
+  if (error) {
+    console.error("MDX hydration error:", error);
+    return <div className="text-red-500">Error rendering content</div>;
+  }
+
   return (
     <div className="prose prose-neutral max-w-none">
-      <MDXRemote
-        {...mdxSource}
-        components={injectedComponents}
-        scope={{ rustVeilPreset, glacialStrikePreset }}
-      />
+      {content}
     </div>
   );
 }
