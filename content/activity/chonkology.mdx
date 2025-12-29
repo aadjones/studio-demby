@@ -1,0 +1,343 @@
+---
+title: "Chonkology: A Mathematical Theory of Audiovisual Narratives"
+slug: "chonkology"
+date: "2025-12-28"
+tags: ["math", "audiovisual", "theory", "paper", "chonks"]
+image: "/photos/chonkology/chonke.jpg"
+description: "A formal sketch of chonks as synchronized audiovisual narratives, with mood manifolds, coherence measures, and narrative bundles."
+---
+
+**Highlights only.** This page is a narrative skim of the paper. For the full formal development and all definitions, <a href="/downloads/chonkology.pdf" target="_blank" rel="noopener noreferrer">download the full PDF</a>.
+
+<ZoomImage
+  src="/photos/chonkology/chonke.jpg"
+  alt="Chonkology cover"
+  width={1200}
+  height={1200}
+  className="mt-6 max-w-md mx-auto"
+/>
+
+## Introduction
+
+A **chonk** is a short-form video artifact: a still image brought to life through orchestrated visual transformations synchronized with audio. This document develops the mathematical foundations of chonks, proceeding from primitive spaces through increasingly refined definitions.
+
+We begin with the raw ingredients (images, transforms, audio), introduce the space of arbitrary audiovisual pairings, and then characterize chonks as those pairings satisfying a synchronization condition. This approach mirrors the construction of, say, measurable functions from arbitrary functions—the larger space provides context for understanding what makes the smaller space special.
+
+## Primitive Spaces
+
+We start with the ingredients: images, camera-like transforms, and a shared mood space that both audio and motion can live in. Those three pieces let us define what “synchronization” even means.
+
+### The Image Space
+
+<Callout emoji="">
+
+**Definition.** Let $I$ denote the space of images:
+
+$$
+I = \{ f : [0,1]^2 \to [0,1]^3 \}.
+$$
+
+</Callout>
+
+### The Similarity Transform Group
+
+<Callout emoji="">
+
+**Definition.** Let $T$ denote the group of 2D similarity transformations (uniform scaling composed with translation):
+
+$$
+T = \{ \tau(s,t) : \mathbb{R}^2 \to \mathbb{R}^2 \mid s \in \mathbb{R}^+,\, t \in \mathbb{R}^2 \}
+$$
+
+where
+
+$$
+\tau(s,t)(x) = s x + t.
+$$
+
+</Callout>
+
+<Callout emoji="">
+
+**Proposition.** $T$ forms a $3$-dimensional Lie group under composition:
+
+$$
+\tau(s_1,t_1) \circ \tau(s_2,t_2)
+= \tau(s_1 s_2,\, s_1 t_2 + t_1).
+$$
+
+</Callout>
+
+<Callout emoji="">
+
+**Remark.** We restrict to similarity transforms (uniform scaling) rather than the full affine group to preserve aspect ratio—a chonk zooms and pans but does not shear or stretch.
+
+</Callout>
+
+### The Mood Manifold
+
+<Callout emoji="">
+
+**Definition.** Let $M$ be a low-dimensional smooth manifold parameterizing narrative/emotional states:
+
+$$
+M \approx \mathbb{R}^k \quad \text{for small } k.
+$$
+
+</Callout>
+
+Possible coordinates on $M$ include:
+
+- **Tension** $\in [0,1]$: suspense vs. resolution
+- **Energy** $\in [0,1]$: calm vs. intense
+- **Valence** $\in [-1,1]$: dark vs. bright
+
+<Callout emoji="">
+
+**Remark.** The exact dimensionality and coordinates are aesthetic choices. The essential property is that $M$ is **shared** between audio and visual modalities.
+
+</Callout>
+
+### The Narrative Bundle
+
+We combine the mood state and transform state into a single product space; that is the stage on which a chonk’s narrative path lives.
+
+<Callout emoji="">
+
+**Definition.** The **narrative bundle** is the product manifold
+
+$$
+N = M \times T.
+$$
+
+</Callout>
+
+<Callout emoji="">
+
+**Definition.** The canonical projections are
+
+$$
+\pi_M : N \to M
+\qquad
+\pi_T : N \to T.
+$$
+
+</Callout>
+
+## Chonks as Synchronized Pairings
+
+Given an audio track, the model imagines a path through the narrative bundle: mood on one axis, visual transform on the other. Chonks are precisely those audiovisual pairings where that path is synchronized with the audio. The PDF expands on the audio mood function $m_a$ and its construction; here we only use it.
+
+### The Narrative Path
+
+<Callout emoji="">
+
+**Definition.** A **narrative path** is a continuous map
+
+$$
+\gamma : T_D \to N = M \times T.
+$$
+
+</Callout>
+
+At each moment, $\gamma(t)$ specifies both a mood state and a visual transform.
+
+<Callout emoji="">
+
+**Definition.** The **visual trajectory** derived from $\gamma$ is
+
+$$
+\tau_\gamma = \pi_T \circ \gamma : T_D \to T.
+$$
+
+</Callout>
+
+### The Synchronization Condition
+
+<Callout emoji="">
+
+**Definition.** A narrative path $\gamma$ is **synchronized** with audio $a$ if
+
+$$
+\pi_M(\gamma(t)) \approx m_a(t)
+\quad \text{for all } t \in T_D.
+$$
+
+</Callout>
+
+<Callout emoji="">
+
+**Remark.** The symbol "$\approx$" allows for degrees of synchronization.
+
+</Callout>
+
+### The Chonk
+
+This is the core object: image + narrative path + audio. Everything else can be derived from that triple.
+
+<Callout emoji="">
+
+**Definition.** A **chonk** is a 3-tuple
+
+$$
+C = (I, \gamma, a)
+$$
+
+where:
+
+- $I \in I$ is a source image,
+- $\gamma : T_D \to N$ is a narrative path synchronized with $a$,
+- $a \in A_D$ is an audio signal.
+
+</Callout>
+
+The visual trajectory is derived as $\tau = \pi_T \circ \gamma$.
+
+<Callout emoji="">
+
+**Definition.** The **chonk space** $\mathcal{C} \subset \mathcal{P}$ consists of all synchronized pairings (viewing $\mathcal{C}$ as $(I, \pi_T \circ \gamma, a)$).
+
+</Callout>
+
+<Callout emoji="">
+
+**Remark.** A chonk is minimal: image, narrative path, audio. Everything else is derived:
+
+- The trajectory $\tau = \pi_T \circ \gamma$
+- The mood arc $m = \pi_M \circ \gamma$
+- The focal point $f$, defined as the limit point of $\tau(t)$ as zoom increases
+- The final scale $\phi$, defined as the scale component of $\tau(D)$
+
+The chonk contains exactly the information needed to render, nothing more.
+
+</Callout>
+
+### The Coherence Measure
+
+Synchronization is not binary; we score how aligned the motion is with the audio. The coherence measure formalizes that and gives a knob for optimization and generation (see the PDF for the wider filtration story).
+
+<Callout emoji="">
+
+**Definition.** The **coherence** of a pairing $P = (I, \tau, a)$ is
+
+$$
+\rho(P) =
+\exp\!\left(
+-\frac{1}{D}
+\int_0^D
+\| m_\tau(t) - m_a(t) \|^2
+\, dt
+\right),
+$$
+
+where $m_\tau : T_D \to M$ is a mood function induced by the trajectory (e.g.\ from its velocity or acceleration profile).
+
+</Callout>
+
+<Callout emoji="">
+
+**Remark.** The exponential form is a convenient normalization that converts average squared mood mismatch into a similarity score in $(0, 1]$. Other monotone transforms would yield equivalent coherence orderings but different sensitivity profiles.
+
+</Callout>
+
+<Callout emoji="">
+
+**Proposition.** Coherence satisfies:
+
+- $\rho(P) \in (0,1]$ for all $P \in \mathcal{P}$
+- $\rho(P) = 1$ if and only if $m_\tau = m_a$ (perfect synchronization)
+- $\rho(P) \to 0$ as synchronization degrades
+
+</Callout>
+
+## Summary
+
+The punchline is simple: a chonk is a synchronized path in the narrative bundle.
+
+<Callout emoji="">
+
+**Theorem (Chonk Characterization).** A chonk is a synchronized path through the narrative bundle $N = M \times T$, where synchronization means the mood component tracks the audio's emotional content:
+
+$$
+C = ([I], \gamma, a)
+\quad \text{with} \quad
+\pi_M \circ \gamma \approx m_a.
+$$
+
+</Callout>
+
+## Future Directions
+
+These are the main technical directions the full paper explores in more detail.
+
+### Optimization-Based Generation
+
+If we can score coherence, we can optimize for it.
+
+<Callout emoji="">
+
+**Definition.** Given image $I$, audio $a$, and waypoints $W$, the coherence-optimal trajectory problem is
+
+$$
+\max_\tau \; \rho(I,\tau,a)
+\quad
+\text{subject to waypoint constraints}.
+$$
+
+</Callout>
+
+### Energy-Constrained Generation
+
+Coherence alone can produce overly jittery motion; we can penalize jerk or energy.
+
+<Callout emoji="">
+
+**Definition.** The energy-constrained objective is
+
+$$
+\max_\tau \; \rho(I,\tau,a) - \lambda J(\tau).
+$$
+
+</Callout>
+
+### Search Over Strategy Space
+
+Strategies can be compared by the coherence distributions they induce.
+
+<Callout emoji="">
+
+**Definition.** The **coherence distribution** of a strategy $S$ is the distribution of
+
+$$
+\rho(\mathrm{Generate}(S,\cdot))
+$$
+
+over random inputs.
+
+</Callout>
+
+### Learning
+
+Problems include learning $m_a$, learning $m_\tau$, and learning direct audio-to-trajectory mappings. See the PDF for the more formal framing.
+
+### Composable Narratives
+
+Longer-form content can be structured via chonk concatenation with appropriate boundary conditions (details in the PDF).
+
+### Multi-Image Extensions
+
+Moving between images requires a transition object rather than a single-image chonk.
+
+<Callout emoji="">
+
+**Definition.** A **transition chonk** between images $I_1$ and $I_2$ is
+
+$$
+C_{\text{trans}} = (I_1, I_2, \gamma, a, \text{blend}).
+$$
+
+</Callout>
+
+### Tooling Implications
+
+The specification identifies exactly what the user must provide: image, waypoints, strategy, and audio reference. Full spec and notation are in the PDF.

@@ -76,10 +76,35 @@ body {
   @apply px-1.5 py-0.5 rounded-md bg-surface-warm/30 text-brand-violet font-mono text-sm;
 }
 
+.prose code::before,
+.prose code::after {
+  content: "" !important;
+}
+
 .prose pre code {
   @apply p-0 bg-transparent;
   border: initial;
   line-height: 1.5;
+}
+
+.prose .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 0.25rem;
+}
+
+.prose .katex-display > .katex {
+  display: inline-block;
+}
+
+@media (max-width: 640px) {
+  .prose .katex-display {
+    font-size: 0.85em;
+  }
+
+  .prose .katex {
+    font-size: 0.95em;
+  }
 }
 
 .prose code span {
@@ -132,11 +157,31 @@ input[type="email"] {
   font-weight: 500;
 }
 
-table {
-  display: block;
-  max-width: fit-content;
-  overflow-x: auto;
-  white-space: nowrap;
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+.prose thead th {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.prose th,
+.prose td {
+  border: 1px solid rgba(26, 26, 26, 0.12);
+  padding: 0.6rem 0.75rem;
+  vertical-align: top;
+  text-align: left;
+  white-space: normal;
+}
+
+@media (max-width: 767px) {
+  .prose table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .prose .callout > p {

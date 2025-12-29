@@ -11,7 +11,10 @@
       "Bash(pnpm install:*)",
       "Bash(curl:*)",
       "Bash(pnpm test:*)",
-      "Bash(xargs cat:*)"
+      "Bash(xargs cat:*)",
+      "Bash(rm:*)",
+      "Bash(pnpm list:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []

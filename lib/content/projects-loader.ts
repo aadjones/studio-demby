@@ -67,14 +67,17 @@ export async function getProjectBySlugOnly(slug: string) {
     return null;
   }
 
+  const remarkMathPlugin = (remarkMath as unknown as { default?: any }).default ?? remarkMath;
+  const rehypeKatexPlugin = (rehypeKatex as unknown as { default?: any }).default ?? rehypeKatex;
+
   const mdxSource = await serialize({
     source: content,
     options: {
       disableImports: true,
       scope: { rustVeilPreset, glacialStrikePreset },
       mdxOptions: {
-        remarkPlugins: [remarkMath],
-        rehypePlugins: [rehypeKatex],
+        remarkPlugins: [remarkMathPlugin],
+        rehypePlugins: [rehypeKatexPlugin],
       },
     },
   });
