@@ -39,7 +39,7 @@ export default async function ContraposeMarketingPage() {
       : undefined;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <main className="container mx-auto px-4 py-16 md:py-24 max-w-5xl">
         {/* Breadcrumb */}
         <nav className="text-sm text-gray-600 mb-8">
