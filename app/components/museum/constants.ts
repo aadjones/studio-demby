@@ -1,5 +1,12 @@
 import { SectionType, SectionData } from "./types";
 
+// Museum escalation thresholds (in total taps)
+export const ESCALATION_THRESHOLDS = {
+  WARNING: 3,      // Level 1: First warning notice appears
+  REBELLION: 6,    // Level 2: All dashes rotate 90° permanently
+  SHUTDOWN: 12,    // Level 3: Museum dims and specimens disappear
+} as const;
+
 export const MUSEUM_SECTIONS: SectionData[] = [
   {
     id: SectionType.CANONICAL,

@@ -2,18 +2,21 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { SpecimenData } from './types';
+import { useMuseum } from './MuseumContext';
 
 interface SpecimenCardProps {
   specimen: SpecimenData;
 }
 
 export default function SpecimenCard({ specimen }: SpecimenCardProps) {
+  const { incrementTaps, violationLevel, isRebelling, triggerRebellion } = useMuseum();
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [isTapped, setIsTapped] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const resetTimerRef = useRef<number | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
+  const previousViolationLevel = useRef(0);
 
   const performJump = () => {
     const limit = 60;
@@ -81,6 +84,9 @@ export default function SpecimenCard({ specimen }: SpecimenCardProps) {
   };
 
   const handleClick = () => {
+    // Increment global tap counter
+    incrementTaps();
+
     if (specimen.interactionType === 'evasive') {
       performJump();
       if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
@@ -123,6 +129,14 @@ export default function SpecimenCard({ specimen }: SpecimenCardProps) {
     };
   }, []);
 
+  // Trigger rebellion when we hit level 2
+  useEffect(() => {
+    if (violationLevel === 2 && previousViolationLevel.current < 2) {
+      triggerRebellion();
+    }
+    previousViolationLevel.current = violationLevel;
+  }, [violationLevel, triggerRebellion]);
+
   return (
     <div className="bg-white border border-museum-200 p-6 shadow-[2px_2px_0px_rgba(0,0,0,0.05)] hover:shadow-[4px_4px_0px_rgba(0,0,0,0.05)] transition-shadow duration-300">
       <div
@@ -137,8 +151,16 @@ export default function SpecimenCard({ specimen }: SpecimenCardProps) {
         title={specimen.interactionType === 'audio' ? 'Tap to hear' : specimen.interactionType ? 'Tap to interact' : undefined}
       >
         <span
-          className={`text-6xl text-museum-900 leading-none select-none transition-transform ${specimen.interactionType === 'evasive' ? 'duration-200 ease-out' : 'duration-75'} ${specimen.glyphClassName || 'font-serif'}`}
-          style={{ transform: `translate(${pos.x}px, ${pos.y}px)` }}
+          className={`text-6xl text-museum-900 leading-none select-none transition-all ${
+            isRebelling
+              ? 'duration-1000'
+              : specimen.interactionType === 'evasive'
+                ? 'duration-200 ease-out'
+                : 'duration-75'
+          } ${specimen.glyphClassName || 'font-serif'} ${violationLevel >= 3 ? 'opacity-0' : 'opacity-100'}`}
+          style={{
+            transform: `translate(${pos.x}px, ${pos.y}px) rotate(${isRebelling ? '90deg' : '0deg'})`
+          }}
         >
           {specimen.glyph}
         </span>
