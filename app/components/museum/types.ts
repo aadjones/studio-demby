@@ -18,7 +18,7 @@ export interface SpecimenData {
   description: string;
   notes?: string;
   glyphClassName?: string;
-  interactionType?: 'evasive' | 'anxious';
+  interactionType?: 'evasive' | 'anxious' | 'audio';
 }
 
 export interface SectionData {

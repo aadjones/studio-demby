@@ -77,7 +77,8 @@ export const MUSEUM_SECTIONS: SectionData[] = [
         name: "The Acoustic Dash (Dah)",
         latinName: "Signalus temporalis",
         description:
-          "A dash that has transcended ink to become a duration of time. In the telegraphic taxonomy, it is defined as three units of tone. It is the ghost of a dash—heard, but not seen.",
+          "A dash that has transcended ink to become a duration of time. In the telegraphic taxonomy of Morse code, it is defined as three units of tone. It is the ghost of a dash—heard, but not always seen.",
+        interactionType: "audio",
       },
     ],
   },
