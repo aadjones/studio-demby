@@ -33,5 +33,5 @@
     ".next/types/**/*.ts",
     "scripts/findUnusedImages.js"
   ],
-  "exclude": ["node_modules", ".next"]
+  "exclude": ["node_modules", ".next", "the-museum-of-dashes"]
 }

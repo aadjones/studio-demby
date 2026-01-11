@@ -47,6 +47,14 @@ module.exports = {
           500: '#737373',        // Tertiary text
           300: '#A3A3A3',        // Muted text
         },
+        // Museum of Dashes - Natural history museum aesthetic
+        museum: {
+          50: '#f9f8f6',         // Warm off-white background
+          100: '#efedea',        // Light parchment
+          200: '#dcd8d3',        // Border gray
+          800: '#3d3a36',        // Dark warm gray
+          900: '#262422',        // Nearly black brown
+        },
         // Keep legacy colors for compatibility
         space: {
           600: '#23263A',

@@ -1,0 +1,31 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f9f8f6"/>
+
+  <!-- Border frame -->
+  <rect x="40" y="40" width="720" height="520" fill="none" stroke="#262422" stroke-width="6"/>
+  <rect x="48" y="48" width="704" height="504" fill="none" stroke="#262422" stroke-width="2"/>
+
+  <!-- Display case background -->
+  <rect x="100" y="120" width="600" height="360" fill="#efedea" rx="4"/>
+  <rect x="100" y="120" width="600" height="360" fill="none" stroke="#dcd8d3" stroke-width="2" rx="4"/>
+
+  <!-- Specimen dashes arranged in rows -->
+  <!-- Row 1 -->
+  <text x="200" y="220" font-family="Georgia, serif" font-size="80" fill="#262422">—</text>
+  <text x="380" y="220" font-family="Georgia, serif" font-size="80" fill="#262422">–</text>
+  <text x="560" y="220" font-family="Georgia, serif" font-size="80" fill="#262422">-</text>
+
+  <!-- Row 2 -->
+  <text x="200" y="340" font-family="Georgia, serif" font-size="80" fill="#262422">−</text>
+  <text x="380" y="340" font-family="Georgia, serif" font-size="80" fill="#262422">_</text>
+  <text x="560" y="340" font-family="Georgia, serif" font-size="80" fill="#262422">|</text>
+
+  <!-- Row 3 -->
+  <text x="200" y="460" font-family="Georgia, serif" font-size="64" fill="#262422">---</text>
+  <text x="380" y="460" font-family="Georgia, serif" font-size="64" fill="#262422">~</text>
+  <text x="560" y="460" font-family="Georgia, serif" font-size="64" fill="#262422">¬</text>
+
+  <!-- Label at bottom -->
+  <text x="400" y="540" font-family="Helvetica, sans-serif" font-size="14" text-anchor="middle" fill="#3d3a36" letter-spacing="4">MUSEUM OF DASHES</text>
+</svg>

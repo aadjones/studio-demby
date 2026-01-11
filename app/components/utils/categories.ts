@@ -18,7 +18,7 @@ export const categories = [
     slug: "provocations",
     description: "Wrong turns taken seriously",
     href: "/provocations",
-    image: "/photos/shrimp-jesus/shrimp-jesus-4x3.jpg",
+    image: "/photos/museum-of-dashes/category-thumb.svg",
   },
   {
     name: "Practice",
