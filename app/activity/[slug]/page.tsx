@@ -37,13 +37,16 @@ export default async function ActivityItemPage({ params }: Props) {
   const totalItems = sortedActivity.length;
 
   // Get prev/next items (with wrap-around)
-  const previousItem: MDXSketch | undefined =
-    currentIndex >= 0
-      ? sortedActivity[(currentIndex - 1 + totalItems) % totalItems]
-      : undefined;
+  // Note: array is sorted newest first, so:
+  // - "next" (older, further in the feed) = currentIndex + 1
+  // - "previous" (newer, back in the feed) = currentIndex - 1
   const nextItem: MDXSketch | undefined =
     currentIndex >= 0
       ? sortedActivity[(currentIndex + 1) % totalItems]
+      : undefined;
+  const previousItem: MDXSketch | undefined =
+    currentIndex >= 0
+      ? sortedActivity[(currentIndex - 1 + totalItems) % totalItems]
       : undefined;
 
   // Format date
@@ -101,7 +104,7 @@ export default async function ActivityItemPage({ params }: Props) {
               href={`/activity/${previousItem.slug}`}
               className="text-gray-600 hover:text-blue-600"
             >
-              ← {previousItem.title}
+              ← Previous
             </Link>
           ) : (
             <span className="text-gray-400">← Previous</span>
@@ -112,7 +115,7 @@ export default async function ActivityItemPage({ params }: Props) {
               href={`/activity/${nextItem.slug}`}
               className="text-gray-600 hover:text-blue-600"
             >
-              {nextItem.title} →
+              Next →
             </Link>
           ) : (
             <span className="text-gray-400">Next →</span>

@@ -1,0 +1,65 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#f8f6f0"/>
+
+  <!-- Dictionary page lines -->
+  <line x1="100" y1="0" x2="100" y2="630" stroke="#d4c5a9" stroke-width="2"/>
+  <line x1="1100" y1="0" x2="1100" y2="630" stroke="#d4c5a9" stroke-width="2"/>
+
+  <!-- Horizontal guide lines (subtle) -->
+  <line x1="150" y1="180" x2="1050" y2="180" stroke="#e8e0d0" stroke-width="1"/>
+  <line x1="150" y1="320" x2="1050" y2="320" stroke="#e8e0d0" stroke-width="1"/>
+  <line x1="150" y1="460" x2="1050" y2="460" stroke="#e8e0d0" stroke-width="1"/>
+
+  <!-- Main title -->
+  <text x="600" y="120" font-family="Georgia, serif" font-size="72" font-weight="bold" fill="#2c2416" text-anchor="middle">
+    The Chonktionary
+  </text>
+
+  <!-- Subtitle -->
+  <text x="600" y="160" font-family="Georgia, serif" font-size="24" font-style="italic" fill="#6b5d4f" text-anchor="middle">
+    A Lexicon of the Chonkesphere
+  </text>
+
+  <!-- Dictionary entry 1 -->
+  <text x="200" y="240" font-family="Georgia, serif" font-size="32" font-weight="bold" fill="#2c2416">
+    chonk
+  </text>
+  <text x="320" y="240" font-family="'Lucida Sans Unicode', 'Arial Unicode MS', sans-serif" font-size="24" font-style="italic" fill="#6b5d4f">
+    /tʃɑŋk/
+  </text>
+  <text x="200" y="275" font-family="Georgia, serif" font-size="20" fill="#4a3f32">
+    n. The fundamental unit of chonkness.
+  </text>
+
+  <!-- Dictionary entry 2 -->
+  <text x="200" y="380" font-family="Georgia, serif" font-size="32" font-weight="bold" fill="#2c2416">
+    chonketude
+  </text>
+  <text x="440" y="380" font-family="'Lucida Sans Unicode', 'Arial Unicode MS', sans-serif" font-size="24" font-style="italic" fill="#6b5d4f">
+    /ˈtʃɑŋkəˌtud/
+  </text>
+  <text x="200" y="415" font-family="Georgia, serif" font-size="20" fill="#4a3f32">
+    n. The qualia of chonk. May be present
+  </text>
+  <text x="200" y="440" font-family="Georgia, serif" font-size="20" fill="#4a3f32">
+    even at low chonkness.
+  </text>
+
+  <!-- Dictionary entry 3 -->
+  <text x="200" y="520" font-family="Georgia, serif" font-size="32" font-weight="bold" fill="#2c2416">
+    chonkesphere
+  </text>
+  <text x="490" y="520" font-family="'Lucida Sans Unicode', 'Arial Unicode MS', sans-serif" font-size="24" font-style="italic" fill="#6b5d4f">
+    /ˈtʃɑŋkəˌsfɪr/
+  </text>
+  <text x="200" y="555" font-family="Georgia, serif" font-size="20" fill="#4a3f32">
+    n. The conceptual space where chonk
+  </text>
+  <text x="200" y="580" font-family="Georgia, serif" font-size="20" fill="#4a3f32">
+    phenomena occur.
+  </text>
+
+  <!-- Decorative corner fold -->
+  <path d="M 1050 50 L 1050 100 L 1000 100 Z" fill="#e8e0d0" stroke="#d4c5a9" stroke-width="1"/>
+</svg>

@@ -1,0 +1,522 @@
+---
+title: "The Chonktionary"
+slug: "chonktionary"
+date: "2026-01-11"
+tags: ["reference", "chonk", "linguistics"]
+image: "/assets/sketches/chonktionary/thumbnail.svg"
+description: "A comprehensive lexicon of chonk-related terminology"
+---
+
+<style>{`
+  .chonktionary-page {
+    background: linear-gradient(to bottom, #f8f6f0 0%, #f5f3ed 100%);
+    padding: 2.5rem;
+    font-family: Georgia, 'Times New Roman', serif;
+    color: #2c2416;
+    max-width: 900px;
+    margin: -2rem auto 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-left: 3px solid #d4c5a9;
+    border-right: 3px solid #d4c5a9;
+    position: relative;
+  }
+
+  @media (max-width: 768px) {
+    .chonktionary-page {
+      padding: 1.5rem;
+      border-left: 2px solid #d4c5a9;
+      border-right: 2px solid #d4c5a9;
+    }
+  }
+
+  .running-header {
+    position: sticky;
+    top: 0;
+    background: linear-gradient(to bottom, #f8f6f0 0%, #f5f3ed 100%);
+    padding: 0.75rem 0;
+    margin: -2.5rem -2.5rem 1.5rem;
+    border-bottom: 2px solid #d4c5a9;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-variant: small-caps;
+    letter-spacing: 0.05em;
+    color: #6b5d4f;
+    z-index: 10;
+  }
+
+  @media (max-width: 768px) {
+    .running-header {
+      margin: -1.5rem -1.5rem 1rem;
+      font-size: 0.7rem;
+    }
+  }
+
+  .running-header-left {
+    padding-left: 2.5rem;
+  }
+
+  .running-header-right {
+    padding-right: 2.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .running-header-left,
+    .running-header-right {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  .chonktionary-page h1 {
+    font-family: Georgia, serif;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: #2c2416;
+    margin: 1.5rem 0 0.5rem;
+    letter-spacing: 0.02em;
+  }
+
+  @media (max-width: 768px) {
+    .chonktionary-page h1 {
+      font-size: 2rem;
+    }
+  }
+
+  .chonktionary-subtitle {
+    font-style: italic;
+    text-align: center;
+    color: #6b5d4f;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #e8e0d0;
+  }
+
+  @media (max-width: 768px) {
+    .chonktionary-subtitle {
+      font-size: 1rem;
+    }
+  }
+
+  .chonktionary-page h2 {
+    font-family: Georgia, serif;
+    font-size: 1.3rem;
+    font-weight: normal;
+    font-variant: small-caps;
+    letter-spacing: 0.1em;
+    color: #4a3f32;
+    margin-top: 3rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid #d4c5a9;
+    padding-bottom: 0.4rem;
+  }
+
+  @media (max-width: 768px) {
+    .chonktionary-page h2 {
+      font-size: 1.15rem;
+    }
+  }
+
+  .chonktionary-preamble {
+    font-style: italic;
+    color: #6b5d4f;
+    font-size: 0.95rem;
+    margin: 0.5rem 0 1.75rem 0;
+    line-height: 1.6;
+  }
+
+  .dict-entry {
+    margin: 2rem 0 2.5rem 0;
+    padding-left: 0;
+  }
+
+  .dict-entry-header {
+    margin-bottom: 0.6rem;
+  }
+
+  .dict-headword {
+    font-weight: bold;
+    font-size: 1.4rem;
+    color: #2c2416;
+    margin-right: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .dict-headword {
+      font-size: 1.25rem;
+    }
+  }
+
+  .dict-pronunciation {
+    font-family: 'Lucida Sans Unicode', 'Arial Unicode MS', sans-serif;
+    font-style: italic;
+    color: #6b5d4f;
+    font-size: 1rem;
+    margin-left: 0.3rem;
+  }
+
+  @media (max-width: 768px) {
+    .dict-pronunciation {
+      font-size: 0.9rem;
+    }
+  }
+
+  .dict-pos {
+    font-style: italic;
+    color: #6b5d4f;
+    font-size: 0.9rem;
+    display: block;
+    margin-top: 0.3rem;
+  }
+
+  .dict-definition {
+    color: #4a3f32;
+    line-height: 1.85;
+    margin: 0.6rem 0 0 0;
+  }
+
+  .dict-definition ol {
+    margin: 0.75rem 0;
+    padding-left: 1.5rem;
+    line-height: 1.85;
+  }
+
+  .dict-definition li {
+    margin: 0.5rem 0;
+  }
+
+  .dict-example {
+    margin: 1rem 0 1rem 1.5rem;
+    padding: 0.6rem 1.1rem;
+    border-left: 3px solid #e8e0d0;
+    background: rgba(232, 224, 208, 0.2);
+    font-style: italic;
+    color: #5a4d3f;
+    line-height: 1.75;
+  }
+
+  .dict-note {
+    font-style: italic;
+    color: #6b5d4f;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  }
+
+  .hero-image-container {
+    text-align: center;
+    margin: 0 0 2rem 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+  }
+
+  .hero-image-container img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #d4c5a9;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  @media (max-width: 768px) {
+    .hero-image-container {
+      margin: 0 -1.5rem 1.5rem;
+    }
+    .hero-image-container img {
+      border-left: none;
+      border-right: none;
+    }
+  }
+`}</style>
+
+<div className="chonktionary-page">
+
+<div className="running-header">
+  <div className="running-header-left">chonk – chonkzilla</div>
+  <div className="running-header-right">The Chonktionary</div>
+</div>
+
+# The Chonktionary
+
+<div className="chonktionary-subtitle">A Comprehensive Lexicon of the Chonkesphere</div>
+
+## I. Core Entities & Proper Nouns
+
+<div className="chonktionary-preamble">These are <em>things</em> that exist as anchors in the Chonkesphere.</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">Chonke</span>
+    <span className="dict-pronunciation">/ˈtʃɑŋki/</span>
+  </div>
+  <span className="dict-pos">proper noun</span>
+  <div className="dict-definition">
+    A digital instrument and app for inducing chonk. Chonke applies intentional zoom, other image transforms, and rhythmic emphasis to images, producing chonkness with the aim (but not the guarantee) of chonketude.
+  </div>
+</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">Chonke (Platonic)</span>
+  </div>
+  <span className="dict-pos">proper noun</span>
+  <div className="dict-definition">
+    The hypothetical ideal chonk against which all others are judged. Never fully realized.
+  </div>
+</div>
+
+## II. Fundamental Concepts
+
+<div className="chonktionary-preamble">These define <em>what chonk is</em> and <em>how it is experienced</em>.</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">chonk</span>
+    <span className="dict-pronunciation">/tʃɑŋk/</span>
+  </div>
+  <span className="dict-pos">n. / v.</span>
+  <div className="dict-definition">
+    <ol>
+      <li>The fundamental unit of chonkness.</li>
+      <li>To compress reality into a funnier form. Side effects include uncontrollable laughter.</li>
+    </ol>
+    <div className="dict-example">
+      &ldquo;Please, for the love of God, chonk this cat.&rdquo;
+    </div>
+  </div>
+</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">chonkness</span>
+    <span className="dict-pronunciation">/ˈtʃɑŋknəs/</span>
+  </div>
+  <span className="dict-pos">n.</span>
+  <div className="dict-definition">
+    The measurable or perceptible degree of chonk present in an object, image, or situation. Often correlated with size, zoom, compression, or roundness.
+  </div>
+</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">chonketude</span>
+    <span className="dict-pronunciation">/ˈtʃɑŋkəˌtud/</span>
+  </div>
+  <span className="dict-pos">n.</span>
+  <div className="dict-definition">
+    The <em>qualia</em> of chonk. A thing may possess chonketude even at low chonkness, and vice versa.
+  </div>
+</div>
+
+## III. States, Conditions, & Transitions
+
+<div className="chonktionary-preamble">These describe <em>how chonk happens</em> over time.</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">protochonk</span>
+    <span className="dict-pronunciation">/ˈproʊtoʊtʃɑŋk/</span>
+  </div>
+  <span className="dict-pos">n.</span>
+  <div className="dict-definition">
+    An entity or digital image on the verge of chonkness. Potentially unstable.
+  </div>
+</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">chonkening</span>
+    <span className="dict-pronunciation">/ˈtʃɑŋkənɪŋ/</span>
+  </div>
+  <span className="dict-pos">n.</span>
+  <div className="dict-definition">
+    The moment a project, joke, or app irreversibly commits to chonk as its destiny.
+  </div>
+</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">enchonkment</span>
+    <span className="dict-pronunciation">/ɛnˈtʃɑŋkmənt/</span>
+  </div>
+  <span className="dict-pos">n.</span>
+  <div className="dict-definition">
+    The process by which an ordinary object becomes a chonk through gradual exposure rather than sudden intervention. Often unnoticed until complete.
+  </div>
+</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">dechonkification</span>
+    <span className="dict-pronunciation">/diˌtʃɑŋkəfɪˈkeɪʃən/</span>
+  </div>
+  <span className="dict-pos">n.</span>
+  <div className="dict-definition">
+    The tragic process of returning something to normal proportions. Not recommended.
+  </div>
+</div>
+
+## IV. Practices, Actions, & Reasoning
+
+<div className="chonktionary-preamble">Words used by <em>actors</em> inside the system.</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">chonkify</span>
+    <span className="dict-pronunciation">/ˈtʃɑŋkəˌfaɪ/</span>
+  </div>
+  <span className="dict-pos">v.</span>
+  <div className="dict-definition">
+    To increase chonkness through zoom, distortion, or narrative framing.
+  </div>
+</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">chonkulation</span>
+    <span className="dict-pronunciation">/ˌtʃɑŋkjəˈleɪʃən/</span>
+  </div>
+  <span className="dict-pos">n.</span>
+  <div className="dict-definition">
+    The informal reasoning process used to decide whether something should be chonked.
+    <div className="dict-example">
+      &ldquo;According to my chonkulations, this selfie could be Chonke gold.&rdquo;
+    </div>
+  </div>
+</div>
+
+## V. Agents & Social Roles
+
+<div className="chonktionary-preamble">Beings who act upon chonk.</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">chonkster</span>
+    <span className="dict-pronunciation">/ˈtʃɑŋkstər/</span>
+  </div>
+  <span className="dict-pos">n.</span>
+  <div className="dict-definition">
+    One who practices the chonk as a lifestyle, craft, or ideology. Frequently responsible for major chonkage.
+  </div>
+</div>
+
+## VI. Affective & Descriptive Modifiers
+
+<div className="chonktionary-preamble">How chonk is <em>felt or performed</em>.</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">chonkful</span>
+    <span className="dict-pronunciation">/ˈtʃɑŋkfəl/</span>
+  </div>
+  <span className="dict-pos">adj. / adv.</span>
+  <div className="dict-definition">
+    Filled with chonk; operating in the spirit of benevolent excess.
+    <div className="dict-example">
+      &ldquo;She gazed chonkfully upon the burrito.&rdquo;
+    </div>
+  </div>
+</div>
+
+## VII. Scales & Magnitudes
+
+<div className="chonktionary-preamble">Relative size is secondary—but still narratively useful.</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">microchonk</span>
+    <span className="dict-pronunciation">/ˈmaɪkroʊtʃɑŋk/</span>
+  </div>
+  <span className="dict-pos">n.</span>
+  <div className="dict-definition">
+    A small but powerful chonk. Dangerous in aggregate.
+  </div>
+</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">megachonk</span>
+    <span className="dict-pronunciation">/ˈmɛgətʃɑŋk/</span>
+  </div>
+  <span className="dict-pos">n.</span>
+  <div className="dict-definition">
+    A chonk of mythic proportions. May alter nearby weather patterns.
+  </div>
+</div>
+
+## VIII. Structures, Spaces, Systems, & Eras
+
+<div className="chonktionary-preamble">Where chonk lives.</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">Chonkesphere</span>
+    <span className="dict-pronunciation">/ˈtʃɑŋkəˌsfɪr/</span>
+  </div>
+  <span className="dict-pos">n.</span>
+  <div className="dict-definition">
+    The total conceptual space in which chonk-related phenomena occur. Includes apps, memes, cats, moods, and gravitational anomalies.
+  </div>
+</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">Chonkopolis</span>
+    <span className="dict-pronunciation">/tʃɔŋˈkɑpəlɪs/</span>
+  </div>
+  <span className="dict-pos">n.</span>
+  <div className="dict-definition">
+    A megacity optimized for chonks: wide sidewalks, low expectations, abundant snacks, maximal lounging infrastructure.
+  </div>
+</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">Chonkecene</span>
+    <span className="dict-pronunciation">/ˈtʃɑŋkəˌsin/</span>
+  </div>
+  <span className="dict-pos">n.</span>
+  <div className="dict-definition">
+    A geological or cultural era defined by unprecedented chonk activity, starting in 2026 CE. Marked by digital abundance and a collapse of restraint.
+  </div>
+</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">Chonkstitution</span>
+    <span className="dict-pronunciation">/ˌtʃɑŋkstəˈtuʃən/</span>
+  </div>
+  <span className="dict-pos">n.</span>
+  <div className="dict-definition">
+    The founding document that governs a chonk-based system. Defines rights, responsibilities, and acceptable levels of zoom.
+  </div>
+</div>
+
+## IX. Colossal & Mythic Figures
+
+<div className="chonktionary-preamble">Folklore. Use sparingly.</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">Chonke Kong</span>
+    <span className="dict-pronunciation">/ˈtʃɑŋki kɑŋ/</span>
+  </div>
+  <span className="dict-pos">proper n.</span>
+  <div className="dict-definition">
+    A primordial megachonk archetype. Represents brute-force chonkness: verticality, dominance, inevitability.
+  </div>
+</div>
+
+<div className="dict-entry">
+  <div className="dict-entry-header">
+    <span className="dict-headword">Chonkzilla</span>
+    <span className="dict-pronunciation">/tʃɑŋkˈzɪlə/</span>
+  </div>
+  <span className="dict-pos">proper n.</span>
+  <div className="dict-definition">
+    A catastrophic or uncontrollable chonk event. A chonk that overwhelms its environment and causes collateral absurdity.
+  </div>
+</div>
+
+</div>

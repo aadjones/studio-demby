@@ -47,13 +47,16 @@ export default async function ProjectPage({ params }: Props) {
   const totalProjects = sortedProjects.length;
 
   // Get prev/next projects (with wrap-around)
-  const previousProjectData: MDXProject | undefined =
-    currentIndex >= 0
-      ? sortedProjects[(currentIndex - 1 + totalProjects) % totalProjects]
-      : undefined;
+  // Note: array is sorted newest first, so:
+  // - "next" (older, further in the feed) = currentIndex + 1
+  // - "previous" (newer, back in the feed) = currentIndex - 1
   const nextProjectData: MDXProject | undefined =
     currentIndex >= 0
       ? sortedProjects[(currentIndex + 1) % totalProjects]
+      : undefined;
+  const previousProjectData: MDXProject | undefined =
+    currentIndex >= 0
+      ? sortedProjects[(currentIndex - 1 + totalProjects) % totalProjects]
       : undefined;
 
   // Conditional hero rendering
