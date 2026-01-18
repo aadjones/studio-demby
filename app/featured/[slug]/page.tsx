@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 import { getAllProjects, getProjectBySlugOnly } from "@/lib/content/projects-loader";
 import { MDXProject, MDXSource } from "@/types/mdx";
 import ClientMDX from "@/app/components/utils/ClientMDX";
@@ -9,12 +10,51 @@ import Breadcrumb from "@/app/components/Breadcrumb";
 import RelatedWorks from "@/app/components/RelatedWorks";
 import ProjectNavigation from "@/app/components/ProjectNavigation";
 import { categories } from "@/app/components/utils/categories";
+import { metaData } from "@/app/config";
 
 type Props = {
   params: {
     slug: string;
   };
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const project = await getProjectBySlugOnly(params.slug);
+
+  if (!project) {
+    return {
+      title: "Project Not Found",
+    };
+  }
+
+  const { title, summary, image } = project.frontMatter;
+  const ogImage = image || metaData.ogImage;
+  const projectUrl = `${metaData.baseUrl}featured/${params.slug}`;
+
+  return {
+    title,
+    description: summary,
+    openGraph: {
+      title,
+      description: summary,
+      url: projectUrl,
+      siteName: metaData.name,
+      images: [
+        {
+          url: ogImage,
+          alt: title,
+        },
+      ],
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: summary,
+      images: [ogImage],
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const projects = await getAllProjects();
