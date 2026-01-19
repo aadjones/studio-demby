@@ -1,14 +1,54 @@
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 import { getAllActivity, getActivityBySlug } from "@/lib/content/activity-loader";
 import { MDXSketch } from "@/types/mdx";
 import ClientMDX from "@/app/components/utils/ClientMDX";
 import Link from "next/link";
+import { metaData } from "@/app/config";
 
 type Props = {
   params: {
     slug: string;
   };
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const item = await getActivityBySlug(params.slug);
+
+  if (!item) {
+    return {
+      title: "Activity Not Found",
+    };
+  }
+
+  const { title, description, image } = item.frontMatter;
+  const ogImage = image || metaData.ogImage;
+  const activityUrl = `${metaData.baseUrl}activity/${params.slug}`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: activityUrl,
+      siteName: metaData.name,
+      images: [
+        {
+          url: ogImage,
+          alt: title,
+        },
+      ],
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const activity = await getAllActivity();
