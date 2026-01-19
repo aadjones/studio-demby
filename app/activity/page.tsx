@@ -1,6 +1,32 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Metadata } from "next";
 import { getAllActivity } from "@/lib/content/activity-loader";
+import { metaData } from "@/app/config";
+
+export const metadata: Metadata = {
+  title: "Activity",
+  description: "Quick thoughts, works in progress, field notes from Studio Demby.",
+  openGraph: {
+    title: "Activity",
+    description: "Quick thoughts, works in progress, field notes from Studio Demby.",
+    url: `${metaData.baseUrl}activity`,
+    siteName: metaData.name,
+    images: [
+      {
+        url: metaData.ogImage,
+        alt: "Studio Demby Activity",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Activity | Studio Demby",
+    description: "Quick thoughts, works in progress, field notes from Studio Demby.",
+    images: [metaData.ogImage],
+  },
+};
 
 export default async function ActivityPage() {
   const activity = await getAllActivity();

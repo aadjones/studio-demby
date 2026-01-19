@@ -1,5 +1,31 @@
+import { Metadata } from "next";
 import { getAllProjects } from "@/lib/content/projects-loader";
 import CategoryProjectList from "@/app/components/CategoryProjectList";
+import { metaData } from "@/app/config";
+
+export const metadata: Metadata = {
+  title: "Featured",
+  description: "Polished work across sound & vision, systems, provocations, and practice.",
+  openGraph: {
+    title: "Featured",
+    description: "Polished work across sound & vision, systems, provocations, and practice.",
+    url: `${metaData.baseUrl}featured`,
+    siteName: metaData.name,
+    images: [
+      {
+        url: metaData.ogImage,
+        alt: "Studio Demby Featured Work",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Featured | Studio Demby",
+    description: "Polished work across sound & vision, systems, provocations, and practice.",
+    images: [metaData.ogImage],
+  },
+};
 
 export default async function FeaturedPage() {
   const projects = await getAllProjects();

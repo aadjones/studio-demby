@@ -1,5 +1,34 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Metadata } from "next";
+import { metaData } from "@/app/config";
+
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "Aaron Demby Jones builds generative instruments, strange little apps, audiovisual experiments, and teaching frameworks for improvisation.",
+  openGraph: {
+    title: "About",
+    description:
+      "Aaron Demby Jones builds generative instruments, strange little apps, audiovisual experiments, and teaching frameworks for improvisation.",
+    url: `${metaData.baseUrl}about`,
+    siteName: metaData.name,
+    images: [
+      {
+        url: "/photos/about/profile.png",
+        alt: "Aaron Demby Jones",
+      },
+    ],
+    type: "profile",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About | Studio Demby",
+    description:
+      "Aaron Demby Jones builds generative instruments, strange little apps, audiovisual experiments, and teaching frameworks for improvisation.",
+    images: ["/photos/about/profile.png"],
+  },
+};
 
 export default function AboutPage() {
   return (
