@@ -24,6 +24,6 @@ export interface SpecimenData {
 export interface SectionData {
   id: SectionType;
   title: string;
-  preamble?: string;
+  preamble?: React.ReactNode;
   specimens: SpecimenData[];
 }

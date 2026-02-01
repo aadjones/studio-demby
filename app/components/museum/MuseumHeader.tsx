@@ -21,8 +21,8 @@ export default function MuseumHeader() {
           Despite centuries of typographic study, the category of
           &ldquo;dash&rdquo; remains unstable. New specimens continue to be
           identified in the wild, often camouflaged as errors or glitched
-          rendering artifacts. The management requests that visitors do not tap
-          on the glass.
+          rendering artifacts. The management requests that visitors <strong>do not tap
+          on the glass.</strong>
         </p>
       </div>
     </header>

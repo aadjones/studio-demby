@@ -1,3 +1,4 @@
+import React from "react";
 import { SectionType, SectionData } from "./types";
 
 // Museum escalation thresholds (in total taps)
@@ -223,7 +224,7 @@ export const MUSEUM_SECTIONS: SectionData[] = [
     id: SectionType.INTERACTIVE,
     title: "Interactive Specimens",
     preamble:
-      "WARNING: The management is not responsible for any emotional distress caused by interacting with the following specimens. Do not tap on the glass.",
+      <>WARNING: The management is not responsible for any emotional distress caused by interacting with the following specimens. <strong>Do not tap on the glass.</strong></>,
     specimens: [
       {
         id: "i-1",
