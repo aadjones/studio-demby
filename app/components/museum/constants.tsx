@@ -3,9 +3,9 @@ import { SectionType, SectionData } from "./types";
 
 // Museum escalation thresholds (in total taps)
 export const ESCALATION_THRESHOLDS = {
-  WARNING: 3,      // Level 1: First warning notice appears
-  REBELLION: 6,    // Level 2: All dashes rotate 90° permanently
-  SHUTDOWN: 12,    // Level 3: Museum dims and specimens disappear
+  WARNING: 3, // Level 1: First warning notice appears
+  REBELLION: 6, // Level 2: All dashes rotate 90° permanently
+  SHUTDOWN: 12, // Level 3: Museum dims and specimens disappear
 } as const;
 
 export const MUSEUM_SECTIONS: SectionData[] = [
@@ -150,7 +150,7 @@ export const MUSEUM_SECTIONS: SectionData[] = [
         name: "Tilde",
         latinName: "Undula oscillans",
         description:
-          "A dash that has lost its structural rigidity. It waves, it approximates. It suggests 'about' rather than 'is'. It is the dash of uncertainty.",
+          "A dash that has lost its structural rigidity. It waves, it approximates. It suggests 'about' rather than 'is.' It is the dash of uncertainty.",
       },
       {
         id: "m-3",
@@ -223,8 +223,13 @@ export const MUSEUM_SECTIONS: SectionData[] = [
   {
     id: SectionType.INTERACTIVE,
     title: "Interactive Specimens",
-    preamble:
-      <>WARNING: The management is not responsible for any emotional distress caused by interacting with the following specimens. <strong>Do not tap on the glass.</strong></>,
+    preamble: (
+      <>
+        WARNING: The management is not responsible for any emotional distress
+        caused by interacting with the following specimens.{" "}
+        <strong>Do not tap on the glass.</strong>
+      </>
+    ),
     specimens: [
       {
         id: "i-1",
