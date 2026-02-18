@@ -1,75 +1,21 @@
 // app/page.tsx
+import BloodFeathersHero from "@/app/components/hero/BloodFeathersHero";
+import StartHere from "@/app/components/StartHere";
 import Link from "next/link";
-import Image from "next/image";
-import { categories } from "@/app/components/utils/categories";
-import Door from "@/app/components/Door";
-import RandomProjectButton from "@/app/components/RandomProjectButton";
-import LatestActivity from "@/app/components/LatestActivity";
-import { getRecentActivity } from "@/lib/content/activity-loader";
-import { getAllProjects } from "@/lib/content/projects-loader";
-import { StreamItem } from "@/types/mdx";
-import { featureFlags } from "@/app/config/features";
 
-export default async function HomePage() {
-  // Load recent activity items only
-  const recentActivity = await getRecentActivity(10);
-
-  // Load all projects for random button
-  const allProjects = await getAllProjects();
-  const projectSlugs = allProjects.map(p => p.slug);
-
-  // Format as stream items
-  const streamItems: StreamItem[] = recentActivity.map(a => ({
-    type: 'sketch' as const,
-    data: a
-  }));
+export default function HomePage() {
   return (
-    <main className="container mx-auto px-4 pt-6 sm:pt-8">
-      {featureFlags.showCatsLogo ? (
-        <div className="flex items-center gap-4 mb-6 animate-fade-in-scale">
-          <Image
-            src="/photos/logo/shrimpas.png"
-            alt="Studio Demby Logo"
-            width={80}
-            height={80}
-            className="h-12 sm:h-16 md:h-20 opacity-90 animate-gentle-float"
-          />
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold leading-tight tracking-tight text-ink-900">
-            Studio Demby
-          </h1>
-        </div>
-      ) : (
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold leading-tight tracking-tight mb-6 text-ink-900 animate-fade-in-scale">
-          Studio Demby
-        </h1>
-      )}
-      <p className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-12 leading-relaxed text-ink-700 font-body animate-fade-in-up" style={{ animationDelay: '0.1s', animationFillMode: 'backwards' }}>
-        I make things that sound, analyze, provoke, and teach.
-      </p>
-
-      {/* Latest Activity */}
-      <LatestActivity items={streamItems} />
-
-      {/* Featured Section */}
-      <section className="mt-12 sm:mt-16">
-        <h2 className="text-2xl sm:text-3xl font-display font-bold mb-6 sm:mb-8 text-center text-ink-900">
-          Featured
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-12 justify-items-center mx-auto">
-          {categories.map((category, i) => (
-            <Door
-              key={category.name}
-              name={category.name}
-              description={category.description}
-              href={category.href}
-              image={category.image}
-              delay={i * 0.12}
-            />
-          ))}
-        </div>
-      </section>
-      <div className="mb-2" />
-      <RandomProjectButton slugs={projectSlugs} />
-    </main>
+    <>
+      <BloodFeathersHero />
+      <StartHere />
+      <div className="text-center pb-12">
+        <Link
+          href="/work"
+          className="inline-block px-6 py-3 text-sm font-body font-medium text-ink-700 border border-ink-300 rounded-full hover:bg-ink-100 transition-colors"
+        >
+          See all work &rarr;
+        </Link>
+      </div>
+    </>
   );
 }
