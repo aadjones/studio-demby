@@ -35,6 +35,7 @@ export default function P5Container({
       let originalWindowResized: () => void;
 
       // Wrap the sketch to ensure proper sizing
+      let lastSize = 0;
       const wrappedSketch = (p: any) => {
         // Call the original sketch to get its methods
         sketch(p, ref.current);
@@ -48,6 +49,7 @@ export default function P5Container({
           const container = ref.current;
           if (container) {
             const size = Math.min(container.clientWidth, container.clientHeight);
+            lastSize = size;
             if (renderer === "WEBGL") {
               p.createCanvas(size, size, p.WEBGL);
             } else {
@@ -57,12 +59,16 @@ export default function P5Container({
           originalSetup();
         };
 
-        // Override windowResized
+        // Override windowResized — guard against sub-5px fluctuations
+        // (browser chrome show/hide on iOS scroll) to avoid spurious canvas clears.
         p.windowResized = () => {
           const container = ref.current;
           if (container) {
             const size = Math.min(container.clientWidth, container.clientHeight);
-            p.resizeCanvas(size, size);
+            if (Math.abs(size - lastSize) > 5) {
+              lastSize = size;
+              p.resizeCanvas(size, size);
+            }
           }
           originalWindowResized();
         };

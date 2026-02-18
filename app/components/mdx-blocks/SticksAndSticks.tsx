@@ -5,11 +5,6 @@ import React, { useRef, useState, useEffect } from "react";
 export default function SticksAndSticks() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
-  const [isNativeFS, setIsNativeFS] = useState(false);
-  const [isManualFS, setIsManualFS] = useState(false);
-
-  const isFullscreen = isNativeFS || isManualFS;
-
   useEffect(() => {
     if (!containerRef.current) return;
     const obs = new IntersectionObserver(
@@ -25,50 +20,22 @@ export default function SticksAndSticks() {
     return () => obs.disconnect();
   }, []);
 
-  useEffect(() => {
-    const handleChange = () => {
-      const doc = document as any;
-      setIsNativeFS(!!(doc.fullscreenElement || doc.webkitFullscreenElement));
-    };
-    document.addEventListener("fullscreenchange", handleChange);
-    document.addEventListener("webkitfullscreenchange", handleChange);
-    return () => {
-      document.removeEventListener("fullscreenchange", handleChange);
-      document.removeEventListener("webkitfullscreenchange", handleChange);
-    };
-  }, []);
 
   const toggleFullscreen = async () => {
     if (!containerRef.current) return;
     const doc = document as any;
     const el = containerRef.current as any;
-
-    // Exit manual fullscreen
-    if (isManualFS) {
-      setIsManualFS(false);
-      return;
-    }
-
-    // Exit native fullscreen
-    if (isNativeFS) {
+    if (!doc.fullscreenElement && !doc.webkitFullscreenElement) {
+      try {
+        if (el.requestFullscreen) await el.requestFullscreen();
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      } catch {}
+    } else {
       try {
         if (doc.exitFullscreen) await doc.exitFullscreen();
         else if (doc.webkitExitFullscreen) doc.webkitExitFullscreen();
       } catch {}
-      return;
     }
-
-    // Try native fullscreen first
-    if (el.requestFullscreen || el.webkitRequestFullscreen) {
-      try {
-        if (el.requestFullscreen) await el.requestFullscreen();
-        else el.webkitRequestFullscreen();
-        return;
-      } catch {}
-    }
-
-    // iOS Safari fallback: CSS pseudo-fullscreen
-    setIsManualFS(true);
   };
 
   useEffect(() => {
@@ -150,6 +117,9 @@ export default function SticksAndSticks() {
           p.line(ln.x1, ln.y1, ln.x2, ln.y2);
         }
       };
+
+      // Allow native touch scroll — p5 blocks it by default.
+      p.touchMoved = () => true;
     });
 
     const resizeObs = new ResizeObserver(() => {
@@ -166,19 +136,9 @@ export default function SticksAndSticks() {
   return (
     <div
       ref={containerRef}
-      className={`cursor-pointer relative overflow-hidden ${
-        isManualFS
-          ? "fixed inset-0 z-50 w-screen h-screen"
-          : "w-full aspect-[4/3] sm:aspect-square"
-      }`}
+      className="w-full aspect-[4/3] sm:aspect-square cursor-pointer relative overflow-hidden"
       style={{ backgroundColor: "rgb(200,200,200)" }}
       onClick={toggleFullscreen}
-    >
-      {!isFullscreen && (
-        <div className="absolute bottom-2 right-2 text-[10px] text-black/25 pointer-events-none select-none">
-          tap to expand
-        </div>
-      )}
-    </div>
+    />
   );
 }
