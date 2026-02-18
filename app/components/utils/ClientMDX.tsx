@@ -48,6 +48,7 @@ import TimeVisualizer from "../mdx-blocks/TimeVisualizer";
 import LeapSecondBettingMarket from "../mdx-blocks/LeapSecondBettingMarket";
 import VideoEmbed from "../mdx-blocks/VideoEmbed";
 import MuseumExhibit from "../mdx-blocks/MuseumExhibit";
+import SticksAndSticks from "../mdx-blocks/SticksAndSticks";
 
 type ComponentType = React.ComponentType<any> | string;
 
@@ -105,6 +106,7 @@ const baseComponents = {
   LeapSecondBettingMarket,
   VideoEmbed,
   MuseumExhibit,
+  SticksAndSticks,
 };
 
 export default function ClientMDX({

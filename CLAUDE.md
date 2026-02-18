@@ -73,3 +73,7 @@ The project uses `react/no-unescaped-entities` rule. Always escape quotes and ap
 ### Special Components
 
 Custom MDX blocks are in `app/components/mdx-blocks/` for embedding media, p5 sketches, and interactive elements in project pages.
+
+### Creative Copy
+
+**Never write creative copy for project pages unless explicitly asked.** This includes: summaries, whisper lines, field notes, project overview prose, metadata flavor text, or any narrative/descriptive writing. Leave those fields blank or with clear placeholders, and let the user fill them in.
