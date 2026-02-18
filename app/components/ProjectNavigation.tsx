@@ -11,7 +11,7 @@ export default function ProjectNavigation({ previousSlug, nextSlug }: Props) {
       <div className="flex justify-between items-center text-sm">
         {previousSlug ? (
           <Link
-            href={`/featured/${previousSlug}`}
+            href={`/work/${previousSlug}`}
             className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
           >
             <span>←</span>
@@ -25,7 +25,7 @@ export default function ProjectNavigation({ previousSlug, nextSlug }: Props) {
 
         {nextSlug ? (
           <Link
-            href={`/featured/${nextSlug}`}
+            href={`/work/${nextSlug}`}
             className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
           >
             <span>Next</span>

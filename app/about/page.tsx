@@ -69,52 +69,15 @@ export default function AboutPage() {
             life if you actually let them.
           </p>
 
-          <div className="pt-4 sm:pt-6 border-t border-gray-200 mt-4 sm:mt-6">
-            <h2 className="text-lg sm:text-xl font-semibold mb-3">
-              Start Here
-            </h2>
-            <p className="mb-3 text-gray-600">A few good doors into my work:</p>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/activity/move-to-in-progress"
-                  className="text-blue-500 hover:text-blue-600 transition-colors"
-                >
-                  Move to &lsquo;In Progress&rsquo;
-                </Link>{" "}
-                — a task system that plays back.
-              </li>
-              <li>
-                <Link
-                  href="/featured/ghostly-double"
-                  className="text-blue-500 hover:text-blue-600 transition-colors"
-                >
-                  Ghostly Double
-                </Link>{" "}
-                — piano + electronics improvisation with a phantom duet.
-              </li>
-              <li>
-                <Link
-                  href="/featured/frogmath"
-                  className="text-blue-500 hover:text-blue-600 transition-colors"
-                >
-                  FrogMath
-                </Link>{" "}
-                — number theory reimagined with frogs and lily pads.
-              </li>
-              <li>
-                <Link
-                  href="/featured/feathers"
-                  className="text-blue-500 hover:text-blue-600 transition-colors"
-                >
-                  Feathers
-                </Link>{" "}
-                — generative plumage.
-              </li>
-            </ul>
-          </div>
-
           <div className="pt-4 sm:pt-6 border-t border-gray-200 mt-4 sm:mt-6 space-y-3">
+            <p>
+              <Link
+                href="/work"
+                className="text-blue-500 hover:text-blue-600 transition-colors underline"
+              >
+                See my work &rarr;
+              </Link>
+            </p>
             <p>
               If you&rsquo;re interested in collaborations, commissions, or odd
               problems that need an odd solution, reach out:{" "}

@@ -16,7 +16,7 @@ export default function RelatedWorks({ projects }: Props) {
         {projects.map((project) => (
           <Link
             key={project.slug}
-            href={`/featured/${project.slug}`}
+            href={`/work/${project.slug}`}
             className="group"
           >
             {project.image && (

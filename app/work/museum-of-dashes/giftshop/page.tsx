@@ -548,7 +548,7 @@ export default function GiftShopPage() {
           </p>
 
           <Link
-            href="/featured/museum-of-dashes"
+            href="/work/museum-of-dashes"
             className="inline-block font-sans text-xs uppercase tracking-widest text-museum-900 hover:text-stone-600 transition-colors border-b border-museum-900 hover:border-stone-600 pb-0.5"
           >
             ← Return to Museum

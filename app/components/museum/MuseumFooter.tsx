@@ -19,7 +19,7 @@ export default function MuseumFooter() {
         {/* Gift Shop wayfinding */}
         <div className="mb-10 mt-4">
           <Link
-            href="/featured/museum-of-dashes/giftshop"
+            href="/work/museum-of-dashes/giftshop"
             className="inline-block border-2 border-museum-900 bg-white px-6 py-4 hover:bg-museum-100 transition-colors group"
           >
             <span className="block font-sans text-[10px] uppercase tracking-[0.2em] text-stone-500 mb-1">

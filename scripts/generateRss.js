@@ -32,9 +32,6 @@ async function buildFeed() {
     // Skip if no date
     if (!data.date) continue
 
-    // Skip if no cluster
-    if (!data.cluster) continue
-
     // Handle image URL - support both relative and absolute URLs
     let imageUrl = null
     if (data.image) {
@@ -49,8 +46,8 @@ async function buildFeed() {
 
     feed.addItem({
       title: data.title,
-      id: `${siteUrl}/${data.cluster}/${slug}`,
-      link: `${siteUrl}/${data.cluster}/${slug}`,
+      id: `${siteUrl}/work/${slug}`,
+      link: `${siteUrl}/work/${slug}`,
       description: data.summary || '',
       content: imageUrl ? 
         `<p><img src="${imageUrl}" alt="${data.title}" /></p><p>${data.summary || ''}</p>` :

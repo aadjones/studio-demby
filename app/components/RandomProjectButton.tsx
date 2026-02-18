@@ -16,7 +16,7 @@ export default function RandomProjectButton({ slugs }: RandomProjectButtonProps)
     if (slugs.length === 0) return;
     const randomSlug = slugs[Math.floor(Math.random() * slugs.length)];
     if (randomSlug) {
-      router.push(`/featured/${randomSlug}`);
+      router.push(`/work/${randomSlug}`);
     }
     setLoading(false);
   }, [router, slugs]);

@@ -16,39 +16,30 @@ module.exports = {
   },
   async redirects() {
     return [
-      // Redirect old cluster routes to featured
-      {
-        source: '/resonant/:slug',
-        destination: '/featured/:slug',
-        permanent: true,
-      },
-      {
-        source: '/errant/:slug',
-        destination: '/featured/:slug',
-        permanent: true,
-      },
-      {
-        source: '/fractured/:slug',
-        destination: '/featured/:slug',
-        permanent: true,
-      },
-      {
-        source: '/enclosed/:slug',
-        destination: '/featured/:slug',
-        permanent: true,
-      },
-      // Redirect /projects/* to /featured/*
-      {
-        source: '/projects/:slug*',
-        destination: '/featured/:slug*',
-        permanent: true,
-      },
-      // Redirect old contrapose routes to new location
-      {
-        source: '/contrapose/:path*',
-        destination: '/featured/contrapose/:path*',
-        permanent: true,
-      },
+      // Old listing pages → /work
+      { source: '/featured', destination: '/work', permanent: true },
+      { source: '/activity', destination: '/work', permanent: true },
+      { source: '/everything', destination: '/work', permanent: true },
+      { source: '/recent', destination: '/work', permanent: true },
+      { source: '/sound-vision', destination: '/work', permanent: true },
+      { source: '/systems-tools', destination: '/work', permanent: true },
+      { source: '/provocations', destination: '/work', permanent: true },
+      { source: '/practice-pedagogy', destination: '/work', permanent: true },
+
+      // Old slug routes → /work/:slug
+      { source: '/featured/:slug', destination: '/work/:slug', permanent: true },
+      { source: '/activity/:slug', destination: '/work/:slug', permanent: true },
+
+      // Old cluster routes → /work/:slug
+      { source: '/resonant/:slug', destination: '/work/:slug', permanent: true },
+      { source: '/errant/:slug', destination: '/work/:slug', permanent: true },
+      { source: '/fractured/:slug', destination: '/work/:slug', permanent: true },
+      { source: '/enclosed/:slug', destination: '/work/:slug', permanent: true },
+      { source: '/projects/:slug*', destination: '/work/:slug*', permanent: true },
+
+      // Contrapose special routes
+      { source: '/featured/contrapose/:path*', destination: '/work/contrapose/:path*', permanent: true },
+      { source: '/contrapose/:path*', destination: '/work/contrapose/:path*', permanent: true },
     ];
   },
 };

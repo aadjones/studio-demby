@@ -114,7 +114,7 @@ export default function ViolationNotice({ level }: ViolationNoticeProps) {
           </p>
           <div className="mt-6 flex justify-center">
             <Link
-              href="/featured/museum-of-dashes/giftshop"
+              href="/work/museum-of-dashes/giftshop"
               className="inline-block px-6 py-3 bg-red-900 text-red-50 font-serif text-sm uppercase tracking-wide hover:bg-red-800 transition-colors border-2 border-red-950"
             >
               Exit Through Gift Shop →
