@@ -35,6 +35,7 @@ export const ProjectSchema = z.object({
   overrideHero: z.boolean().optional(),
   fieldNumber: z.string().optional(),
   phaseState: z.enum(["awakening", "expansion", "collapse"]).optional(),
+  relatedSlugs: z.array(z.string()).optional(),
 });
 
 // 2. Type inferred from the Zod schema (used across app)

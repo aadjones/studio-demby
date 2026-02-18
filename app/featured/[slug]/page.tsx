@@ -109,13 +109,20 @@ export default async function ProjectPage({ params }: Props) {
   const primaryCategory = project.frontMatter.categories?.[0];
   const categoryMeta = categories.find((c) => c.slug === primaryCategory);
 
-  // Get related projects (same category, excluding current project)
-  const relatedProjects = allProjects
-    .filter((p) =>
-      p.slug !== slug &&
-      p.categories?.some(cat => project.frontMatter.categories?.includes(cat))
-    )
-    .slice(0, 4);
+  // Get related projects: pinned slugs first, then same-category fill
+  const pinnedSlugs = project.frontMatter.relatedSlugs ?? [];
+  const pinned = pinnedSlugs
+    .map((s) => allProjects.find((p) => p.slug === s))
+    .filter(Boolean) as MDXProject[];
+  const relatedProjects = [
+    ...pinned,
+    ...allProjects.filter(
+      (p) =>
+        p.slug !== slug &&
+        !pinnedSlugs.includes(p.slug) &&
+        p.categories?.some((cat) => project.frontMatter.categories?.includes(cat))
+    ),
+  ].slice(0, 4);
 
   return (
     <>
