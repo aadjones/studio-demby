@@ -22,33 +22,25 @@ overrideHero: true
 
 <div className="mb-12 flex justify-center">
   <div className="w-full max-w-2xl">
-    <img
-      src="/photos/frogmath/menu.jpg"
-      alt="FrogMath menu showing four game modes"
-      className="w-full rounded-lg shadow-lg"
-    />
+    <a href="https://aadjones.github.io/frog-math/" target="_blank" rel="noopener noreferrer">
+      <img
+        src="/photos/frogmath/menu.jpg"
+        alt="FrogMath menu showing four game modes"
+        className="w-full rounded-lg shadow-lg"
+      />
+    </a>
   </div>
 </div>
 
 <div className="text-center mb-8">
-  <div className="flex gap-4 justify-center flex-wrap">
-    <a
-      href="https://aadjones.github.io/frog-math/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-block px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition duration-200"
-    >
-      Try FrogMath →
-    </a>
-    <a
-      href="https://github.com/aadjones/frog-math"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-block px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition duration-200"
-    >
-      View on GitHub
-    </a>
-  </div>
+  <a
+    href="https://aadjones.github.io/frog-math/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="inline-block px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition duration-200"
+  >
+    Try FrogMath →
+  </a>
 </div>
 
 <div className="prose prose-lg max-w-none">
@@ -173,12 +165,6 @@ We see that froggish is a genuine conceptual scaffold that transfers to formal m
 **Some concepts don't map naturally.** Prime factorization (and multiplication in general) can be less intuitive to represent with hoppers.
 
 **The metaphor can create scaffolding debt.** At some point, students need to work abstractly with symbols. However, we believe building the intuition first is a richer path.
-
-## Technical Implementation
-
-Built with vanilla JavaScript and SVG manipulation for responsive, accessible interaction. The entire app runs client-side with no backend—perfect for classroom use with unreliable internet.
-
-The hopping animations use CSS transforms for smooth, 60fps movement across different devices. Touch and mouse events are handled uniformly so the experience works identically on tablets and desktops.
 
 ## Try It Yourself
 
