@@ -17,7 +17,7 @@ const CURATED_WORKS = [
   {
     slug: "museum-of-dashes",
     title: "The Museum of Dashes",
-    tag: "satirical essay",
+    tag: "essay",
     image: "/photos/museum-of-dashes/hero.svg",
   },
   {
