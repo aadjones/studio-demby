@@ -45,24 +45,6 @@ export default function BloodFeathersHeroClient() {
             musician &middot; visual artist &middot; creative coder
           </p>
         </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 animate-bounce">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="text-ink-500"
-          >
-            <path d="M7 13l5 5 5-5" />
-            <path d="M7 7l5 5 5-5" />
-          </svg>
-        </div>
       </div>
     </section>
   );
