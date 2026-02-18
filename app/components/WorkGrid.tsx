@@ -66,12 +66,12 @@ export default function WorkGrid({ items }: { items: UnifiedWorkItem[] }) {
   return (
     <div>
       {/* Filter tabs */}
-      <div className="flex flex-wrap gap-2 mb-8">
+      <div className="flex gap-2 mb-8 overflow-x-auto pb-1 scrollbar-hide" style={{ scrollbarWidth: "none" }}>
         {FILTER_TABS.map((tab) => (
           <button
             key={tab.label}
             onClick={() => setActiveFilter(tab.filter)}
-            className={`px-3 py-1.5 text-sm rounded-full transition-colors ${
+            className={`flex-shrink-0 px-3 py-1.5 text-sm rounded-full transition-colors ${
               activeFilter === tab.filter
                 ? "bg-ink-900 text-white"
                 : "bg-neutral-100 text-ink-500 hover:bg-neutral-200 hover:text-ink-700"
