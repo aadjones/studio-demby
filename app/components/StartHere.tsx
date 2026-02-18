@@ -31,6 +31,9 @@ const CURATED_WORKS = [
 export default function StartHere() {
   return (
     <section className="py-12 sm:py-16">
+      <h2 className="font-display text-lg sm:text-xl font-semibold text-ink-900 mb-6">
+        Start Here
+      </h2>
       <div className="grid grid-cols-2 gap-4 sm:gap-6">
         {CURATED_WORKS.map((work) => (
           <Link
