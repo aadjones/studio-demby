@@ -32,8 +32,10 @@ export default function FeathersPlaygroundClient() {
   useEffect(() => {
     const updateSize = () => {
       if (ref.current) {
-        const width = ref.current.clientWidth;
-        setContainerSize(Math.min(width, 512));
+        const newSize = Math.min(ref.current.clientWidth, 512);
+        // Guard against tiny fluctuations (e.g. iOS browser chrome show/hide)
+        // that would remount the whole sketch unnecessarily.
+        setContainerSize(prev => Math.abs(newSize - prev) > 5 ? newSize : prev);
       }
     };
     updateSize();
@@ -42,7 +44,6 @@ export default function FeathersPlaygroundClient() {
   }, []);
 
   useEffect(() => {
-    console.log('Initializing sketch with containerSize:', containerSize);
     sketchRef.current = (p, parent) => feathersSketch(p, parent, canvasRef, containerSize);
     setTriggerRender((prev) => prev + 1);
   }, [containerSize]);
@@ -61,8 +62,7 @@ export default function FeathersPlaygroundClient() {
             <P5Container
               key={triggerRender}
               sketch={(p: P5, parent: HTMLElement) => {
-                console.log('P5Container sketch called');
-                canvasRef.current = p;
+                        canvasRef.current = p;
                 if (sketchRef.current) {
                   sketchRef.current(p, parent);
                 }
@@ -121,6 +121,9 @@ function feathersSketch(p: P5, parent: HTMLElement, canvasRef: React.MutableRefO
     p.background(255);
     p.image(buffer, 0, 0);
   };
+
+  // Allow native touch scroll — p5 blocks it by default.
+  p.touchMoved = () => true;
 }
 
 function drawStreakSet(p: P5 | P5.Graphics, numStreaks: number, startYRange: number, endYRange: number, startXRange: number[], horizontalLengthRange: number[], lengthAdjustmentRange: number[], controlXOffset: number, controlYOffset: number) {

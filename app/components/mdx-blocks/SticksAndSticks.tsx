@@ -5,7 +5,10 @@ import React, { useRef, useState, useEffect } from "react";
 export default function SticksAndSticks() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isNativeFS, setIsNativeFS] = useState(false);
+  const [isManualFS, setIsManualFS] = useState(false);
+
+  const isFullscreen = isNativeFS || isManualFS;
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -25,7 +28,7 @@ export default function SticksAndSticks() {
   useEffect(() => {
     const handleChange = () => {
       const doc = document as any;
-      setIsFullscreen(!!(doc.fullscreenElement || doc.webkitFullscreenElement));
+      setIsNativeFS(!!(doc.fullscreenElement || doc.webkitFullscreenElement));
     };
     document.addEventListener("fullscreenchange", handleChange);
     document.addEventListener("webkitfullscreenchange", handleChange);
@@ -39,17 +42,33 @@ export default function SticksAndSticks() {
     if (!containerRef.current) return;
     const doc = document as any;
     const el = containerRef.current as any;
-    if (!doc.fullscreenElement && !doc.webkitFullscreenElement) {
-      try {
-        if (el.requestFullscreen) await el.requestFullscreen();
-        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-      } catch {}
-    } else {
+
+    // Exit manual fullscreen
+    if (isManualFS) {
+      setIsManualFS(false);
+      return;
+    }
+
+    // Exit native fullscreen
+    if (isNativeFS) {
       try {
         if (doc.exitFullscreen) await doc.exitFullscreen();
         else if (doc.webkitExitFullscreen) doc.webkitExitFullscreen();
       } catch {}
+      return;
     }
+
+    // Try native fullscreen first
+    if (el.requestFullscreen || el.webkitRequestFullscreen) {
+      try {
+        if (el.requestFullscreen) await el.requestFullscreen();
+        else el.webkitRequestFullscreen();
+        return;
+      } catch {}
+    }
+
+    // iOS Safari fallback: CSS pseudo-fullscreen
+    setIsManualFS(true);
   };
 
   useEffect(() => {
@@ -75,6 +94,7 @@ export default function SticksAndSticks() {
       };
 
       let lines: StickLine[] = [];
+      let lastWidth = 0;
 
       function buildLines() {
         lines = [];
@@ -104,12 +124,18 @@ export default function SticksAndSticks() {
         p.frameRate(30);
         const canvas = p.createCanvas(parent.clientWidth, parent.clientHeight);
         canvas.parent(parent);
+        lastWidth = parent.clientWidth;
         buildLines();
       };
 
       p.windowResized = () => {
         p.resizeCanvas(parent.clientWidth, parent.clientHeight);
-        buildLines();
+        // Only rebuild lines on width change — height-only changes are browser
+        // chrome appearing/disappearing on scroll and don't need a full reset.
+        if (Math.abs(parent.clientWidth - lastWidth) > 5) {
+          lastWidth = parent.clientWidth;
+          buildLines();
+        }
       };
 
       p.draw = () => {
@@ -140,7 +166,11 @@ export default function SticksAndSticks() {
   return (
     <div
       ref={containerRef}
-      className="w-full aspect-[4/3] sm:aspect-square cursor-pointer relative overflow-hidden"
+      className={`cursor-pointer relative overflow-hidden ${
+        isManualFS
+          ? "fixed inset-0 z-50 w-screen h-screen"
+          : "w-full aspect-[4/3] sm:aspect-square"
+      }`}
       style={{ backgroundColor: "rgb(200,200,200)" }}
       onClick={toggleFullscreen}
     >
