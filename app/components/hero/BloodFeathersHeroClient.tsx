@@ -18,7 +18,7 @@ export default function BloodFeathersHeroClient() {
       className="relative overflow-hidden"
       style={{
         height: "100dvh",
-        backgroundColor: "#f5f0eb",
+        backgroundColor: "#f0f0f0",
         // Break out of PageLayout's max-w-[960px] container
         width: "100vw",
         marginLeft: "calc(-50vw + 50%)",
@@ -33,11 +33,11 @@ export default function BloodFeathersHeroClient() {
       )}
 
       {/* Gradient overlay for text readability */}
-      <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-b from-[#f5f0eb]/20 via-transparent to-[#f5f0eb]/50" />
+      <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-b from-white/20 via-transparent to-white/40" />
 
       {/* Hero content */}
       <div className="relative z-20 flex flex-col items-center justify-center h-full px-4 text-center">
-        <div className="px-6 py-4 rounded-2xl backdrop-blur-sm bg-[#f5f0eb]/50">
+        <div className="px-6 py-4 rounded-2xl backdrop-blur-sm bg-white/40">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold tracking-tight text-ink-900 mb-2">
             Studio Demby
           </h1>

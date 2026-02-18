@@ -25,14 +25,8 @@ html {
   min-width: 360px;
 }
 
-/* Atmospheric background gradient */
 body {
-  background: linear-gradient(135deg,
-    #FFF8F0 0%,   /* atmosphere-cream */
-    #F0FDFA 50%,  /* atmosphere-mint */
-    #F5F3FF 100%  /* atmosphere-lavender */
-  );
-  background-attachment: fixed;
+  background: #ffffff;
   min-height: 100vh;
 }
 
