@@ -51,11 +51,11 @@ function activityToWorkItem(a: MDXSketch): UnifiedWorkItem {
 function inferActivityCategories(a: MDXSketch): string[] {
   const tags = (a.tags ?? []).map((t) => t.toLowerCase());
 
-  if (tags.some((t) => ["satire", "absurd", "linguistics", "reference", "math", "theory", "paper"].includes(t))) {
-    return ["provocations"];
-  }
   if (tags.some((t) => ["game", "tool"].includes(t))) {
     return ["systems-tools"];
+  }
+  if (tags.some((t) => ["satire", "absurd", "linguistics", "reference", "math", "theory", "paper"].includes(t))) {
+    return ["provocations"];
   }
   // Default: provocations (most activity items are writing/experiments)
   return ["provocations"];
