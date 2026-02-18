@@ -73,7 +73,7 @@ export default function AboutPage() {
             <p>
               <Link
                 href="/work"
-                className="text-blue-500 hover:text-blue-600 transition-colors underline"
+                className="text-ink-700 hover:text-ink-900 transition-colors underline"
               >
                 See my work &rarr;
               </Link>
@@ -83,19 +83,19 @@ export default function AboutPage() {
               problems that need an odd solution, reach out:{" "}
               <a
                 href="mailto:aaron.demby.jones@gmail.com"
-                className="text-blue-500 hover:text-blue-600 transition-colors underline"
+                className="text-ink-700 hover:text-ink-900 transition-colors underline"
               >
                 aaron.demby.jones@gmail.com
               </a>
             </p>
             <p>
               I also teach music lessons focusing on creativity and
-              exploration—learn more{" "}
+              exploration—{" "}
               <Link
                 href="/teaching"
-                className="text-blue-500 hover:text-blue-600 transition-colors underline"
+                className="text-ink-700 hover:text-ink-900 transition-colors underline"
               >
-                here
+                learn about my lessons
               </Link>
               .
             </p>

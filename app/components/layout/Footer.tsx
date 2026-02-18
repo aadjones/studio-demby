@@ -49,16 +49,16 @@ function SocialLinks() {
 export default function Footer() {
   return (
     <footer className="block lg:mt-24 mt-16 text-[#1C1C1C] w-full px-4">
-      <div className="flex flex-col items-center gap-8 mb-8 w-full max-w-xl mx-auto">
+      <div className="flex flex-col items-center gap-6 mb-8 w-full max-w-xl mx-auto">
+        <SocialLinks />
         <div className="text-center w-full">
-          <p className="mb-4 text-base sm:text-lg">
-            🔔 Get a ping when a new project drops:
+          <p className="mb-3 text-sm text-[#737373]">
+            New work by email:
           </p>
           <div className="w-full flex flex-col sm:flex-row gap-2 items-center justify-center">
             <SubscribeForm />
           </div>
         </div>
-        <SocialLinks />
       </div>
       <div className="text-center text-sm sm:text-base mt-6">
         <time>© {YEAR}</time>{" "}
