@@ -42,3 +42,6 @@ public/feed.xml
 
 # audit screenshots
 /audit-screenshots
+
+# playwright screenshots
+/.playwright-mcp
