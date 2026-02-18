@@ -323,6 +323,7 @@ export default function bloodFeathersSketch(p: P5, parent: HTMLElement): void {
   p.windowResized = () => {
     const w = parent.clientWidth;
     const h = parent.clientHeight;
+    if (w === 0 || h === 0) return;
     p.resizeCanvas(w, h);
     createBuffers();
     if (showcaseTimer) clearTimeout(showcaseTimer);
