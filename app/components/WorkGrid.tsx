@@ -73,8 +73,8 @@ export default function WorkGrid({ items }: { items: UnifiedWorkItem[] }) {
             onClick={() => setActiveFilter(tab.filter)}
             className={`px-3 py-1.5 text-sm rounded-full transition-colors ${
               activeFilter === tab.filter
-                ? "bg-gray-900 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                ? "bg-ink-900 text-white"
+                : "bg-neutral-100 text-ink-500 hover:bg-neutral-200 hover:text-ink-700"
             }`}
           >
             {tab.label}
