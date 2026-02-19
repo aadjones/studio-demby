@@ -63,19 +63,19 @@ export default function FeathersPlaygroundClient() {
     <section id="feathers-playground" className="mb-12 not-prose">
       <h2 className="text-2xl font-semibold mb-4">Molting Grounds</h2>
       <div ref={ref} className="flex flex-col sm:flex-row sm:items-start sm:justify-center gap-8">
-        {visible && sketchRef.current && (
-          <div className="w-full sm:w-[512px] aspect-square rounded-lg shadow-md overflow-hidden bg-white">
+        <div className="w-full sm:w-[512px] aspect-square rounded-lg shadow-md overflow-hidden bg-white">
+          {visible && sketchRef.current && (
             <P5Container
               key={triggerRender}
               sketch={(p: P5, parent: HTMLElement) => {
-                        canvasRef.current = p;
+                canvasRef.current = p;
                 if (sketchRef.current) {
                   sketchRef.current(p, parent);
                 }
               }}
             />
-          </div>
-        )}
+          )}
+        </div>
         <div className="flex flex-col gap-4">
           <button
             onClick={handleGenerate}
