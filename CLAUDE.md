@@ -74,6 +74,10 @@ The project uses `react/no-unescaped-entities` rule. Always escape quotes and ap
 
 Custom MDX blocks are in `app/components/mdx-blocks/` for embedding media, p5 sketches, and interactive elements in project pages.
 
+### Slider Touch Targets (Mobile)
+
+Range sliders (`<input type="range">`) have small default touch targets. A global rule in `app/global.css` sets `height: 2.75rem` (44px) on `@media (pointer: coarse)` to fix this for all sliders site-wide. Do not override this height in individual components. Use `pointer: coarse` (not a breakpoint) so it applies to any touch device regardless of screen width.
+
 ### Creative Copy
 
 **Never write creative copy for project pages unless explicitly asked.** This includes: summaries, whisper lines, field notes, project overview prose, metadata flavor text, or any narrative/descriptive writing. Leave those fields blank or with clear placeholders, and let the user fill them in.

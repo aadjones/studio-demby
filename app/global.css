@@ -146,6 +146,17 @@ input[type="email"] {
   appearance: none;
 }
 
+/* Larger touch targets for range sliders on touch devices.
+   Sets height to 44px (Apple/Google minimum) so the entire strip is tappable,
+   not just the tiny thumb. Uses pointer: coarse to target actual touch screens
+   rather than a breakpoint (works on all sizes of touch device). */
+@media (pointer: coarse) {
+  input[type="range"] {
+    height: 2.75rem;
+    padding: 0;
+  }
+}
+
 .prose .tweet a {
   text-decoration: inherit;
   font-weight: 500;
