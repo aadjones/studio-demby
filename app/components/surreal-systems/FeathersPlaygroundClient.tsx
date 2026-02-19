@@ -30,17 +30,23 @@ export default function FeathersPlaygroundClient() {
   }, []);
 
   useEffect(() => {
+    let resizeTimer: ReturnType<typeof setTimeout>;
     const updateSize = () => {
       if (ref.current) {
         const newSize = Math.min(ref.current.clientWidth, 512);
-        // Guard against tiny fluctuations (e.g. iOS browser chrome show/hide)
-        // that would remount the whole sketch unnecessarily.
         setContainerSize(prev => Math.abs(newSize - prev) > 5 ? newSize : prev);
       }
     };
+    const onResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(updateSize, 300);
+    };
     updateSize();
-    window.addEventListener('resize', updateSize);
-    return () => window.removeEventListener('resize', updateSize);
+    window.addEventListener('resize', onResize);
+    return () => {
+      clearTimeout(resizeTimer);
+      window.removeEventListener('resize', onResize);
+    };
   }, []);
 
   useEffect(() => {

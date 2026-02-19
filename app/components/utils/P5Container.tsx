@@ -77,11 +77,16 @@ export default function P5Container({
       return wrappedSketch(p);
     }, ref.current);
 
-    // Add resize observer
+    // Add resize observer — debounced to avoid rapid fires during iOS scroll
+    // (address bar animation fires ResizeObserver continuously while scrolling).
+    let resizeTimer: ReturnType<typeof setTimeout>;
     const resizeObserver = new ResizeObserver(() => {
-      if (instance.windowResized) {
-        instance.windowResized();
-      }
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (instance.windowResized) {
+          instance.windowResized();
+        }
+      }, 300);
     });
     resizeObserver.observe(ref.current);
 
