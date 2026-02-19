@@ -42,6 +42,8 @@ export default function GrainRain() {
   const needsRebuildRef = useRef(false);
   // Signal to the draw loop to snapshot + full rebuild + cross-dissolve
   const shuffleRef = useRef(false);
+  // Ref to the live p5 instance so the button can call loop() directly
+  const p5Ref = useRef<any>(null);
 
   // State drives the slider UI
   const [density, setDensity] = useState(1000);
@@ -203,6 +205,8 @@ export default function GrainRain() {
       p.touchMoved = () => true;
     });
 
+    p5Ref.current = p5Instance;
+
     const resizeObs = new ResizeObserver(() => {
       p5Instance?.windowResized?.();
     });
@@ -211,6 +215,7 @@ export default function GrainRain() {
     return () => {
       resizeObs.disconnect();
       p5Instance?.remove();
+      p5Ref.current = null;
     };
   }, [visible]);
 
@@ -243,7 +248,7 @@ export default function GrainRain() {
               &nbsp;
             </span>
             <button
-              onClick={() => { shuffleRef.current = true; }}
+              onClick={() => { shuffleRef.current = true; p5Ref.current?.loop(); }}
               className="w-full py-1.5 text-xs font-mono uppercase tracking-widest text-neutral-500 dark:text-neutral-400 border border-neutral-300 dark:border-neutral-600 hover:text-neutral-800 dark:hover:text-neutral-200 hover:border-neutral-500 dark:hover:border-neutral-400 transition-colors cursor-pointer"
             >
               shuffle
