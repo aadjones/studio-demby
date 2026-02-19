@@ -50,6 +50,7 @@ import VideoEmbed from "../mdx-blocks/VideoEmbed";
 import MuseumExhibit from "../mdx-blocks/MuseumExhibit";
 import SticksAndSticks from "../mdx-blocks/SticksAndSticks";
 import PetrolNoise from "../mdx-blocks/PetrolNoise";
+import GrainRain from "../mdx-blocks/GrainRain";
 
 type ComponentType = React.ComponentType<any> | string;
 
@@ -109,6 +110,7 @@ const baseComponents = {
   MuseumExhibit,
   SticksAndSticks,
   PetrolNoise,
+  GrainRain,
 };
 
 export default function ClientMDX({
