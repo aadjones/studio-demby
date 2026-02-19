@@ -40,6 +40,7 @@ export default function AboutPage() {
           alt="Aaron Demby Jones"
           width={140}
           height={140}
+          priority
           className="rounded-full mb-4 sm:mb-8 w-[140px] sm:w-[200px] h-[140px] sm:h-[200px]"
         />
         <div className="space-y-3 sm:space-y-4 text-sm sm:text-lg">
