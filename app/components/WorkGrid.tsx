@@ -6,11 +6,11 @@ import Image from "next/image";
 import type { UnifiedWorkItem } from "@/lib/content/unified-loader";
 
 const FILTER_TABS = [
-  { label: "All", filter: null },
   { label: "Music", filter: "music" },
   { label: "Visual Art", filter: "visual-art" },
   { label: "Tools", filter: "tools" },
   { label: "Teaching", filter: "teaching" },
+  { label: "All", filter: "all" },
 ] as const;
 
 const SHORT_MONTHS = [
@@ -61,21 +61,17 @@ function WorkCard({ item }: { item: UnifiedWorkItem }) {
 export default function WorkGrid({ items }: { items: UnifiedWorkItem[] }) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const activeFilter = searchParams.get("category");
+  const activeFilter = searchParams.get("category") ?? "music";
 
-  function setFilter(value: string | null) {
+  function setFilter(value: string) {
     const params = new URLSearchParams(searchParams.toString());
-    if (value) {
-      params.set("category", value);
-    } else {
-      params.delete("category");
-    }
+    params.set("category", value);
     router.replace(`/work?${params.toString()}`, { scroll: false });
   }
 
-  const filtered = activeFilter
-    ? items.filter((item) => item.categories.includes(activeFilter))
-    : items;
+  const filtered = activeFilter === "all"
+    ? items
+    : items.filter((item) => item.categories.includes(activeFilter));
 
   return (
     <div>
@@ -85,7 +81,7 @@ export default function WorkGrid({ items }: { items: UnifiedWorkItem[] }) {
           <button
             key={tab.label}
             onClick={() => setFilter(tab.filter)}
-            className={`px-2 py-1 text-xs rounded-full transition-colors ${
+            className={`px-2 py-1 text-xs sm:px-3 sm:py-1.5 sm:text-sm rounded-full transition-colors ${
               activeFilter === tab.filter
                 ? "bg-ink-900 text-white"
                 : "bg-neutral-100 text-ink-500 hover:bg-neutral-200 hover:text-ink-700"

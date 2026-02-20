@@ -21,7 +21,7 @@ export default async function WorkPage() {
         Work
       </h1>
       <p className="text-base sm:text-lg font-body italic text-zinc-500 mb-8">
-        Everything I&apos;ve made, newest first
+        Browse by category
       </p>
 
       <Suspense>
