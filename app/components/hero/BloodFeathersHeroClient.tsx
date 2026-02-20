@@ -17,7 +17,7 @@ export default function BloodFeathersHeroClient() {
       ref={heroRef}
       className="relative overflow-hidden"
       style={{
-        height: "100dvh",
+        height: "70dvh",
         backgroundColor: "#f0f0f0",
         // Break out of PageLayout's max-w-[960px] container
         width: "100vw",
