@@ -55,7 +55,8 @@ export default function AboutPage() {
             to my methods. Whenever possible, I crawl inside a system, tweak a
             few rules, and see what emerges. Sometimes it&rsquo;s musical,
             sometimes visual, sometimes mathematical or satirical. Really, it is
-            all a form of improvisation.
+            all a form of improvisation. The method is usually the same: hold
+            most things steady, change one, and pay attention to what happens.
           </p>
           <p>
             I build generative instruments, strange little apps, audiovisual

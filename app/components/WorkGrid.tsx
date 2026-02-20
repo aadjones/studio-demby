@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import type { UnifiedWorkItem } from "@/lib/content/unified-loader";
@@ -59,7 +59,19 @@ function WorkCard({ item }: { item: UnifiedWorkItem }) {
 }
 
 export default function WorkGrid({ items }: { items: UnifiedWorkItem[] }) {
-  const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const activeFilter = searchParams.get("category");
+
+  function setFilter(value: string | null) {
+    const params = new URLSearchParams(searchParams.toString());
+    if (value) {
+      params.set("category", value);
+    } else {
+      params.delete("category");
+    }
+    router.replace(`/work?${params.toString()}`, { scroll: false });
+  }
 
   const filtered = activeFilter
     ? items.filter((item) => item.categories.includes(activeFilter))
@@ -72,7 +84,7 @@ export default function WorkGrid({ items }: { items: UnifiedWorkItem[] }) {
         {FILTER_TABS.map((tab) => (
           <button
             key={tab.label}
-            onClick={() => setActiveFilter(tab.filter)}
+            onClick={() => setFilter(tab.filter)}
             className={`px-2 py-1 text-xs rounded-full transition-colors ${
               activeFilter === tab.filter
                 ? "bg-ink-900 text-white"

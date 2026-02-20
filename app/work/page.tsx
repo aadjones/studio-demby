@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Metadata } from "next";
 import { getAllWork } from "@/lib/content/unified-loader";
 import { getAllProjects } from "@/lib/content/projects-loader";
@@ -23,7 +24,9 @@ export default async function WorkPage() {
         Everything I&apos;ve made, newest first
       </p>
 
-      <WorkGrid items={items} />
+      <Suspense>
+        <WorkGrid items={items} />
+      </Suspense>
 
       <div className="mt-12 mb-4">
         <RandomProjectButton slugs={projectSlugs} />

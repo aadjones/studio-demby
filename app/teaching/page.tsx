@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function TeachingPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-12">
@@ -162,6 +164,8 @@ export default function TeachingPage() {
               jazz rap. With a background in teaching (and too many
               instruments), I&apos;ve spent years refining a creative approach
               to piano and music in general that I&apos;m excited to share.
+              You can hear examples of my improvisation in{" "}
+              <Link href="/work?category=music" className="text-blue-600 hover:underline">my work</Link>.
             </p>
           </div>
         </div>

@@ -17,13 +17,13 @@ const CURATED_WORKS = [
   {
     slug: "museum-of-dashes",
     title: "The Museum of Dashes",
-    tag: "essay",
+    tag: "visual essay",
     image: "/photos/museum-of-dashes/hero.svg",
   },
   {
     slug: "frogmath",
     title: "FrogMath",
-    tag: "math app",
+    tag: "interactive education",
     image: "/photos/frogmath/menu.jpg",
   },
 ];

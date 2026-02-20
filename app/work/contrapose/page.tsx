@@ -44,7 +44,7 @@ export default async function ContraposeMarketingPage() {
         {/* Breadcrumb */}
         <nav className="text-sm text-gray-600 mb-8">
           <Link
-            href="/work"
+            href="/work?category=teaching"
             className="hover:text-purple-600 transition-colors"
           >
             Teaching
