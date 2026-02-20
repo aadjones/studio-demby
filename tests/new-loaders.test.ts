@@ -2,7 +2,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import fs from 'fs';
 import * as path from 'path';
 import { getProjectsByCategory, getRecentProjects, getProjectBySlugOnly } from '@/lib/content/projects-loader';
-import type { MDXProject } from '@/types/mdx';
 
 vi.mock('fs', async () => {
   return {
@@ -25,24 +24,20 @@ vi.mock('path', async () => {
 });
 
 describe('getProjectsByCategory', () => {
-  const soundVisionProject = `---
-title: Sound Project
-slug: sound-project
-summary: A sound project
-type: audio
+  const visualArtProject = `---
+title: Visual Project
+slug: visual-project
+summary: A visual project
 categories: ['visual-art']
-isFeatured: false
-tags: ['music']
+tags: ['generative']
 ---
 # Content`;
 
-  const systemsToolsProject = `---
-title: App Project
-slug: app-project
-summary: An app project
-type: app
-categories: ['tools']
-isFeatured: false
+  const teachingProject = `---
+title: Teaching Project
+slug: teaching-project
+summary: A teaching project
+categories: ['teaching']
 tags: ['app']
 ---
 # Content`;
@@ -56,20 +51,20 @@ tags: ['app']
       readFileSync: ReturnType<typeof vi.fn>;
     };
 
-    mockedFs.readdirSync = vi.fn().mockReturnValue(['sound-project.mdx', 'app-project.mdx']);
+    mockedFs.readdirSync = vi.fn().mockReturnValue(['visual-project.mdx', 'teaching-project.mdx']);
     mockedFs.readFileSync = vi.fn()
-      .mockReturnValueOnce(soundVisionProject)
-      .mockReturnValueOnce(systemsToolsProject);
+      .mockReturnValueOnce(visualArtProject)
+      .mockReturnValueOnce(teachingProject);
   });
 
   it('returns only projects in the specified category', async () => {
     const projects = await getProjectsByCategory('visual-art');
     expect(projects).toHaveLength(1);
-    expect(projects[0].slug).toBe('sound-project');
+    expect(projects[0].slug).toBe('visual-project');
   });
 
   it('returns empty array for category with no projects', async () => {
-    const projects = await getProjectsByCategory('teaching');
+    const projects = await getProjectsByCategory('music');
     expect(projects).toHaveLength(0);
   });
 });
@@ -79,10 +74,8 @@ describe('getRecentProjects', () => {
 title: Old Project
 slug: old-project
 summary: An old project
-type: audio
 categories: ['visual-art']
 date: '2020-01-01'
-isFeatured: false
 tags: ['old']
 ---
 # Content`;
@@ -91,10 +84,8 @@ tags: ['old']
 title: New Project
 slug: new-project
 summary: A new project
-type: audio
 categories: ['visual-art']
 date: '2024-01-01'
-isFeatured: false
 tags: ['new']
 ---
 # Content`;
@@ -103,9 +94,7 @@ tags: ['new']
 title: No Date Project
 slug: no-date
 summary: No date
-type: audio
 categories: ['visual-art']
-isFeatured: false
 tags: ['none']
 ---
 # Content`;
@@ -128,7 +117,7 @@ tags: ['none']
 
   it('returns projects sorted by date, newest first', async () => {
     const projects = await getRecentProjects(10);
-    expect(projects).toHaveLength(2); // Only projects with dates
+    expect(projects).toHaveLength(2);
     expect(projects[0].slug).toBe('new-project');
     expect(projects[1].slug).toBe('old-project');
   });
@@ -151,9 +140,7 @@ describe('getProjectBySlugOnly', () => {
 title: Test Project
 slug: test-project
 summary: A test
-type: audio
 categories: ['visual-art']
-isFeatured: false
 tags: ['test']
 ---
 # Content`;
@@ -163,7 +150,7 @@ tags: ['test']
     vi.spyOn(process, 'cwd').mockReturnValue('/fake/root');
   });
 
-  it('returns project without cluster validation', async () => {
+  it('returns project data for a valid slug', async () => {
     const mockedFs = fs as unknown as {
       existsSync: ReturnType<typeof vi.fn>;
       readFileSync: ReturnType<typeof vi.fn>;

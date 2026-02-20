@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Portfolio site for Aaron Demby Jones (Studio Demby) - musician, artist, and creative coder. The site organizes creative work into functional categories: sound & vision, systems & tools, provocations, and practice & pedagogy.
+Portfolio site for Aaron Demby Jones (Studio Demby) - musician, artist, and creative coder. The site organizes creative work into three categories: music, visual art, and teaching.
 
 **Tech Stack:** Next.js 14 (App Router), React 18, TypeScript, p5.js, Tailwind CSS, deployed on Vercel
 
@@ -16,14 +16,14 @@ Portfolio site for Aaron Demby Jones (Studio Demby) - musician, artist, and crea
 # Development server
 pnpm dev
 
-# Build (also generates RSS feed)
+# Build (always clear cache first: rm -rf .next)
 pnpm build
 
 # Production server
 pnpm start
 
-# Run tests
-pnpm test
+# Run tests (--run exits after completion; without it vitest hangs in watch mode)
+pnpm test -- --run
 
 # Lint
 pnpm lint
@@ -34,17 +34,19 @@ pnpm lint
 ### Content Structure
 
 Projects live in `content/projects/` as MDX files with frontmatter defining:
-- `categories`: Array of categories (e.g., `["sound-vision"]`, `["systems-tools"]`)
+- `categories`: Array from `["visual-art", "music", "teaching"]`
 - `slug`: URL identifier
-- `date`: Publication date (required for RSS feed)
+- `date`: Publication date
 - `title`, `summary`, `image`, `tags`, etc.
+- See `types/mdx.ts` (`ProjectSchema`) for the full schema
 
 ### Routing
 
-Uses Next.js App Router with a route group pattern:
-- `app/(categories)/[category]/` - Category landing pages
-- `app/featured/[slug]/` - Individual project pages
-- URL structure: `studiodemby.com/featured/{slug}` or `studiodemby.com/{category}`
+Uses Next.js App Router:
+- `app/work/page.tsx` - Work listing page (filterable by category)
+- `app/work/[slug]/page.tsx` - Individual project/activity pages
+- `app/teaching/page.tsx` - Teaching landing page
+- URL structure: `studiodemby.com/work/{slug}` or `studiodemby.com/work?category=music`
 
 ### Project Management
 
@@ -52,9 +54,9 @@ When adding new projects, simply create a new MDX file in `content/projects/`. T
 
 ### Build Process
 
-The build process (`pnpm build`) runs:
-1. `next build` - Standard Next.js build
-2. `scripts/generateRss.js` - Generates RSS feed at `public/feed.xml` from project MDX files
+The build process (`pnpm build`) runs `next build`.
+
+**IMPORTANT: Always clear the `.next` cache before building.** Run `rm -rf .next && pnpm build`. Stale cache causes spurious `ENOENT` / `PageNotFoundError` failures that waste time.
 
 ### Styling
 

@@ -38,27 +38,9 @@ function activityToWorkItem(a: MDXSketch): UnifiedWorkItem {
     image: a.image,
     summary: a.description,
     tags: a.tags ?? [],
-    categories: inferActivityCategories(a),
+    categories: a.categories ?? [],
     contentType: "activity",
   };
-}
-
-/**
- * Infer categories for activity items based on their tags.
- * Activity MDX files don't have a `categories` field, so we map
- * from tags to the closest category for filter tab purposes.
- */
-function inferActivityCategories(a: MDXSketch): string[] {
-  const tags = (a.tags ?? []).map((t) => t.toLowerCase());
-
-  if (tags.some((t) => ["music", "audio", "performance", "improvisation"].includes(t))) {
-    return ["music"];
-  }
-  if (tags.some((t) => ["game", "tool", "math", "theory", "paper", "pedagogy"].includes(t))) {
-    return ["teaching"];
-  }
-  // Default: visual-art
-  return ["visual-art"];
 }
 
 export async function getAllWork(): Promise<UnifiedWorkItem[]> {

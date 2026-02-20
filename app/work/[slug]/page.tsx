@@ -105,7 +105,7 @@ function ProjectView({
   const previousProjectData =
     currentIndex >= 0 ? sortedProjects[(currentIndex - 1 + totalProjects) % totalProjects] : undefined;
 
-  const renderDefaultHero = !project.frontMatter.overrideHero;
+  const renderDefaultHero = !!project.frontMatter.useDefaultHero;
   const articleClasses = renderDefaultHero
     ? "mx-auto w-full max-w-3xl px-4 sm:px-6 md:px-8 text-base leading-relaxed space-y-6"
     : "w-full";

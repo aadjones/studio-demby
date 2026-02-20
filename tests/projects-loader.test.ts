@@ -2,9 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import fs from 'fs';
 import * as path from 'path';
 import { getAllProjects } from '@/lib/content/projects-loader';
-import type { MDXProject } from '@/types/mdx';
 
-// 🛠️ Manually stub functions we'll override
 vi.mock('fs', async () => {
   return {
     default: {
@@ -19,21 +17,17 @@ vi.mock('path', async () => {
   return {
     default: {
       ...actual,
-      join: (...args: string[]) => actual.join(...args), // fallback to real join behavior
+      join: (...args: string[]) => actual.join(...args),
     },
   };
 });
-
-const mockProjectsDirectory = 'content/projects';
 
 describe('getAllProjects', () => {
   const validFrontmatter = `---
 title: Test Project
 slug: test-project
 summary: A test project description
-type: interactive
 categories: ['visual-art']
-isFeatured: true
 tags: ['react', 'typescript']
 ---
 
@@ -46,8 +40,6 @@ slug: incomplete
 
   beforeEach(() => {
     vi.clearAllMocks();
-
-    // Override cwd to return our test path
     vi.spyOn(process, 'cwd').mockReturnValue('/fake/root');
 
     const mockedFs = fs as unknown as {
@@ -66,11 +58,9 @@ slug: incomplete
       title: 'Test Project',
       slug: 'test-project',
       summary: 'A test project description',
-      type: 'interactive',
       categories: ['visual-art'],
-      isFeatured: true,
       tags: ['react', 'typescript'],
-    } as MDXProject);
+    });
   });
 
   it('filters out projects with invalid frontmatter', async () => {
