@@ -80,7 +80,7 @@ export default function WorkGrid({ items }: { items: UnifiedWorkItem[] }) {
   return (
     <div>
       {/* Filter tabs */}
-      <div className="flex flex-wrap gap-1.5 mb-8">
+      <div className="sticky top-0 z-10 bg-white py-3 -mt-3 flex flex-wrap gap-1.5 mb-8">
         {FILTER_TABS.map((tab) => (
           <button
             key={tab.label}
