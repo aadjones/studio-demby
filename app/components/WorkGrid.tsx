@@ -4,6 +4,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import type { UnifiedWorkItem } from "@/lib/content/unified-loader";
+import RandomProjectButton from "@/app/components/RandomProjectButton";
 
 const FILTER_TABS = [
   { label: "Music", filter: "music" },
@@ -102,6 +103,10 @@ export default function WorkGrid({ items }: { items: UnifiedWorkItem[] }) {
       {filtered.length === 0 && (
         <p className="text-center text-gray-400 py-12">No work in this category yet.</p>
       )}
+
+      <div className="mt-12 mb-4">
+        <RandomProjectButton slugs={filtered.map((i) => i.slug)} />
+      </div>
     </div>
   );
 }

@@ -1,9 +1,7 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
 import { getAllWork } from "@/lib/content/unified-loader";
-import { getAllProjects } from "@/lib/content/projects-loader";
 import WorkGrid from "@/app/components/WorkGrid";
-import RandomProjectButton from "@/app/components/RandomProjectButton";
 
 export const metadata: Metadata = {
   title: "Work",
@@ -12,8 +10,6 @@ export const metadata: Metadata = {
 
 export default async function WorkPage() {
   const items = await getAllWork();
-  const allProjects = await getAllProjects();
-  const projectSlugs = allProjects.map((p) => p.slug);
 
   return (
     <main className="px-4 py-6 sm:py-8 pb-0">
@@ -27,10 +23,6 @@ export default async function WorkPage() {
       <Suspense>
         <WorkGrid items={items} />
       </Suspense>
-
-      <div className="mt-12 mb-4">
-        <RandomProjectButton slugs={projectSlugs} />
-      </div>
     </main>
   );
 }
