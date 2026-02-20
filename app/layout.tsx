@@ -73,13 +73,7 @@ export default function RootLayout({
       className={`${outfit.variable} ${crimsonPro.variable} ${jetbrainsMono.variable}`}
     >
       <head>
-        <link
-          rel="alternate"
-          type="application/rss+xml"
-          href="/feed.xml"
-          title="RSS Feed"
-        />
-        <script src="/p5.min.js" defer />
+<script src="/p5.min.js" defer />
       </head>
       <body className="antialiased font-body">
         <PageLayout>{children}</PageLayout>

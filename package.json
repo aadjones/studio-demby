@@ -3,7 +3,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/generateRss.js",
+    "build": "next build",
     "start": "next start",
     "test": "vitest",
     "lint": "next lint"
@@ -16,7 +16,6 @@
     "clsx": "^2.1.1",
     "dat.gui": "^0.7.9",
     "embla-carousel-react": "^8.6.0",
-    "feed": "^4.2.2",
     "framer-motion": "^12.6.3",
     "gray-matter": "^4.0.3",
     "katex": "^0.16.21",
