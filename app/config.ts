@@ -3,7 +3,7 @@ export const metaData = {
   title: "Studio Demby",
   name: "Studio Demby",
   ogImage: "/opengraph-image.png",
-  description: "Musician, visual artist, creative coder.",
+  description: "Musician, visual artist, educator.",
 };
 
 export const socialLinks = {

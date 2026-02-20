@@ -42,7 +42,7 @@ export default function BloodFeathersHeroClient() {
             Studio Demby
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl font-body text-ink-700 tracking-wide">
-            musician &middot; visual artist &middot; creative coder
+            musician &middot; visual artist &middot; educator
           </p>
         </div>
       </div>
