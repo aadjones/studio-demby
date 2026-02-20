@@ -12,7 +12,7 @@ export default function PageLayout({
     <div className="flex flex-col min-h-screen items-center">
       <div className="w-full max-w-[960px] px-4 sm:px-6 md:px-8">
         <Navbar />
-        <main className="flex-auto min-w-0 mt-2 md:mt-6 flex flex-col">
+        <main className="flex-auto min-w-0 mt-0 md:mt-2 flex flex-col">
           {children}
         </main>
         <Footer />

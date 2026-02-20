@@ -13,7 +13,7 @@ export function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="py-5">
+    <nav className="pt-4 pb-2">
       <div className="flex items-center justify-center gap-6">
         {NAV_ITEMS.map(({ href, label }) => {
           const isActive =

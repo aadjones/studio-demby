@@ -30,7 +30,7 @@ const CURATED_WORKS = [
 
 export default function StartHere() {
   return (
-    <section className="py-12 sm:py-16">
+    <section className="pt-6 pb-12 sm:pt-8 sm:pb-16">
       <h2 className="font-display text-lg sm:text-xl font-semibold text-ink-900 mb-6">
         Featured Work
       </h2>
