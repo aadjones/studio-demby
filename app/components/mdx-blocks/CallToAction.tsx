@@ -22,9 +22,11 @@ const FLAVORS: Record<string, { line: string; label: string }> = {
 export default function CallToAction({
   flavor,
   email,
+  showLessons,
 }: {
   flavor?: string;
   email?: string;
+  showLessons?: boolean;
 }) {
   const mailto = email || EMAIL;
   const config = flavor ? FLAVORS[flavor] : null;
@@ -42,6 +44,18 @@ export default function CallToAction({
       >
         {config?.label || "Get in touch"} &rarr;
       </a>
+      {showLessons && (
+        <p className="mt-3 sm:mt-4 text-sm sm:text-base text-zinc-500">
+          Want to learn how to do this?{" "}
+          <a
+            href="/teaching"
+            className="text-zinc-700 underline hover:text-zinc-900 transition-colors"
+          >
+            I offer lessons
+          </a>
+          .
+        </p>
+      )}
     </section>
   );
 }
