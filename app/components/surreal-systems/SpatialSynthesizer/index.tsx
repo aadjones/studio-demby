@@ -21,7 +21,7 @@ type ConcertMode = (typeof modeList)[number]["key"];
 
 // Custom hook for media query
 function useAboveMdBreakpoint() {
-  const [isAbove, setIsAbove] = useState(() => typeof window !== 'undefined' ? window.innerWidth >= 768 : true);
+  const [isAbove, setIsAbove] = useState(true);
   useEffect(() => {
     const onResize = () => setIsAbove(window.innerWidth >= 768);
     window.addEventListener('resize', onResize);

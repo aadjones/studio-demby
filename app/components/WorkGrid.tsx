@@ -13,13 +13,15 @@ const FILTER_TABS = [
   { label: "Teaching", filter: "teaching" },
 ] as const;
 
+const SHORT_MONTHS = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+];
+
 function formatDate(dateString: string | null): string {
   if (!dateString) return "";
   const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    year: "numeric",
-  });
+  return `${SHORT_MONTHS[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 }
 
 function WorkCard({ item }: { item: UnifiedWorkItem }) {
