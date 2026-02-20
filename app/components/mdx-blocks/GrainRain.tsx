@@ -245,10 +245,10 @@ export default function GrainRain() {
               onChange={setSpeed}
             />
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-center">
             <button
               onClick={() => { shuffleRef.current = true; p5Ref.current?.loop(); }}
-              className="px-5 py-2 text-xs font-mono uppercase tracking-widest text-neutral-400 dark:text-neutral-500 border border-neutral-300 dark:border-neutral-600 hover:text-neutral-800 dark:hover:text-neutral-200 hover:border-neutral-600 dark:hover:border-neutral-400 active:bg-neutral-200 active:text-neutral-900 dark:active:bg-neutral-700 dark:active:text-neutral-100 active:border-neutral-600 dark:active:border-neutral-400 transition-colors cursor-pointer"
+              className="px-5 py-2 text-xs font-mono uppercase tracking-widest text-neutral-700 dark:text-neutral-300 border border-neutral-500 dark:border-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 active:bg-neutral-200 dark:active:bg-neutral-700 transition-colors cursor-pointer"
             >
               ↺ shuffle
             </button>
