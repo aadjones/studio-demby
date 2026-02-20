@@ -48,6 +48,7 @@ export default function GrainRain() {
   // State drives the slider UI
   const [density, setDensity] = useState(1000);
   const [speed, setSpeed] = useState(1.0);
+  const [shufflePressed, setShufflePressed] = useState(false);
 
   // Lazy-init: don't spin up sketch until the canvas is in view
   useEffect(() => {
@@ -247,8 +248,17 @@ export default function GrainRain() {
           </div>
           <div className="flex justify-center">
             <button
-              onClick={() => { shuffleRef.current = true; p5Ref.current?.loop(); }}
-              className="px-5 py-2 text-xs font-mono uppercase tracking-widest text-neutral-700 dark:text-neutral-300 border border-neutral-500 dark:border-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 active:bg-neutral-200 dark:active:bg-neutral-700 transition-colors cursor-pointer"
+              onClick={() => {
+                shuffleRef.current = true;
+                p5Ref.current?.loop();
+                setShufflePressed(true);
+                setTimeout(() => setShufflePressed(false), 300);
+              }}
+              className={`px-5 py-2 text-xs font-mono uppercase tracking-widest border transition-colors cursor-pointer ${
+                shufflePressed
+                  ? "bg-neutral-200 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 border-neutral-600 dark:border-neutral-300"
+                  : "text-neutral-700 dark:text-neutral-300 border-neutral-500 dark:border-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100"
+              }`}
             >
               ↺ shuffle
             </button>
