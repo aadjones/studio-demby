@@ -1,13 +1,46 @@
-export default function CallToAction({ email }: { email: string }) {
+const EMAIL = "aaron.demby.jones@gmail.com";
+
+const FLAVORS: Record<string, { line: string; label: string }> = {
+  music: {
+    line: "Looking for a performer, improviser, or collaborator?",
+    label: "Get in touch",
+  },
+  art: {
+    line: "Interested in a commission, print, or installation?",
+    label: "Get in touch",
+  },
+  tools: {
+    line: "Need a custom tool or interactive experience built?",
+    label: "Get in touch",
+  },
+  teaching: {
+    line: "Interested in lessons, workshops, or curriculum design?",
+    label: "Get in touch",
+  },
+};
+
+export default function CallToAction({
+  flavor,
+  email,
+}: {
+  flavor?: string;
+  email?: string;
+}) {
+  const mailto = email || EMAIL;
+  const config = flavor ? FLAVORS[flavor] : null;
+
   return (
-    <section className="my-12 sm:my-16 py-6 sm:py-8 border-t border-b text-center">
-      <p className="text-base sm:text-lg italic text-zinc-700 mb-3 sm:mb-4">
-      </p>
+    <section className="my-12 sm:my-16 py-6 sm:py-8 border-t border-b border-zinc-200 text-center">
+      {config && (
+        <p className="text-base sm:text-lg italic text-zinc-600 mb-3 sm:mb-4">
+          {config.line}
+        </p>
+      )}
       <a
-        href={`mailto:${email}`}
-        className="inline-block px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition duration-200"
+        href={`mailto:${mailto}`}
+        className="inline-block px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base border border-zinc-400 text-zinc-600 rounded hover:bg-zinc-800 hover:text-white hover:border-zinc-800 transition duration-200"
       >
-        Transmit a signal →
+        {config?.label || "Get in touch"} &rarr;
       </a>
     </section>
   );
