@@ -101,6 +101,73 @@ export default function AboutPage() {
               .
             </p>
           </div>
+
+          {/* CV / Credentials */}
+          <details className="mt-8 sm:mt-12 group">
+            <summary className="cursor-pointer text-sm sm:text-base font-medium text-zinc-500 hover:text-zinc-800 transition-colors select-none list-none flex items-center gap-2">
+              <span className="transition-transform group-open:rotate-90">&#9654;</span>
+              CV / Credentials
+            </summary>
+            <div className="mt-4 sm:mt-6 space-y-6 text-sm sm:text-base text-zinc-700">
+              <section>
+                <h3 className="font-semibold text-zinc-900 mb-2">Performance</h3>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>30+ years of piano study; trained in classical, jazz, and free improvisation.</li>
+                  <li>Selected repertoire: Bach (French Suite No. 1), Beethoven (Waldstein Sonata), Chopin (Scherzo No. 3, Ballade No. 4), Ravel (Le Tombeau de Couperin), Shostakovich (Prelude &amp; Fugue No. 24)</li>
+                  <li>Classical percussion training at Brown University; concerto soloist.</li>
+                  <li>Experience with prepared piano and live electronics.</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3 className="font-semibold text-zinc-900 mb-2">Selected Recordings</h3>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>2024 &ldquo;Ghostly Double&rdquo; &mdash; piano and live electronics improvisation</li>
+                  <li>2021 &ldquo;Flow&rdquo; &mdash; four-movement improvisational album on texture and timbre</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3 className="font-semibold text-zinc-900 mb-2">Teaching</h3>
+                <p className="font-medium mb-1">Workshop Leader &amp; Music Educator &mdash; San Diego (2025&ndash;present)</p>
+                <ul className="list-disc pl-5 space-y-1 mb-3">
+                  <li>Group workshops in piano improvisation, musical storytelling, and ear-based learning (Villa Musica, AmateurPianists).</li>
+                  <li>1:1 coaching in improvisation, listening skills, and creative approaches to the keyboard.</li>
+                </ul>
+                <p className="font-medium mb-1">Interdisciplinary Teaching &mdash; Math, Music, Creativity (2009&ndash;present)</p>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>Over a decade across math, music, and creative technology, including Johns Hopkins CTY summer programs.</li>
+                  <li>Children, teens, and adults in both structured coursework and exploratory creative settings.</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3 className="font-semibold text-zinc-900 mb-2">Selected Visual &amp; Generative Work</h3>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>2025 &ldquo;Shatter&rdquo; &mdash; interactive system exploring visual instability and emergent fracture patterns (p5.js)</li>
+                  <li>2024 &ldquo;Feathers&rdquo; &mdash; generative abstract plumage examining organic growth through procedural randomness (p5.js)</li>
+                  <li>2024 &ldquo;Encased Melting&rdquo; &mdash; generative planetary forms exploring liquidity and structure (p5.js)</li>
+                  <li>2017 &ldquo;Fluid Subspaces&rdquo; &mdash; audiovisual system mapping fluid eigenmodes to sound (C++)</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3 className="font-semibold text-zinc-900 mb-2">Publications</h3>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>2017 Bridges Conference &mdash; Paper + demo on mathematical visualization of fluid eigenvectors</li>
+                  <li>2016 SIGGRAPH/Eurographics SCA (Best Paper) &mdash; Compressing dynamic fluid subspaces</li>
+                </ul>
+              </section>
+
+              <section>
+                <h3 className="font-semibold text-zinc-900 mb-2">Education</h3>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>PhD Media Arts and Technology, UC Santa Barbara (2017)</li>
+                  <li>BA Music and Mathematics, Brown University (2009)</li>
+                </ul>
+              </section>
+            </div>
+          </details>
         </div>
       </div>
     </div>
