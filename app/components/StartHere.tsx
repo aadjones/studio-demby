@@ -5,7 +5,7 @@ const CURATED_WORKS = [
   {
     slug: "ghostly-double",
     title: "Ghostly Double",
-    tag: "music video",
+    tag: "music",
     image: "/photos/ghostly-double/ghostly-double.jpg",
   },
   {

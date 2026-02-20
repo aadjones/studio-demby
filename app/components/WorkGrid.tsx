@@ -7,10 +7,10 @@ import type { UnifiedWorkItem } from "@/lib/content/unified-loader";
 
 const FILTER_TABS = [
   { label: "All", filter: null },
-  { label: "Sound & Vision", filter: "sound-vision" },
-  { label: "Tools", filter: "systems-tools" },
-  { label: "Writing", filter: "provocations" },
-  { label: "Teaching", filter: "practice-pedagogy" },
+  { label: "Music", filter: "music" },
+  { label: "Visual Art", filter: "visual-art" },
+  { label: "Tools", filter: "tools" },
+  { label: "Teaching", filter: "teaching" },
 ] as const;
 
 function formatDate(dateString: string | null): string {

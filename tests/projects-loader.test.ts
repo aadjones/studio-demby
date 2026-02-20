@@ -32,7 +32,7 @@ title: Test Project
 slug: test-project
 summary: A test project description
 type: interactive
-categories: ['sound-vision']
+categories: ['visual-art']
 isFeatured: true
 tags: ['react', 'typescript']
 ---
@@ -67,7 +67,7 @@ slug: incomplete
       slug: 'test-project',
       summary: 'A test project description',
       type: 'interactive',
-      categories: ['sound-vision'],
+      categories: ['visual-art'],
       isFeatured: true,
       tags: ['react', 'typescript'],
     } as MDXProject);

@@ -30,7 +30,7 @@ title: Sound Project
 slug: sound-project
 summary: A sound project
 type: audio
-categories: ['sound-vision']
+categories: ['visual-art']
 isFeatured: false
 tags: ['music']
 ---
@@ -41,7 +41,7 @@ title: App Project
 slug: app-project
 summary: An app project
 type: app
-categories: ['systems-tools']
+categories: ['tools']
 isFeatured: false
 tags: ['app']
 ---
@@ -63,13 +63,13 @@ tags: ['app']
   });
 
   it('returns only projects in the specified category', async () => {
-    const projects = await getProjectsByCategory('sound-vision');
+    const projects = await getProjectsByCategory('visual-art');
     expect(projects).toHaveLength(1);
     expect(projects[0].slug).toBe('sound-project');
   });
 
   it('returns empty array for category with no projects', async () => {
-    const projects = await getProjectsByCategory('provocations');
+    const projects = await getProjectsByCategory('teaching');
     expect(projects).toHaveLength(0);
   });
 });
@@ -80,7 +80,7 @@ title: Old Project
 slug: old-project
 summary: An old project
 type: audio
-categories: ['sound-vision']
+categories: ['visual-art']
 date: '2020-01-01'
 isFeatured: false
 tags: ['old']
@@ -92,7 +92,7 @@ title: New Project
 slug: new-project
 summary: A new project
 type: audio
-categories: ['sound-vision']
+categories: ['visual-art']
 date: '2024-01-01'
 isFeatured: false
 tags: ['new']
@@ -104,7 +104,7 @@ title: No Date Project
 slug: no-date
 summary: No date
 type: audio
-categories: ['sound-vision']
+categories: ['visual-art']
 isFeatured: false
 tags: ['none']
 ---
@@ -152,7 +152,7 @@ title: Test Project
 slug: test-project
 summary: A test
 type: audio
-categories: ['sound-vision']
+categories: ['visual-art']
 isFeatured: false
 tags: ['test']
 ---

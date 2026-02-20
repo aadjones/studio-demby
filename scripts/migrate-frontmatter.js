@@ -6,10 +6,10 @@ const projectsDir = path.join(__dirname, '../content/projects');
 
 // Mapping old clusters to new categories
 const clusterToCategoryMap = {
-  resonant: ['sound-vision'],
-  errant: ['provocations'],
-  fractured: ['sound-vision'], // Fractured seems to be mostly audio/visual
-  enclosed: ['sound-vision'],
+  resonant: ['visual-art'],
+  errant: ['visual-art'],
+  fractured: ['visual-art'],
+  enclosed: ['visual-art'],
 };
 
 // Infer type from tags and cluster
@@ -49,7 +49,7 @@ files.forEach(filename => {
   }
 
   // Add new fields
-  const categories = clusterToCategoryMap[data.cluster] || ['sound-vision'];
+  const categories = clusterToCategoryMap[data.cluster] || ['visual-art'];
   const type = inferType(data.cluster, data.tags || [], data.title || '');
 
   const updatedData = {

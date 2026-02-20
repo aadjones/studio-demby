@@ -44,8 +44,8 @@ export async function getActivityBySlug(slug: string) {
   };
 }
 
-export async function getAllActivity(): Promise<MDXSketch[]> {
-  // Check if directory exists
+/** Returns every activity item including archived — used for generateStaticParams. */
+export async function getAllActivityIncludingArchived(): Promise<MDXSketch[]> {
   if (!fs.existsSync(activityDirectory)) {
     return [];
   }
@@ -69,6 +69,12 @@ export async function getAllActivity(): Promise<MDXSketch[]> {
   });
 
   return activity.filter(Boolean) as MDXSketch[];
+}
+
+/** Returns visible (non-archived) activity — used for listings. */
+export async function getAllActivity(): Promise<MDXSketch[]> {
+  const all = await getAllActivityIncludingArchived();
+  return all.filter(a => !a.archived);
 }
 
 export async function getRecentActivity(limit: number = 10): Promise<MDXSketch[]> {

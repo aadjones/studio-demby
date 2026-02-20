@@ -52,13 +52,16 @@ function inferActivityCategories(a: MDXSketch): string[] {
   const tags = (a.tags ?? []).map((t) => t.toLowerCase());
 
   if (tags.some((t) => ["game", "tool"].includes(t))) {
-    return ["systems-tools"];
+    return ["tools"];
   }
-  if (tags.some((t) => ["satire", "absurd", "linguistics", "reference", "math", "theory", "paper"].includes(t))) {
-    return ["provocations"];
+  if (tags.some((t) => ["music", "audio", "performance", "improvisation"].includes(t))) {
+    return ["music"];
   }
-  // Default: provocations (most activity items are writing/experiments)
-  return ["provocations"];
+  if (tags.some((t) => ["math", "theory", "paper", "pedagogy"].includes(t))) {
+    return ["teaching"];
+  }
+  // Default: visual-art
+  return ["visual-art"];
 }
 
 export async function getAllWork(): Promise<UnifiedWorkItem[]> {

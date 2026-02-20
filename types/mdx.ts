@@ -8,7 +8,7 @@ export const ProjectSchema = z.object({
   type: z.enum(["audio", "video", "app", "writing", "teaching", "interactive", "essay", "audiovisual"]),
 
   // New multi-category system
-  categories: z.array(z.enum(["sound-vision", "systems-tools", "provocations", "practice-pedagogy"])),
+  categories: z.array(z.enum(["visual-art", "music", "tools", "teaching"])),
 
   // Descriptions
   summary: z.string(),           // Short (1 sentence)
@@ -36,6 +36,7 @@ export const ProjectSchema = z.object({
   fieldNumber: z.string().optional(),
   phaseState: z.enum(["awakening", "expansion", "collapse"]).optional(),
   relatedSlugs: z.array(z.string()).optional(),
+  archived: z.boolean().optional(),
 });
 
 // 2. Type inferred from the Zod schema (used across app)
@@ -57,6 +58,7 @@ export const SketchSchema = z.object({
   video: z.string().optional(),
   tags: z.array(z.string()).optional().default([]),
   description: z.string().optional(), // Short description for activity feed
+  archived: z.boolean().optional(),
 });
 
 // 5. Type inferred from the Sketch schema

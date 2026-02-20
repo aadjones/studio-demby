@@ -29,8 +29,9 @@ async function buildFeed() {
     const raw = fs.readFileSync(fullPath, 'utf8')
     const { data } = matter(raw)
 
-    // Skip if no date
+    // Skip if no date or archived
     if (!data.date) continue
+    if (data.archived) continue
 
     // Handle image URL - support both relative and absolute URLs
     let imageUrl = null

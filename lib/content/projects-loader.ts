@@ -10,7 +10,8 @@ import { ProjectSchema, MDXProject } from "@/types/mdx";
 
 const projectsDirectory = path.join(process.cwd(), "content/projects");
 
-export async function getAllProjects(): Promise<MDXProject[]> {
+/** Returns every project including archived — used for generateStaticParams. */
+export async function getAllProjectsIncludingArchived(): Promise<MDXProject[]> {
   const fileNames = fs.readdirSync(projectsDirectory);
 
   const projects = fileNames.map((fileName) => {
@@ -30,6 +31,12 @@ export async function getAllProjects(): Promise<MDXProject[]> {
   });
 
   return projects.filter(Boolean) as MDXProject[];
+}
+
+/** Returns visible (non-archived) projects — used for listings, nav, related works. */
+export async function getAllProjects(): Promise<MDXProject[]> {
+  const all = await getAllProjectsIncludingArchived();
+  return all.filter(p => !p.archived);
 }
 
 export async function getProjectsByCategory(category: string): Promise<MDXProject[]> {

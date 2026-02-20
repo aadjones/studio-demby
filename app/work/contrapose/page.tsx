@@ -44,10 +44,10 @@ export default async function ContraposeMarketingPage() {
         {/* Breadcrumb */}
         <nav className="text-sm text-gray-600 mb-8">
           <Link
-            href="/practice-pedagogy"
+            href="/work"
             className="hover:text-purple-600 transition-colors"
           >
-            Practice &amp; Pedagogy
+            Teaching
           </Link>
           <span className="mx-2">→</span>
           <span className="text-gray-900">Contrapose</span>

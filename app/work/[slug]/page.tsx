@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { getAllProjects, getProjectBySlugOnly } from "@/lib/content/projects-loader";
-import { getAllActivity, getActivityBySlug } from "@/lib/content/activity-loader";
+import { getAllProjects, getAllProjectsIncludingArchived, getProjectBySlugOnly } from "@/lib/content/projects-loader";
+import { getAllActivity, getAllActivityIncludingArchived, getActivityBySlug } from "@/lib/content/activity-loader";
 import { MDXProject, MDXSketch } from "@/types/mdx";
 import ClientMDX from "@/app/components/utils/ClientMDX";
 import Image from "next/image";
@@ -74,8 +74,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export async function generateStaticParams() {
   const [projects, activity] = await Promise.all([
-    getAllProjects(),
-    getAllActivity(),
+    getAllProjectsIncludingArchived(),
+    getAllActivityIncludingArchived(),
   ]);
   return [
     ...projects.map((p: MDXProject) => ({ slug: p.slug })),
