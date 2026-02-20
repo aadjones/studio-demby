@@ -33,15 +33,7 @@ function SocialLinks() {
     <div className="flex text-lg gap-3.5 items-center">
       <SocialLink href={socialLinks.soundcloud} icon={FaSoundcloud} />
       <SocialLink href={socialLinks.instagram} icon={FaInstagram} />
-      <a
-        href="/feed.xml"
-        title="Subscribe via RSS"
-        className="text-xl hover:opacity-80 transition-opacity"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <FaRss />
-      </a>
+      <SocialLink href={socialLinks.github} icon={FaGithub} />
     </div>
   );
 }
