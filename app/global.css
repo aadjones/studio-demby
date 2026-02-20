@@ -152,7 +152,7 @@ input[type="email"] {
    rather than a breakpoint (works on all sizes of touch device). */
 @media (pointer: coarse) {
   input[type="range"] {
-    height: 2.75rem;
+    height: 3rem;
     padding: 0;
   }
 }

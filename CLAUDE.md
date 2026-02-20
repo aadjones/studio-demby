@@ -76,7 +76,7 @@ Custom MDX blocks are in `app/components/mdx-blocks/` for embedding media, p5 sk
 
 ### Slider Touch Targets (Mobile)
 
-Range sliders (`<input type="range">`) have small default touch targets. A global rule in `app/global.css` sets `height: 2.75rem` (44px) on `@media (pointer: coarse)` to fix this for all sliders site-wide. Do not override this height in individual components. Use `pointer: coarse` (not a breakpoint) so it applies to any touch device regardless of screen width.
+Range sliders (`<input type="range">`) have small default touch targets. A global rule in `app/global.css` sets `height: 3rem` (48px) on `@media (pointer: coarse)` to fix this for all sliders site-wide. Do not override this height in individual components. Use `pointer: coarse` (not a breakpoint) so it applies to any touch device regardless of screen width.
 
 ### Creative Copy
 

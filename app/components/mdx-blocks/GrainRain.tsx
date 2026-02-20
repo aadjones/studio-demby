@@ -254,7 +254,7 @@ export default function GrainRain() {
                 setShufflePressed(true);
                 setTimeout(() => setShufflePressed(false), 300);
               }}
-              className={`px-5 py-2 text-xs font-mono uppercase tracking-widest border transition-colors cursor-pointer ${
+              className={`px-5 py-3.5 text-xs font-mono uppercase tracking-widest border transition-colors cursor-pointer ${
                 shufflePressed
                   ? "bg-neutral-200 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-100 border-neutral-600 dark:border-neutral-300"
                   : "text-neutral-700 dark:text-neutral-300 border-neutral-500 dark:border-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100"
