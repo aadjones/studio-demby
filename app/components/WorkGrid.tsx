@@ -9,7 +9,6 @@ import RandomProjectButton from "@/app/components/RandomProjectButton";
 const FILTER_TABS = [
   { label: "Music", filter: "music" },
   { label: "Visual Art", filter: "visual-art" },
-  { label: "Tools", filter: "tools" },
   { label: "Teaching", filter: "teaching" },
   { label: "All", filter: "all" },
 ] as const;

@@ -8,7 +8,7 @@ export const ProjectSchema = z.object({
   type: z.enum(["audio", "video", "app", "writing", "teaching", "interactive", "essay", "audiovisual"]),
 
   // New multi-category system
-  categories: z.array(z.enum(["visual-art", "music", "tools", "teaching"])),
+  categories: z.array(z.enum(["visual-art", "music", "teaching"])),
 
   // Descriptions
   summary: z.string(),           // Short (1 sentence)

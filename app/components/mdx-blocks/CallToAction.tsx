@@ -9,12 +9,8 @@ const FLAVORS: Record<string, { line: string; label: string }> = {
     line: "Interested in a commission, print, or installation?",
     label: "Get in touch",
   },
-  tools: {
-    line: "Need a custom tool or interactive experience built?",
-    label: "Get in touch",
-  },
   teaching: {
-    line: "Interested in lessons, workshops, or curriculum design?",
+    line: "Interested in lessons, workshops, or custom tools?",
     label: "Get in touch",
   },
 };

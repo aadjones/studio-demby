@@ -51,13 +51,10 @@ function activityToWorkItem(a: MDXSketch): UnifiedWorkItem {
 function inferActivityCategories(a: MDXSketch): string[] {
   const tags = (a.tags ?? []).map((t) => t.toLowerCase());
 
-  if (tags.some((t) => ["game", "tool"].includes(t))) {
-    return ["tools"];
-  }
   if (tags.some((t) => ["music", "audio", "performance", "improvisation"].includes(t))) {
     return ["music"];
   }
-  if (tags.some((t) => ["math", "theory", "paper", "pedagogy"].includes(t))) {
+  if (tags.some((t) => ["game", "tool", "math", "theory", "paper", "pedagogy"].includes(t))) {
     return ["teaching"];
   }
   // Default: visual-art

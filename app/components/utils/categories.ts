@@ -14,13 +14,6 @@ export const categories = [
     image: "/photos/clusters/resonant.jpg",
   },
   {
-    name: "Tools",
-    slug: "tools",
-    description: "Instruments for analysis and play",
-    href: "/work",
-    image: "/photos/chesswalk/chesswalk-4x3.jpg",
-  },
-  {
     name: "Teaching",
     slug: "teaching",
     description: "How I teach and learn",
