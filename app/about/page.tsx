@@ -70,99 +70,156 @@ export default function AboutPage() {
             life if you actually let them.
           </p>
 
-          <div className="pt-4 sm:pt-6 border-t border-gray-200 mt-4 sm:mt-6 space-y-3">
-            <p>
-              <Link
-                href="/work"
-                className="text-ink-700 hover:text-ink-900 transition-colors underline"
-              >
-                See my work &rarr;
-              </Link>
+          <div className="pt-6 sm:pt-8 border-t border-zinc-200 mt-6 sm:mt-8 text-center space-y-4">
+            <p className="text-base sm:text-lg italic text-zinc-600">
+              Interested in collaborations, commissions, or odd problems that need an odd solution?
             </p>
-            <p>
-              If you&rsquo;re interested in collaborations, commissions, or odd
-              problems that need an odd solution, reach out:{" "}
-              <a
-                href="mailto:aaron.demby.jones@gmail.com"
-                className="text-ink-700 hover:text-ink-900 transition-colors underline"
-              >
-                aaron.demby.jones@gmail.com
-              </a>
+            <a
+              href="mailto:aaron.demby.jones@gmail.com"
+              className="inline-block px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base border border-zinc-400 text-zinc-600 rounded hover:bg-zinc-800 hover:text-white hover:border-zinc-800 transition duration-200"
+            >
+              Get in touch &rarr;
+            </a>
+            <p className="text-sm sm:text-base italic text-zinc-500 mt-4">
+              Want to learn how to do this?
             </p>
-            <p>
-              I also teach music lessons focusing on creativity and
-              exploration—{" "}
-              <Link
-                href="/teaching"
-                className="text-ink-700 hover:text-ink-900 transition-colors underline"
-              >
-                learn about my lessons
-              </Link>
-              .
-            </p>
+            <Link
+              href="/teaching"
+              className="inline-block px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base border border-zinc-400 text-zinc-600 rounded hover:bg-zinc-800 hover:text-white hover:border-zinc-800 transition duration-200"
+            >
+              I offer lessons &rarr;
+            </Link>
           </div>
 
           {/* CV / Credentials */}
           <details className="mt-8 sm:mt-12 group">
             <summary className="cursor-pointer text-sm sm:text-base font-medium text-zinc-500 hover:text-zinc-800 transition-colors select-none list-none flex items-center gap-2">
-              <span className="transition-transform group-open:rotate-90">&#9654;</span>
+              <span className="transition-transform group-open:rotate-90">
+                &#9654;
+              </span>
               CV / Credentials
             </summary>
             <div className="mt-4 sm:mt-6 space-y-6 text-sm sm:text-base text-zinc-700">
               <section>
-                <h3 className="font-semibold text-zinc-900 mb-2">Performance</h3>
+                <h3 className="font-semibold text-zinc-900 mb-2">
+                  Performance
+                </h3>
                 <ul className="list-disc pl-5 space-y-1">
-                  <li>30+ years of piano study; trained in classical, jazz, and free improvisation.</li>
-                  <li>Selected repertoire: Bach (French Suite No. 1), Beethoven (Waldstein Sonata), Chopin (Scherzo No. 3, Ballade No. 4), Ravel (Le Tombeau de Couperin), Shostakovich (Prelude &amp; Fugue No. 24)</li>
-                  <li>Classical percussion training at Brown University; concerto soloist.</li>
+                  <li>
+                    30+ years of piano study; trained in classical, jazz, and
+                    free improvisation.
+                  </li>
+                  <li>
+                    Selected repertoire: Bach (French Suite No. 1), Beethoven
+                    (Waldstein Sonata), Chopin (Scherzo No. 3, Ballade No. 4),
+                    Ravel (Le Tombeau de Couperin), Shostakovich (Prelude &amp;
+                    Fugue No. 24)
+                  </li>
+                  <li>
+                    Classical percussion training at Brown University; concerto
+                    soloist.
+                  </li>
                   <li>Experience with prepared piano and live electronics.</li>
                 </ul>
               </section>
 
               <section>
-                <h3 className="font-semibold text-zinc-900 mb-2">Selected Recordings</h3>
+                <h3 className="font-semibold text-zinc-900 mb-2">
+                  Selected Recordings
+                </h3>
                 <ul className="list-disc pl-5 space-y-1">
-                  <li>2024 &ldquo;Ghostly Double&rdquo; &mdash; piano and live electronics improvisation</li>
-                  <li>2021 &ldquo;Flow&rdquo; &mdash; four-movement improvisational album on texture and timbre</li>
+                  <li>
+                    2025 &ldquo;Ghostly Double&rdquo; &mdash; piano and live
+                    electronics improvisation
+                  </li>
+                  <li>
+                    2021 &ldquo;Flow&rdquo; &mdash; four-movement
+                    improvisational album on texture and timbre
+                  </li>
                 </ul>
               </section>
 
               <section>
                 <h3 className="font-semibold text-zinc-900 mb-2">Teaching</h3>
-                <p className="font-medium mb-1">Workshop Leader &amp; Music Educator &mdash; San Diego (2025&ndash;present)</p>
+                <p className="font-medium mb-1">
+                  Workshop Leader &amp; Music Educator &mdash; San Diego
+                  (2025&ndash;present)
+                </p>
                 <ul className="list-disc pl-5 space-y-1 mb-3">
-                  <li>Group workshops in piano improvisation, musical storytelling, and ear-based learning (Villa Musica, AmateurPianists).</li>
-                  <li>1:1 coaching in improvisation, listening skills, and creative approaches to the keyboard.</li>
+                  <li>
+                    Group workshops in piano improvisation, musical
+                    storytelling, and ear-based learning (Villa Musica,
+                    AmateurPianists).
+                  </li>
+                  <li>
+                    1:1 coaching in improvisation, listening skills, and
+                    creative approaches to the keyboard.
+                  </li>
                 </ul>
-                <p className="font-medium mb-1">Interdisciplinary Teaching &mdash; Math, Music, Creativity (2009&ndash;present)</p>
+                <p className="font-medium mb-1">
+                  Interdisciplinary Teaching &mdash; Math, Music, Creativity
+                  (2009&ndash;present)
+                </p>
                 <ul className="list-disc pl-5 space-y-1">
-                  <li>Over a decade across math, music, and creative technology, including Johns Hopkins CTY summer programs.</li>
-                  <li>Children, teens, and adults in both structured coursework and exploratory creative settings.</li>
+                  <li>
+                    Over a decade across math, music, and creative technology,
+                    including Johns Hopkins CTY summer programs.
+                  </li>
+                  <li>
+                    Worked with children, teens, and adults in both structured
+                    coursework and exploratory creative settings.
+                  </li>
                 </ul>
               </section>
 
               <section>
-                <h3 className="font-semibold text-zinc-900 mb-2">Selected Visual &amp; Generative Work</h3>
+                <h3 className="font-semibold text-zinc-900 mb-2">
+                  Selected Visual &amp; Generative Work
+                </h3>
                 <ul className="list-disc pl-5 space-y-1">
-                  <li>2025 &ldquo;Shatter&rdquo; &mdash; interactive system exploring visual instability and emergent fracture patterns (p5.js)</li>
-                  <li>2024 &ldquo;Feathers&rdquo; &mdash; generative abstract plumage examining organic growth through procedural randomness (p5.js)</li>
-                  <li>2024 &ldquo;Encased Melting&rdquo; &mdash; generative planetary forms exploring liquidity and structure (p5.js)</li>
-                  <li>2017 &ldquo;Fluid Subspaces&rdquo; &mdash; audiovisual system mapping fluid eigenmodes to sound (C++)</li>
+                  <li>
+                    2025 &ldquo;Shatter&rdquo; &mdash; interactive system
+                    exploring visual instability and emergent fracture patterns
+                    (p5.js)
+                  </li>
+                  <li>
+                    2024 &ldquo;Feathers&rdquo; &mdash; generative abstract
+                    plumage examining organic growth through procedural
+                    randomness (p5.js)
+                  </li>
+                  <li>
+                    2024 &ldquo;Encased Melting&rdquo; &mdash; generative
+                    planetary forms exploring liquidity and structure (p5.js)
+                  </li>
+                  <li>
+                    2017 &ldquo;Fluid Subspaces&rdquo; &mdash; audiovisual
+                    system mapping fluid eigenmodes to sound (C++)
+                  </li>
                 </ul>
               </section>
 
               <section>
-                <h3 className="font-semibold text-zinc-900 mb-2">Publications</h3>
+                <h3 className="font-semibold text-zinc-900 mb-2">
+                  Publications
+                </h3>
                 <ul className="list-disc pl-5 space-y-1">
-                  <li>2017 Bridges Conference &mdash; Paper + demo on mathematical visualization of fluid eigenvectors</li>
-                  <li>2016 SIGGRAPH/Eurographics SCA (Best Paper) &mdash; Compressing dynamic fluid subspaces</li>
+                  <li>
+                    2017 Bridges Conference &mdash; Paper + demo on mathematical
+                    visualization of fluid eigenvectors
+                  </li>
+                  <li>
+                    2016 SIGGRAPH/Eurographics SCA (Best Paper) &mdash;
+                    Compressing dynamic fluid subspaces
+                  </li>
                 </ul>
               </section>
 
               <section>
                 <h3 className="font-semibold text-zinc-900 mb-2">Education</h3>
                 <ul className="list-disc pl-5 space-y-1">
-                  <li>PhD Media Arts and Technology, UC Santa Barbara (2017)</li>
+                  <li>
+                    PhD Media Arts and Technology, UC Santa Barbara (2017)
+                  </li>
                   <li>BA Music and Mathematics, Brown University (2009)</li>
                 </ul>
               </section>

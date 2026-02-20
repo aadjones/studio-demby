@@ -45,16 +45,17 @@ export default function CallToAction({
         {config?.label || "Get in touch"} &rarr;
       </a>
       {showLessons && (
-        <p className="mt-3 sm:mt-4 text-sm sm:text-base text-zinc-500">
-          Want to learn how to do this?{" "}
+        <>
+          <p className="mt-4 sm:mt-5 text-sm sm:text-base italic text-zinc-500">
+            Want to learn how to do this?
+          </p>
           <a
             href="/teaching"
-            className="text-zinc-700 underline hover:text-zinc-900 transition-colors"
+            className="mt-2 inline-block px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base border border-zinc-400 text-zinc-600 rounded hover:bg-zinc-800 hover:text-white hover:border-zinc-800 transition duration-200"
           >
-            I offer lessons
+            I offer lessons &rarr;
           </a>
-          .
-        </p>
+        </>
       )}
     </section>
   );
