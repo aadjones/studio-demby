@@ -226,32 +226,31 @@ export default function GrainRain() {
         className="w-full aspect-square relative overflow-hidden bg-black"
       />
       {visible && (
-        <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-5 px-0.5">
-          <SliderField
-            label="density"
-            value={density}
-            min={100}
-            max={2000}
-            step={100}
-            onChange={setDensity}
-          />
-          <SliderField
-            label="speed"
-            value={speed}
-            min={0.0}
-            max={5.0}
-            step={0.05}
-            onChange={setSpeed}
-          />
-          <div className="flex flex-col gap-1.5">
-            <span className="text-xs font-mono uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
-              &nbsp;
-            </span>
+        <div className="mt-4 flex flex-col gap-4 px-0.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <SliderField
+              label="density"
+              value={density}
+              min={100}
+              max={2000}
+              step={100}
+              onChange={setDensity}
+            />
+            <SliderField
+              label="speed"
+              value={speed}
+              min={0.0}
+              max={5.0}
+              step={0.05}
+              onChange={setSpeed}
+            />
+          </div>
+          <div className="flex justify-end">
             <button
               onClick={() => { shuffleRef.current = true; p5Ref.current?.loop(); }}
-              className="w-full py-1.5 text-xs font-mono uppercase tracking-widest text-neutral-500 dark:text-neutral-400 border border-neutral-300 dark:border-neutral-600 hover:text-neutral-800 dark:hover:text-neutral-200 hover:border-neutral-500 dark:hover:border-neutral-400 transition-colors cursor-pointer"
+              className="px-5 py-2 text-xs font-mono uppercase tracking-widest text-neutral-400 dark:text-neutral-500 border border-neutral-300 dark:border-neutral-600 hover:text-neutral-800 dark:hover:text-neutral-200 hover:border-neutral-600 dark:hover:border-neutral-400 active:bg-neutral-200 active:text-neutral-900 dark:active:bg-neutral-700 dark:active:text-neutral-100 active:border-neutral-600 dark:active:border-neutral-400 transition-colors cursor-pointer"
             >
-              shuffle
+              ↺ shuffle
             </button>
           </div>
         </div>
