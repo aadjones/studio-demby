@@ -202,10 +202,10 @@ export default function TeachingPage() {
         <p className="text-sm text-gray-600 ">
           Have questions?{" "}
           <a
-            href="mailto:aaron.demby.jones@gmail.com?subject=Music Lessons"
+            href="/contact?inquiry=teaching"
             className="text-blue-600 dark:text-blue-400 hover:underline"
           >
-            Send me an email
+            Send me a message
           </a>
           .
         </p>

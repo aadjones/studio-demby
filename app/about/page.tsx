@@ -75,18 +75,18 @@ export default function AboutPage() {
             <p className="text-base sm:text-lg italic text-zinc-600">
               Interested in collaborations, commissions, or odd problems that need an odd solution?
             </p>
-            <a
-              href="mailto:aaron.demby.jones@gmail.com"
-              className="inline-block px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base border border-zinc-400 text-zinc-600 rounded hover:bg-zinc-800 hover:text-white hover:border-zinc-800 transition duration-200"
+            <Link
+              href="/contact"
+              className="inline-block px-5 sm:px-7 py-2 sm:py-2.5 text-sm sm:text-base font-medium bg-ink-900 text-white rounded hover:bg-brand-coral transition-colors duration-200"
             >
               Get in touch &rarr;
-            </a>
+            </Link>
             <p className="text-sm sm:text-base italic text-zinc-500 mt-4">
               Want to learn how to do this?
             </p>
             <Link
               href="/teaching"
-              className="inline-block px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base border border-zinc-400 text-zinc-600 rounded hover:bg-zinc-800 hover:text-white hover:border-zinc-800 transition duration-200"
+              className="inline-block px-5 sm:px-7 py-2 sm:py-2.5 text-sm sm:text-base font-medium bg-ink-900 text-white rounded hover:bg-brand-coral transition-colors duration-200"
             >
               I offer lessons &rarr;
             </Link>

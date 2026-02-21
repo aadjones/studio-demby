@@ -1,5 +1,3 @@
-const EMAIL = "aaron.demby.jones@gmail.com";
-
 const FLAVORS: Record<string, { line: string; label: string }> = {
   music: {
     line: "Looking for a performer, improviser, or collaborator?",
@@ -17,26 +15,24 @@ const FLAVORS: Record<string, { line: string; label: string }> = {
 
 export default function CallToAction({
   flavor,
-  email,
   showLessons,
 }: {
   flavor?: string;
-  email?: string;
   showLessons?: boolean;
 }) {
-  const mailto = email || EMAIL;
+  const contactHref = flavor ? `/contact?inquiry=${flavor}` : "/contact";
   const config = flavor ? FLAVORS[flavor] : null;
 
   return (
-    <section className="my-12 sm:my-16 py-6 sm:py-8 border-t border-b border-zinc-200 text-center">
+    <section className="my-12 sm:my-16 py-8 sm:py-10 px-6 sm:px-8 bg-[#FFF8F0] border border-zinc-200 rounded text-center">
       {config && (
         <p className="text-base sm:text-lg italic text-zinc-600 mb-3 sm:mb-4">
           {config.line}
         </p>
       )}
       <a
-        href={`mailto:${mailto}`}
-        className="inline-block px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base border border-zinc-400 text-zinc-600 rounded hover:bg-zinc-800 hover:text-white hover:border-zinc-800 transition duration-200"
+        href={contactHref}
+        className="inline-block px-5 sm:px-7 py-2 sm:py-2.5 text-sm sm:text-base font-medium bg-ink-900 !text-white no-underline rounded hover:bg-brand-coral transition-colors duration-200"
       >
         {config?.label || "Get in touch"} &rarr;
       </a>
@@ -47,7 +43,7 @@ export default function CallToAction({
           </p>
           <a
             href="/teaching"
-            className="mt-2 inline-block px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base border border-zinc-400 text-zinc-600 rounded hover:bg-zinc-800 hover:text-white hover:border-zinc-800 transition duration-200"
+            className="mt-2 inline-block px-5 sm:px-7 py-2 sm:py-2.5 text-sm sm:text-base font-medium bg-ink-900 !text-white no-underline rounded hover:bg-brand-coral transition-colors duration-200"
           >
             I offer lessons &rarr;
           </a>

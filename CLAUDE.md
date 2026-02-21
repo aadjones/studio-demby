@@ -76,6 +76,19 @@ The project uses `react/no-unescaped-entities` rule. Always escape quotes and ap
 
 Custom MDX blocks are in `app/components/mdx-blocks/` for embedding media, p5 sketches, and interactive elements in project pages.
 
+### `.prose a` Override Gotcha
+
+All MDX content is wrapped in a `.prose` container. `app/global.css` has a `.prose a` rule that forces **all links** inside prose to `text-ink-900` (near-black) with a coral underline decoration — regardless of any Tailwind color utilities on the element.
+
+**Symptom:** Styled `<a>` buttons inside MDX components appear as dark rectangles with invisible text and a reddish underline, even with explicit `text-white` or other color classes.
+
+**Fix:** Use Tailwind's `!` important modifier and suppress the underline:
+```tsx
+className="... !text-white no-underline hover:!text-white ..."
+```
+
+This applies to any `<a>` tag rendered inside an MDX page, including all components in `app/components/mdx-blocks/`.
+
 ### Slider Touch Targets (Mobile)
 
 Range sliders (`<input type="range">`) have small default touch targets. A global rule in `app/global.css` sets `height: 3rem` (48px) on `@media (pointer: coarse)` to fix this for all sliders site-wide. Do not override this height in individual components. Use `pointer: coarse` (not a breakpoint) so it applies to any touch device regardless of screen width.
