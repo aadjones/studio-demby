@@ -20,7 +20,7 @@ export function Navbar() {
         <div />
 
         {/* Center nav links */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3 sm:gap-6">
           {NAV_ITEMS.map(({ href, label }) => {
             const isActive =
               href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -28,7 +28,7 @@ export function Navbar() {
               <Link
                 key={href}
                 href={href}
-                className={`text-[15px] font-body px-2 py-1 rounded-md transition-colors ${
+                className={`text-[15px] font-body px-1 sm:px-2 py-1 rounded-md transition-colors ${
                   isActive
                     ? "font-semibold text-ink-900 underline"
                     : "text-ink-500 hover:text-ink-800"
