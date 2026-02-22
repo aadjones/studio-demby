@@ -2,6 +2,7 @@
 import { useRef, useState, useEffect } from "react";
 import P5FullscreenContainer from "./P5FullscreenContainer";
 import bloodFeathersSketch from "./bloodFeathersSketch";
+import PianoDLogo from "@/app/components/layout/PianoDLogo";
 
 export default function BloodFeathersHeroClient() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -39,7 +40,12 @@ export default function BloodFeathersHeroClient() {
       <div className="relative z-20 flex flex-col items-center justify-center h-full px-4 text-center">
         <div className="px-6 py-4 rounded-2xl backdrop-blur-sm bg-white/40">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold tracking-tight text-ink-900 mb-2">
-            Studio Demby
+            Studio{" "}
+            <PianoDLogo
+              className="inline-block align-baseline"
+              style={{ height: "0.73em", width: "auto" }}
+            />
+            emby
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl font-body text-ink-700 tracking-wide">
             musician &middot; visual artist &middot; educator

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { background: #ede9e3; font-family: 'Courier New', monospace; padding: 48px; margin: 0; }
+    h1   { font-size: 15px; margin-bottom: 6px; color: #222; letter-spacing: 0.06em; }
+    .note{ font-size: 10px; color: #888; margin-bottom: 40px; }
+    .grid{ display: grid; grid-template-columns: repeat(4, auto); gap: 48px 56px; align-items: end; }
+    .card{ display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .card svg { box-shadow: 0 2px 14px rgba(0,0,0,0.13); display: block; }
+    .num  { font-size: 20px; font-weight: bold; color: #333; line-height: 1; }
+    .label{ font-size: 11px; font-weight: bold; color: #333; text-align: center; }
+    .param{ font-size: 9px; color: #999; text-align: center; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <h1>Piano-D Logo Variations</h1>
+  <p class="note">4 white keys + black keys + D-shaped body. Arc: M top A rx ry 0 0 1 bottom (sweep right).</p>
+  <div class="grid" id="grid"></div>
+
+  <script>
+    /**
+     * Piano-D logo: keyboard (left) + semicircular D body (right).
+     *
+     * Coordinate space (units):
+     *   - H = 100 (keyboard height, fixed)
+     *   - kbW = keyboard width
+     *   - body: semicircle from (kbW+gap, 0) to (kbW+gap, 100), sweeping RIGHT
+     *     SVG arc: M cx 0 A bodyRx 50 0 0 1 cx 100 Z  (sweep=1 from top→bottom = curves right)
+     */
+    function makePianoD(cfg) {
+      const {
+        kbW     = 26,        // keyboard width (units)
+        numW    = 4,         // number of white keys
+        bkGaps  = [0,1,2],   // 0-indexed gaps (between key i and i+1) that get a black key
+        bkW     = 14,        // black key width
+        bkH     = 13,        // black key height (straddling the gap)
+        bodyRx  = 50,        // body horizontal radius (50 = perfect semicircle when H=100)
+        bodyRy  = 50,        // body vertical radius
+        gap     = 0,         // space between keyboard right edge and body
+        sw      = 2,         // stroke weight
+        edgeSW  = 3.5,       // top/bottom edge stroke weight
+        outline = false,     // body outline only
+        serifs  = false,
+        serifL  = 7,
+        rounded = 0,         // white key corner radius
+        bold    = false,     // thicker left spine
+      } = cfg;
+
+      const H = 100;
+      const wkH = H / numW;
+      const cx  = kbW + gap;      // body arc start/end x
+      const totalW = cx + bodyRx;
+      const PAD = edgeSW / 2 + (serifs ? serifL + 1 : 1);
+
+      const vbW = totalW + PAD + 1;
+      const vbH = H + edgeSW;
+
+      const NS = 'http://www.w3.org/2000/svg';
+      function el(tag, attrs) {
+        const n = document.createElementNS(NS, tag);
+        for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, String(v));
+        return n;
+      }
+
+      const pxH = 150;
+      const pxW = Math.ceil((vbW / vbH) * pxH);
+
+      const svg = el('svg', {
+        width: pxW, height: pxH,
+        viewBox: `0 0 ${vbW.toFixed(1)} ${vbH.toFixed(1)}`,
+        xmlns: NS,
+        style: 'background:white',
+      });
+
+      // y offset to center vertically in viewBox (account for top edge stroke)
+      const oy = edgeSW / 2;
+
+      // ── Body (draw first, behind keyboard) ───────────────────
+      // Arc from (cx, oy) → (cx, oy+H): sweep=1 curves RIGHT ✓
+      const dBody = `M ${cx} ${oy} A ${bodyRx} ${bodyRy} 0 0 1 ${cx} ${oy + H} Z`;
+      svg.appendChild(el('path', {
+        d: dBody,
+        fill: outline ? 'white' : 'black',
+        stroke: 'black', 'stroke-width': sw,
+      }));
+
+      // ── White keys (draw over body) ───────────────────────────
+      for (let i = 0; i < numW; i++) {
+        svg.appendChild(el('rect', {
+          x: PAD, y: oy + i * wkH,
+          width: kbW, height: wkH,
+          fill: 'white', stroke: 'black', 'stroke-width': sw,
+          rx: rounded, ry: rounded,
+          'stroke-linejoin': 'miter',
+        }));
+      }
+
+      // ── Black keys (right-aligned within keyboard) ────────────
+      const bkX = PAD + kbW - bkW;
+      for (const g of bkGaps) {
+        const gapY = oy + (g + 1) * wkH;
+        svg.appendChild(el('rect', {
+          x: bkX, y: gapY - bkH / 2,
+          width: bkW, height: bkH,
+          fill: 'black', stroke: 'none',
+        }));
+      }
+
+      // ── Top + bottom thick edges ──────────────────────────────
+      const ex1 = PAD - edgeSW / 2;
+      const ex2 = PAD + kbW + edgeSW / 2;
+      svg.appendChild(el('line', {
+        x1: ex1, y1: oy, x2: ex2, y2: oy,
+        stroke: 'black', 'stroke-width': edgeSW, 'stroke-linecap': 'square',
+      }));
+      svg.appendChild(el('line', {
+        x1: ex1, y1: oy + H, x2: ex2, y2: oy + H,
+        stroke: 'black', 'stroke-width': edgeSW, 'stroke-linecap': 'square',
+      }));
+
+      // ── Left spine ────────────────────────────────────────────
+      const spineSW = bold ? edgeSW : sw;
+      svg.appendChild(el('line', {
+        x1: PAD, y1: oy, x2: PAD, y2: oy + H,
+        stroke: 'black', 'stroke-width': spineSW, 'stroke-linecap': 'square',
+      }));
+
+      // ── Optional serifs ───────────────────────────────────────
+      if (serifs) {
+        svg.appendChild(el('line', {
+          x1: PAD - serifL, y1: oy, x2: PAD + 2, y2: oy,
+          stroke: 'black', 'stroke-width': edgeSW, 'stroke-linecap': 'butt',
+        }));
+        svg.appendChild(el('line', {
+          x1: PAD - serifL, y1: oy + H, x2: PAD + 2, y2: oy + H,
+          stroke: 'black', 'stroke-width': edgeSW, 'stroke-linecap': 'butt',
+        }));
+      }
+
+      return svg;
+    }
+
+    const variations = [
+      {
+        num: 1, label: 'Original concept',
+        param: '4w / 3bk · semicircle',
+        cfg: {},
+      },
+      {
+        num: 2, label: 'Wider keyboard',
+        param: 'kbW = 34 (bigger key section)',
+        cfg: { kbW: 34 },
+      },
+      {
+        num: 3, label: 'Piano-authentic',
+        param: '4w / 2bk · skip E–F gap',
+        cfg: { bkGaps: [0, 1] },
+      },
+      {
+        num: 4, label: '5 white keys',
+        param: 'numW=5 · bkGaps=[0,1,2,3]',
+        cfg: { numW: 5, bkGaps: [0,1,2,3], bodyRy: 50, bodyRx: 50 },
+      },
+      {
+        num: 5, label: 'Oval body',
+        param: 'bodyRx = 65 (wider D bowl)',
+        cfg: { bodyRx: 65 },
+      },
+      {
+        num: 6, label: 'Gap',
+        param: 'gap = 6 · separation',
+        cfg: { gap: 6 },
+      },
+      {
+        num: 7, label: 'Serifs',
+        param: 'serifs · bold spine',
+        cfg: { serifs: true, bold: true },
+      },
+      {
+        num: 8, label: 'Bold strokes',
+        param: 'sw=4 · edgeSW=6',
+        cfg: { sw: 4, edgeSW: 6 },
+      },
+      {
+        num: 9, label: 'Rounded keys',
+        param: 'rounded = 3',
+        cfg: { rounded: 3 },
+      },
+      {
+        num: 10, label: 'Outline body',
+        param: 'outline · gap=6',
+        cfg: { outline: true, gap: 6 },
+      },
+      {
+        num: 11, label: 'Taller + oval',
+        param: 'kbW=32 · oval · serifs',
+        cfg: { kbW: 32, bodyRx: 56, serifs: true, bold: true },
+      },
+      {
+        num: 12, label: 'Compact',
+        param: 'numW=3 · bkGaps=[0,1]',
+        cfg: { numW: 3, bkGaps: [0,1], bodyRy: 50, bodyRx: 50 },
+      },
+    ];
+
+    const grid = document.getElementById('grid');
+    for (const v of variations) {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const numEl = document.createElement('div');
+      numEl.className = 'num';
+      numEl.textContent = String(v.num);
+
+      const labelEl = document.createElement('div');
+      labelEl.className = 'label';
+      labelEl.textContent = v.label;
+
+      const paramEl = document.createElement('div');
+      paramEl.className = 'param';
+      paramEl.textContent = v.param;
+
+      card.appendChild(numEl);
+      card.appendChild(makePianoD(v.cfg));
+      card.appendChild(labelEl);
+      card.appendChild(paramEl);
+      grid.appendChild(card);
+    }
+  </script>
+</body>
+</html>

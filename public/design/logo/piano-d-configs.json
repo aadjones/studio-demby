@@ -1,0 +1,44 @@
+{
+  "_note": "Piano-D logo variation configs for piano-d-vars.html. Each entry maps to the makePianoD() opts object.",
+  "_params": {
+    "kbW":     "keyboard width in SVG units (H=100 fixed)",
+    "numW":    "number of white keys",
+    "bkGaps":  "0-indexed gaps that get a black key (gap i = between white key i and i+1)",
+    "bkW":     "black key width",
+    "bkH":     "black key height",
+    "bodyRx":  "body horizontal radius (50 = perfect semicircle)",
+    "bodyRy":  "body vertical radius (always 50)",
+    "gap":     "space between keyboard right edge and body",
+    "sw":      "general stroke weight",
+    "edgeSW":  "top/bottom edge stroke weight",
+    "outline": "body outline only (no fill)",
+    "serifs":  "horizontal crossbars at D-spine terminals",
+    "serifL":  "serif length",
+    "rounded": "white key corner radius",
+    "bold":    "thick left spine"
+  },
+  "sets": [
+    {
+      "id": "v1",
+      "date": "2026-02-22",
+      "label": "Round 1 — Mathy / Exploration",
+      "winner": 2,
+      "winner_label": "Wider keyboard",
+      "winner_file": "public/assets/logo-piano-d-v1.svg",
+      "variations": [
+        { "num": 1,  "label": "Original concept",   "opts": {} },
+        { "num": 2,  "label": "Wider keyboard",      "opts": { "kbW": 34 } },
+        { "num": 3,  "label": "Piano-authentic",     "opts": { "bkGaps": [0, 1] } },
+        { "num": 4,  "label": "5 white keys",        "opts": { "numW": 5, "bkGaps": [0,1,2,3] } },
+        { "num": 5,  "label": "Oval body",           "opts": { "bodyRx": 65 } },
+        { "num": 6,  "label": "Gap",                 "opts": { "gap": 6 } },
+        { "num": 7,  "label": "Serifs",              "opts": { "serifs": true, "bold": true } },
+        { "num": 8,  "label": "Bold strokes",        "opts": { "sw": 4, "edgeSW": 6 } },
+        { "num": 9,  "label": "Rounded keys",        "opts": { "rounded": 3 } },
+        { "num": 10, "label": "Outline body",        "opts": { "outline": true, "gap": 6 } },
+        { "num": 11, "label": "Taller + oval",       "opts": { "kbW": 32, "bodyRx": 56, "serifs": true, "bold": true } },
+        { "num": 12, "label": "Compact",             "opts": { "numW": 3, "bkGaps": [0,1] } }
+      ]
+    }
+  ]
+}

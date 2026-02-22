@@ -1,0 +1,15 @@
+<svg viewBox="0 0 87.8 103.5" xmlns="http://www.w3.org/2000/svg">
+  <!-- Piano-D logo · variation #2 · kbW=34 · 4 white keys · 3 black keys · semicircle body -->
+  <!-- Generated 2026-02-22 from piano-d-vars.html -->
+  <path d="M 34 1.75 A 50 50 0 0 1 34 101.75 Z" fill="black" stroke="black" stroke-width="2"/>
+  <rect x="2.75" y="1.75"  width="34" height="25" fill="white" stroke="black" stroke-width="2" stroke-linejoin="miter"/>
+  <rect x="2.75" y="26.75" width="34" height="25" fill="white" stroke="black" stroke-width="2" stroke-linejoin="miter"/>
+  <rect x="2.75" y="51.75" width="34" height="25" fill="white" stroke="black" stroke-width="2" stroke-linejoin="miter"/>
+  <rect x="2.75" y="76.75" width="34" height="25" fill="white" stroke="black" stroke-width="2" stroke-linejoin="miter"/>
+  <rect x="22.75" y="20.25" width="14" height="13" fill="black" stroke="none"/>
+  <rect x="22.75" y="45.25" width="14" height="13" fill="black" stroke="none"/>
+  <rect x="22.75" y="70.25" width="14" height="13" fill="black" stroke="none"/>
+  <line x1="1"    y1="1.75"   x2="38.5" y2="1.75"   stroke="black" stroke-width="3.5" stroke-linecap="square"/>
+  <line x1="1"    y1="101.75" x2="38.5" y2="101.75" stroke="black" stroke-width="3.5" stroke-linecap="square"/>
+  <line x1="2.75" y1="1.75"   x2="2.75" y2="101.75" stroke="black" stroke-width="2"   stroke-linecap="square"/>
+</svg>

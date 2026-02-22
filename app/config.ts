@@ -2,7 +2,7 @@ export const metaData = {
   baseUrl: "https://www.studiodemby.com/",
   title: "Studio Demby",
   name: "Studio Demby",
-  ogImage: "/opengraph-image.png",
+  ogImage: "/og-image.png",
   description: "Musician, visual artist, educator.",
 };
 

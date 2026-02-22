@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { background: #f0ede8; font-family: 'Georgia', serif; padding: 48px; margin: 0; }
+    h1   { font-size: 15px; margin-bottom: 4px; color: #222; letter-spacing: 0.08em; font-style: italic; }
+    .note{ font-size: 10px; color: #999; margin-bottom: 40px; font-family: monospace; }
+    .grid{ display: grid; grid-template-columns: repeat(4, auto); gap: 52px 60px; align-items: end; }
+    .card{ display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .card svg { box-shadow: 0 2px 18px rgba(0,0,0,0.1); display: block; }
+    .num  { font-size: 18px; font-weight: bold; color: #bbb; line-height: 1; font-family: monospace; }
+    .label{ font-size: 11px; color: #333; text-align: center; letter-spacing: 0.04em; }
+    .param{ font-size: 9px; color: #aaa; text-align: center; line-height: 1.7; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <h1>Piano-D · Elegant Set</h1>
+  <p class="note">Building on v1 winner (#2). Bezier bodies, refined proportions, designed details.</p>
+  <div class="grid" id="grid"></div>
+
+  <script>
+    /**
+     * makePianoD — elegant version.
+     *
+     * Key changes from v1:
+     *  - bodyShape: 'arc' | 'bezier' | 'tapered'
+     *      'arc'     = perfect semicircle (v1 baseline)
+     *      'bezier'  = cubic Bezier approximation of arc (0.5523 control ratio)
+     *                  → same shape but allows terminal taper via endTaper param
+     *      'tapered' = Bezier with control points pulled in at endpoints
+     *                  → body narrows at top/bottom like a real typeface D
+     *  - spineRadius: rounded top-left / bottom-left corners of keyboard box
+     *  - Single-stroke key dividers (no double lines between adjacent keys)
+     *  - Refined black key proportions (finer, more elongated)
+     *  - bodyOffset: vertical offset of body center (for asymmetric D exploration)
+     */
+    function makePianoD(cfg) {
+      const {
+        kbW        = 34,        // keyboard width
+        numW       = 4,         // white keys
+        bkGaps     = [0,1,2],   // gaps that get black keys
+        bkW        = 12,        // black key width (slightly narrower = more refined)
+        bkH        = 14,        // black key height
+        bkRounded  = 1.5,       // black key corner radius
+        bodyShape  = 'arc',     // 'arc' | 'bezier' | 'tapered'
+        taper      = 0.18,      // how much to pull in the bezier endpoints (0=none, 1=sharp)
+        bodyRx     = 50,        // body horizontal extent
+        bodyRy     = 50,        // body vertical radius
+        gap        = 0,         // keyboard-to-body gap
+        spineRad   = 0,         // rounded corner at D-spine top/bottom
+        sw         = 1.5,       // general stroke weight
+        edgeSW     = 3,         // top/bottom edge stroke weight
+        divSW      = 0.75,      // key divider stroke weight (thin)
+        outline    = false,
+        serifs     = false,
+        serifL     = 8,
+        rounded    = 0,         // white key corner radius
+        bold       = false,
+      } = cfg;
+
+      const H = 100;
+      const wkH = H / numW;
+      const cx  = kbW + gap;
+      const PAD = edgeSW / 2 + (serifs ? serifL + 2 : 2);
+      const vbW = cx + bodyRx + PAD + 1;
+      const vbH = H + edgeSW;
+      const oy  = edgeSW / 2;
+
+      const pxH = 150;
+      const pxW = Math.ceil((vbW / vbH) * pxH);
+
+      const NS = 'http://www.w3.org/2000/svg';
+      function el(tag, attrs) {
+        const n = document.createElementNS(NS, tag);
+        for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, String(v));
+        return n;
+      }
+
+      const svg = el('svg', {
+        width: pxW, height: pxH,
+        viewBox: `0 0 ${vbW.toFixed(1)} ${vbH.toFixed(1)}`,
+        xmlns: NS,
+        style: 'background:white',
+      });
+
+      // ── Body ─────────────────────────────────────────────────
+      // All shapes: from (cx, oy) → (cx, oy+H), bulging right
+      const top = `${cx} ${oy}`;
+      const bot = `${cx} ${oy + H}`;
+      let dBody;
+
+      if (bodyShape === 'arc') {
+        // Perfect semicircle (v1 baseline)
+        dBody = `M ${top} A ${bodyRx} ${bodyRy} 0 0 1 ${bot} Z`;
+
+      } else if (bodyShape === 'bezier') {
+        // Cubic Bezier approximation of semicircle (k=0.5523)
+        const k = 0.5523;
+        const cpY = bodyRy * k;
+        const mid = oy + H / 2;
+        dBody = [
+          `M ${cx} ${oy}`,
+          `C ${cx + bodyRx * k} ${oy},`,
+          `  ${cx + bodyRx} ${mid - cpY},`,
+          `  ${cx + bodyRx} ${mid}`,
+          `C ${cx + bodyRx} ${mid + cpY},`,
+          `  ${cx + bodyRx * k} ${oy + H},`,
+          `  ${cx} ${oy + H}`,
+          `Z`,
+        ].join(' ');
+
+      } else if (bodyShape === 'tapered') {
+        // Bezier with inward-pulled endpoints → tapers at top/bottom like a real D
+        // The endpoint tangent pulls slightly inward (negative x at start/end)
+        const k = 0.5523;
+        const mid = oy + H / 2;
+        const cpY = bodyRy * k;
+        const pullIn = bodyRx * taper;   // how far to pull back the end control points
+        dBody = [
+          `M ${cx} ${oy}`,
+          `C ${cx + pullIn} ${oy},`,          // start cp: small horizontal exit
+          `  ${cx + bodyRx} ${mid - cpY},`,   // upper inflection
+          `  ${cx + bodyRx} ${mid}`,
+          `C ${cx + bodyRx} ${mid + cpY},`,   // lower inflection
+          `  ${cx + pullIn} ${oy + H},`,       // end cp: small horizontal entry
+          `  ${cx} ${oy + H}`,
+          `Z`,
+        ].join(' ');
+      }
+
+      svg.appendChild(el('path', {
+        d: dBody,
+        fill: outline ? 'white' : 'black',
+        stroke: outline ? 'black' : 'none',
+        ...(outline && { 'stroke-width': sw }),
+      }));
+
+      // ── White key background (single rect, no double-stroke dividers) ──
+      // Draw one rect for the whole keyboard area, then overlay thin dividers.
+      svg.appendChild(el('rect', {
+        x: PAD, y: oy,
+        width: kbW, height: H,
+        fill: 'white', stroke: 'none',
+        rx: rounded, ry: rounded,
+      }));
+
+      // Key dividers (single thin line per gap — no double stroke)
+      for (let i = 1; i < numW; i++) {
+        const divY = oy + i * wkH;
+        svg.appendChild(el('line', {
+          x1: PAD, y1: divY, x2: PAD + kbW, y2: divY,
+          stroke: 'black', 'stroke-width': divSW,
+        }));
+      }
+
+      // ── Black keys ────────────────────────────────────────────
+      const bkX = PAD + kbW - bkW;
+      for (const g of bkGaps) {
+        const gapY = oy + (g + 1) * wkH;
+        svg.appendChild(el('rect', {
+          x: bkX, y: gapY - bkH / 2,
+          width: bkW, height: bkH,
+          fill: 'black', stroke: 'none',
+          rx: bkRounded, ry: bkRounded,
+        }));
+      }
+
+      // ── Top + bottom thick edges ──────────────────────────────
+      const half = edgeSW / 2;
+      svg.appendChild(el('line', {
+        x1: PAD - half, y1: oy, x2: PAD + kbW + half, y2: oy,
+        stroke: 'black', 'stroke-width': edgeSW, 'stroke-linecap': 'square',
+      }));
+      svg.appendChild(el('line', {
+        x1: PAD - half, y1: oy + H, x2: PAD + kbW + half, y2: oy + H,
+        stroke: 'black', 'stroke-width': edgeSW, 'stroke-linecap': 'square',
+      }));
+
+      // ── Left spine ────────────────────────────────────────────
+      const spineSW = bold ? edgeSW : sw;
+      if (spineRad > 0) {
+        // Draw spine as a path with rounded corners at top and bottom
+        const r = spineRad;
+        const dSpine = [
+          `M ${PAD} ${oy + r}`,
+          `Q ${PAD} ${oy} ${PAD + r} ${oy}`,   // top-left round
+          `M ${PAD} ${oy + H - r}`,
+          `Q ${PAD} ${oy + H} ${PAD + r} ${oy + H}`,
+          `M ${PAD} ${oy + r} L ${PAD} ${oy + H - r}`,
+        ].join(' ');
+        svg.appendChild(el('path', { d: dSpine, stroke: 'black', 'stroke-width': spineSW, fill: 'none', 'stroke-linecap': 'round' }));
+      } else {
+        svg.appendChild(el('line', {
+          x1: PAD, y1: oy, x2: PAD, y2: oy + H,
+          stroke: 'black', 'stroke-width': spineSW, 'stroke-linecap': 'square',
+        }));
+      }
+
+      // ── Keyboard border (right edge) — only where body isn't covering it ──
+      // When gap > 0, draw a thin right edge on the keyboard box
+      if (gap > 0) {
+        svg.appendChild(el('line', {
+          x1: PAD + kbW, y1: oy, x2: PAD + kbW, y2: oy + H,
+          stroke: 'black', 'stroke-width': sw, 'stroke-linecap': 'square',
+        }));
+      }
+
+      // ── Serifs ────────────────────────────────────────────────
+      if (serifs) {
+        svg.appendChild(el('line', {
+          x1: PAD - serifL, y1: oy, x2: PAD + 2, y2: oy,
+          stroke: 'black', 'stroke-width': edgeSW, 'stroke-linecap': 'butt',
+        }));
+        svg.appendChild(el('line', {
+          x1: PAD - serifL, y1: oy + H, x2: PAD + 2, y2: oy + H,
+          stroke: 'black', 'stroke-width': edgeSW, 'stroke-linecap': 'butt',
+        }));
+      }
+
+      return svg;
+    }
+
+    // ── Variation set ─────────────────────────────────────────
+    const variations = [
+      {
+        num: 1,
+        label: 'v1 winner (baseline)',
+        param: 'arc · no changes · reference',
+        cfg: { bodyShape: 'arc' },
+      },
+      {
+        num: 2,
+        label: 'Bezier body',
+        param: 'cubic Bézier ≈ semicircle\ncleaner terminals',
+        cfg: { bodyShape: 'bezier' },
+      },
+      {
+        num: 3,
+        label: 'Tapered body',
+        param: 'Bézier with pulled endpoints\nbody narrows at top/bottom',
+        cfg: { bodyShape: 'tapered', taper: 0.22 },
+      },
+      {
+        num: 4,
+        label: 'Tapered + spine radius',
+        param: 'tapered body · rounded\nD-spine corners',
+        cfg: { bodyShape: 'tapered', taper: 0.22, spineRad: 5 },
+      },
+      {
+        num: 5,
+        label: 'Hairline',
+        param: 'sw=1 · divSW=0.5\nmaximum refinement',
+        cfg: { bodyShape: 'bezier', sw: 1, edgeSW: 2, divSW: 0.5 },
+      },
+      {
+        num: 6,
+        label: 'Gap + tapered',
+        param: 'gap=5 · tapered body\nkeyboard floats',
+        cfg: { bodyShape: 'tapered', taper: 0.28, gap: 5 },
+      },
+      {
+        num: 7,
+        label: 'Wide + tapered',
+        param: 'kbW=38 · tapered\nmore keyboard presence',
+        cfg: { kbW: 38, bodyShape: 'tapered', taper: 0.2 },
+      },
+      {
+        num: 8,
+        label: 'Slim keys',
+        param: 'bkW=10 · bkH=16\nfiner black keys',
+        cfg: { bodyShape: 'tapered', taper: 0.2, bkW: 10, bkH: 16, bkRounded: 2 },
+      },
+      {
+        num: 9,
+        label: 'Rounded keys',
+        param: 'rounded=3 · tapered body\nsofter / more modern',
+        cfg: { bodyShape: 'tapered', taper: 0.2, rounded: 3, bkRounded: 2 },
+      },
+      {
+        num: 10,
+        label: 'Serifs + tapered',
+        param: 'serifL=10 · tapered\ntypographic D',
+        cfg: { bodyShape: 'tapered', taper: 0.2, serifs: true, bold: true, serifL: 10 },
+      },
+      {
+        num: 11,
+        label: 'Oval + tapered',
+        param: 'bodyRx=62 · tapered\ngenerous D bowl',
+        cfg: { bodyShape: 'tapered', taper: 0.18, bodyRx: 62 },
+      },
+      {
+        num: 12,
+        label: 'All refined',
+        param: 'kbW=36 · tapered · rounded\nbkW=10 · spineRad=4',
+        cfg: { kbW: 36, bodyShape: 'tapered', taper: 0.2, rounded: 2, bkW: 10, bkH: 15, bkRounded: 2, spineRad: 4, bodyRx: 54 },
+      },
+    ];
+
+    const grid = document.getElementById('grid');
+    for (const v of variations) {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const numEl = document.createElement('div');
+      numEl.className = 'num';
+      numEl.textContent = String(v.num);
+
+      const labelEl = document.createElement('div');
+      labelEl.className = 'label';
+      labelEl.textContent = v.label;
+
+      const paramEl = document.createElement('div');
+      paramEl.className = 'param';
+      paramEl.textContent = v.param;
+
+      card.appendChild(numEl);
+      card.appendChild(makePianoD(v.cfg));
+      card.appendChild(labelEl);
+      card.appendChild(paramEl);
+      grid.appendChild(card);
+    }
+  </script>
+</body>
+</html>
