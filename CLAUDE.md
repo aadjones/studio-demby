@@ -109,9 +109,14 @@ Safari resolves `aspect-ratio` lazily. If you call `parent.clientHeight` at `Int
 **2. `blendMode(ADD)` on `p5.Graphics` buffers**
 Safari can produce compositing artifacts when `blendMode(ADD)` is set before `background()` on a graphics buffer.
 - **Fix:** Call `buffer.background(0)` first, then `buffer.blendMode(p.ADD)`.
+- Safari's WebKit Canvas 2D handles `globalCompositeOperation: 'lighter'` (ADD) significantly slower than Chrome. This is a fundamental WebKit limitation — reducing vertex count or debouncing helps but won't fully close the gap. Accept it or switch to WebGL mode.
 
-**3. General rule**
-When a p5 sketch works in Chrome but is blank/broken in Safari, check canvas sizing first — it's the most common cause.
+**3. `pixelDensity` on mobile**
+On iPhone (3x display), p5 renders a canvas 9x larger than the visible size by default. This is the biggest single cause of mobile slowness.
+- **Fix:** Call `p.pixelDensity(1)` in `setup()` before anything else.
+
+**4. General rule**
+When a p5 sketch works in Chrome but is blank/broken in Safari, check canvas sizing first. When it's slow on mobile Safari, check pixelDensity and ADD blend mode.
 
 ### Creative Copy
 
