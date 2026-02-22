@@ -1,6 +1,7 @@
 "use client";
 
 import { hydrate, type SerializeResult } from "next-mdx-remote-client/csr";
+import dynamic from "next/dynamic";
 import MDXImage from "../media/MDXImage";
 
 // Components
@@ -43,7 +44,7 @@ import ShrimpJesusFAQ from "../surreal-systems/ShrimpJesusFAQ";
 import FullscreenVideo from "../FullscreenVideo";
 import VideoPlayer from "../media/VideoPlayer";
 import MechanicsVisualizer from "../mdx-blocks/MechanicsVisualizer";
-import TimeVisualizer from "../mdx-blocks/TimeVisualizer";
+const TimeVisualizer = dynamic(() => import("../mdx-blocks/TimeVisualizer"), { ssr: false });
 import LeapSecondBettingMarket from "../mdx-blocks/LeapSecondBettingMarket";
 import VideoEmbed from "../mdx-blocks/VideoEmbed";
 import MuseumExhibit from "../mdx-blocks/MuseumExhibit";
