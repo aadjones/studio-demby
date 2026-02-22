@@ -118,6 +118,10 @@ On iPhone (3x display), p5 renders a canvas 9x larger than the visible size by d
 **4. General rule**
 When a p5 sketch works in Chrome but is blank/broken in Safari, check canvas sizing first. When it's slow on mobile Safari, check pixelDensity and ADD blend mode.
 
+### Frontmatter Dates
+
+Always use quoted, zero-padded ISO 8601 format: `date: "YYYY-MM-DD"` (e.g. `"2023-01-10"`, not `2023-1-10`). Two failure modes: (1) missing quotes → YAML parses as a date object, schema expects string → project disappears from listings; (2) single-digit month/day without quotes → Safari renders `NaN`.
+
 ### Creative Copy
 
 **Never write creative copy for project pages unless explicitly asked.** This includes: summaries, whisper lines, field notes, project overview prose, metadata flavor text, or any narrative/descriptive writing. Leave those fields blank or with clear placeholders, and let the user fill them in.
