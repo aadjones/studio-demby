@@ -7,7 +7,7 @@ import React, { useRef, useState, useEffect } from "react";
 const HUE_MIN = 0;
 const HUE_MAX = 100;
 const LAYERS_MIN = 5;
-const LAYERS_MAX = 14; // 3×2^14 = 49K vertices max; was 18 (786K) — Safari can't handle that
+const LAYERS_MAX = 12; // 3×2^12 = ~12K vertices max; higher values are slow on mobile Safari
 const DISTORTION_MIN = 1;
 const DISTORTION_MAX = 25;
 const FADE_FRAMES = 50;
@@ -47,7 +47,7 @@ export default function PolybloomPlaygroundClient() {
 
   // Refs read by the sketch — no remount on slider change
   const hueRef = useRef(0);
-  const layersRef = useRef(10);
+  const layersRef = useRef(8);
   const distortionRef = useRef(7);
   const seedRef = useRef(Math.floor(Math.random() * 99999));
   const regenerateRef = useRef<((animated: boolean) => void) | null>(null);
@@ -55,7 +55,7 @@ export default function PolybloomPlaygroundClient() {
 
   // State drives slider UI only
   const [hue, setHue] = useState(0);
-  const [layers, setLayers] = useState(10);
+  const [layers, setLayers] = useState(8);
   const [distortion, setDistortion] = useState(7);
 
   // Lazy-init: don't spin up sketch until canvas is in view
@@ -142,6 +142,7 @@ export default function PolybloomPlaygroundClient() {
         lastSize = size;
         const canvas = p.createCanvas(size, size);
         canvas.parent(parent);
+        p.pixelDensity(1); // disable HiDPI — prevents 9x pixel overdraw on iPhone 3x screens
         p.colorMode(p.HSB, 360, 100, 100, 1.0);
         p.noStroke();
         p.background(0);
