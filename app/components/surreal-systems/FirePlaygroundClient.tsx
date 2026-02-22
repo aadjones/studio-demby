@@ -7,7 +7,7 @@ import React, { useRef, useState, useEffect } from "react";
 const HUE_MIN = 0;
 const HUE_MAX = 100;
 const LAYERS_MIN = 5;
-const LAYERS_MAX = 18;
+const LAYERS_MAX = 14; // 3×2^14 = 49K vertices max; was 18 (786K) — Safari can't handle that
 const DISTORTION_MIN = 1;
 const DISTORTION_MAX = 25;
 const FADE_FRAMES = 50;
@@ -18,10 +18,11 @@ interface SliderFieldProps {
   min: number;
   max: number;
   step: number;
-  onChange: (v: number) => void;
+  onChange: (v: number) => void;   // updates state/ref live
+  onRelease: () => void;           // triggers regeneration on pointer up
 }
 
-function SliderField({ label, value, min, max, step, onChange }: SliderFieldProps) {
+function SliderField({ label, value, min, max, step, onChange, onRelease }: SliderFieldProps) {
   return (
     <div className="flex flex-col gap-1.5">
       <span className="text-xs font-mono uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
@@ -34,6 +35,7 @@ function SliderField({ label, value, min, max, step, onChange }: SliderFieldProp
         step={step}
         value={value}
         onChange={(e) => onChange(parseFloat(e.target.value))}
+        onPointerUp={onRelease}
         className="w-full cursor-pointer accent-neutral-800 dark:accent-neutral-200"
       />
     </div>
@@ -47,14 +49,14 @@ export default function FirePlaygroundClient() {
 
   // Refs read by the sketch — no remount on slider change
   const hueRef = useRef(0);
-  const layersRef = useRef(15);
+  const layersRef = useRef(10);
   const distortionRef = useRef(7);
   const seedRef = useRef(Math.floor(Math.random() * 99999));
   const regenerateRef = useRef<((animated: boolean) => void) | null>(null);
 
   // State drives slider UI only
   const [hue, setHue] = useState(0);
-  const [layers, setLayers] = useState(15);
+  const [layers, setLayers] = useState(10);
   const [distortion, setDistortion] = useState(7);
 
   // Lazy-init: don't spin up sketch until canvas is in view
@@ -77,7 +79,9 @@ export default function FirePlaygroundClient() {
   useEffect(() => {
     if (!visible || !containerRef.current) return;
     const parent = containerRef.current;
-    let lastSize = Math.min(parent.clientWidth, parent.clientHeight);
+    // Use clientWidth only — container is already square via aspect-ratio CSS.
+    // Safari resolves aspect-ratio lazily so clientHeight may be 0 at IntersectionObserver time.
+    let lastSize = parent.clientWidth;
 
     const p5Instance: any = new (window as any).p5((p: any) => {
       let buffer: any = null;
@@ -85,13 +89,14 @@ export default function FirePlaygroundClient() {
 
       function generateSceneToBuffer() {
         const size = p.width;
+        if (size < 1) return; // guard against zero-size canvas (Safari layout timing)
         if (buffer) buffer.remove();
 
         buffer = p.createGraphics(size, size);
         buffer.colorMode(p.HSB, 360, 100, 100, 1.0);
         buffer.noStroke();
-        buffer.blendMode(p.ADD);
         buffer.background(0);
+        buffer.blendMode(p.ADD); // set AFTER background to avoid Safari compositing artifacts
 
         p.randomSeed(seedRef.current);
 
@@ -134,17 +139,22 @@ export default function FirePlaygroundClient() {
       }
 
       p.setup = () => {
-        const size = Math.min(parent.clientWidth, parent.clientHeight);
+        const size = parent.clientWidth; // aspect-ratio guarantees square; don't use clientHeight (Safari)
         lastSize = size;
         const canvas = p.createCanvas(size, size);
         canvas.parent(parent);
         p.colorMode(p.HSB, 360, 100, 100, 1.0);
         p.noStroke();
         p.background(0);
+        p.noLoop(); // don't draw until buffer is ready
 
-        generateSceneToBuffer();
-        fadeProgress = 0;
-        p.loop();
+        // Defer heavy computation so the browser paints the black canvas first.
+        // Without this, Safari freezes on the main thread and shows nothing until done.
+        setTimeout(() => {
+          generateSceneToBuffer();
+          fadeProgress = 0;
+          p.loop();
+        }, 0);
 
         // Expose regenerate so UI can trigger re-render without remounting p5.
         // animated=true: fade-in reveal (initial load, shuffle)
@@ -161,6 +171,7 @@ export default function FirePlaygroundClient() {
       };
 
       p.draw = () => {
+        if (!buffer) return; // buffer not yet ready (deferred init)
         p.background(0);
         const tNorm = fadeProgress / FADE_FRAMES;
         const tSmooth = tNorm * tNorm * (3 - 2 * tNorm);
@@ -172,7 +183,7 @@ export default function FirePlaygroundClient() {
       };
 
       p.windowResized = () => {
-        const size = Math.min(parent.clientWidth, parent.clientHeight);
+        const size = parent.clientWidth;
         if (Math.abs(size - lastSize) > 5) {
           lastSize = size;
           p.resizeCanvas(size, size);
@@ -217,7 +228,8 @@ export default function FirePlaygroundClient() {
               min={HUE_MIN}
               max={HUE_MAX}
               step={1}
-              onChange={(v: number) => { setHue(v); hueRef.current = v; regenerateRef.current?.(false); }}
+              onChange={(v: number) => { setHue(v); hueRef.current = v; }}
+              onRelease={() => regenerateRef.current?.(false)}
             />
             <SliderField
               label="layers"
@@ -225,7 +237,8 @@ export default function FirePlaygroundClient() {
               min={LAYERS_MIN}
               max={LAYERS_MAX}
               step={1}
-              onChange={(v: number) => { setLayers(v); layersRef.current = v; regenerateRef.current?.(false); }}
+              onChange={(v: number) => { setLayers(v); layersRef.current = v; }}
+              onRelease={() => regenerateRef.current?.(false)}
             />
             <SliderField
               label="distortion"
@@ -233,7 +246,8 @@ export default function FirePlaygroundClient() {
               min={DISTORTION_MIN}
               max={DISTORTION_MAX}
               step={0.5}
-              onChange={(v: number) => { setDistortion(v); distortionRef.current = v; regenerateRef.current?.(false); }}
+              onChange={(v: number) => { setDistortion(v); distortionRef.current = v; }}
+              onRelease={() => regenerateRef.current?.(false)}
             />
           </div>
           <div className="flex justify-center">

@@ -97,6 +97,22 @@ Range sliders (`<input type="range">`) have small default touch targets. A globa
 
 Save all Playwright/MCP screenshots to `.playwright-mcp/`. This directory is gitignored. Never save screenshots to the project root.
 
+### Safari Compatibility — p5.js Canvases
+
+Safari is a persistent source of bugs for p5.js sketches. Known issues and fixes:
+
+**1. `aspect-ratio` CSS + `clientHeight` → canvas size 0**
+Safari resolves `aspect-ratio` lazily. If you call `parent.clientHeight` at `IntersectionObserver` or `setup` time on an `aspect-square` container, it may return `0`. `Math.min(clientWidth, 0) = 0` → `createCanvas(0, 0)` → silent failure, nothing renders.
+- **Fix:** Use `parent.clientWidth` only (the container is already square via CSS). Never use `clientHeight` for canvas sizing on aspect-ratio containers.
+- **Guard:** Add `if (size < 1) return;` at the top of any draw/generate function.
+
+**2. `blendMode(ADD)` on `p5.Graphics` buffers**
+Safari can produce compositing artifacts when `blendMode(ADD)` is set before `background()` on a graphics buffer.
+- **Fix:** Call `buffer.background(0)` first, then `buffer.blendMode(p.ADD)`.
+
+**3. General rule**
+When a p5 sketch works in Chrome but is blank/broken in Safari, check canvas sizing first — it's the most common cause.
+
 ### Creative Copy
 
 **Never write creative copy for project pages unless explicitly asked.** This includes: summaries, whisper lines, field notes, project overview prose, metadata flavor text, or any narrative/descriptive writing. Leave those fields blank or with clear placeholders, and let the user fill them in.
