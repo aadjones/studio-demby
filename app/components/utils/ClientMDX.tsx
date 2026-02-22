@@ -34,7 +34,7 @@ import WisdomTeethCodex from "../surreal-systems/WisdomTeethCodex";
 import HeroTitleBlock from "../mdx-blocks/HeroTitleBlock";
 import SimpleVideoBlock from "../mdx-blocks/SimpleVideoBlock";
 import FeathersPlayground from "../surreal-systems/FeathersPlayground";
-import FirePlayground from "../surreal-systems/FirePlayground";
+import PolybloomPlayground from "../surreal-systems/PolybloomPlayground";
 import GospelCarousel from "../surreal-systems/GospelCarousel";
 import SpatialSynthesizer from "../surreal-systems/SpatialSynthesizer/index";
 import EncasedMeltingSphere from "../mdx-blocks/EncasedMeltingSphere";
@@ -96,7 +96,7 @@ const baseComponents = {
   HeroTitleBlock,
   SimpleVideoBlock,
   FeathersPlayground,
-  FirePlayground,
+  PolybloomPlayground,
   MeltdownDiptych,
   GospelCarousel,
   ShrimpJesusFAQ,

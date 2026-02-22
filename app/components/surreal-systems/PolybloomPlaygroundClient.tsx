@@ -1,4 +1,4 @@
-// app/components/surreal-systems/FirePlaygroundClient.tsx
+// app/components/surreal-systems/PolybloomPlaygroundClient.tsx
 
 "use client";
 
@@ -18,11 +18,10 @@ interface SliderFieldProps {
   min: number;
   max: number;
   step: number;
-  onChange: (v: number) => void;   // updates state/ref live
-  onRelease: () => void;           // triggers regeneration on pointer up
+  onChange: (v: number) => void;
 }
 
-function SliderField({ label, value, min, max, step, onChange, onRelease }: SliderFieldProps) {
+function SliderField({ label, value, min, max, step, onChange }: SliderFieldProps) {
   return (
     <div className="flex flex-col gap-1.5">
       <span className="text-xs font-mono uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
@@ -35,14 +34,13 @@ function SliderField({ label, value, min, max, step, onChange, onRelease }: Slid
         step={step}
         value={value}
         onChange={(e) => onChange(parseFloat(e.target.value))}
-        onPointerUp={onRelease}
         className="w-full cursor-pointer accent-neutral-800 dark:accent-neutral-200"
       />
     </div>
   );
 }
 
-export default function FirePlaygroundClient() {
+export default function PolybloomPlaygroundClient() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [shufflePressed, setShufflePressed] = useState(false);
@@ -53,6 +51,7 @@ export default function FirePlaygroundClient() {
   const distortionRef = useRef(7);
   const seedRef = useRef(Math.floor(Math.random() * 99999));
   const regenerateRef = useRef<((animated: boolean) => void) | null>(null);
+  const regenTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // State drives slider UI only
   const [hue, setHue] = useState(0);
@@ -228,8 +227,11 @@ export default function FirePlaygroundClient() {
               min={HUE_MIN}
               max={HUE_MAX}
               step={1}
-              onChange={(v: number) => { setHue(v); hueRef.current = v; }}
-              onRelease={() => regenerateRef.current?.(false)}
+              onChange={(v: number) => {
+                setHue(v); hueRef.current = v;
+                if (regenTimerRef.current) clearTimeout(regenTimerRef.current);
+                regenTimerRef.current = setTimeout(() => regenerateRef.current?.(false), 80);
+              }}
             />
             <SliderField
               label="layers"
@@ -237,8 +239,11 @@ export default function FirePlaygroundClient() {
               min={LAYERS_MIN}
               max={LAYERS_MAX}
               step={1}
-              onChange={(v: number) => { setLayers(v); layersRef.current = v; }}
-              onRelease={() => regenerateRef.current?.(false)}
+              onChange={(v: number) => {
+                setLayers(v); layersRef.current = v;
+                if (regenTimerRef.current) clearTimeout(regenTimerRef.current);
+                regenTimerRef.current = setTimeout(() => regenerateRef.current?.(false), 80);
+              }}
             />
             <SliderField
               label="distortion"
@@ -246,8 +251,11 @@ export default function FirePlaygroundClient() {
               min={DISTORTION_MIN}
               max={DISTORTION_MAX}
               step={0.5}
-              onChange={(v: number) => { setDistortion(v); distortionRef.current = v; }}
-              onRelease={() => regenerateRef.current?.(false)}
+              onChange={(v: number) => {
+                setDistortion(v); distortionRef.current = v;
+                if (regenTimerRef.current) clearTimeout(regenTimerRef.current);
+                regenTimerRef.current = setTimeout(() => regenerateRef.current?.(false), 80);
+              }}
             />
           </div>
           <div className="flex justify-center">
