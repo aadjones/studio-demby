@@ -1,0 +1,72 @@
+---
+title: "Polybloom 🎨"
+slug: polybloom
+summary: A generative system that recursively distorts polygons.
+image: /photos/fire/fire2.png
+images:
+  - /photos/fire/fire2.png
+  - /photos/fire/fire1.png
+  - /photos/fire/fire3.png
+  - /photos/fire/fire4.png
+date: "2024-12-04"
+tags:
+  - generative
+  - duality
+  - recursive
+categories:
+  - visual-art
+---
+
+import ZoomImage from "@/components/ZoomImage";
+import HeroCarouselBlock from "@/components/HeroCarouselBlock";
+import FirePlayground from "@/app/components/surreal-systems/FirePlayground";
+
+<HeroCarouselBlock tall />
+
+<SectionNav />
+
+<h2 id="control-panel"></h2>
+<div className="not-prose mt-10">
+  <FirePlayground />
+</div>
+
+<h2 id="gallery"></h2>
+<LightboxGallery
+  title="Studies"
+  images={[
+    "/photos/fire/fire1.png",
+    "/photos/fire/fire2.png",
+    "/photos/fire/fire3.png",
+    "/photos/fire/fire4.png",
+  ]}
+/>
+
+<ProjectOverview header={null}>
+  _Polybloom_ is a system that recursively distorts a collection of layered
+  polygons. Different settings educe a range of possibilities, from the abstract
+  to the organic. See what you can come up with yourself.
+</ProjectOverview>
+
+<CollapseMetadata>
+  <ul>
+    <li>
+      <strong>Date:</strong> 2024
+    </li>
+    <li>
+      <strong>Tools:</strong> p5.js, recursive vertex shifting, screen-blend
+      geometry rendering
+    </li>
+    <li>
+      <strong>Process:</strong> Opposed bloom systems layered with dynamic
+      parameters
+    </li>
+    <li>
+      <strong>Iterations:</strong> 33
+    </li>
+    <li>
+      <strong>Artifacts:</strong> Polygon identity crises
+    </li>
+  </ul>
+</CollapseMetadata>
+
+<CallToAction flavor="art" />

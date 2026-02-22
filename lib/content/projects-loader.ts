@@ -4,7 +4,6 @@ import matter from "gray-matter";
 import { serialize } from "next-mdx-remote-client/serialize";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
-import { rustVeilPreset, glacialStrikePreset } from "@/lib/data/firePresets";
 
 import { ProjectSchema, MDXProject } from "@/types/mdx";
 
@@ -81,7 +80,7 @@ export async function getProjectBySlugOnly(slug: string) {
     source: content,
     options: {
       disableImports: true,
-      scope: { rustVeilPreset, glacialStrikePreset },
+      scope: {},
       mdxOptions: {
         remarkPlugins: [remarkMathPlugin],
         rehypePlugins: [rehypeKatexPlugin],

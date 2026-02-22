@@ -9,8 +9,8 @@ const CURATED_WORKS = [
     image: "/photos/ghostly-double/ghostly-double.jpg",
   },
   {
-    slug: "fire",
-    title: "Fire",
+    slug: "polybloom",
+    title: "Polybloom",
     tag: "generative art",
     image: "/photos/fire/fire2.png",
   },

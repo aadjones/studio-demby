@@ -50,6 +50,7 @@ import MuseumExhibit from "../mdx-blocks/MuseumExhibit";
 import SticksAndSticks from "../mdx-blocks/SticksAndSticks";
 import PetrolNoise from "../mdx-blocks/PetrolNoise";
 import GrainRain from "../mdx-blocks/GrainRain";
+import LightboxGallery from "../mdx-blocks/LightboxGallery";
 
 type ComponentType = React.ComponentType<any> | string;
 
@@ -109,6 +110,7 @@ const baseComponents = {
   SticksAndSticks,
   PetrolNoise,
   GrainRain,
+  LightboxGallery,
 };
 
 export default function ClientMDX({
