@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <link rel="icon" href="/standalone/frogmath/favicon.svg" type="image/svg+xml" />
+    <title>Frog Math</title>
+    <script type="module" crossorigin src="/standalone/frogmath/assets/index-DD6DSve3.js"></script>
+    <link rel="stylesheet" crossorigin href="/standalone/frogmath/assets/index-dNfRueSr.css">
+  </head>
+  <body>
+    <a id="portfolio-back" href="/work/frogmath" style="display:none;position:fixed;top:1rem;left:1rem;z-index:9999;font-family:monospace;font-size:0.7rem;letter-spacing:0.08em;text-decoration:none;color:#fff;mix-blend-mode:difference;opacity:0.6;">← portfolio</a>
+    <div id="app"></div>
+    <script>
+      var link = document.getElementById('portfolio-back');
+      var app = document.getElementById('app');
+      function update() {
+        link.style.display = app.querySelector('.menu-wrapper') ? 'inline' : 'none';
+      }
+      new MutationObserver(update).observe(app, { childList: true, subtree: true });
+    </script>
+  </body>
+</html>
