@@ -2,9 +2,46 @@
 
 import React, { useRef, useState, useEffect } from "react";
 
+interface SliderFieldProps {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step: number;
+  onChange: (v: number) => void;
+}
+
+function SliderField({ label, value, min, max, step, onChange }: SliderFieldProps) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <span className="text-xs font-mono uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
+        {label}
+      </span>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(parseFloat(e.target.value))}
+        className="w-full cursor-pointer accent-neutral-800 dark:accent-neutral-200"
+      />
+    </div>
+  );
+}
+
 export default function SticksAndSticks() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
+
+  // Refs read by draw loop — no remount on change
+  const speedRef = useRef(50);  // 1–100, mapped to 0.1–3.0× in draw
+  const trailRef = useRef(50);  // slider value; alpha = (3+60) - value, so high slider = long trail
+
+  // State drives slider UI only
+  const [speed, setSpeed] = useState(50);
+  const [trail, setTrail] = useState(50);
+
   useEffect(() => {
     if (!containerRef.current) return;
     const obs = new IntersectionObserver(
@@ -20,29 +57,10 @@ export default function SticksAndSticks() {
     return () => obs.disconnect();
   }, []);
 
-
-  const toggleFullscreen = async () => {
-    if (!containerRef.current) return;
-    const doc = document as any;
-    const el = containerRef.current as any;
-    if (!doc.fullscreenElement && !doc.webkitFullscreenElement) {
-      try {
-        if (el.requestFullscreen) await el.requestFullscreen();
-        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-      } catch {}
-    } else {
-      try {
-        if (doc.exitFullscreen) await doc.exitFullscreen();
-        else if (doc.webkitExitFullscreen) doc.webkitExitFullscreen();
-      } catch {}
-    }
-  };
-
   useEffect(() => {
     if (!visible || !containerRef.current) return;
     const parent = containerRef.current;
 
-    // 50 lines per layer at 800×800; scale linearly with canvas area
     const BASE_DENSITY = 50 / (800 * 800);
     const MIN_PER_LAYER = 35;
     const NUM_LAYERS = 3;
@@ -56,7 +74,7 @@ export default function SticksAndSticks() {
         y2: number;
         length: number;
         angle: number;
-        speed: number;
+        baseSpeed: number;
         offset: number;
       };
 
@@ -80,7 +98,7 @@ export default function SticksAndSticks() {
               y2: 0,
               length: p.random(50 * sizeScale, 150 * sizeScale),
               angle: p.random(p.TWO_PI),
-              speed: p.random(0.001, 0.005) * (layer + 1),
+              baseSpeed: p.random(0.001, 0.005) * (layer + 1),
               offset: p.random(1000),
             });
           }
@@ -97,8 +115,6 @@ export default function SticksAndSticks() {
 
       p.windowResized = () => {
         p.resizeCanvas(parent.clientWidth, parent.clientHeight);
-        // Only rebuild lines on width change — height-only changes are browser
-        // chrome appearing/disappearing on scroll and don't need a full reset.
         if (Math.abs(parent.clientWidth - lastWidth) > 5) {
           lastWidth = parent.clientWidth;
           buildLines();
@@ -106,10 +122,11 @@ export default function SticksAndSticks() {
       };
 
       p.draw = () => {
-        p.background(200, 10);
+        const speedMult = 0.1 + (speedRef.current / 100) * 2.9; // 0.1–3.0×
+        p.background(200, 63 - trailRef.current); // invert: high slider = low alpha = long trail
         for (const ln of lines) {
-          const n = p.noise(ln.offset + p.frameCount * ln.speed);
-          ln.angle += p.map(n, 0, 1, 0, 0.02);
+          const n = p.noise(ln.offset + p.frameCount * ln.baseSpeed);
+          ln.angle += p.map(n, 0, 1, 0, 0.02) * speedMult;
           ln.x2 = ln.x1 + p.cos(ln.angle) * ln.length;
           ln.y2 = ln.y1 + p.sin(ln.angle) * ln.length;
           p.strokeWeight(0.5);
@@ -118,7 +135,6 @@ export default function SticksAndSticks() {
         }
       };
 
-      // Allow native touch scroll — p5 blocks it by default.
       p.touchMoved = () => true;
     });
 
@@ -134,11 +150,34 @@ export default function SticksAndSticks() {
   }, [visible]);
 
   return (
-    <div
-      ref={containerRef}
-      className="w-full aspect-[4/3] sm:aspect-square cursor-pointer relative overflow-hidden"
-      style={{ backgroundColor: "rgb(200,200,200)" }}
-      onClick={toggleFullscreen}
-    />
+    <div className="w-full">
+      <div
+        ref={containerRef}
+        className="w-full aspect-[4/3] sm:aspect-square relative overflow-hidden"
+        style={{ backgroundColor: "rgb(200,200,200)" }}
+      />
+      {visible && (
+        <div className="mt-4 flex flex-col gap-4 px-0.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <SliderField
+              label="speed"
+              value={speed}
+              min={1}
+              max={100}
+              step={1}
+              onChange={(v) => { setSpeed(v); speedRef.current = v; }}
+            />
+            <SliderField
+              label="trail"
+              value={trail}
+              min={3}
+              max={60}
+              step={1}
+              onChange={(v) => { setTrail(v); trailRef.current = v; }}
+            />
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
