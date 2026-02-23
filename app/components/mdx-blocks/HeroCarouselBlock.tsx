@@ -84,7 +84,7 @@ export default function HeroCarouselBlock({
   if (!imageList.length) return null;
 
   const imageHeightClass = tall
-    ? "h-[55vh] min-h-[240px] max-h-[680px]"
+    ? "aspect-square sm:aspect-auto sm:h-[55vh] sm:min-h-[240px] sm:max-h-[680px]"
     : "aspect-[16/9]";
 
   return (

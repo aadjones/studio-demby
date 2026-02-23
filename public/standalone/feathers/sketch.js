@@ -259,15 +259,6 @@ function wireUI() {
     loop();
   });
 
-  // Copy link
-  let copyBtn = document.getElementById('copy-btn');
-  copyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(window.location.href).then(() => {
-      copyBtn.textContent = 'Copied';
-      setTimeout(() => { copyBtn.textContent = 'Copy Link'; }, 1500);
-    });
-  });
-
   // Slider changes (debounced)
   let densitySlider = document.getElementById('density-slider');
   let weightSlider = document.getElementById('weight-slider');

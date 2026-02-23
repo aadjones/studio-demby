@@ -146,32 +146,45 @@ input[type="email"] {
   appearance: none;
 }
 
-/* Larger touch targets for range sliders on touch devices.
-   Sets height to 48px so the entire strip is tappable, and enlarges the thumb
-   so it's easy to grab and hold during a drag. Uses pointer: coarse to target
-   actual touch screens rather than a breakpoint. */
+/* Custom range slider styling on touch devices.
+   Overrides native appearance so we can size the touch zone (height: 2.5rem)
+   while keeping a thin visible track + reasonably-sized thumb.
+   Uses pointer: coarse to target actual touch screens, not a breakpoint. */
 @media (pointer: coarse) {
   input[type="range"] {
-    height: 3rem;
-    padding: 0;
     -webkit-appearance: none;
     appearance: none;
+    height: 2.5rem;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 2px;
+    background: currentColor;
+    opacity: 0.2;
+    border-radius: 1px;
   }
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 2rem;
-    height: 2rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: calc(-0.625rem + 1px); /* center thumb on 2px track */
     border-radius: 50%;
     background: currentColor;
-    cursor: grab;
+  }
+  input[type="range"]::-moz-range-track {
+    height: 2px;
+    background: currentColor;
+    opacity: 0.2;
+    border-radius: 1px;
   }
   input[type="range"]::-moz-range-thumb {
-    width: 2rem;
-    height: 2rem;
+    width: 1.25rem;
+    height: 1.25rem;
     border-radius: 50%;
     background: currentColor;
     border: none;
-    cursor: grab;
   }
 }
 
