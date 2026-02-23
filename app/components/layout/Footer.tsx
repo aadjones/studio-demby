@@ -5,8 +5,7 @@ import {
   FaSoundcloud,
   FaGithub,
   FaInstagram,
-  FaLinkedinIn,
-  FaRss,
+  FaYoutube,
 } from "react-icons/fa6";
 import { TbMailFilled } from "react-icons/tb";
 import { metaData, socialLinks } from "app/config";
@@ -33,6 +32,7 @@ function SocialLinks() {
     <div className="flex text-lg gap-3.5 items-center">
       <SocialLink href={socialLinks.soundcloud} icon={FaSoundcloud} />
       <SocialLink href={socialLinks.instagram} icon={FaInstagram} />
+      <SocialLink href={socialLinks.youtube} icon={FaYoutube} />
       <SocialLink href={socialLinks.github} icon={FaGithub} />
     </div>
   );

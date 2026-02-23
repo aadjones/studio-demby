@@ -95,9 +95,17 @@ export default function AboutPage() {
           {/* CV / Credentials */}
           <details className="mt-8 sm:mt-12 group">
             <summary className="cursor-pointer text-sm sm:text-base font-medium text-zinc-500 hover:text-zinc-800 transition-colors select-none list-none flex items-center gap-2">
-              <span className="transition-transform group-open:rotate-90">
-                &#9654;
-              </span>
+              <svg
+                className="w-3 h-3 transition-transform group-open:rotate-90 shrink-0"
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="2,1 8,5 2,9" />
+              </svg>
               CV / Credentials
             </summary>
             <div className="mt-4 sm:mt-6 space-y-6 text-sm sm:text-base text-zinc-700">

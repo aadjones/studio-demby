@@ -45,3 +45,7 @@ public/feed.xml
 
 # playwright screenshots
 /.playwright-mcp
+
+# scratch/experiment files (not for commit)
+public/preview.html
+spatial-synth.html.png
