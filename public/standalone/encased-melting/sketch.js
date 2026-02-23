@@ -124,9 +124,9 @@ function setup() {
     });
     interactiveSeed = Math.floor(Math.random() * 1000000);
     interactiveNoiseSeed = Math.floor(Math.random() * 1000000);
-    generateCreator();
     shuffleAnimating = true;
     shuffleStartTime = millis();
+    generateCreator();
     loop();
   });
   scaleSlider.addEventListener("input", onSliderChange);
