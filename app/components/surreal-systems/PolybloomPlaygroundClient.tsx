@@ -51,7 +51,7 @@ export default function PolybloomPlaygroundClient() {
   const distortionRef = useRef(7);
   const seedRef = useRef(Math.floor(Math.random() * 99999));
   const regenerateRef = useRef<((animated: boolean) => void) | null>(null);
-  const regenTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const recolorRef = useRef<(() => void) | null>(null);
 
   // State drives slider UI only
   const [hue, setHue] = useState(0);
@@ -85,22 +85,15 @@ export default function PolybloomPlaygroundClient() {
     const p5Instance: any = new (window as any).p5((p: any) => {
       let buffer: any = null;
       let fadeProgress = 0;
+      // Cached polygon layers — recomputed only when seed/layers/distortion changes
+      let cachedPolygons: any[][] = [];
+      let cachedNumLayers = 0;
 
-      function generateSceneToBuffer() {
+      function computeGeometry() {
         const size = p.width;
-        if (size < 1) return; // guard against zero-size canvas (Safari layout timing)
-        if (buffer) buffer.remove();
-
-        buffer = p.createGraphics(size, size);
-        buffer.colorMode(p.HSB, 360, 100, 100, 1.0);
-        buffer.noStroke();
-        buffer.background(0);
-        buffer.blendMode(p.ADD); // set AFTER background to avoid Safari compositing artifacts
-
+        if (size < 1) return;
         p.randomSeed(seedRef.current);
 
-        // Map slider (0–100) backward around the color wheel: orange → red → violet → blue → teal
-        const hue = (20 - hueRef.current * 1.9 + 360) % 360;
         const numLayers = layersRef.current;
         const dist = distortionRef.current;
         const cx = size / 2;
@@ -118,23 +111,47 @@ export default function PolybloomPlaygroundClient() {
           scaleMax: dist * 0.05,
         };
 
-        // Seed a single polygon flower at a random offset from center
         const offsetX = p.random(-size / 4, size / 4);
         const offsetY = p.random(-size / 4, size / 4);
         const angleOffset = p.random(p.TWO_PI);
         let polygon = createRegularPolygon(p, 3, cx + offsetX, cy + offsetY, maxRadius, angleOffset);
 
+        cachedPolygons = [];
+        cachedNumLayers = numLayers;
+        for (let i = 0; i < numLayers; i++) {
+          cachedPolygons.push(polygon.map((pt: any) => ({ x: pt.x, y: pt.y })));
+          polygon = deformPolygon(p, polygon, deformOptions);
+        }
+      }
+
+      function renderFromCache() {
+        const size = p.width;
+        if (size < 1 || cachedPolygons.length === 0) return;
+        if (!buffer) {
+          buffer = p.createGraphics(size, size);
+          buffer.colorMode(p.HSB, 360, 100, 100, 1.0);
+          buffer.noStroke();
+        }
+        buffer.blendMode(p.BLEND); // reset so background() actually clears
+        buffer.background(0);
+        buffer.blendMode(p.ADD);
+
+        // Map slider (0–100) backward around the color wheel: orange → red → violet → blue → teal
+        const hue = (20 - hueRef.current * 1.9 + 360) % 360;
+        const numLayers = cachedNumLayers;
         for (let i = 0; i < numLayers; i++) {
           const saturation = p.map(i, 0, numLayers, 50, 100);
           const lightness = p.map(i, 0, numLayers, 30, 70);
           buffer.fill(hue, saturation, lightness, 0.1 + 0.5 * (1 - i / numLayers));
           buffer.beginShape();
-          polygon.forEach((pt: any) => buffer.vertex(pt.x, pt.y));
+          cachedPolygons[i].forEach((pt: any) => buffer.vertex(pt.x, pt.y));
           buffer.endShape(buffer.CLOSE);
-          polygon = deformPolygon(p, polygon, deformOptions);
         }
+      }
 
-        buffer.blendMode(p.BLEND);
+      function generateSceneToBuffer() {
+        computeGeometry();
+        renderFromCache();
       }
 
       p.setup = () => {
@@ -156,15 +173,22 @@ export default function PolybloomPlaygroundClient() {
           p.loop();
         }, 0);
 
-        // Expose regenerate so UI can trigger re-render without remounting p5.
+        // Recolor: redraw from cached geometry with current hue — no geometry recompute
+        recolorRef.current = () => {
+          renderFromCache();
+          fadeProgress = FADE_FRAMES; // instant, no fade
+          p.loop();
+        };
+
+        // Full regenerate: recompute geometry + redraw
         // animated=true: fade-in reveal (initial load, shuffle)
-        // animated=false: instant display (slider drags)
+        // animated=false: instant display (layers/distortion drags)
         regenerateRef.current = (animated: boolean) => {
           generateSceneToBuffer();
           if (animated) {
             fadeProgress = 0;
           } else {
-            fadeProgress = FADE_FRAMES; // skip straight to full opacity
+            fadeProgress = FADE_FRAMES;
           }
           p.loop();
         };
@@ -187,6 +211,8 @@ export default function PolybloomPlaygroundClient() {
         if (Math.abs(size - lastSize) > 5) {
           lastSize = size;
           p.resizeCanvas(size, size);
+          // Invalidate buffer so renderFromCache recreates it at the new size
+          if (buffer) { buffer.remove(); buffer = null; }
           regenerateRef.current?.(false);
         }
       };
@@ -203,6 +229,7 @@ export default function PolybloomPlaygroundClient() {
       resizeObs.disconnect();
       p5Instance?.remove();
       regenerateRef.current = null;
+      recolorRef.current = null;
     };
   }, [visible]);
 
@@ -230,8 +257,7 @@ export default function PolybloomPlaygroundClient() {
               step={1}
               onChange={(v: number) => {
                 setHue(v); hueRef.current = v;
-                if (regenTimerRef.current) clearTimeout(regenTimerRef.current);
-                regenTimerRef.current = setTimeout(() => regenerateRef.current?.(false), 80);
+                recolorRef.current?.(); // no debounce — just redraws from cached geometry
               }}
             />
             <SliderField
@@ -242,8 +268,7 @@ export default function PolybloomPlaygroundClient() {
               step={1}
               onChange={(v: number) => {
                 setLayers(v); layersRef.current = v;
-                if (regenTimerRef.current) clearTimeout(regenTimerRef.current);
-                regenTimerRef.current = setTimeout(() => regenerateRef.current?.(false), 80);
+                regenerateRef.current?.(false);
               }}
             />
             <SliderField
@@ -254,8 +279,7 @@ export default function PolybloomPlaygroundClient() {
               step={0.5}
               onChange={(v: number) => {
                 setDistortion(v); distortionRef.current = v;
-                if (regenTimerRef.current) clearTimeout(regenTimerRef.current);
-                regenTimerRef.current = setTimeout(() => regenerateRef.current?.(false), 80);
+                regenerateRef.current?.(false); // no debounce — geometry recompute is fast at default layers
               }}
             />
           </div>

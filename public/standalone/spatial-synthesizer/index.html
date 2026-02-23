@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spatial Synthesizer - Aaron Demby Jones</title>
+    <meta name="description" content="An interactive visual experience exploring frequency modulation and spatial wave patterns through real-time WebGL shader visualization." />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Spatial Synthesizer - Aaron Demby Jones" />
+    <meta property="og:description" content="An interactive visual experience exploring frequency modulation and spatial wave patterns through real-time WebGL shader visualization." />
+    <link rel="icon" type="image/png" href="favicon.png" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/addons/p5.sound.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="gui-style.css" />
+    <link rel="stylesheet" type="text/css" href="landing.css" />
+  </head>
+  <body>
+    <a href="/work/spatial-synthesizer" style="position:fixed;top:1rem;left:1rem;z-index:9999;font-family:monospace;font-size:0.7rem;letter-spacing:0.08em;text-decoration:none;color:#fff;mix-blend-mode:difference;opacity:0.6;">← portfolio</a>
+    <div id="landing-page">
+      <div class="landing-content">
+        <h1 class="title">Spatial Synthesizer</h1>
+        <p class="artist">by Aaron Demby Jones</p>
+        <p class="note">Best experienced on desktop at full screen</p>
+        <button id="begin-btn" class="begin-button">
+          Play the synthesizer
+        </button>
+        <div id="loading-indicator" class="loading-indicator">
+          <div class="loading-spinner"></div>
+          <div class="loading-text">Loading...</div>
+        </div>
+      </div>
+    </div>
+    <main id="experience" style="display: none"></main>
+
+    <!-- Core modules: Data management and business logic -->
+    <script src="src/core/parameters.js"></script>    <!-- ParameterStore: Centralized parameter state -->
+    <script src="src/core/lfo-engine.js"></script>    <!-- LFOEngine: Parameter automation -->
+    <script src="src/core/presets.js"></script>       <!-- PresetManager: Preset definitions -->
+
+    <!-- UI modules: User interface components -->
+    <script src="src/ui/joystick-widget.js"></script>   <!-- JoystickWidget: 2D joystick control -->
+    <script src="src/ui/gui-builder.js"></script>       <!-- GUIBuilder: HTML construction -->
+    <script src="src/ui/gui-controller.js"></script>    <!-- GUIController: Event handling -->
+
+    <!-- Rendering modules: Graphics pipeline -->
+    <script src="src/rendering/shader-bridge.js"></script>  <!-- ShaderBridge: Param to uniform mapping -->
+
+    <!-- Application: Main coordination layer -->
+    <script src="gui.js"></script>       <!-- GUI initialization and API -->
+    <script src="sketch.js"></script>    <!-- p5.js main sketch -->
+    <script src="landing.js"></script>   <!-- Landing page interaction -->
+  </body>
+</html>

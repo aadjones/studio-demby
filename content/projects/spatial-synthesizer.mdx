@@ -13,19 +13,17 @@ categories:
   - visual-art
 ---
 
-import ProjectOverview from "@/app/components/mdx-blocks/ProjectOverview";
-import MediaSection from "@/app/components/mdx-blocks/MediaSection";
-import MediaItem from "@/app/components/mdx-blocks/MediaItem";
-import SpatialSynthesizer from "@/app/components/surreal-systems/SpatialSynthesizer/index";
-import CallToAction from "@/app/components/mdx-blocks/CallToAction";
-import FieldNote from "@/app/components/mdx-blocks/FieldNote";
-import CollapseMetadata from "@/app/components/mdx-blocks/CollapseMetadata";
-
 <HeroTitleBlock title="Spatial Synthesizer 🎨🕹" />
 
-<div className="w-full max-w-[1200px] mx-auto mb-16 md:mb-2">
-  <SpatialSynthesizer width="100%" height="100%" />
-</div>
+<Image
+  src="/photos/spatial-synthesizer/spatial-synth-hero.jpg"
+  alt="Spatial Synthesizer"
+  width={3200}
+  height={1800}
+  className="w-full rounded-lg"
+/>
+
+<LaunchExperience href="/standalone/spatial-synthesizer/index.html" />
 
 <ProjectOverview header={null}>
  What if geometry behaved like tone?

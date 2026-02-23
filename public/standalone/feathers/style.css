@@ -1,0 +1,266 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #f0f0f0;
+  height: 100%;
+}
+
+/* ── Canvas ────────────────────────────────────────────────────── */
+#canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+#canvas-container canvas {
+  display: block;
+}
+
+/* ── Shared UI panel behaviour ────────────────────────────────── */
+#showcase-ui,
+#interactive-ui {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#showcase-ui.hidden,
+#interactive-ui.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ── Showcase UI ──────────────────────────────────────────────── */
+#make-own-btn {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 10px 32px;
+  border: 1.5px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #333;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+}
+
+#make-own-btn:hover {
+  border-color: #8b3a3a;
+  color: #8b3a3a;
+  background: rgba(255, 245, 245, 0.9);
+}
+
+/* ── Interactive UI ───────────────────────────────────────────── */
+#interactive-ui {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  padding: 12px 24px;
+  max-width: calc(100vw - 32px);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#back-btn {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  padding: 6px 14px;
+  border: 1.5px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  background: transparent;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+#back-btn:hover {
+  border-color: rgba(0, 0, 0, 0.3);
+  color: #333;
+}
+
+#shuffle-btn {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  padding: 6px 14px;
+  border: 1.5px solid rgba(139, 58, 58, 0.3);
+  border-radius: 4px;
+  background: transparent;
+  color: #8b3a3a;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+#shuffle-btn:hover {
+  border-color: #8b3a3a;
+  background: rgba(139, 58, 58, 0.06);
+}
+
+#copy-btn {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  padding: 6px 14px;
+  border: 1.5px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  background: transparent;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+#copy-btn:hover {
+  border-color: rgba(0, 0, 0, 0.3);
+  color: #333;
+}
+
+/* ── Slider groups ────────────────────────────────────────────── */
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 100px;
+  flex: 1 1 100px;
+}
+
+.slider-group label {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #888;
+}
+
+/* ── Range slider styling ─────────────────────────────────────── */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.1);
+  outline: none;
+  cursor: pointer;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #8b3a3a;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+input[type='range']::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #8b3a3a;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+/* ── Hint text (reusable) ─────────────────────────────────────── */
+.hint {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px;
+  color: #bbb;
+  letter-spacing: 0.03em;
+}
+
+/* ── Print-only metadata (hidden on screen) ──────────────────── */
+#print-meta {
+  display: none;
+}
+
+/* ── Print layout ────────────────────────────────────────────── */
+@media print {
+  @page {
+    size: letter portrait;
+    margin: 0;
+  }
+
+  html, body {
+    background: white;
+    overflow: visible;
+    height: auto;
+  }
+
+  #showcase-ui,
+  #interactive-ui {
+    display: none !important;
+  }
+
+  #canvas-container {
+    position: static;
+    display: flex;
+    justify-content: center;
+    padding: 1in 1in 0;
+  }
+
+  #canvas-container canvas {
+    width: auto !important;
+    height: auto !important;
+    max-width: 6.5in;
+    max-height: 7.5in;
+    object-fit: contain;
+  }
+
+  #print-meta {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    bottom: 1in;
+    left: 1in;
+    gap: 2pt;
+  }
+
+  .print-title {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    font-size: 12pt;
+    letter-spacing: 0.02em;
+    color: #000;
+  }
+
+  .print-code {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+    letter-spacing: 0.05em;
+    color: #000;
+  }
+
+  .print-year {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 8pt;
+    color: #666;
+  }
+}

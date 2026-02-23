@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feathers</title>
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <a href="/work/feathers" style="position:fixed;top:1rem;left:1rem;z-index:9999;font-family:monospace;font-size:0.7rem;letter-spacing:0.08em;text-decoration:none;color:#fff;mix-blend-mode:difference;opacity:0.6;">← portfolio</a>
+    <!-- Showcase mode: just a CTA over the auto-cycling canvas -->
+    <div id="showcase-ui">
+      <button id="make-own-btn">Make Your Own</button>
+    </div>
+
+    <!-- Interactive mode: sliders + back button -->
+    <div id="interactive-ui" class="hidden">
+      <button id="back-btn">&larr; Back</button>
+      <div class="slider-group">
+        <label for="density-slider">Density</label>
+        <input type="range" id="density-slider" min="0" max="100" value="50" />
+      </div>
+      <div class="slider-group">
+        <label for="weight-slider">Weight</label>
+        <input type="range" id="weight-slider" min="0" max="100" value="50" />
+      </div>
+      <button id="shuffle-btn">Shuffle</button>
+      <button id="copy-btn">Copy Link</button>
+    </div>
+
+    <!-- Print-only metadata (hidden on screen) -->
+    <div id="print-meta">
+      <span class="print-title">Feathers</span>
+      <span class="print-code"></span>
+      <span class="print-year">2026</span>
+    </div>
+
+    <main>
+      <div id="canvas-container"></div>
+    </main>
+    <script src="sketch.js"></script>
+  </body>
+</html>

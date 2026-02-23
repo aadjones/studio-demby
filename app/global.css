@@ -147,13 +147,31 @@ input[type="email"] {
 }
 
 /* Larger touch targets for range sliders on touch devices.
-   Sets height to 44px (Apple/Google minimum) so the entire strip is tappable,
-   not just the tiny thumb. Uses pointer: coarse to target actual touch screens
-   rather than a breakpoint (works on all sizes of touch device). */
+   Sets height to 48px so the entire strip is tappable, and enlarges the thumb
+   so it's easy to grab and hold during a drag. Uses pointer: coarse to target
+   actual touch screens rather than a breakpoint. */
 @media (pointer: coarse) {
   input[type="range"] {
     height: 3rem;
     padding: 0;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: currentColor;
+    cursor: grab;
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: currentColor;
+    border: none;
+    cursor: grab;
   }
 }
 
