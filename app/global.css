@@ -147,14 +147,14 @@ input[type="email"] {
 }
 
 /* Custom range slider styling on touch devices.
-   Overrides native appearance so we can size the touch zone (height: 2.5rem)
+   Overrides native appearance so we can size the touch zone (height: 4rem)
    while keeping a thin visible track + reasonably-sized thumb.
    Uses pointer: coarse to target actual touch screens, not a breakpoint. */
 @media (pointer: coarse) {
   input[type="range"] {
     -webkit-appearance: none;
     appearance: none;
-    height: 2.5rem;
+    height: 4rem;
     background: transparent;
     padding: 0;
     cursor: pointer;
