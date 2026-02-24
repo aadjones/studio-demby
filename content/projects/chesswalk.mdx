@@ -19,13 +19,18 @@ import CollapseMetadata from "@/app/components/mdx-blocks/CollapseMetadata";
 
 <HeroTitleBlock title="ChessWalk" />
 
-<div className="mb-12 flex justify-center">
+<a
+  href="https://chesswalk.streamlit.app"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="mb-12 flex justify-center no-underline"
+>
   <img
     src="/photos/chesswalk/steal-header.png"
     alt="ChessWalk - Find the exact moments where stronger players outthink you"
-    className="w-full max-w-xl rounded-lg"
+    className="w-full max-w-xl rounded-lg hover:opacity-90 transition-opacity cursor-pointer"
   />
-</div>
+</a>
 
 <div className="text-center mb-8">
   <div className="text-xl italic text-zinc-600 mb-6">
@@ -40,14 +45,6 @@ import CollapseMetadata from "@/app/components/mdx-blocks/CollapseMetadata";
       className="inline-block px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition duration-200"
     >
       Try ChessWalk →
-    </a>
-    <a
-      href="https://github.com/aadjones/chess_walk"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-block px-4 sm:px-6 py-1.5 sm:py-2 text-sm sm:text-base border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition duration-200"
-    >
-      View on GitHub
     </a>
   </div>
 </div>
