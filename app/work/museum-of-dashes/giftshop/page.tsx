@@ -10,7 +10,6 @@ import { useState, useEffect } from "react";
 interface GiftShopProduct {
   id: string;
   name: string;
-  latinName?: string;
   description: string;
   price: string;
   category: string;
@@ -23,7 +22,6 @@ const PRODUCTS: GiftShopProduct[] = [
   {
     id: "tee-001",
     name: "The Canonical Tee",
-    latinName: "Vestis typographica",
     description:
       "A cotton garment featuring all three canonical dashes arranged in descending order of width. The hyphen sits at chest level, suggesting humility. The em dash spans the lower back, suggesting drama.",
     price: "$38.00",
@@ -34,99 +32,82 @@ const PRODUCTS: GiftShopProduct[] = [
   {
     id: "tote-001",
     name: "Tote of Burden",
-    latinName: "Sacculus laboris",
     description:
       "A canvas vessel for transporting your typographic anxieties. Features a single, exhausted en dash that has been carrying compound modifiers since 1984.",
     price: "$24.00",
     category: "Apparel",
     svgContent: <ToteBagSVG />,
-    stockNote: "Supply chain disrupted by rogue soft hyphens",
   },
   // Stationery
   {
     id: "post-001",
     name: "Postcards from the Void",
-    latinName: "Epistula vacua",
     description:
       'A set of 12 postcards, each bearing a different zero-width character. The reverse side reads: "Wish you were here, but technically you already are nowhere."',
     price: "$12.00",
     category: "Stationery",
     svgContent: <PostcardSVG />,
-    stockNote: "Inventory status: uncertain (may have dematerialized)",
   },
   {
     id: "note-001",
     name: "The Ruled Notebook",
-    latinName: "Codex lineatus",
     description:
-      "120 pages of horizontal lines, each one a distant cousin of the dash. The lines do not connect to anything. They simply are. A meditation on parallelism.",
+      "120 pages of horizontal lines, each one a distant cousin of the dash. The lines do not connect to anything. They simply are.",
     price: "$18.00",
     category: "Stationery",
     svgContent: <NotebookSVG />,
-    stockNote: "All lines have migrated to page 47",
   },
   // Decorative
   {
     id: "print-001",
     name: "Em Dash Specimen Print",
-    latinName: "Pictura interruptio",
     description:
       'Archival giclée print of Specimen #c-3 (the em dash) at 400% magnification. Frame not included—the em dash refuses to be contained.',
     price: "$45.00",
     category: "Decorative",
     svgContent: <PrintSVG />,
-    stockNote: "The specimen escaped during printing",
   },
   {
     id: "mobile-001",
     name: "Vertical Dash Mobile",
-    latinName: "Mobilis verticalem",
     description:
       "A kinetic sculpture featuring rotated dashes suspended at various heights. Some visitors report the dashes slowly returning to horizontal when unobserved.",
     price: "$85.00",
     category: "Decorative",
     svgContent: <MobileSVG />,
-    stockNote: "Current position: unknown",
   },
   // Educational
   {
     id: "flash-001",
     name: "Dash Identification Flash Cards",
-    latinName: "Chartulae discriminis",
     description:
       "52 cards for distinguishing between visually identical horizontal marks. Includes 8 blank cards representing characters you cannot perceive.",
     price: "$15.00",
     category: "Educational",
     svgContent: <FlashCardsSVG />,
-    stockNote: "Cards have shuffled themselves into entropy",
   },
   {
     id: "audio-001",
     name: "Morse Code Meditations (Vinyl)",
-    latinName: "Sonitus contemplativus",
     description:
       "Side A: 22 minutes of continuous dashes (—). Side B: Silence representing the spaces between. Pressed on 180g vinyl the exact width of an em dash at 72pt.",
     price: "$32.00",
     category: "Educational",
     svgContent: <VinylSVG />,
-    stockNote: "Audio quality degraded by ambient anxiety",
   },
   // Curiosities
   {
     id: "jar-001",
     name: "Jar of Authentic Hyphens",
-    latinName: "Amphora divisio",
     description:
-      "A sealed glass vessel containing approximately 2,000 recycled hyphens harvested from deprecated compound words. Contents may have settled during existential crisis.",
+      "A sealed glass vessel containing approximately 2,000 recycled hyphens harvested from deprecated compound words.",
     price: "$28.00",
     category: "Curiosities",
     svgContent: <JarSVG />,
-    stockNote: "Hyphens have dissolved into ligatures",
   },
   {
     id: "snow-001",
     name: "Dash Globe",
-    latinName: "Sphaera ninguida",
     description:
       'A traditional snow globe, but instead of snow, tiny black dashes of varying widths fall upon a miniature rendering of this very gift shop. Shake gently. The dashes never fully settle.',
     price: "$42.00",
@@ -418,9 +399,6 @@ function ProductCard({ product }: { product: GiftShopProduct }) {
       <div className="space-y-2">
         <div>
           <h3 className="font-serif text-base text-museum-900">{product.name}</h3>
-          {product.latinName && (
-            <p className="font-serif text-xs italic text-stone-500">{product.latinName}</p>
-          )}
         </div>
 
         <p className="font-sans text-xs text-museum-800 leading-relaxed">
@@ -438,7 +416,7 @@ function ProductCard({ product }: { product: GiftShopProduct }) {
 
         {product.stockNote && (
           <p className="font-sans text-[10px] italic text-stone-400 mt-2">
-            Note: {product.stockNote}
+            {product.stockNote}
           </p>
         )}
       </div>
@@ -499,7 +477,7 @@ export default function GiftShopPage() {
           <p className="font-serif text-xs text-stone-500 italic">
             Due to unprecedented demand and a series of inventory-related incidents,
             all items are currently unavailable for purchase. The management apologizes
-            for any inconvenience and reminds visitors that wanting is itself a form of having.
+            for any inconvenience.
           </p>
         </div>
       </header>
@@ -527,10 +505,10 @@ export default function GiftShopPage() {
               Shopping Cart
             </p>
             <p className="font-serif text-sm text-stone-500">
-              Your cart is empty—
+              Your cart is empty.
             </p>
-            <p className="font-serif text-xs italic text-stone-400">
-              as are all carts, in the end.
+            <p className="font-serif text-xs italic text-stone-400 mt-1">
+              No mechanism exists by which items may be added.
             </p>
           </div>
         </div>

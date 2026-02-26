@@ -158,7 +158,7 @@ export const MUSEUM_SECTIONS: SectionData[] = [
         name: "The Triple Stack (Xi)",
         latinName: "Sandwichus graecus",
         description:
-          "Frequently misidentified by digital natives as a 'hamburger menu.' In reality, it is an ancient Greek letter that realized three dashes are structurally more stable than one. It is the layered cake of connectors.",
+          "Frequently misidentified by digital natives as a 'hamburger menu.' In reality, it is an ancient Greek letter that realized three dashes are structurally more stable than one.",
         glyphClassName: "font-sans",
       },
       {
@@ -167,7 +167,7 @@ export const MUSEUM_SECTIONS: SectionData[] = [
         name: "The Double Stack (Er)",
         latinName: "Dualis orientalis",
         description:
-          "A minimalist rebuttal to the Triple Stack, originating from China. It argues that three lines are excessive when two suffice to establish a pattern. It is the only dash that counts itself.",
+          "A minimalist rebuttal to the Triple Stack, originating from China. It argues that three lines are excessive when two suffice to establish a pattern. Meaning 'two', it is the only dash that counts itself.",
         glyphClassName: "font-sans",
       },
     ],
@@ -184,7 +184,7 @@ export const MUSEUM_SECTIONS: SectionData[] = [
         name: "The Skeptical Connector",
         latinName: "Oculus judicans",
         description:
-          "A complex compound organism using horizontal connectors as a bridge between two watchful eyes. It conveys distinct disapproval without words.",
+          "A complex compound organism using horizontal connectors as a bridge between two watchful eyes. Once prevalent in IRC channels and AIM away messages, populations collapsed following the 2011 emoji expansion.",
       },
       {
         id: "p-2",
@@ -246,7 +246,7 @@ export const MUSEUM_SECTIONS: SectionData[] = [
         name: "The Anxious Dash",
         latinName: "Tremulus minor",
         description:
-          "This specimen vibrates at a high frequency when approached, suggesting a fundamental instability in its classification or perhaps just too much coffee.",
+          "This specimen vibrates at a high frequency when approached, suggesting a fundamental instability in its classification.",
         interactionType: "anxious",
       },
     ],
