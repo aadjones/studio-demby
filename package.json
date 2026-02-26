@@ -2,7 +2,9 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "kill-port": "lsof -ti :3000 | xargs kill -9 2>/dev/null || true",
     "dev": "next dev",
+    "fresh": "pnpm kill-port && next dev",
     "build": "next build",
     "start": "next start",
     "test": "vitest",
