@@ -165,33 +165,43 @@ export default function ContinentalClient() {
   const [started, setStarted] = useState(false);
   const [phase, setPhase] = useState(0);
   const [wiping, setWiping] = useState(false);
-  const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const audioBufferRef = useRef<AudioBuffer | null>(null);
+  const sourceRef = useRef<AudioBufferSourceNode | null>(null);
   const rafRef = useRef<number | null>(null);
-
-  const clearAllTimeouts = () => {
-    timeoutsRef.current.forEach(clearTimeout);
-    timeoutsRef.current = [];
-  };
 
   const stopAudio = () => {
     if (rafRef.current !== null) {
       cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
     }
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
+    if (sourceRef.current) {
+      try { sourceRef.current.stop(); } catch { /* already stopped */ }
+      sourceRef.current = null;
     }
   };
 
-  // Audio cue points (seconds) from the recorded clip.
-  // Phases are driven by audio.currentTime via rAF so visuals stay locked
-  // to actual playback position — immune to hardware output latency on Safari.
-  //   0.00s → phase 1 (DOS)
-  //   0.75s → phase 2 (TERCIOS)
-  //   1.55s → phase 3 (y UNA CORRIDA)
-  //   2.45s → phase 4 (Otra vez button)
+  // Pre-generate hand + pre-decode audio on mount.
+  // AudioContext starts suspended; decodeAudioData works regardless.
+  // resume() is called inside the button handler (user gesture) on Safari.
+  useEffect(() => {
+    setHand(generateHand());
+    const ctx = new AudioContext();
+    audioCtxRef.current = ctx;
+    fetch("/audio/continental.mp3")
+      .then(r => r.arrayBuffer())
+      .then(buf => ctx.decodeAudioData(buf))
+      .then(decoded => { audioBufferRef.current = decoded; })
+      .catch(() => {});
+    return () => { stopAudio(); ctx.close(); };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Cue points (seconds). Visuals driven by AudioContext.currentTime —
+  // the audio hardware clock — so they are frame-accurate on every browser.
+  //   0.00s → DOS
+  //   0.75s → TERCIOS
+  //   1.55s → y UNA CORRIDA
+  //   2.45s → Otra vez button
   const CUE_POINTS = [
     { time: 0.00, phase: 1 },
     { time: 0.75, phase: 2 },
@@ -199,17 +209,27 @@ export default function ContinentalClient() {
     { time: 2.45, phase: 4 },
   ];
 
-  const startAnimation = useCallback(() => {
-    clearAllTimeouts();
+  const startAnimation = useCallback(async () => {
     stopAudio();
     setPhase(0);
 
-    const audio = new Audio("/audio/continental.mp3");
-    audioRef.current = audio;
+    const ctx = audioCtxRef.current;
+    const buffer = audioBufferRef.current;
+    if (!ctx || !buffer) return;
+
+    await ctx.resume(); // Safari requires resume() from a user-gesture handler
+
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(ctx.destination);
+    sourceRef.current = source;
+
+    const startTime = ctx.currentTime;
+    source.start(startTime);
 
     let nextCue = 0;
     const tick = () => {
-      const t = audio.currentTime;
+      const t = ctx.currentTime - startTime;
       while (nextCue < CUE_POINTS.length && t >= CUE_POINTS[nextCue].time) {
         setPhase(CUE_POINTS[nextCue].phase);
         nextCue++;
@@ -218,31 +238,7 @@ export default function ContinentalClient() {
         rafRef.current = requestAnimationFrame(tick);
       }
     };
-
-    audio.addEventListener("play", () => {
-      rafRef.current = requestAnimationFrame(tick);
-    }, { once: true });
-
-    audio.play().catch(() => {
-      // Autoplay blocked — run visuals on a timeout fallback
-      const schedule = (p: number, ms: number) => {
-        timeoutsRef.current.push(setTimeout(() => setPhase(p), ms));
-      };
-      schedule(1, 0);
-      schedule(2, 750);
-      schedule(3, 1550);
-      schedule(4, 2450);
-    });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Pre-generate a hand on mount (client-side only, avoids SSR mismatch)
-  // Animation does NOT auto-start — waits for JUGAR press.
-  useEffect(() => {
-    setHand(generateHand());
-  }, []);
-
-  useEffect(() => {
-    return () => { clearAllTimeouts(); stopAudio(); };
+    rafRef.current = requestAnimationFrame(tick);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const jugar = () => {
@@ -251,17 +247,14 @@ export default function ContinentalClient() {
   };
 
   const otraVez = () => {
-    clearAllTimeouts();
     stopAudio();
     setWiping(true);
     setPhase(0);
-    timeoutsRef.current.push(
-      setTimeout(() => {
-        setWiping(false);
-        setHand(generateHand());
-        startAnimation();
-      }, 500)
-    );
+    setTimeout(() => {
+      setWiping(false);
+      setHand(generateHand());
+      startAnimation();
+    }, 500);
   };
 
   const bg = {
