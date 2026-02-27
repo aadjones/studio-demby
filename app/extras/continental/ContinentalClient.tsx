@@ -157,23 +157,41 @@ export default function ContinentalClient() {
   const [phase, setPhase] = useState(0);
   const [wiping, setWiping] = useState(false);
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const clearAllTimeouts = () => {
     timeoutsRef.current.forEach(clearTimeout);
     timeoutsRef.current = [];
   };
 
+  const stopAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+  };
+
+  // Audio timestamps (seconds) from the recorded clip:
+  //   0.00 → DOS
+  //   0.75 → TERCIOS
+  //   1.55 → y UNA CORRIDA
   const startAnimation = useCallback(() => {
     clearAllTimeouts();
+    stopAudio();
     setPhase(0);
-    const schedule = (p: number, delay: number) => {
-      timeoutsRef.current.push(setTimeout(() => setPhase(p), delay));
+
+    const audio = new Audio("/audio/continental.mp3");
+    audioRef.current = audio;
+    audio.play().catch(() => {}); // silently fails if autoplay is blocked
+
+    const schedule = (p: number, ms: number) => {
+      timeoutsRef.current.push(setTimeout(() => setPhase(p), ms));
     };
-    schedule(1, 300);   // DOS + trio1
-    schedule(2, 1100);  // TERCIOS + trio2
-    schedule(3, 2000);  // y UNA CORRIDA + corrida
-    schedule(4, 2900);  // Barajar
-  }, []);
+    schedule(1, 0);     // DOS         — 0.00s
+    schedule(2, 750);   // TERCIOS     — 0.75s
+    schedule(3, 1550);  // y UNA CORRIDA — 1.55s
+    schedule(4, 2450);  // Barajar (after corrida fully fans in)
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Generate hand client-side only to avoid SSR/hydration mismatch
   useEffect(() => {
@@ -183,12 +201,13 @@ export default function ContinentalClient() {
   useEffect(() => {
     if (!hand) return;
     startAnimation();
-    return clearAllTimeouts;
+    return () => { clearAllTimeouts(); stopAudio(); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hand]);
 
   const barajar = () => {
     clearAllTimeouts();
+    stopAudio();
     setWiping(true);
     setPhase(0);
     timeoutsRef.current.push(
