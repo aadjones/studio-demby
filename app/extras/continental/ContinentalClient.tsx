@@ -191,15 +191,26 @@ export default function ContinentalClient() {
 
     const audio = new Audio("/audio/continental.mp3");
     audioRef.current = audio;
-    audio.play().catch(() => {});
 
-    const schedule = (p: number, ms: number) => {
-      timeoutsRef.current.push(setTimeout(() => setPhase(p), ms));
+    // Start the visual timeline from the 'play' event, not from the .play()
+    // call — Safari buffers before outputting, so timeouts fired here race
+    // ahead of actual audio. The 'play' event fires when samples start.
+    const scheduleFromAudioStart = () => {
+      const schedule = (p: number, ms: number) => {
+        timeoutsRef.current.push(setTimeout(() => setPhase(p), ms));
+      };
+      schedule(1, 0);     // DOS           — 0.00s
+      schedule(2, 750);   // TERCIOS       — 0.75s
+      schedule(3, 1550);  // y UNA CORRIDA — 1.55s
+      schedule(4, 2450);  // Otra vez (after corrida fully fans in)
     };
-    schedule(1, 0);     // DOS           — 0.00s
-    schedule(2, 750);   // TERCIOS       — 0.75s
-    schedule(3, 1550);  // y UNA CORRIDA — 1.55s
-    schedule(4, 2450);  // Otra vez (after corrida fully fans in)
+
+    audio.addEventListener("play", scheduleFromAudioStart, { once: true });
+    audio.play().catch(() => {
+      // If play() fails (e.g. autoplay blocked), still run visuals
+      audio.removeEventListener("play", scheduleFromAudioStart);
+      scheduleFromAudioStart();
+    });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Pre-generate a hand on mount (client-side only, avoids SSR mismatch)
