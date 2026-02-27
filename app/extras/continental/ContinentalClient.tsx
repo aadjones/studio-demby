@@ -167,6 +167,7 @@ export default function ContinentalClient() {
   const [wiping, setWiping] = useState(false);
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const rafRef = useRef<number | null>(null);
 
   const clearAllTimeouts = () => {
     timeoutsRef.current.forEach(clearTimeout);
@@ -174,16 +175,30 @@ export default function ContinentalClient() {
   };
 
   const stopAudio = () => {
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current = null;
     }
   };
 
-  // Audio timestamps (seconds) from the recorded clip:
-  //   0.00 → DOS
-  //   0.75 → TERCIOS
-  //   1.55 → y UNA CORRIDA
+  // Audio cue points (seconds) from the recorded clip.
+  // Phases are driven by audio.currentTime via rAF so visuals stay locked
+  // to actual playback position — immune to hardware output latency on Safari.
+  //   0.00s → phase 1 (DOS)
+  //   0.75s → phase 2 (TERCIOS)
+  //   1.55s → phase 3 (y UNA CORRIDA)
+  //   2.45s → phase 4 (Otra vez button)
+  const CUE_POINTS = [
+    { time: 0.00, phase: 1 },
+    { time: 0.75, phase: 2 },
+    { time: 1.55, phase: 3 },
+    { time: 2.45, phase: 4 },
+  ];
+
   const startAnimation = useCallback(() => {
     clearAllTimeouts();
     stopAudio();
@@ -192,24 +207,31 @@ export default function ContinentalClient() {
     const audio = new Audio("/audio/continental.mp3");
     audioRef.current = audio;
 
-    // Start the visual timeline from the 'play' event, not from the .play()
-    // call — Safari buffers before outputting, so timeouts fired here race
-    // ahead of actual audio. The 'play' event fires when samples start.
-    const scheduleFromAudioStart = () => {
+    let nextCue = 0;
+    const tick = () => {
+      const t = audio.currentTime;
+      while (nextCue < CUE_POINTS.length && t >= CUE_POINTS[nextCue].time) {
+        setPhase(CUE_POINTS[nextCue].phase);
+        nextCue++;
+      }
+      if (nextCue < CUE_POINTS.length) {
+        rafRef.current = requestAnimationFrame(tick);
+      }
+    };
+
+    audio.addEventListener("play", () => {
+      rafRef.current = requestAnimationFrame(tick);
+    }, { once: true });
+
+    audio.play().catch(() => {
+      // Autoplay blocked — run visuals on a timeout fallback
       const schedule = (p: number, ms: number) => {
         timeoutsRef.current.push(setTimeout(() => setPhase(p), ms));
       };
-      schedule(1, 0);     // DOS           — 0.00s
-      schedule(2, 750);   // TERCIOS       — 0.75s
-      schedule(3, 1550);  // y UNA CORRIDA — 1.55s
-      schedule(4, 2450);  // Otra vez (after corrida fully fans in)
-    };
-
-    audio.addEventListener("play", scheduleFromAudioStart, { once: true });
-    audio.play().catch(() => {
-      // If play() fails (e.g. autoplay blocked), still run visuals
-      audio.removeEventListener("play", scheduleFromAudioStart);
-      scheduleFromAudioStart();
+      schedule(1, 0);
+      schedule(2, 750);
+      schedule(3, 1550);
+      schedule(4, 2450);
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
