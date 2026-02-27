@@ -148,7 +148,7 @@ function PlayingCard({
 // Animation phases:
 // 0 = blank
 // 1 = DOS + trio1 simultaneously
-// 2 = TERCIOS + trio2 simultaneously (~750ms later)
+// 2 = TERCIAS + trio2 simultaneously (~750ms later)
 // 3 = y UNA CORRIDA + corrida fans left-to-right (~800ms later)
 // 4 = Otra vez button
 
@@ -199,7 +199,7 @@ export default function ContinentalClient() {
   // Cue points (seconds). Visuals driven by AudioContext.currentTime —
   // the audio hardware clock — so they are frame-accurate on every browser.
   //   0.00s → DOS
-  //   0.75s → TERCIOS
+  //   0.75s → TERCIAS
   //   1.55s → y UNA CORRIDA
   //   2.45s → Otra vez button
   const CUE_POINTS = [
@@ -310,9 +310,9 @@ export default function ContinentalClient() {
           </div>
         </div>
 
-        {/* TERCIOS */}
+        {/* TERCIAS */}
         <div className="flex flex-col items-center gap-2">
-          <div className={chantClass(phase >= 2)}>TERCIOS</div>
+          <div className={chantClass(phase >= 2)}>TERCIAS</div>
           <div className="flex gap-1.5">
             {hand.trio2.map((card, i) => (
               <PlayingCard key={i} {...card} visible={phase >= 2} delay={0} pop />
