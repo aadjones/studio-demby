@@ -104,16 +104,16 @@ function PlayingCard({
   if (joker) {
     return (
       <div
-        style={{ transitionDelay: `${delay}ms` }}
+        style={{ transitionDelay: visible ? `${delay}ms` : "0ms" }}
         className={[
-          "relative w-14 h-20 bg-violet-50 rounded-xl shadow-2xl border border-violet-200 select-none",
+          "relative w-11 h-16 bg-violet-50 rounded-lg shadow-2xl border border-violet-200 select-none",
           transitionClass,
           visibilityClass,
         ].join(" ")}
       >
-        <div className="absolute top-1.5 left-1.5 text-violet-500 font-bold text-xs leading-none">★</div>
-        <div className="absolute inset-0 flex items-center justify-center text-violet-400 text-3xl leading-none">★</div>
-        <div className="absolute bottom-1.5 right-1.5 text-violet-500 font-bold text-xs leading-none rotate-180">★</div>
+        <div className="absolute top-1 left-1 text-violet-500 font-bold text-xs leading-none">★</div>
+        <div className="absolute inset-0 flex items-center justify-center text-violet-400 text-xl leading-none">★</div>
+        <div className="absolute bottom-1 right-1 text-violet-500 font-bold text-xs leading-none rotate-180">★</div>
       </div>
     );
   }
@@ -122,24 +122,24 @@ function PlayingCard({
     <div
       style={{ transitionDelay: `${delay}ms` }}
       className={[
-        "relative w-14 h-20 bg-white rounded-xl shadow-2xl border border-gray-100 select-none",
+        "relative w-11 h-16 bg-white rounded-lg shadow-2xl border border-gray-100 select-none",
         transitionClass,
         visibilityClass,
       ].join(" ")}
     >
       {/* Top-left corner */}
-      <div className={`absolute top-1.5 left-1.5 ${color} font-bold leading-tight`}>
-        <div className="text-xs">{rank}</div>
-        <div className="text-[9px]">{suit}</div>
+      <div className={`absolute top-1 left-1 ${color} font-bold leading-tight`}>
+        <div className="text-[10px]">{rank}</div>
+        <div className="text-[8px]">{suit}</div>
       </div>
       {/* Center suit */}
-      <div className={`absolute inset-0 flex items-center justify-center ${color} text-2xl leading-none`}>
+      <div className={`absolute inset-0 flex items-center justify-center ${color} text-xl leading-none`}>
         {suit}
       </div>
       {/* Bottom-right corner (rotated 180°) */}
-      <div className={`absolute bottom-1.5 right-1.5 ${color} font-bold leading-tight rotate-180`}>
-        <div className="text-xs">{rank}</div>
-        <div className="text-[9px]">{suit}</div>
+      <div className={`absolute bottom-1 right-1 ${color} font-bold leading-tight rotate-180`}>
+        <div className="text-[10px]">{rank}</div>
+        <div className="text-[8px]">{suit}</div>
       </div>
     </div>
   );
@@ -195,7 +195,7 @@ export default function ContinentalClient() {
       setTimeout(() => {
         setWiping(false);
         setHand(generateHand());
-      }, 200)
+      }, 500)
     );
   };
 
@@ -204,25 +204,25 @@ export default function ContinentalClient() {
   const chantClass = (show: boolean) =>
     [
       "font-display font-bold text-white tracking-widest uppercase",
-      "text-3xl sm:text-4xl text-center",
+      "text-2xl sm:text-3xl text-center",
       "transition-opacity duration-200",
       show ? "opacity-100" : "opacity-0",
     ].join(" ");
 
   return (
     <div
-      className="fixed inset-0 z-50 overflow-y-auto flex flex-col items-center justify-center py-12 px-4"
+      className="fixed inset-0 z-50 overflow-y-auto flex flex-col items-center justify-center py-4 px-4"
       style={{
         background:
           "radial-gradient(ellipse at center, #1e6b35 0%, #0f3a1c 55%, #081f0e 100%)",
       }}
     >
-      <div className={`flex flex-col items-center gap-6 w-full max-w-sm ${wiping ? "invisible" : ""}`}>
+      <div className={`flex flex-col items-center gap-3 w-full max-w-sm ${wiping ? "hidden" : ""}`}>
 
         {/* DOS */}
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-2">
           <div className={chantClass(phase >= 1)}>DOS</div>
-          <div className="flex gap-2">
+          <div className="flex gap-1.5">
             {hand.trio1.map((card, i) => (
               <PlayingCard
                 key={i}
@@ -236,9 +236,9 @@ export default function ContinentalClient() {
         </div>
 
         {/* TERCIOS */}
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-2">
           <div className={chantClass(phase >= 2)}>TERCIOS</div>
-          <div className="flex gap-2">
+          <div className="flex gap-1.5">
             {hand.trio2.map((card, i) => (
               <PlayingCard
                 key={i}
@@ -254,7 +254,7 @@ export default function ContinentalClient() {
         {/* y */}
         <div
           className={[
-            "font-display italic text-green-300 text-xl sm:text-2xl",
+            "font-display italic text-green-300 text-base sm:text-xl",
             "transition-all duration-500",
             phase >= 3 ? "opacity-100" : "opacity-0",
           ].join(" ")}
@@ -263,8 +263,8 @@ export default function ContinentalClient() {
         </div>
 
         {/* UNA CORRIDA */}
-        <div className="flex flex-col items-center gap-3">
-          <div className="font-display font-bold text-white tracking-widest uppercase text-3xl sm:text-4xl text-center flex flex-wrap justify-center">
+        <div className="flex flex-col items-center gap-2">
+          <div className="font-display font-bold text-white tracking-widest uppercase text-2xl sm:text-3xl text-center flex flex-wrap justify-center">
             <span className={`transition-all duration-300 ${phase >= 3 ? "opacity-100" : "opacity-0"}`}>
               UNA&nbsp;
             </span>
@@ -280,7 +280,7 @@ export default function ContinentalClient() {
               </span>
             ))}
           </div>
-          <div className="flex gap-1.5">
+          <div className="flex gap-1">
             {hand.corrida.map((card, i) => (
               <PlayingCard
                 key={i}
@@ -295,13 +295,13 @@ export default function ContinentalClient() {
         {/* Barajar */}
         <div
           className={[
-            "mt-4 transition-opacity duration-200",
+            "mt-1 transition-opacity duration-200",
             phase >= 4 ? "opacity-100" : "opacity-0",
           ].join(" ")}
         >
           <button
             onClick={barajar}
-            className="bg-amber-500 hover:bg-amber-400 active:scale-95 text-white font-display font-bold tracking-widest uppercase px-8 py-3 rounded-xl shadow-lg transition-all duration-150 text-base"
+            className="bg-amber-500 hover:bg-amber-400 active:scale-95 text-white font-display font-bold tracking-widest uppercase px-6 py-2.5 rounded-xl shadow-lg transition-all duration-150 text-sm"
           >
             Barajar
           </button>
