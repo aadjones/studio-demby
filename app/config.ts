@@ -3,7 +3,7 @@ export const metaData = {
   title: "Studio Demby",
   name: "Studio Demby",
   ogImage: "/og-image.png",
-  description: "Musician, visual artist, educator.",
+  description: "Aaron Demby Jones — musician, visual artist, and educator. Generative instruments, audiovisual experiments, and teaching frameworks for improvisation.",
 };
 
 export const socialLinks = {
