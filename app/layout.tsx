@@ -1,7 +1,6 @@
 import "./global.css";
 import type { Metadata } from "next";
 import { Outfit, Crimson_Pro, JetBrains_Mono } from "next/font/google";
-import Script from "next/script";
 import { metaData } from "./config";
 import "katex/dist/katex.min.css";
 import PageLayout from "./components/layout/PageLayout";
@@ -85,26 +84,29 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           id="person-schema"
-        >{JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Person",
-          name: "Aaron Demby Jones",
-          alternateName: "Studio Demby",
-          url: "https://www.studiodemby.com",
-          email: "mailto:aaron.demby.jones@gmail.com",
-          jobTitle: ["Musician", "Visual Artist", "Educator", "Creative Coder"],
-          alumniOf: [
-            { "@type": "CollegeOrUniversity", name: "UC Santa Barbara" },
-            { "@type": "CollegeOrUniversity", name: "Brown University" },
-          ],
-          sameAs: [
-            "https://soundcloud.com/aaron-demby-jones",
-            "https://github.com/aadjones",
-            "https://www.instagram.com/studio_demby",
-            "https://www.youtube.com/@studiodemby",
-            "https://www.linkedin.com/in/aaron-jones-3716431b7/",
-          ],
-        })}</script>
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Aaron Demby Jones",
+              alternateName: "Studio Demby",
+              url: "https://www.studiodemby.com",
+              email: "mailto:aaron.demby.jones@gmail.com",
+              jobTitle: ["Musician", "Visual Artist", "Educator", "Creative Coder"],
+              alumniOf: [
+                { "@type": "CollegeOrUniversity", name: "UC Santa Barbara" },
+                { "@type": "CollegeOrUniversity", name: "Brown University" },
+              ],
+              sameAs: [
+                "https://soundcloud.com/aaron-demby-jones",
+                "https://github.com/aadjones",
+                "https://www.instagram.com/studio_demby",
+                "https://www.youtube.com/@studiodemby",
+                "https://www.linkedin.com/in/aaron-jones-3716431b7/",
+              ],
+            }),
+          }}
+        />
         <PageLayout>{children}</PageLayout>
       </body>
     </html>

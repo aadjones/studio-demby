@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Studio Demby · Gmail profile avatar -->
+  <!-- Same as favicon: dark logo, white keys, warm-white bg -->
+  <rect width="512" height="512" fill="#F8F7F5"/>
+  <g transform="translate(126, 77) scale(3.51)">
+    <path d="M 34 1 C 61.6 1, 84 23.4, 84 51 C 84 78.6, 61.6 101, 34 101 Z" fill="#1a1a1a"/>
+    <rect x="3" y="1" width="34" height="100" fill="white"/>
+    <line x1="3" y1="26"  x2="37" y2="26"  stroke="#1a1a1a" stroke-width="2"/>
+    <line x1="3" y1="51"  x2="37" y2="51"  stroke="#1a1a1a" stroke-width="2"/>
+    <line x1="3" y1="76"  x2="37" y2="76"  stroke="#1a1a1a" stroke-width="2"/>
+    <rect x="25" y="19" width="12" height="14" fill="#1a1a1a" rx="1.5"/>
+    <rect x="25" y="44" width="12" height="14" fill="#1a1a1a" rx="1.5"/>
+    <rect x="25" y="69" width="12" height="14" fill="#1a1a1a" rx="1.5"/>
+    <line x1="2"  y1="1"   x2="38" y2="1"   stroke="#1a1a1a" stroke-width="3"   stroke-linecap="square"/>
+    <line x1="2"  y1="101" x2="38" y2="101" stroke="#1a1a1a" stroke-width="3"   stroke-linecap="square"/>
+    <line x1="3"  y1="1"   x2="3"  y2="101" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="square"/>
+  </g>
+</svg>
