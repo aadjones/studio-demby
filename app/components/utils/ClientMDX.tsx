@@ -53,6 +53,7 @@ import PetrolNoise from "../mdx-blocks/PetrolNoise";
 import GrainRain from "../mdx-blocks/GrainRain";
 import LightboxGallery from "../mdx-blocks/LightboxGallery";
 import LaunchExperience from "../mdx-blocks/LaunchExperience";
+import BirdCards from "../mdx-blocks/bird-cards/BirdCards";
 
 type ComponentType = React.ComponentType<any> | string;
 
@@ -114,6 +115,7 @@ const baseComponents = {
   GrainRain,
   LightboxGallery,
   LaunchExperience,
+  BirdCards,
 };
 
 export default function ClientMDX({

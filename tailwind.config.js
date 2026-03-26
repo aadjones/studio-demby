@@ -129,6 +129,12 @@ module.exports = {
           '0%': { transform: 'rotate(0deg)' },
           '100%': { transform: 'rotate(360deg)' },
         },
+        'card-peek': {
+          '0%':   { transform: 'rotateY(0deg)' },
+          '35%':  { transform: 'rotateY(22deg)' },
+          '65%':  { transform: 'rotateY(22deg)' },
+          '100%': { transform: 'rotateY(0deg)' },
+        },
       },
       animation: {
         'errant-flinch': 'errant-flinch 0.15s ease-out forwards',
@@ -141,6 +147,7 @@ module.exports = {
         'shimmer': 'shimmer 3s linear infinite',
         'gentle-float': 'gentle-float 3s ease-in-out infinite',
         'rotate-slow': 'rotate-slow 20s linear infinite',
+        'card-peek': 'card-peek 1.2s ease-in-out forwards',
       },
     },
   },
