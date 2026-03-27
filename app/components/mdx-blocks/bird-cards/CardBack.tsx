@@ -18,7 +18,7 @@ export default function CardBack({ bird, notationSvg }: CardBackProps) {
 
       {/* Mood words — using div to avoid .prose p override */}
       <div
-        className="font-serif text-base sm:text-lg italic text-stone-500 dark:text-stone-400 tracking-[0.25em]"
+        className="font-serif text-base sm:text-lg italic text-stone-500 dark:text-stone-400 tracking-[0.25em] text-center"
         style={{ fontWeight: 300 }}
       >
         {bird.moods.join(" \u00B7 ")}

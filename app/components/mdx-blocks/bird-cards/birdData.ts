@@ -5,6 +5,7 @@ export interface BirdData {
   sketchType: string;
   moods: string[];
   audioSrc: string;
+  imageSrc: string;
 }
 
 export const birds: BirdData[] = [
@@ -15,6 +16,7 @@ export const birds: BirdData[] = [
     sketchType: "tidal",
     moods: ["circulating", "compulsive", "introspective"],
     audioSrc: "/audio/birds/spoonbilled-sandpiper.mp3",
+    imageSrc: "/images/birds/spoonbilled-sandpiper.jpg",
   },
   {
     slug: "indian-bustard",
@@ -23,6 +25,7 @@ export const birds: BirdData[] = [
     sketchType: "open air",
     moods: ["tall", "curious", "bittersweet"],
     audioSrc: "/audio/birds/indian-bustard.mp3",
+    imageSrc: "/images/birds/indian-bustard.jpg",
   },
   {
     slug: "least-bells-vireo",
@@ -31,6 +34,7 @@ export const birds: BirdData[] = [
     sketchType: "march",
     moods: ["chirpy", "annoying", "upbeat"],
     audioSrc: "/audio/birds/least-bells-vireo.mp3",
+    imageSrc: "/images/birds/least-bells-vireo.jpg",
   },
   {
     slug: "dusky-seaside-sparrow",
@@ -39,5 +43,6 @@ export const birds: BirdData[] = [
     sketchType: "chorale",
     moods: ["somber", "eerie", "tetric"],
     audioSrc: "/audio/birds/dusky-seaside-sparrow.mp3",
+    imageSrc: "/images/birds/dusky-seaside-sparrow.jpg",
   },
 ];

@@ -87,8 +87,8 @@ function BirdCard({ slug, index, activeSlug, onPlay }: {
         <button
           aria-label="Flip card"
           className="absolute top-3 right-3 z-10 p-2 rounded-full
-                     bg-stone-100/80 dark:bg-stone-800/80 text-stone-500 dark:text-stone-400
-                     opacity-60 group-hover:opacity-100 transition-opacity"
+                     bg-black/35 text-white hover:bg-black/55
+                     transition-colors"
           onClick={(e) => {
             e.stopPropagation();
             setFlipped(!flipped);
