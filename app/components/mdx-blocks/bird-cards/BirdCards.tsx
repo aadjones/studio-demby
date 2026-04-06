@@ -54,13 +54,14 @@ function BirdCard({ slug, index, activeSlug, onPlay }: {
       {/* Card with flip */}
       <div
         className="relative cursor-pointer group"
-        style={{ perspective: "1200px" }}
+        style={{ perspective: "1200px", WebkitPerspective: "1200px" }}
         onClick={() => setFlipped(!flipped)}
       >
         <div
           className={`relative w-full min-h-[360px] sm:min-h-[420px] transition-transform duration-700 ease-in-out${peeking ? " animate-card-peek" : ""}`}
           style={{
             transformStyle: "preserve-3d",
+            WebkitTransformStyle: "preserve-3d",
             // Let the CSS animation own transform while peeking; inline style would override it
             ...(!peeking ? { transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)" } : {}),
           }}
@@ -69,7 +70,7 @@ function BirdCard({ slug, index, activeSlug, onPlay }: {
           <div
             className="absolute inset-0 rounded-lg border border-stone-200 dark:border-stone-700
                         bg-[#faf7f2] dark:bg-[#1a1816] overflow-hidden"
-            style={{ backfaceVisibility: "hidden" }}
+            style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
           >
             <CardFront bird={bird} />
           </div>
@@ -77,7 +78,7 @@ function BirdCard({ slug, index, activeSlug, onPlay }: {
           <div
             className="absolute inset-0 rounded-lg border border-stone-200 dark:border-stone-700
                         bg-[#faf7f2] dark:bg-[#1a1816] overflow-hidden"
-            style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+            style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
           >
             <CardBack bird={bird} notationSvg={notationMap[slug]} />
           </div>

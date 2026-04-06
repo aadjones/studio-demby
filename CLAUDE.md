@@ -118,6 +118,26 @@ On iPhone (3x display), p5 renders a canvas 9x larger than the visible size by d
 **4. General rule**
 When a p5 sketch works in Chrome but is blank/broken in Safari, check canvas sizing first. When it's slow on mobile Safari, check pixelDensity and ADD blend mode.
 
+### Safari Compatibility — CSS 3D Card Flips (React inline styles)
+
+React's `style={}` object does **not** auto-add vendor prefixes. Safari requires `-webkit-` prefixes for 3D transform properties or they silently do nothing.
+
+**Symptom:** Card back content shows through as mirrored/ghost text on the front face—`backface-visibility: hidden` did nothing.
+
+**Fix:** Always add the `Webkit*` variants alongside the standard property for all three pillars of a CSS flip card:
+```tsx
+// Perspective container
+style={{ perspective: "1200px", WebkitPerspective: "1200px" }}
+
+// Inner flip container
+style={{ transformStyle: "preserve-3d", WebkitTransformStyle: "preserve-3d" }}
+
+// Front and back faces
+style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
+```
+
+This applies to any component using CSS 3D transforms via React inline styles—not just card flips. If it's in a CSS file or Tailwind arbitrary value, autoprefixer handles it; inline styles are on their own.
+
 ### Frontmatter Dates
 
 Always use quoted, zero-padded ISO 8601 format: `date: "YYYY-MM-DD"` (e.g. `"2023-01-10"`, not `2023-1-10`). Two failure modes: (1) missing quotes → YAML parses as a date object, schema expects string → project disappears from listings; (2) single-digit month/day without quotes → Safari renders `NaN`.
