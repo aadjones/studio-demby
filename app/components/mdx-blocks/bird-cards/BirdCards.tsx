@@ -69,16 +69,25 @@ function BirdCard({ slug, index, activeSlug, onPlay }: {
           {/* Front */}
           <div
             className="absolute inset-0 rounded-lg border border-stone-200 dark:border-stone-700
-                        bg-[#faf7f2] dark:bg-[#1a1816] overflow-hidden"
-            style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
+                        bg-[#faf7f2] dark:bg-[#1a1816]"
+            style={{
+              backfaceVisibility: "hidden",
+              WebkitBackfaceVisibility: "hidden",
+              visibility: flipped ? "hidden" : "visible",
+            }}
           >
             <CardFront bird={bird} />
           </div>
           {/* Back */}
           <div
             className="absolute inset-0 rounded-lg border border-stone-200 dark:border-stone-700
-                        bg-[#faf7f2] dark:bg-[#1a1816] overflow-hidden"
-            style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+                        bg-[#faf7f2] dark:bg-[#1a1816]"
+            style={{
+              backfaceVisibility: "hidden",
+              WebkitBackfaceVisibility: "hidden",
+              transform: "rotateY(180deg)",
+              visibility: flipped ? "visible" : "hidden",
+            }}
           >
             <CardBack bird={bird} notationSvg={notationMap[slug]} />
           </div>

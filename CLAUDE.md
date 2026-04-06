@@ -124,6 +124,8 @@ React's `style={}` object does **not** auto-add vendor prefixes. Safari requires
 
 **Symptom:** Card back content shows through as mirrored/ghost text on the front face—`backface-visibility: hidden` did nothing.
 
+**Critical:** Do NOT put `overflow: hidden` (Tailwind: `overflow-hidden`) on the **same element** as `backface-visibility: hidden`. Safari cancels backface-visibility when overflow is restricted on that element. Move `overflow-hidden` to a child wrapper inside the face instead.
+
 **Fix:** Always add the `Webkit*` variants alongside the standard property for all three pillars of a CSS flip card:
 ```tsx
 // Perspective container
