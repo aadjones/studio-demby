@@ -141,6 +141,9 @@ style={{ transformStyle: "preserve-3d", WebkitTransformStyle: "preserve-3d" }}
 style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
 ```
 
+**Fix 3 — cold-start GPU jank on first flip:**
+The first CSS transition on an element triggers expensive synchronous compositing layer creation. Add `willChange: "transform"` to the flip container to pre-promote it at mount. Subsequent flips are always smooth because the layer is already warm. Symptom: first click is slow/snappy, all subsequent clicks are fine.
+
 **Fix 2 — don't fight the browser, use React state:**
 If CSS 3D still misbehaves, bypass `backface-visibility` entirely with a React visibility toggle:
 ```tsx
