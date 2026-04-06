@@ -122,23 +122,33 @@ When a p5 sketch works in Chrome but is blank/broken in Safari, check canvas siz
 
 React's `style={}` object does **not** auto-add vendor prefixes. Safari requires `-webkit-` prefixes for 3D transform properties or they silently do nothing.
 
-**Symptom:** Card back content shows through as mirrored/ghost text on the front face—`backface-visibility: hidden` did nothing.
+**Symptom:** Card back content shows through as mirrored/ghost text—`backface-visibility: hidden` did nothing.
 
-**Critical:** Do NOT put `overflow: hidden` (Tailwind: `overflow-hidden`) on the **same element** as `backface-visibility: hidden`. Safari cancels backface-visibility when overflow is restricted on that element. Move `overflow-hidden` to a child wrapper inside the face instead.
+**Root cause (spec-level, not a Safari bug):** The CSS spec defines properties that **force `transform-style: flat`** on any element, even if you explicitly set `preserve-3d`. These kill `backface-visibility` entirely:
+- `overflow: hidden/scroll/auto` — 2D clipping is architecturally incompatible with a 3D context
+- `opacity < 1`
+- `filter` (any value other than `none`)
+- `clip-path`
+- `mask-image`
+- `will-change: transform` (or other compositing values)
 
-**Fix:** Always add the `Webkit*` variants alongside the standard property for all three pillars of a CSS flip card:
+Audit every element in the chain (face divs AND their ancestors) for these. Chrome is more forgiving; Safari is strict about the spec.
+
+**Fix 1 — webkit prefixes** (necessary but not sufficient):
 ```tsx
-// Perspective container
 style={{ perspective: "1200px", WebkitPerspective: "1200px" }}
-
-// Inner flip container
 style={{ transformStyle: "preserve-3d", WebkitTransformStyle: "preserve-3d" }}
-
-// Front and back faces
 style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
 ```
 
-This applies to any component using CSS 3D transforms via React inline styles—not just card flips. If it's in a CSS file or Tailwind arbitrary value, autoprefixer handles it; inline styles are on their own.
+**Fix 2 — don't fight the browser, use React state:**
+If CSS 3D still misbehaves, bypass `backface-visibility` entirely with a React visibility toggle:
+```tsx
+// On the face divs — toggled with `flipped` state
+style={{ visibility: flipped ? "hidden" : "visible" }}  // front face
+style={{ visibility: flipped ? "visible" : "hidden" }}  // back face
+```
+This is reliable across all browsers. The tradeoff: the face content swaps at click time (not at the animation midpoint). Can smooth this with a 350ms `setTimeout` delay (half of a 700ms flip duration).
 
 ### Frontmatter Dates
 
