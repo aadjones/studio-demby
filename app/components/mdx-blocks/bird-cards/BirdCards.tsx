@@ -37,8 +37,15 @@ function BirdCard({ slug, index, activeSlug, onPlay }: {
   onPlay: (slug: string) => void;
 }) {
   const [flipped, setFlipped] = useState(false);
+  const [faceFlipped, setFaceFlipped] = useState(false); // lags flipped by half the animation
   const [peeking, setPeeking] = useState(false);
   const bird = birds[index];
+
+  const handleFlip = () => {
+    const next = !flipped;
+    setFlipped(next);
+    setTimeout(() => setFaceFlipped(next), 350);
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -55,7 +62,7 @@ function BirdCard({ slug, index, activeSlug, onPlay }: {
       <div
         className="relative cursor-pointer group"
         style={{ perspective: "1200px", WebkitPerspective: "1200px" }}
-        onClick={() => setFlipped(!flipped)}
+        onClick={handleFlip}
       >
         <div
           className={`relative w-full min-h-[360px] sm:min-h-[420px] transition-transform duration-700 ease-in-out${peeking ? " animate-card-peek" : ""}`}
@@ -73,7 +80,7 @@ function BirdCard({ slug, index, activeSlug, onPlay }: {
             style={{
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
-              visibility: flipped ? "hidden" : "visible",
+              visibility: faceFlipped ? "hidden" : "visible",
             }}
           >
             <CardFront bird={bird} />
@@ -86,7 +93,7 @@ function BirdCard({ slug, index, activeSlug, onPlay }: {
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
               transform: "rotateY(180deg)",
-              visibility: flipped ? "visible" : "hidden",
+              visibility: faceFlipped ? "visible" : "hidden",
             }}
           >
             <CardBack bird={bird} notationSvg={notationMap[slug]} />
@@ -101,7 +108,7 @@ function BirdCard({ slug, index, activeSlug, onPlay }: {
                      transition-colors"
           onClick={(e) => {
             e.stopPropagation();
-            setFlipped(!flipped);
+            handleFlip();
           }}
         >
           <FlipIcon />
