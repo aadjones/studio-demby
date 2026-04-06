@@ -48,6 +48,7 @@ function BirdCard({ slug, index, activeSlug, onPlay }: {
   };
 
   useEffect(() => {
+    if (index === 0) return; // first card is already prominent; peek fires too early and feels sluggish
     const timer = setTimeout(() => {
       setPeeking(true);
       const end = setTimeout(() => setPeeking(false), 1200);
@@ -69,6 +70,7 @@ function BirdCard({ slug, index, activeSlug, onPlay }: {
           style={{
             transformStyle: "preserve-3d",
             WebkitTransformStyle: "preserve-3d",
+            willChange: "transform", // pre-promote to GPU layer so first flip isn't cold-start janky
             // Let the CSS animation own transform while peeking; inline style would override it
             ...(!peeking ? { transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)" } : {}),
           }}
