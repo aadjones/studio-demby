@@ -37,6 +37,9 @@ module.exports = {
       { source: '/enclosed/:slug', destination: '/work/:slug', permanent: true },
       { source: '/projects/:slug*', destination: '/work/:slug*', permanent: true },
 
+      // Renamed slugs
+      { source: '/work/ad-libitum', destination: '/work/birdsong-elegies', permanent: true },
+
       // Contrapose special routes
       { source: '/featured/contrapose/:path*', destination: '/work/contrapose/:path*', permanent: true },
       { source: '/contrapose/:path*', destination: '/work/contrapose/:path*', permanent: true },
