@@ -43,6 +43,9 @@ module.exports = {
       // Contrapose special routes
       { source: '/featured/contrapose/:path*', destination: '/work/contrapose/:path*', permanent: true },
       { source: '/contrapose/:path*', destination: '/work/contrapose/:path*', permanent: true },
+
+      // Standalone articles (skip the project page, go straight to the article)
+      { source: '/work/sack-vulnerability', destination: '/standalone/sack-vulnerability/index.html', permanent: false },
     ];
   },
 };
