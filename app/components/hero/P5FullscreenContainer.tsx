@@ -18,22 +18,40 @@ export default function P5FullscreenContainer({
     if (!ref.current) return;
 
     const container = ref.current;
+    let instance: any;
+    let resizeObserver: ResizeObserver;
+    let rafId: number;
+    let unmounted = false;
 
-    const instance: any = new (window as any).p5((p: any) => {
-      sketch(p, container);
-    }, container);
+    function setup() {
+      if (unmounted) return;
+      instance = new (window as any).p5((p: any) => {
+        sketch(p, container);
+      }, container);
 
-    const resizeObserver = new ResizeObserver(() => {
-      if (instance.windowResized) {
-        instance.windowResized();
+      resizeObserver = new ResizeObserver(() => {
+        if (instance?.windowResized) instance.windowResized();
+      });
+      resizeObserver.observe(container);
+    }
+
+    function waitForP5() {
+      if (unmounted) return;
+      if ((window as any).p5) {
+        setup();
+      } else {
+        rafId = requestAnimationFrame(waitForP5);
       }
-    });
-    resizeObserver.observe(container);
+    }
+
+    waitForP5();
 
     return () => {
-      resizeObserver.disconnect();
-      if (instance._heroCleanup) instance._heroCleanup();
-      instance.remove();
+      unmounted = true;
+      cancelAnimationFrame(rafId);
+      resizeObserver?.disconnect();
+      if (instance?._heroCleanup) instance._heroCleanup();
+      instance?.remove();
     };
   }, [sketch]);
 
