@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="paper">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The T-Shirt Problem</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<!-- KaTeX — math typesetting. Use $...$ inline and $$...$$ for display. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+<!-- Ring renderer -->
+<script src="ring.js"></script>
+<!-- Propagate theme to widget iframes -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const theme = document.documentElement.getAttribute('data-theme') || '';
+    document.querySelectorAll('iframe[src]').forEach(function (fr) {
+      const url = new URL(fr.getAttribute('src'), location.href);
+      if (theme) url.searchParams.set('theme', theme);
+      fr.src = url.toString();
+    });
+  });
+
+  // Auto-resize iframes when they report their content height
+  window.addEventListener('message', function (e) {
+    if (!e.data || e.data.type !== 'iframeResize') return;
+    document.querySelectorAll('iframe').forEach(function (fr) {
+      if (fr.contentWindow === e.source) {
+        fr.style.height = e.data.height + 'px';
+      }
+    });
+  });
+</script>
+</head>
+<body>
+<div class="article">
+
+  <p class="subtitle">Post 1 of 3 · Pocket Universes</p>
+  <h1>The T-Shirt Problem</h1>
+
+  <!-- ═══════════════════════════════════════════════════ BEAT 1 -->
+  <div class="beat">
+
+    <h2>A puzzle on a t-shirt</h2>
+  </div>
+
+  <p>On the back of a t-shirt I got from the Julia Robinson Math Festival, there's a math game that looks like a simple doodle. It turns out it's more like a pocket universe. Let's dive into it together.</p>
+
+  <p>Start with any four whole numbers. I'll pick (6, 2, 1, 5). Next, put these numbers into a ring, like so:</p>
+
+  <div class="ring-solo" data-ring="6,2,1,5"></div>
+
+  <p>Then, we <strong>boop</strong>. ("What is a boop?" I hear you ask.) A <strong>boop</strong> replaces each number with the difference between it and its clockwise neighbor—bigger minus smaller, so the result is never negative.</p>
+
+  <div class="widget-wrap">
+    <div class="widget-label">One boop, broken down</div>
+    <iframe src="widget-beat1-demo.html?theme=paper" height="640" scrolling="no"></iframe>
+  </div>
+
+  <p>So one boop took us from (6, 2, 1, 5) to (4, 1, 4, 1). The game works by booping over and over. Let's see what happens if we keep going:</p>
+
+  <div class="ring-sequence" data-rings="6,2,1,5 | 4,1,4,1 | 3,3,3,3 | 0,0,0,0" data-ellipsis></div>
+
+  <p>Three boops, and we're at all zeros. After that, the game loops on (0, 0, 0, 0) forever once it gets there. We call this the <em>zero vortex</em>.</p>
+
+  <p>The idea of the game? Pick four starting numbers that avoid the zero vortex for as long as you can. See how long you can last below. Maybe you can even escape it forever!</p>
+
+  <div class="widget-wrap">
+    <div class="widget-label">Try it yourself</div>
+    <iframe src="widget-beat1.html?theme=paper" height="480" scrolling="no"></iframe>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ BEAT 2 -->
+  <div class="beat">
+
+    <h2>Double or nothing</h2>
+  </div>
+
+  <p>Maybe you held out for a while, but when I tried it, it always eventually went to the zero vortex.</p>
+
+  <p>My buddy Dublin had an idea for how to hold out longer. He said,</p>
+
+  <blockquote>
+    "When you started with 6, 2, 1, 5, it took 3 steps to get to all zeros. So all you gotta do is double all your values: 12, 4, 2, 10. Then it will take twice as many steps! If you keep doing that, you're guaranteed to make it take longer and longer."
+  </blockquote>
+
+  <p>What do you think of Dublin's idea?</p>
+
+  <p>Doesn't hurt to try it:</p>
+
+  <div class="ring-sequence" data-rings="12,4,2,10 | 8,2,8,2 | 6,6,6,6 | 0,0,0,0" data-size="78"></div>
+
+  <p>Hmm…it still takes 3 steps. That didn't help at all, Dublin! Actually, it's almost exactly the same game as starting with 6, 2, 1, 5. It's just that all the numbers throughout were doubled. This makes intuitive sense, since the boop is just taking differences. More mathily, we're noticing that the difference between $2a$ and $2b$ is the same as $2$ times the difference between $a$ and $b$; i.e.,</p>
+
+  $$2a - 2b = 2(a - b)$$
+
+  <p>Let's give this corrected idea a name:</p>
+  <div class="rule-callout">
+    <div class="rule-name">Dublin's Doubling Rule</div>
+    <p>Playing the game with $2a, 2b, 2c, 2d$ takes the <strong>same</strong> number of boops as the game with $a, b, c, d$.</p>
+  </div>
+
+  <p>Dublin didn't find a way to last longer after all. But he found something we'll use later.</p>
+
+  <!-- ═══════════════════════════════════════════════════ BEAT 3 -->
+  <div class="beat">
+
+    <h2>A hard max</h2>
+  </div>
+
+  <p>My other buddy Max was more interested in proving that the game would always reach the zero vortex eventually. He had a theory:</p>
+
+  <blockquote>
+    "Whatever four numbers you start will have a maximum value. Every time you run one step of the game, the new numbers will have a new maximum value that's smaller than the original. So eventually, the maximum will decrease until it is 0 and the game ends."
+  </blockquote>
+
+  <p>He's almost right: since all our numbers are at least 0, the difference is never bigger than what you started with. So each new value is at most as big as the larger of its two parents. Let's give the correct version of this idea a name:</p>
+
+  <div class="rule-callout">
+    <div class="rule-name">Max's Maximum Rule</div>
+    <p>After every boop, the maximum can only stay flat or drop.</p>
+  </div>
+
+  <p>The problem is, it could stay flat rather than drop. For example,</p>
+
+  <div class="ring-sequence" data-rings="1,0,0,0 | 1,0,0,1 | 1,0,1,0 | 1,1,1,1" data-size="72"></div>
+
+  <p>shows that the maximum can stay the same between boops rather than decrease. So Max's full theory of why the game must eventually reach the zero vortex has a hole in it. We can't yet prove that it could stay flat at the same maximum forever.</p>
+
+  <p>Still, I think between Dublin and Max, we're slowly getting to understand our game a bit better. We might just need a third friend to complete the picture.</p>
+
+  <!-- ═══════════════════════════════════════════════════ BEAT 4 -->
+  <div class="beat">
+
+    <h2>Eva's even better idea</h2>
+  </div>
+
+  <p>My friend Eva is obsessed with even and odd numbers. She played the game and noticed something interesting:</p>
+
+  <blockquote>
+    "Whatever four numbers you start will be some mix of even and odd, but after just a few rounds, all four numbers will always be even!"
+  </blockquote>
+
+  <p>Eva sounds pretty sure, but this claim came out of nowhere. See if you can find a counterexample.</p>
+
+  <div class="widget-wrap">
+    <div class="widget-label">Try Eva's observation</div>
+    <iframe src="widget-beat1-eva.html?theme=paper" height="430" scrolling="no"></iframe>
+  </div>
+
+  <p>As far as I could tell, Eva is right! The key insight is that you don't need to track the actual values. You only have to track whether each cell is odd or even. And tracking how even and odd interact with booping is simple: odd minus odd is even; odd minus even is odd; even minus even is even. So the highlighted pattern evolves on its own, independent of the numbers themselves.</p>
+
+  <p>Since there are only $2 \cdot 2 \cdot 2 \cdot 2 = 16$ possible odd/even patterns, you can just check them all. It turns out every single one reaches all-even within four boops. This idea is worthy of a name:</p>
+
+  <div class="rule-callout">
+    <div class="rule-name">Eva's Even Rule</div>
+    <p>No matter what four integers you start with, within four boops all four values will be even.</p>
+  </div>
+
+  <p>Here's why it happens so fast: within two boops, the pattern always becomes either alternating (odd-even-odd-even) or constant (all odd or all even). From alternating, one more boop makes everything the same. From everything the same, either zero or one more boop makes everything even. Four boops, worst case.</p>
+
+  <!-- ═══════════════════════════════════════════════════ BEAT 5 -->
+  <div class="beat">
+
+    <h2>The zero vortex is your destiny</h2>
+  </div>
+
+  <p>Now put all three rules together.</p>
+
+  <p>Picture a Max-ometer: a vertical gauge that tracks the biggest of our four numbers. By Max's rule, the Max-ometer never climbs.</p>
+
+  <p>By Eva's rule, within four boops we'll reach an all-even state. Now we can halve all four values. By Dublin's rule, the halved game behaves exactly like our original, just at half scale. So the Max-ometer just dropped to at most half what it read before.</p>
+
+  <p>Now we repeat. Within four more boops, everything's even again. Halve. The Max-ometer drops to at most half again. And again. And again.</p>
+
+  <div class="widget-wrap">
+    <div class="widget-label">An example: starting at 100</div>
+    <iframe src="widget-beat1-maxometer.html?theme=paper" height="540" scrolling="no"></iframe>
+  </div>
+
+  <p>But the Max-ometer's reading is the biggest of four whole numbers, so it can only ever land on a whole number. Pick any starting reading—say, 100. The next reading can be at most 50, then at most 25, then at most 12, then 6, then 3, then 1, then 0. (The only whole number below 1 is 0, so the Max-ometer has nowhere else to go.)</p>
+
+  <p>The Max-ometer hits 0. And when it reads 0, all four numbers are 0. We reach the zero vortex, inexorably.</p>
+
+
+  <!-- ══════════════════════════════════════════════════ BRIDGE -->
+  <hr class="divider">
+
+  <div class="beat">
+
+    <h2>But is resistance futile?</h2>
+  </div>
+
+  <p>Some inputs hold out much longer than others. Why? Hidden inside this simple integer game is an irrational number whose DNA encodes a never-ending booping process. We'll see how that works in part 2.</p>
+
+  <p class="footnote">The game on the t-shirt is known to mathematicians as the <strong>Ducci sequence</strong>.</p>
+
+</div><!-- /.article -->
+</body>
+</html>

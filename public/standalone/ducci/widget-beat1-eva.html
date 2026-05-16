@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eva's Even Rule</title>
+<script>
+  (function () {
+    const p = new URLSearchParams(location.search).get('theme');
+    if (p) document.documentElement.setAttribute('data-theme', p);
+  })();
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:               #0c0a14;
+    --text:             #c8c0d8;
+    --muted:            #7a7090;
+    --text-bright:      #e8e0f0;
+    --surface:          #14111f;
+    --border:           #2a2540;
+    --accent:           #8a6faa;
+    --accent-bg:        #3a2f55;
+    --accent-border:    #5a4f75;
+    --btn-bg:           #1e1a2e;
+    --btn-hover:        #2a2540;
+    --btn-hover-text:   #e8e0f0;
+    --btn-active:       #3a2f55;
+    --btn-disabled-bg:  #151220;
+    --btn-disabled-text:#4a4060;
+    --ring-stroke:      #6a5f80;
+    --odd-bg:           #3a2f55;
+    --odd-border:       #8a6faa;
+    --odd-text:         #e8e0f0;
+    --even-bg:          #14111f;
+    --even-border:      #2a2540;
+    --even-text:        #7a7090;
+  }
+
+  :root[data-theme="paper"] {
+    --bg:               #faf8f3;
+    --text:             #2a2118;
+    --muted:            #8a7d6b;
+    --text-bright:      #100d08;
+    --surface:          #f2ede2;
+    --border:           #d9d0be;
+    --accent:           #b83c1c;
+    --accent-bg:        #f0e4de;
+    --accent-border:    #c87050;
+    --btn-bg:           #f2ede2;
+    --btn-hover:        #e8e0cc;
+    --btn-hover-text:   #100d08;
+    --btn-active:       #e0d4c4;
+    --btn-disabled-bg:  #f8f5ef;
+    --btn-disabled-text:#c8bfa8;
+    --ring-stroke:      #d9d0be;
+    --odd-bg:           #f0e4de;
+    --odd-border:       #c87050;
+    --odd-text:         #100d08;
+    --even-bg:          #f2ede2;
+    --even-border:      #d9d0be;
+    --even-text:        #8a7d6b;
+  }
+
+  :root[data-theme="print"] {
+    --bg:               #0f0e0b;
+    --text:             #cec5b0;
+    --muted:            #6a6254;
+    --text-bright:      #e8dfc8;
+    --surface:          #1a1813;
+    --border:           #2a2720;
+    --accent:           #d4a843;
+    --accent-bg:        #252010;
+    --accent-border:    #6a5428;
+    --btn-bg:           #1a1813;
+    --btn-hover:        #252318;
+    --btn-hover-text:   #e8dfc8;
+    --btn-active:       #302d1e;
+    --btn-disabled-bg:  #141310;
+    --btn-disabled-text:#3a3528;
+    --ring-stroke:      #3a3528;
+    --odd-bg:           #252010;
+    --odd-border:       #d4a843;
+    --odd-text:         #e8dfc8;
+    --even-bg:          #1a1813;
+    --even-border:      #2a2720;
+    --even-text:        #6a6254;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Instrument Serif', Georgia, serif;
+    padding: 20px 16px;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .ring-container {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin: 0 auto 16px;
+  }
+
+  .ring-container svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  .cell-input {
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    outline: none;
+    border: 2px solid var(--even-border);
+    background: var(--even-bg);
+    color: var(--even-text);
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    -moz-appearance: textfield;
+  }
+  .cell-input::-webkit-inner-spin-button,
+  .cell-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+  .cell-input:focus { outline: none; }
+
+  .cell-input.odd {
+    background: var(--odd-bg);
+    border-color: var(--odd-border);
+    color: var(--odd-text);
+  }
+
+  .step-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 16px;
+    min-height: 18px;
+  }
+
+  .all-even { color: var(--accent); }
+
+  .controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .controls-secondary { display: flex; gap: 8px; }
+
+  button {
+    font-family: 'JetBrains Mono', monospace;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    border: 1px solid var(--border);
+  }
+
+  .btn-primary {
+    padding: 12px 40px;
+    min-height: 44px;
+    font-size: 14px;
+    background: var(--accent-bg);
+    color: var(--text-bright);
+    border-color: var(--accent-border);
+  }
+  .btn-primary:hover  { background: var(--btn-active); }
+  .btn-primary:disabled { background: var(--btn-disabled-bg); color: var(--btn-disabled-text); border-color: var(--border); cursor: not-allowed; }
+
+  .btn-secondary {
+    padding: 12px 14px;
+    min-height: 44px;
+    font-size: 11px;
+    background: var(--btn-bg);
+    color: var(--muted);
+  }
+  .btn-secondary:hover { background: var(--btn-hover); color: var(--text); }
+</style>
+</head>
+<body>
+
+<div class="ring-container" id="ring-container"></div>
+
+<div class="step-counter" id="step-counter">
+  <span id="step-text">step 0</span>
+  <span id="all-even-label" class="all-even" style="display:none"> · all even!</span>
+</div>
+
+<div class="controls">
+  <button id="btn-step" class="btn-primary">Boop →</button>
+  <div class="controls-secondary">
+    <button id="btn-reset" class="btn-secondary">reset</button>
+    <button id="btn-random" class="btn-secondary">random</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  const N  = 4;
+  const CX = 140, CY = 140, R = 90, CELL = 56;
+
+  let values      = [3, 5, 1, 8];
+  let startValues = [3, 5, 1, 8];
+  let step        = 0;
+
+  const ringContainer = document.getElementById('ring-container');
+  const stepText      = document.getElementById('step-text');
+  const allEvenLabel  = document.getElementById('all-even-label');
+  const btnStep       = document.getElementById('btn-step');
+  const btnReset      = document.getElementById('btn-reset');
+  const btnRandom     = document.getElementById('btn-random');
+
+  function ringPos(i) {
+    const angle = (i / N) * Math.PI * 2 - Math.PI / 2;
+    return { x: CX + R * Math.cos(angle), y: CY + R * Math.sin(angle) };
+  }
+
+  // SVG ring + arrow
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg   = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('viewBox', '0 0 280 280');
+
+  const circle = document.createElementNS(svgNS, 'circle');
+  circle.setAttribute('cx', CX); circle.setAttribute('cy', CY); circle.setAttribute('r', R);
+  circle.setAttribute('fill', 'none');
+  circle.setAttribute('stroke', 'var(--ring-stroke)');
+  circle.setAttribute('stroke-width', '1');
+  circle.setAttribute('opacity', '0.5');
+  svg.appendChild(circle);
+
+  const arrowAngle   = Math.PI / 4;
+  const ax           = CX + R * Math.cos(arrowAngle);
+  const ay           = CY + R * Math.sin(arrowAngle);
+  const ta           = arrowAngle + Math.PI / 2;
+  const alen         = 8;
+  const tip   = { x: ax + alen * Math.cos(ta),       y: ay + alen * Math.sin(ta) };
+  const aleft = { x: ax + (alen-5) * Math.cos(ta-0.5), y: ay + (alen-5) * Math.sin(ta-0.5) };
+  const aright= { x: ax + (alen-5) * Math.cos(ta+0.5), y: ay + (alen-5) * Math.sin(ta+0.5) };
+  const ap = document.createElementNS(svgNS, 'path');
+  ap.setAttribute('d', 'M ' + aleft.x.toFixed(1) + ' ' + aleft.y.toFixed(1) +
+    ' L ' + tip.x.toFixed(1) + ' ' + tip.y.toFixed(1) +
+    ' L ' + aright.x.toFixed(1) + ' ' + aright.y.toFixed(1));
+  ap.setAttribute('fill', 'none');
+  ap.setAttribute('stroke', 'var(--ring-stroke)');
+  ap.setAttribute('stroke-width', '1.5');
+  ap.setAttribute('opacity', '0.5');
+  svg.appendChild(ap);
+  ringContainer.appendChild(svg);
+
+  // Cell inputs
+  const inputs = [];
+  for (let i = 0; i < N; i++) {
+    const pos   = ringPos(i);
+    const input = document.createElement('input');
+    input.type      = 'text';
+    input.setAttribute('inputmode', 'numeric');
+    input.setAttribute('pattern', '[0-9]*');
+    input.value     = values[i];
+    input.className = 'cell-input';
+    input.style.left = (pos.x - CELL / 2) + 'px';
+    input.style.top  = (pos.y - CELL / 2) + 'px';
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/[^0-9]/g, '');
+      const v = parseInt(input.value, 10);
+      if (!isNaN(v) && v >= 0) {
+        values[i] = startValues[i] = v;
+        step = 0;
+        btnStep.disabled = false;
+        syncInputs();
+        updateCounter();
+      }
+    });
+    inputs.push(input);
+    ringContainer.appendChild(input);
+  }
+
+  function ducciStep(v) {
+    return v.map((x, i) => Math.abs(x - v[(i + 1) % N]));
+  }
+
+  function isAllEven(v) {
+    return v.every(x => x % 2 === 0);
+  }
+
+  function syncInputs() {
+    for (let i = 0; i < N; i++) {
+      inputs[i].value = values[i];
+      inputs[i].classList.toggle('odd', values[i] % 2 !== 0);
+    }
+  }
+
+  function updateCounter() {
+    stepText.textContent = 'step ' + step;
+    const allEven = isAllEven(values);
+    allEvenLabel.style.display = allEven ? '' : 'none';
+    if (values.every(v => v === 0)) btnStep.disabled = true;
+  }
+
+  function notifyHeight() {
+    if (window.parent !== window) window.parent.postMessage({ type: 'iframeResize', height: document.body.scrollHeight }, '*');
+  }
+
+  function advance() {
+    values = ducciStep(values);
+    step++;
+    syncInputs();
+    updateCounter();
+  }
+
+  btnStep.addEventListener('click', advance);
+  btnReset.addEventListener('click', () => {
+    values = startValues.slice();
+    step   = 0;
+    btnStep.disabled = false;
+    syncInputs();
+    updateCounter();
+  });
+  btnRandom.addEventListener('click', () => {
+    // Mix of odds and evens to make the parity interesting
+    values = startValues = Array.from({ length: N }, () => Math.floor(Math.random() * 30) + 1);
+    step = 0;
+    btnStep.disabled = false;
+    syncInputs();
+    updateCounter();
+  });
+
+  syncInputs();
+  updateCounter();
+  requestAnimationFrame(notifyHeight);
+})();
+</script>
+</body>
+</html>

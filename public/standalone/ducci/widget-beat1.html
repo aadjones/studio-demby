@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Ducci Game</title>
+<script>
+  // Read ?theme=X from URL and apply before first paint
+  (function () {
+    const p = new URLSearchParams(location.search).get('theme');
+    if (p) document.documentElement.setAttribute('data-theme', p);
+  })();
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* ── Theme: default (dark purple) ─────────────────────────── */
+  :root {
+    --bg:               #0c0a14;
+    --text:             #c8c0d8;
+    --muted:            #7a7090;
+    --text-bright:      #e8e0f0;
+    --surface:          #14111f;
+    --border:           #2a2540;
+    --accent:           #8a6faa;
+    --accent-bg:        #3a2f55;
+    --accent-border:    #5a4f75;
+    --btn-bg:           #1e1a2e;
+    --btn-hover:        #2a2540;
+    --btn-hover-text:   #e8e0f0;
+    --btn-active:       #3a2f55;
+    --btn-disabled-bg:  #151220;
+    --btn-disabled-text:#4a4060;
+    --converged:        #f0a050;
+    --ring-stroke:      #6a5f80;
+  }
+
+  /* ── Theme: paper (warm editorial light) ───────────────────── */
+  :root[data-theme="paper"] {
+    --bg:               #faf8f3;
+    --text:             #2a2118;
+    --muted:            #8a7d6b;
+    --text-bright:      #100d08;
+    --surface:          #f2ede2;
+    --border:           #d9d0be;
+    --accent:           #b83c1c;
+    --accent-bg:        #f0e4de;
+    --accent-border:    #c87050;
+    --btn-bg:           #f2ede2;
+    --btn-hover:        #e8e0cc;
+    --btn-hover-text:   #100d08;
+    --btn-active:       #e0d4c4;
+    --btn-disabled-bg:  #f8f5ef;
+    --btn-disabled-text:#c8bfa8;
+    --converged:        #b83c1c;
+    --ring-stroke:      #d9d0be;
+  }
+
+  /* ── Theme: print (warm editorial dark) ────────────────────── */
+  :root[data-theme="print"] {
+    --bg:               #0f0e0b;
+    --text:             #cec5b0;
+    --muted:            #6a6254;
+    --text-bright:      #e8dfc8;
+    --surface:          #1a1813;
+    --border:           #2a2720;
+    --accent:           #d4a843;
+    --accent-bg:        #252010;
+    --accent-border:    #6a5428;
+    --btn-bg:           #1a1813;
+    --btn-hover:        #252318;
+    --btn-hover-text:   #e8dfc8;
+    --btn-active:       #302d1e;
+    --btn-disabled-bg:  #141310;
+    --btn-disabled-text:#3a3528;
+    --converged:        #d4a843;
+    --ring-stroke:      #3a3528;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Instrument Serif', Georgia, serif;
+    padding: 20px 16px;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  /* ── Ring ── */
+  .ring-container {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin: 0 auto 16px;
+  }
+
+  .ring-container svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  .cell-input {
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-bright);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.15s;
+    -moz-appearance: textfield;
+  }
+  .cell-input::-webkit-inner-spin-button,
+  .cell-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+  .cell-input:focus { border-color: var(--accent) !important; }
+
+  /* ── Step counter ── */
+  .step-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 16px;
+    min-height: 18px;
+  }
+  .converged { color: var(--converged); }
+
+  /* ── Controls ── */
+  .controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .controls-secondary {
+    display: flex;
+    gap: 8px;
+  }
+
+  button {
+    font-family: 'JetBrains Mono', monospace;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    border: 1px solid var(--border);
+  }
+
+  /* Primary: Step */
+  .btn-primary {
+    padding: 12px 40px;
+    min-height: 44px;
+    font-size: 14px;
+    background: var(--accent-bg);
+    color: var(--text-bright);
+    border-color: var(--accent-border);
+  }
+  .btn-primary:hover   { background: var(--btn-active); }
+  .btn-primary:active  { background: var(--btn-active); }
+  .btn-primary:disabled { background: var(--btn-disabled-bg); color: var(--btn-disabled-text); border-color: var(--border); cursor: not-allowed; }
+
+  /* Secondary: Reset, Random */
+  .btn-secondary {
+    padding: 12px 14px;
+    min-height: 44px;
+    font-size: 11px;
+    background: var(--btn-bg);
+    color: var(--muted);
+    border-color: var(--border);
+  }
+  .btn-secondary:hover  { background: var(--btn-hover); color: var(--text); }
+  .btn-secondary:active { background: var(--btn-active); }
+</style>
+</head>
+<body>
+
+<div class="ring-container" id="ring-container"></div>
+
+<div class="step-counter" id="step-counter">
+  <span id="step-text">step 0</span>
+  <span id="converged-label" class="converged" style="display:none"> · converged</span>
+</div>
+
+<div class="controls">
+  <button id="btn-step" class="btn-primary">Boop →</button>
+  <div class="controls-secondary">
+    <button id="btn-reset" class="btn-secondary">reset</button>
+    <button id="btn-random" class="btn-secondary">random</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  const N    = 4;
+  const CX   = 140, CY = 140, R = 90, CELL = 56;
+
+  let values      = [3, 5, 1, 8];
+  let startValues = [3, 5, 1, 8];
+  let step        = 0;
+
+  const ringContainer  = document.getElementById('ring-container');
+  const stepText       = document.getElementById('step-text');
+  const convergedLabel = document.getElementById('converged-label');
+  const btnStep        = document.getElementById('btn-step');
+  const btnReset       = document.getElementById('btn-reset');
+  const btnRandom      = document.getElementById('btn-random');
+
+  // ── Ring geometry ────────────────────────────────────────────────────────
+  function ringPos(i) {
+    const angle = (i / N) * Math.PI * 2 - Math.PI / 2;
+    return { x: CX + R * Math.cos(angle), y: CY + R * Math.sin(angle) };
+  }
+
+  // ── SVG decoration ───────────────────────────────────────────────────────
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg   = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('viewBox', '0 0 280 280');
+
+  const circle = document.createElementNS(svgNS, 'circle');
+  circle.setAttribute('cx', CX); circle.setAttribute('cy', CY); circle.setAttribute('r', R);
+  circle.setAttribute('fill', 'none');
+  circle.setAttribute('stroke', 'var(--ring-stroke)');
+  circle.setAttribute('stroke-width', '1');
+  circle.setAttribute('opacity', '0.5');
+  svg.appendChild(circle);
+
+  const arrowAngle   = Math.PI / 4;
+  const ax           = CX + R * Math.cos(arrowAngle);
+  const ay           = CY + R * Math.sin(arrowAngle);
+  const tangentAngle = arrowAngle + Math.PI / 2;
+  const alen         = 8;
+  const tip   = { x: ax + alen * Math.cos(tangentAngle),         y: ay + alen * Math.sin(tangentAngle) };
+  const aleft = { x: ax + (alen-5) * Math.cos(tangentAngle-0.5), y: ay + (alen-5) * Math.sin(tangentAngle-0.5) };
+  const aright= { x: ax + (alen-5) * Math.cos(tangentAngle+0.5), y: ay + (alen-5) * Math.sin(tangentAngle+0.5) };
+  const arrowPath = document.createElementNS(svgNS, 'path');
+  arrowPath.setAttribute('d', 'M ' + aleft.x.toFixed(1) + ' ' + aleft.y.toFixed(1) +
+    ' L ' + tip.x.toFixed(1) + ' ' + tip.y.toFixed(1) +
+    ' L ' + aright.x.toFixed(1) + ' ' + aright.y.toFixed(1));
+  arrowPath.setAttribute('fill', 'none');
+  arrowPath.setAttribute('stroke', 'var(--ring-stroke)');
+  arrowPath.setAttribute('stroke-width', '1.5');
+  arrowPath.setAttribute('opacity', '0.5');
+  svg.appendChild(arrowPath);
+  ringContainer.appendChild(svg);
+
+  // ── Cell inputs ──────────────────────────────────────────────────────────
+  const inputs = [];
+  for (let i = 0; i < N; i++) {
+    const pos   = ringPos(i);
+    const input = document.createElement('input');
+    input.type      = 'text';
+    input.setAttribute('inputmode', 'numeric');
+    input.setAttribute('pattern', '[0-9]*');
+    input.value     = values[i];
+    input.className = 'cell-input';
+    input.style.left = (pos.x - CELL / 2) + 'px';
+    input.style.top  = (pos.y - CELL / 2) + 'px';
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/[^0-9]/g, '');
+      const v = parseInt(input.value, 10);
+      if (!isNaN(v) && v >= 0) {
+        values[i] = startValues[i] = v;
+        step = 0;
+        btnStep.disabled = false;
+        syncInputs();
+        updateCounter();
+      }
+    });
+    inputs.push(input);
+    ringContainer.appendChild(input);
+  }
+
+  // ── Ducci ────────────────────────────────────────────────────────────────
+  function ducciStep(v) {
+    return v.map((x, i) => Math.abs(x - v[(i + 1) % N]));
+  }
+
+  function advance() {
+    values = ducciStep(values);
+    step++;
+    syncInputs();
+    updateCounter();
+    if (values.every(v => v === 0)) btnStep.disabled = true;
+  }
+
+  // ── Sync inputs ──────────────────────────────────────────────────────────
+  function syncInputs() {
+    for (let i = 0; i < N; i++) {
+      inputs[i].value = values[i];
+      inputs[i].style.background  = '';
+      inputs[i].style.borderColor = '';
+      inputs[i].style.color       = '';
+    }
+  }
+
+  function updateCounter() {
+    stepText.textContent = 'step ' + step;
+    convergedLabel.style.display = values.every(v => v === 0) ? '' : 'none';
+  }
+
+  btnStep.addEventListener('click', advance);
+  btnReset.addEventListener('click', () => {
+    values = startValues.slice();
+    step   = 0;
+    btnStep.disabled = false;
+    syncInputs();
+    updateCounter();
+  });
+  btnRandom.addEventListener('click', () => {
+    values = startValues = Array.from({ length: N }, () => Math.floor(Math.random() * 30) + 1);
+    step = 0;
+    btnStep.disabled = false;
+    syncInputs();
+    updateCounter();
+  });
+
+  syncInputs();
+  updateCounter();
+})();
+</script>
+</body>
+</html>

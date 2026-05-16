@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Step</title>
+<script>
+  // Read ?theme=X from URL and apply before first paint
+  (function () {
+    const p = new URLSearchParams(location.search).get('theme');
+    if (p) document.documentElement.setAttribute('data-theme', p);
+  })();
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* ── Theme: default (dark purple) ─────────────────────────── */
+  :root {
+    --bg:             #0c0a14;
+    --text:           #c8c0d8;
+    --muted:          #5a5070;
+    --surface:        #14111f;
+    --border:         #2a2540;
+    --accent:         #b090d8;
+    --accent-bg:      #1e1635;
+    --accent-border:  #8a6faa;
+    --done-bg:        #160f2a;
+    --done-border:    #4a3570;
+    --done-text:      #7a6090;
+    --pending-bg:     #0f0c1a;
+    --pending-border: #1e1a2e;
+    --pending-text:   #2a2540;
+    --ring-stroke:    #3a3050;
+    --arrow-stroke:   #5a5070;
+    --nav-bg:         #1e1635;
+    --nav-border:     #4a3570;
+    --nav-text:       #b090d8;
+    --nav-hover-bg:   #2a1e4a;
+    --nav-hover-border:#7a5faa;
+  }
+
+  /* ── Theme: paper (warm editorial light) ───────────────────── */
+  :root[data-theme="paper"] {
+    --bg:             #faf8f3;
+    --text:           #2a2118;
+    --muted:          #8a7d6b;
+    --surface:        #f2ede2;
+    --border:         #d9d0be;
+    --accent:         #b83c1c;
+    --accent-bg:      #f5ece8;
+    --accent-border:  #c87050;
+    --done-bg:        #f2ede2;
+    --done-border:    #d9d0be;
+    --done-text:      #8a7d6b;
+    --pending-bg:     #faf8f3;
+    --pending-border: #e8e0cc;
+    --pending-text:   #c8bfa8;
+    --ring-stroke:    #d9d0be;
+    --arrow-stroke:   #c8bfa8;
+    --nav-bg:         #f2ede2;
+    --nav-border:     #d9d0be;
+    --nav-text:       #2a2118;
+    --nav-hover-bg:   #f5ece8;
+    --nav-hover-border:#c87050;
+  }
+
+  /* ── Theme: print (warm editorial dark) ────────────────────── */
+  :root[data-theme="print"] {
+    --bg:             #0f0e0b;
+    --text:           #cec5b0;
+    --muted:          #6a6254;
+    --surface:        #1a1813;
+    --border:         #2a2720;
+    --accent:         #d4a843;
+    --accent-bg:      #252010;
+    --accent-border:  #6a5428;
+    --done-bg:        #1a1813;
+    --done-border:    #3a3528;
+    --done-text:      #6a6254;
+    --pending-bg:     #0f0e0b;
+    --pending-border: #1a1813;
+    --pending-text:   #2a2720;
+    --ring-stroke:    #3a3528;
+    --arrow-stroke:   #504a38;
+    --nav-bg:         #252010;
+    --nav-border:     #6a5428;
+    --nav-text:       #d4a843;
+    --nav-hover-bg:   #302c18;
+    --nav-hover-border:#906830;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Instrument Serif', Georgia, serif;
+    padding: 24px 16px;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  /* ── One diagram row ── */
+  .diagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 28px;
+    transition: opacity 0.25s;
+  }
+
+  .diagram.hidden {
+    display: none;
+  }
+
+  .ring-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .ring-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .ring-container {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    flex-shrink: 0;
+  }
+
+  .ring-container svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  .cell-box {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 600;
+    background: var(--surface);
+    color: var(--muted);
+  }
+
+  /* current-ring states */
+  .cell-box.active   { background: var(--accent-bg); border-color: var(--accent-border); color: var(--text); }
+  .cell-box.neighbor { background: var(--accent-bg); border-color: var(--accent-border); color: var(--text); }
+
+  /* next-ring states */
+  .cell-box.new     { background: var(--accent-bg); border-color: var(--accent-border); color: var(--text); }
+  .cell-box.done    { background: var(--done-bg); border-color: var(--done-border); color: var(--done-text); }
+  .cell-box.pending { background: var(--pending-bg); border-color: var(--pending-border); color: var(--pending-text); }
+
+  /* ── Nav button ── */
+  .nav-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  .nav-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: var(--nav-bg);
+    border: 1px solid var(--nav-border);
+    color: var(--nav-text);
+    padding: 12px 24px;
+    min-height: 44px;
+    border-radius: 4px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  .nav-btn:hover {
+    background: var(--nav-hover-bg);
+    border-color: var(--nav-hover-border);
+  }
+
+  .nav-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  .complete-msg {
+    display: none;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 14px;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .complete-msg.visible {
+    display: block;
+  }
+
+  .complete-msg.faded-in {
+    opacity: 1;
+  }
+</style>
+</head>
+<body id="body"></body>
+
+<script>
+(function () {
+  const BEFORE = [6, 2, 1, 5];
+  const AFTER  = [4, 1, 4, 1];
+  const N      = 4;
+  const CX = 80, CY = 80, R = 52, CELL = 36;
+  const svgNS = 'http://www.w3.org/2000/svg';
+
+  let currentStep = 0;  // which sub-step is currently shown (0-indexed)
+
+  function ringPos(i) {
+    const angle = (i / N) * Math.PI * 2 - Math.PI / 2;
+    return { x: CX + R * Math.cos(angle), y: CY + R * Math.sin(angle) };
+  }
+
+  function makeSVG(highlightArc) {
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 160 160');
+
+    // base ring
+    const circle = document.createElementNS(svgNS, 'circle');
+    circle.setAttribute('cx', CX); circle.setAttribute('cy', CY); circle.setAttribute('r', R);
+    circle.setAttribute('fill', 'none');
+    circle.setAttribute('stroke', 'var(--ring-stroke)');
+    circle.setAttribute('stroke-width', '1');
+    circle.setAttribute('opacity', '0.6');
+    svg.appendChild(circle);
+
+    // highlight arc between two adjacent cells
+    if (highlightArc !== null) {
+      const i  = highlightArc;
+      const j  = (i + 1) % N;
+      const a0 = (i / N) * Math.PI * 2 - Math.PI / 2;
+      const a1 = (j / N) * Math.PI * 2 - Math.PI / 2;
+      const x0 = (CX + R * Math.cos(a0)).toFixed(2);
+      const y0 = (CY + R * Math.sin(a0)).toFixed(2);
+      const x1 = (CX + R * Math.cos(a1)).toFixed(2);
+      const y1 = (CY + R * Math.sin(a1)).toFixed(2);
+      const arc = document.createElementNS(svgNS, 'path');
+      arc.setAttribute('d', 'M ' + x0 + ' ' + y0 + ' A ' + R + ' ' + R + ' 0 0 1 ' + x1 + ' ' + y1);
+      arc.setAttribute('fill', 'none');
+      arc.setAttribute('stroke', 'var(--accent)');
+      arc.setAttribute('stroke-width', '3');
+      arc.setAttribute('stroke-linecap', 'round');
+      arc.setAttribute('opacity', '0.7');
+      svg.appendChild(arc);
+    }
+
+    // clockwise arrow hint
+    const arrowAngle   = Math.PI / 4;
+    const ax           = CX + R * Math.cos(arrowAngle);
+    const ay           = CY + R * Math.sin(arrowAngle);
+    const ta           = arrowAngle + Math.PI / 2;
+    const alen = 6;
+    const tip   = { x: ax + alen * Math.cos(ta),       y: ay + alen * Math.sin(ta) };
+    const al    = { x: ax + (alen-4) * Math.cos(ta-0.5), y: ay + (alen-4) * Math.sin(ta-0.5) };
+    const ar    = { x: ax + (alen-4) * Math.cos(ta+0.5), y: ay + (alen-4) * Math.sin(ta+0.5) };
+    const ap = document.createElementNS(svgNS, 'path');
+    ap.setAttribute('d', 'M ' + al.x.toFixed(1) + ' ' + al.y.toFixed(1) +
+      ' L ' + tip.x.toFixed(1) + ' ' + tip.y.toFixed(1) +
+      ' L ' + ar.x.toFixed(1) + ' ' + ar.y.toFixed(1));
+    ap.setAttribute('fill', 'none');
+    ap.setAttribute('stroke', 'var(--arrow-stroke)');
+    ap.setAttribute('stroke-width', '1.2');
+    ap.setAttribute('opacity', '0.5');
+    svg.appendChild(ap);
+
+    return svg;
+  }
+
+  function makeRing(containerId, cells) {
+    const container = document.getElementById(containerId);
+    container.appendChild(makeSVG(cells._arc !== undefined ? cells._arc : null));
+    for (let i = 0; i < N; i++) {
+      const pos = ringPos(i);
+      const box = document.createElement('div');
+      box.className = 'cell-box ' + cells[i].cls;
+      box.style.left = (pos.x - CELL / 2) + 'px';
+      box.style.top  = (pos.y - CELL / 2) + 'px';
+      box.textContent = cells[i].value;
+      container.appendChild(box);
+    }
+  }
+
+  // Build all diagrams, but only show the first one initially
+  const body = document.getElementById('body');
+  const diagrams = [];
+
+  for (let step = 0; step < N; step++) {
+    const neighbor = (step + 1) % N;
+
+    const diagram = document.createElement('div');
+    diagram.className = 'diagram' + (step === 0 ? '' : ' hidden');
+    diagrams.push(diagram);
+
+    // ── current ring ──
+    const currentWrap = document.createElement('div');
+    currentWrap.className = 'ring-wrap';
+    const currentLabel = document.createElement('div');
+    currentLabel.className = 'ring-label';
+    currentLabel.textContent = 'current';
+    const currentContainer = document.createElement('div');
+    currentContainer.className = 'ring-container';
+    currentContainer.id = 'current-' + step;
+
+    const currentCells = BEFORE.map((v, i) => ({
+      value: v,
+      cls: i === step ? 'active' : i === neighbor ? 'neighbor' : '',
+    }));
+    currentCells._arc = step;
+
+    currentWrap.appendChild(currentLabel);
+    currentWrap.appendChild(currentContainer);
+
+    // ── next ring ──
+    const nextWrap = document.createElement('div');
+    nextWrap.className = 'ring-wrap';
+    const nextLabel = document.createElement('div');
+    nextLabel.className = 'ring-label';
+    nextLabel.textContent = 'next';
+    const nextContainer = document.createElement('div');
+    nextContainer.className = 'ring-container';
+    nextContainer.id = 'next-' + step;
+
+    const nextCells = AFTER.map((v, i) => ({
+      value: i <= step ? v : '?',
+      cls:   i === step ? 'new' : i < step ? 'done' : 'pending',
+    }));
+
+    diagram.appendChild(currentWrap);
+    diagram.appendChild(nextWrap);
+    nextWrap.appendChild(nextLabel);
+    nextWrap.appendChild(nextContainer);
+
+    body.appendChild(diagram);
+
+    makeRing('current-' + step, currentCells);
+    makeRing('next-'  + step, nextCells);
+  }
+
+  // ── nav button ──
+  const navRow = document.createElement('div');
+  navRow.className = 'nav-row';
+  const btn = document.createElement('button');
+  btn.className = 'nav-btn';
+  btn.textContent = 'Next cell →';
+  navRow.appendChild(btn);
+  body.appendChild(navRow);
+
+  const completeMsg = document.createElement('div');
+  completeMsg.className = 'complete-msg';
+  completeMsg.textContent = 'One boop complete!';
+  body.appendChild(completeMsg);
+
+  function notifyHeight() {
+    const h = document.body.scrollHeight;
+    if (window.parent !== window) window.parent.postMessage({ type: 'iframeResize', height: h }, '*');
+  }
+
+  // Report initial height once layout is settled
+  requestAnimationFrame(notifyHeight);
+
+  btn.addEventListener('click', function () {
+    currentStep++;
+    if (currentStep < N) {
+      diagrams[currentStep].classList.remove('hidden');
+      notifyHeight();
+    }
+    if (currentStep >= N - 1) {
+      btn.textContent = 'Done';
+      btn.disabled = true;
+      completeMsg.classList.add('visible');
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        completeMsg.classList.add('faded-in');
+        notifyHeight();
+      }));
+    }
+  });
+})();
+</script>
+</html>

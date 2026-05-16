@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Max-ometer</title>
+<script>
+  (function () {
+    const p = new URLSearchParams(location.search).get('theme');
+    if (p) document.documentElement.setAttribute('data-theme', p);
+  })();
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:               #0c0a14;
+    --text:             #c8c0d8;
+    --muted:            #7a7090;
+    --text-bright:      #e8e0f0;
+    --surface:          #14111f;
+    --border:           #2a2540;
+    --accent:           #8a6faa;
+    --accent-bg:        #3a2f55;
+    --accent-border:    #5a4f75;
+    --btn-bg:           #1e1a2e;
+    --btn-hover:        #2a2540;
+    --btn-hover-text:   #e8e0f0;
+    --btn-active:       #3a2f55;
+    --btn-disabled-bg:  #151220;
+    --btn-disabled-text:#4a4060;
+    --gauge-bg:         #14111f;
+    --gauge-fill:       #8a6faa;
+    --tick:             #4a4060;
+  }
+
+  :root[data-theme="paper"] {
+    --bg:               #faf8f3;
+    --text:             #2a2118;
+    --muted:            #8a7d6b;
+    --text-bright:      #100d08;
+    --surface:          #f2ede2;
+    --border:           #d9d0be;
+    --accent:           #b83c1c;
+    --accent-bg:        #f0e4de;
+    --accent-border:    #c87050;
+    --btn-bg:           #f2ede2;
+    --btn-hover:        #e8e0cc;
+    --btn-hover-text:   #100d08;
+    --btn-active:       #e0d4c4;
+    --btn-disabled-bg:  #f8f5ef;
+    --btn-disabled-text:#c8bfa8;
+    --gauge-bg:         #f2ede2;
+    --gauge-fill:       #b83c1c;
+    --tick:             #c8bfa8;
+  }
+
+  :root[data-theme="print"] {
+    --bg:               #0f0e0b;
+    --text:             #cec5b0;
+    --muted:            #6a6254;
+    --text-bright:      #e8dfc8;
+    --surface:          #1a1813;
+    --border:           #2a2720;
+    --accent:           #d4a843;
+    --accent-bg:        #252010;
+    --accent-border:    #6a5428;
+    --btn-bg:           #1a1813;
+    --btn-hover:        #252318;
+    --btn-hover-text:   #e8dfc8;
+    --btn-active:       #302d1e;
+    --btn-disabled-bg:  #141310;
+    --btn-disabled-text:#3a3528;
+    --gauge-bg:         #1a1813;
+    --gauge-fill:       #d4a843;
+    --tick:             #3a3528;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Instrument Serif', Georgia, serif;
+    padding: 20px 16px;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .gauge-row {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    height: 280px;
+  }
+
+  .gauge {
+    position: relative;
+    width: 64px;
+    height: 100%;
+    background: var(--gauge-bg);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .gauge-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--gauge-fill);
+    height: 100%;
+    transition: height 700ms cubic-bezier(0.55, 0, 0.35, 1);
+  }
+
+  .ticks {
+    position: relative;
+    width: 44px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .tick {
+    position: absolute;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transform: translateY(-50%);
+    transition: color 0.25s, font-weight 0.25s;
+  }
+
+  .tick::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 1px;
+    background: var(--tick);
+  }
+
+  /* Default: hide the numeric value, just show the tick mark */
+  .tick .tick-label {
+    visibility: hidden;
+  }
+
+  /* Reference labels (100 at top, 0 at bottom) stay visible */
+  .tick.ref .tick-label {
+    visibility: visible;
+  }
+
+  /* Active tick: prominent mark + visible label */
+  .tick.active {
+    color: var(--text-bright);
+    font-weight: 600;
+  }
+
+  .tick.active .tick-label {
+    visibility: visible;
+  }
+
+  .tick.active::before {
+    background: var(--gauge-fill);
+    height: 2px;
+    width: 12px;
+  }
+
+  .readout {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--text-bright);
+    text-align: center;
+    line-height: 1;
+    min-height: 40px;
+  }
+
+  .readout-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-align: center;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .step-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    min-height: 18px;
+    max-width: 360px;
+  }
+
+  .floor-note {
+    color: var(--accent);
+  }
+
+  .controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .controls-secondary { display: flex; gap: 8px; }
+
+  button {
+    font-family: 'JetBrains Mono', monospace;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    border: 1px solid var(--border);
+  }
+
+  .btn-primary {
+    padding: 12px 40px;
+    min-height: 44px;
+    font-size: 14px;
+    background: var(--accent-bg);
+    color: var(--text-bright);
+    border-color: var(--accent-border);
+  }
+  .btn-primary:hover  { background: var(--btn-active); }
+  .btn-primary:disabled { background: var(--btn-disabled-bg); color: var(--btn-disabled-text); border-color: var(--border); cursor: not-allowed; }
+
+  .btn-secondary {
+    padding: 12px 14px;
+    min-height: 44px;
+    font-size: 11px;
+    background: var(--btn-bg);
+    color: var(--muted);
+  }
+  .btn-secondary:hover { background: var(--btn-hover); color: var(--text); }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <div class="gauge-row">
+    <div class="gauge">
+      <div class="gauge-fill" id="gauge-fill"></div>
+    </div>
+    <div class="ticks" id="ticks"></div>
+  </div>
+
+  <div>
+    <div class="readout" id="readout">100</div>
+    <div class="readout-label">Max-ometer</div>
+  </div>
+
+  <div class="step-counter" id="step-counter">cycle 0 of 7</div>
+
+  <div class="controls">
+    <button id="btn-halve" class="btn-primary">Halve →</button>
+    <button id="btn-reset" class="btn-secondary">reset</button>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  // Worst-case ceiling trajectory starting from 100.
+  // Each next value is floor(previous / 2): the bound halves, integer flooring snaps the rest.
+  const SEQUENCE = [100, 50, 25, 12, 6, 3, 1, 0];
+  const MAX = SEQUENCE[0];
+
+  let step = 0;
+
+  const gaugeFill   = document.getElementById('gauge-fill');
+  const ticksEl     = document.getElementById('ticks');
+  const readout     = document.getElementById('readout');
+  const stepCounter = document.getElementById('step-counter');
+  const btnHalve    = document.getElementById('btn-halve');
+  const btnReset    = document.getElementById('btn-reset');
+
+  // Build tick marks. Endpoints (100 and 0) keep static reference labels;
+  // others only show their label when active.
+  SEQUENCE.forEach((v, i) => {
+    const t = document.createElement('div');
+    t.className = 'tick';
+    if (i === 0 || i === SEQUENCE.length - 1) t.classList.add('ref');
+    t.dataset.index = i;
+    t.style.top = (100 - (v / MAX) * 100) + '%';
+
+    const lbl = document.createElement('span');
+    lbl.className = 'tick-label';
+    lbl.textContent = v;
+    t.appendChild(lbl);
+
+    ticksEl.appendChild(t);
+  });
+  const tickEls = Array.from(ticksEl.children);
+
+  function setStepCounter(text, floorPart) {
+    while (stepCounter.firstChild) stepCounter.removeChild(stepCounter.firstChild);
+    stepCounter.appendChild(document.createTextNode(text));
+    if (floorPart) {
+      const span = document.createElement('span');
+      span.className = 'floor-note';
+      span.textContent = floorPart;
+      stepCounter.appendChild(span);
+    }
+  }
+
+  function render() {
+    const value = SEQUENCE[step];
+    readout.textContent = value;
+    gaugeFill.style.height = (value / MAX * 100) + '%';
+
+    tickEls.forEach((t, i) => t.classList.toggle('active', i === step));
+
+    if (step === 0) {
+      setStepCounter('cycle 0 — starting reading');
+    } else if (value === 0) {
+      setStepCounter('cycle ' + step + ' — ', 'trapped at 0');
+    } else {
+      const prev = SEQUENCE[step - 1];
+      const ideal = prev / 2;
+      if (ideal !== value) {
+        setStepCounter('cycle ' + step + ' — half of ' + prev + ' is ' + ideal + ', ', 'floored to ' + value);
+      } else {
+        setStepCounter('cycle ' + step + ' — half of ' + prev);
+      }
+    }
+
+    btnHalve.disabled = step >= SEQUENCE.length - 1;
+  }
+
+  function halve() {
+    if (step < SEQUENCE.length - 1) {
+      step++;
+      render();
+    }
+  }
+
+  function reset() {
+    step = 0;
+    render();
+  }
+
+  function notifyHeight() {
+    if (window.parent !== window) {
+      window.parent.postMessage({ type: 'iframeResize', height: document.body.scrollHeight }, '*');
+    }
+  }
+
+  btnHalve.addEventListener('click', halve);
+  btnReset.addEventListener('click', reset);
+
+  render();
+  requestAnimationFrame(notifyHeight);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,340 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   style.css — Ducci / Pocket Universes, Post 1
+   Active theme: "paper" (Warm Editorial Light)
+   Swap by changing data-theme on <html>:
+     data-theme="paper"   Warm Editorial Light  ← default
+     data-theme="print"   Warm Editorial Dark
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ── Default / fallback: Warm Editorial Light ──────────────────────────── */
+:root {
+  --bg:              #faf8f3;
+  --text:            #2a2118;
+  --text-muted:      #8a7d6b;
+  --text-bright:     #100d08;
+  --text-em:         #b83c1c;
+  --border:          #d9d0be;
+  --surface:         #f2ede2;
+  --blockquote-bar:  #b83c1c;
+  --blockquote-text: #3a2e22;
+  --seq-arrow:       #b83c1c;
+  --ring-arc:        #d9d0be;
+  --ring-fill:       #f2ede2;
+  --ring-stroke:     #d9d0be;
+  --ring-text:       #2a2118;
+}
+
+
+/* ── Warm Editorial Dark ────────────────────────────────────────────────── */
+:root[data-theme="print"] {
+  --bg:              #0f0e0b;
+  --text:            #cec5b0;
+  --text-muted:      #6a6254;
+  --text-bright:     #e8dfc8;
+  --text-em:         #d4a843;
+  --border:          #2a2720;
+  --surface:         #1a1813;
+  --blockquote-bar:  #d4a843;
+  --blockquote-text: #b0a890;
+  --cite-text:       #7a7060;
+  --seq-arrow:       #d4a843;
+  --ring-arc:        #3a3528;
+  --ring-fill:       #1a1813;
+  --ring-stroke:     #504a38;
+  --ring-text:       #e8dfc8;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Reset
+   ───────────────────────────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Base
+   ───────────────────────────────────────────────────────────────────────── */
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 19px;
+  line-height: 1.7;
+  padding: 0 16px;
+}
+
+/* ── Article container ── */
+.article {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 64px 0 120px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Typography
+   ───────────────────────────────────────────────────────────────────────── */
+
+h1 {
+  font-size: 38px;
+  font-weight: 400;
+  color: var(--text-bright);
+  line-height: 1.15;
+  margin-bottom: 10px;
+  letter-spacing: 0.01em;
+}
+
+.subtitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 56px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+p {
+  margin-bottom: 1.4em;
+  color: var(--text);
+}
+
+em {
+  color: var(--text-em);
+  font-style: italic;
+}
+
+/* ── Section heading ── */
+.beat {
+  margin: 52px 0 20px;
+}
+
+.beat h2 {
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--text-bright);
+  letter-spacing: 0.01em;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   KaTeX — match surrounding text size; display math gets breathing room
+   ───────────────────────────────────────────────────────────────────────── */
+
+.article .katex { font-size: 0.95em; }
+
+.article .katex-display > .katex { font-size: 1.05em; }
+
+.katex-display {
+  margin: 1.2em 0;
+  overflow-x: auto;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Widget embeds
+   ───────────────────────────────────────────────────────────────────────── */
+
+.widget-wrap {
+  margin: 32px 0;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.widget-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 8px 12px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+iframe {
+  display: block;
+  width: 100%;
+  border: none;
+  background: var(--bg);
+}
+
+/* ── Widget placeholder ── */
+.widget-placeholder {
+  margin: 32px 0;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  padding: 24px;
+  text-align: center;
+}
+
+.widget-placeholder .wlabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.widget-placeholder .wdesc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+  opacity: 0.7;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Divider
+   ───────────────────────────────────────────────────────────────────────── */
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 56px 0;
+}
+
+.footnote {
+  margin-top: 3.5em;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Ring diagrams
+   ───────────────────────────────────────────────────────────────────────── */
+
+.ring-solo {
+  display: flex;
+  justify-content: center;
+  margin: 32px 0;
+}
+
+.ring-sequence {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 32px auto;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+  width: fit-content;
+  max-width: 100%;
+  /* Scroll affordance: fade-to-bg at right edge disappears when fully scrolled */
+  background:
+    linear-gradient(var(--bg), var(--bg)) right center / 40px 100% no-repeat local,
+    linear-gradient(to right, transparent, var(--bg)) right center / 40px 100% no-repeat scroll;
+}
+
+.seq-arrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--seq-arrow);
+  flex-shrink: 0;
+  padding: 0 2px;
+  line-height: 1;
+}
+
+svg.ring {
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Algebra details block
+   ───────────────────────────────────────────────────────────────────────── */
+
+details {
+  margin: 28px 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+details summary {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 12px 16px;
+  background: var(--surface);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+details summary::-webkit-details-marker { display: none; }
+details summary::before { content: '▶  '; font-size: 9px; opacity: 0.6; }
+details[open] summary::before { content: '▼  '; }
+
+details .algebra-body {
+  padding: 20px 24px 8px;
+}
+
+details .algebra-body p {
+  font-size: 17px;
+  color: var(--text);
+  opacity: 0.85;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Rule callouts
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --rule-border:  #b83c1c;
+  --rule-bg:      #f5ede8;
+  --rule-label:   #b83c1c;
+}
+
+:root[data-theme="print"] {
+  --rule-border:  #d4a843;
+  --rule-bg:      #1e1a0f;
+  --rule-label:   #d4a843;
+}
+
+.rule-callout {
+  border-left: 3px solid var(--rule-border);
+  background: var(--rule-bg);
+  border-radius: 0 6px 6px 0;
+  margin: 32px 0;
+  padding: 14px 20px 16px;
+}
+
+.rule-callout .rule-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--rule-label);
+  margin-bottom: 6px;
+}
+
+.rule-callout p {
+  margin: 0;
+  font-size: 17px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Blockquotes (friend quotes)
+   ───────────────────────────────────────────────────────────────────────── */
+
+blockquote {
+  border-left: 2px solid var(--blockquote-bar);
+  margin: 28px 0;
+  padding: 10px 20px;
+  font-style: italic;
+  color: var(--blockquote-text);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Legacy .eq — kept for any remaining HTML math fallback
+   ───────────────────────────────────────────────────────────────────────── */
+
+.eq {
+  text-align: center;
+  margin: 20px 0;
+  color: var(--text);
+}
