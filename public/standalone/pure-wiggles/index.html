@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pure Wiggles — sinusoids, spectra, and the secret machinery of differential equations</title>
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,560;0,9..144,640;1,9..144,420&family=Spectral:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css"
+  integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js"
+  integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js"
+  integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<header class="hero">
+  <p class="overline">An interactive explainer · seven short chapters · now with thy sound</p>
+  <h1>Pure <span class="wig">Wiggles</span></h1>
+  <canvas id="heroWiggle"></canvas>
+  <p class="dek">Good vibes only...but what are vibrations, actually? Let's find out.</p>
+  <p class="byline">STUDIO DEMBY · NO PREREQUISITES BEYOND A FIRST BRUSH WITH DERIVATIVES</p>
+</header>
+
+<nav class="chapnav" aria-label="Chapters"><div class="inner" id="chapButtons"></div></nav>
+
+<main>
+
+<!-- ======================= CHAPTER 1 ======================= -->
+<section class="chapter" id="ch1" data-title="What is a vibration?">
+  <p class="kicker">Chapter 1</p>
+  <h2>What is a vibration?</h2>
+  <p>Pluck a guitar string and freeze time the instant after you release it. You've made a disturbance in the string. The string is displeased. Tension pulls every point of the string back toward its desirable resting state of a flat line. The more of a disturbance you make, the harder the string pulls back.
+  <p>Let's let time continue after you pluck that string. Is the string now vibrating? In casual terms, sure. But if you film that plucked string in slow motion, you'll see its shape writhe: the disturbance bounces from end to end. A clean vibration (good vibes only) would be something more strict: every point moving in lockstep, all rising together, all falling together. These good vibrations are called <em>modes of vibration</em> or <em>standing waves</em>.</p>
+
+  <div class="panel">
+    <div class="panel-head"><span><span class="led"></span>Slow motion — writhe vs. vibrate</span><span>~200× slower</span></div>
+    <div class="panel-body">
+      <div class="striplab">A PLUCK: THE SHAPE WRITHES</div>
+      <canvas id="c1pluck" style="height:110px"></canvas>
+      <div class="striplab">A MODE OF VIBRATION: EVERY POINT IN LOCKSTEP</div>
+      <canvas id="c1mode" style="height:96px"></canvas>
+    </div>
+  </div>
+  <p class="caption">Top: a freshly released pluck. The disturbance bounces end to end. The shape never repeats from one instant to the next. Bottom: "good vibes only": a shape that only breathes, never deforms.</p>
+  <p class="footage"><b>FIELD FOOTAGE</b> — real string motion, filmed properly: <a href="https://www.phys.unsw.edu.au/jw/strings.html" target="_blank" rel="noopener">UNSW Music Acoustics — strings, standing waves &amp; harmonics</a>.</p>
+  <p>So how can we get these glorious modes of vibration? First, let's get the string into mathematics, where we can interrogate it. Freeze it again and look at what the camera caught: a curve. Lay a ruler along the resting line and call position along it <span class="eq">x</span>. At every position, the frozen string sits some height above or below rest—call that height <span class="eq">f(x)</span>. That's the whole dictionary: a snapshot of a string <em>is</em> a function, and the graph of the function <em>is</em> the string. (Notice there's no time variable—this chapter lives entirely inside one frozen frame.)</p>
+
+  <figure class="diagram" role="img" aria-label="A frozen string drawn as a curve above a dashed rest line with nailed ends; a vertical arrow at one position x shows the height f(x).">
+  <svg viewBox="0 0 640 240" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="awA" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto"><path d="M0,0L10,5L0,10z" fill="#FF7A45"/></marker>
+    </defs>
+    <line x1="36" y1="170" x2="604" y2="170" stroke="#5A5E6B" stroke-width="1.3" stroke-dasharray="3 7"/>
+    <text class="fm" x="430" y="192" text-anchor="middle">REST POSITION</text>
+    <circle cx="36" cy="170" r="4.5" fill="#23262E"/>
+    <circle cx="604" cy="170" r="4.5" fill="#23262E"/>
+    <path d="M36,170 C140,168 230,96 330,84 C430,72 540,120 604,170" fill="none" stroke="#23262E" stroke-width="2.6"/>
+    <text class="fm" x="356" y="62" text-anchor="start">THE STRING, FROZEN</text>
+    <line x1="213" y1="170" x2="213" y2="128" stroke="#FF7A45" stroke-width="2.4" marker-end="url(#awA)"/>
+    <circle cx="213" cy="119" r="3.5" fill="#FF7A45"/>
+    <line x1="213" y1="166" x2="213" y2="174" stroke="#23262E" stroke-width="1.6"/>
+    <text class="fx" x="213" y="198" text-anchor="middle">x</text>
+    <text class="fx fxe" x="228" y="148">f(x)</text>
+  </svg>
+  </figure>
+  <p class="caption">The frozen string, as mathematics: at every position <span class="eq">x</span>, one number <span class="eq">f(x)</span>—how far that point has strayed from rest. The nailed-down ends force <span class="eq">f = 0</span> there. Remember the nails; they get a vote later.</p>
+
+  <p>Next, the physics. We said the string pulls back harder where you disturb it more—but what exactly does it measure when deciding how hard? Zoom in on one little piece of string. Its neighbors tug it from both sides, along the string itself: that's all tension is. If the piece is straight, the two tugs point in exactly opposite directions and cancel—no net force, no complaint. If the piece is <em>bent</em>, the tugs miss each other slightly, and the miss leaves a net pull aimed at flattening the bend—the tighter the bend, the bigger the leftover. So the string doesn't care how <em>far</em> you've displaced a point; it cares how <em>bent</em> the string is there. The pull-back is proportional to the curvature—and the curvature of a graph is something calculus already owns: the second derivative, <span class="eq">f&Prime;</span>. Newton then says that leftover pull is what accelerates the piece. (Chapter 3 will write this as an honest equation and let time run. For now, the picture is all we need.)</p>
+
+  <figure class="diagram" role="img" aria-label="Two magnified pieces of string. A straight piece: tension arrows pull in exactly opposite directions and cancel. A bent piece: tension arrows pull outward along the string at each end, leaving a net pull-back arrow pointing from the crest toward the straight dashed line.">
+  <svg viewBox="0 0 640 340" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="awBt" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto"><path d="M0,0L10,5L0,10z" fill="#23262E"/></marker>
+      <marker id="awBn" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto"><path d="M0,0L10,5L0,10z" fill="#FF7A45"/></marker>
+    </defs>
+    <text class="fm" x="320" y="26" text-anchor="middle">ONE LITTLE PIECE OF STRING, MAGNIFIED</text>
+    <line x1="240" y1="70" x2="400" y2="70" stroke="#23262E" stroke-width="3.2"/>
+    <circle cx="240" cy="70" r="4" fill="#23262E"/>
+    <circle cx="400" cy="70" r="4" fill="#23262E"/>
+    <line x1="240" y1="70" x2="168" y2="70" stroke="#23262E" stroke-width="2.4" marker-end="url(#awBt)"/>
+    <line x1="400" y1="70" x2="472" y2="70" stroke="#23262E" stroke-width="2.4" marker-end="url(#awBt)"/>
+    <text class="fm" x="320" y="104" text-anchor="middle">STRAIGHT: THE TUGS CANCEL EXACTLY</text>
+    <line x1="180" y1="250" x2="460" y2="250" stroke="#5A5E6B" stroke-width="1.3" stroke-dasharray="3 7"/>
+    <path d="M180,250 Q320,140 460,250" fill="none" stroke="#23262E" stroke-width="3.2"/>
+    <circle cx="180" cy="250" r="4" fill="#23262E"/>
+    <circle cx="460" cy="250" r="4" fill="#23262E"/>
+    <line x1="180" y1="250" x2="117" y2="299" stroke="#23262E" stroke-width="2.4" marker-end="url(#awBt)"/>
+    <line x1="460" y1="250" x2="523" y2="299" stroke="#23262E" stroke-width="2.4" marker-end="url(#awBt)"/>
+    <text class="fm" x="100" y="324" text-anchor="middle">TENSION</text>
+    <text class="fm" x="540" y="324" text-anchor="middle">TENSION</text>
+    <line x1="320" y1="202" x2="320" y2="240" stroke="#FF7A45" stroke-width="2.6" marker-end="url(#awBn)"/>
+    <text class="fm fme" x="320" y="278" text-anchor="middle">BENT: NET PULL-BACK</text>
+  </svg>
+  </figure>
+  <p class="caption">One piece of string under the magnifying glass. Tension tugs it from both ends, along the string. Straight piece: the tugs cancel exactly. Bent piece: they don't, and the leftover pull points toward straightness (the dashed line)—harder where the bend is tighter. That leftover, mapped point by point, is the second derivative <span class="eq">f&Prime;</span>.</p>
+
+  <p>Now aim the physics at the goal. Lockstep means the shape never changes—it only breathes: every later snapshot is the <em>same curve, rescaled</em>. A point displaced twice as far as its neighbor now must stay exactly twice as far for the whole ride. And what steers the ride is acceleration—so the accelerations must come in those same proportions too: every point yanked in exact proportion to how far it strayed, one common ratio for the entire string. But we just learned what the yank is: curvature. Put the two sentences together and the requirement writes itself—the curvature must be proportional to the displacement itself, the same ratio everywhere, with a minus sign so the pull is a pull-<em>back</em>:</p>
+  <div class="eqblock">f&Prime; = −(number) · f
+    <span class="note">WANTED: CURVATURE EVERYWHERE PROPORTIONAL TO DISPLACEMENT, AND OPPOSED TO IT</span>
+  </div>
+
+  <figure class="diagram" role="img" aria-label="Three snapshots of the same string shape at different amplitudes: full size now, smaller a moment later, flipped below the rest line later still. Displacement arrows at two positions shrink by the same factor.">
+  <svg viewBox="0 0 640 210" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="awC1" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#23262E"/></marker>
+      <marker id="awC2" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="#FF7A45"/></marker>
+    </defs>
+    <line x1="36" y1="140" x2="604" y2="140" stroke="#5A5E6B" stroke-width="1.3" stroke-dasharray="3 7"/>
+    <circle cx="36" cy="140" r="4.5" fill="#23262E"/>
+    <circle cx="604" cy="140" r="4.5" fill="#23262E"/>
+    <path d="M36,140 C140,138 230,66 330,54 C430,42 540,90 604,140" fill="none" stroke="#23262E" stroke-width="2.4"/>
+    <path d="M36,140 C140,139 230,99 330,93 C430,86 540,113 604,140" fill="none" stroke="#FF7A45" stroke-width="2.2"/>
+    <path d="M36,140 C140,141 230,173 330,179 C430,184 540,163 604,140" fill="none" stroke="#54C8EC" stroke-width="2" stroke-dasharray="5 5" opacity="0.85"/>
+    <line x1="44" y1="30" x2="70" y2="30" stroke="#23262E" stroke-width="2.4"/>
+    <text class="fm" x="78" y="34">NOW</text>
+    <line x1="44" y1="52" x2="70" y2="52" stroke="#FF7A45" stroke-width="2.2"/>
+    <text class="fm" x="78" y="56">A MOMENT LATER</text>
+    <line x1="44" y1="74" x2="70" y2="74" stroke="#54C8EC" stroke-width="2" stroke-dasharray="5 5"/>
+    <text class="fm" x="78" y="78">LATER STILL</text>
+    <line x1="208" y1="140" x2="208" y2="95" stroke="#23262E" stroke-width="2" marker-end="url(#awC1)"/>
+    <line x1="218" y1="140" x2="218" y2="117" stroke="#FF7A45" stroke-width="2" marker-end="url(#awC2)"/>
+    <line x1="425" y1="140" x2="425" y2="66" stroke="#23262E" stroke-width="2" marker-end="url(#awC1)"/>
+    <line x1="435" y1="140" x2="435" y2="101" stroke="#FF7A45" stroke-width="2" marker-end="url(#awC2)"/>
+  </svg>
+  </figure>
+  <p class="caption">What lockstep demands, drawn: each snapshot is the previous one rescaled, so every displacement arrow shrinks (or grows, or flips) by one common factor. This is the audition requirement, not a winner—whether any shape can actually pull it off is the question of the chapter.</p>
+
+  <p>One mystery number per shape, and the number isn't decoration: when time starts running again in Chapter 3, it will set how fast its shape breathes—tighter bends, bigger number, higher pitch. But first we need shapes that pass the audition at all. Think of the second derivative as a machine — feed it a shape, it hands back the yank-map — and we are hunting shapes the machine returns as scaled, flipped copies of themselves. Most candidates get mangled: a parabola flattens into a constant, a triangle wave shatters into spikes. Hunt below — and if you've taken calculus and are already shouting <em>"the exponential!"</em>, hold the shout; it's about to be disqualified, and the disqualification is half the lesson.</p>
+
+  <div class="panel">
+    <div class="panel-head"><span><span class="led"></span>Shape vs. its second derivative</span><span>d²/dx²</span></div>
+    <div class="panel-body">
+      <canvas id="c1" style="height:260px"></canvas>
+      <div class="controls" id="c1funcs">
+        <button class="btn on" data-f="sine">sine</button>
+        <button class="btn" data-f="exp">exponential</button>
+        <button class="btn" data-f="tri">triangle</button>
+        <button class="btn" data-f="arch">parabola arch</button>
+        <button class="btn" data-f="bump">bump</button>
+        <span class="sep"></span>
+        <div class="ctlrow" id="c1krow">
+          <span class="ctl-label">frequency k</span>
+          <input type="range" id="c1k" min="1" max="6" step="1" value="2" style="width:140px">
+          <span class="ctl-label" id="c1kv">2</span>
+        </div>
+        <label class="ctl-label" style="cursor:pointer"><input type="checkbox" id="c1norm" checked> rescale f&Prime; to compare shape</label>
+        <button class="btn" id="c1hear">🔊 loop it as a waveform</button>
+      </div>
+      <div class="readout" id="c1read"></div>
+    </div>
+  </div>
+  <p class="caption">White: the function f. Violet: its second derivative f&Prime; — the map of how hard each point gets yanked. With rescaling on, you're asking one question: <em>is the yank-map a scaled copy of the shape?</em> If yes, every point can be pulled in exact proportion to its displacement: the shape can move as one. The 🔊 button repeats the shape in time and plays it as a waveform — a sneak preview of a pun we'll cash in next chapter.</p>
+
+  <p class="try"><b>⟡ PREDICT FIRST</b> — Between its corners, a triangle wave has constant slope. So what should f&Prime; be there? And what should happen <em>at</em> the corners? Decide, then click triangle.</p>
+  <p>One candidate passes immediately. Differentiate <span class="eq">sin(kx)</span> twice and you get <span class="eq">−k² sin(kx)</span>: resized, flipped, but not <em>redrawn</em> — the yank-map is the shape. Every point gets pulled back in exact proportion to how far it strayed, so lockstep is granted: this shape can vibrate as one. Such shapes have names. Physicists call them <span class="term">modes</span> — the cleanest motions a system owns. Mathematicians call the shape an <span class="term">eigenfunction</span> of the second derivative and its scale factor (<span class="eq">−k²</span> here) the <span class="term">eigenvalue</span> — a <em>natural note</em> of the operator, which can turn its volume up or down but cannot make it sing a different shape. And notice what just happened: a question about <em>motion in time</em> got answered by a condition on <em>shape in space</em>. The two axes will keep trading like this all essay.</p>
+  <p>Now, the exponential. The machine can't redraw <span class="eq">e<sup>kx</sup></span> either — but look at its scale factor: <span class="eq">+k²</span>, with a <em>plus</em>. Curvature pulls the sine back toward zero; it pushes the exponential onward. That isn't a vibration — it's a runaway: displacement breeding more displacement, the physics of explosions, not strings. Strike one. Strike two is more brutal: our stage is a finite stretch with both ends nailed to zero, and an exponential is never zero <em>anywhere</em> — even blends of growing and decaying exponentials manage at most one zero crossing, not the two we need. It can't get on the stage. The sine auditions perfectly: <span class="eq">sin(nπx)</span> hits zero at both ends for every whole number n, stays politely bounded, and comes back flipped instead of fed. Keeping your shape gets you noticed; fitting the stage gets you the job.</p>
+  <p>So the pinned string's modes are <span class="eq">sin(nπx)</span> — one arch, two arches, three — each carrying its number <span class="eq">−(nπ)²</span>, whose minus sign and whose <em>square</em> are about to do an enormous amount of work. (The minus sign is exactly what the exponential didn't have.) These shapes are the string's vibes, in the most literal sense that word has ever had. The rest of this essay is learning to read them — and discovering they were never just about strings.</p>
+
+  <details class="fine"><summary>FINE PRINT · about that exponential</summary><div class="fp">
+    <p>The machine's full roster of shape-keepers is a family of four: e<sup>kx</sup>, e<sup>−kx</sup>, sin(kx), and cos(kx) — the first two scaled by +k², the last two by −k². Boundary conditions are the bouncer: on a pinned interval, only the sines get in. Free or insulated ends would admit cosines; an infinite domain changes the guest list again. "Which wiggles?" is always answered by "which stage?"</p>
+    <p>And here is the best-kept secret of the whole roster: its two celebrities are <em>the same celebrity</em>. Feed the exponential an imaginary frequency and Euler's formula curls it into rotation: e<sup>ikx</sup> = cos(kx) + i·sin(kx). The sine is an exponential wearing an imaginary number; the exponential is a sine that gave up on rotating. One family, photographed from two angles — Chapter 7's fine print finishes this thought.</p>
+    <p>Deepest of all: the natural stage for this whole subject is secretly a <em>loop</em>. Nail a string's ends down and you can mirror it — flip a copy upside-down past each wall, again and again — until it becomes one seamless repeating wave; pacing the interval back and forth is walking around a circle. (Chapter 6's fine print performs exactly this trick to repair the heat kernel.) And on a circle, the exponential's failure stops being a technicality: walk one full lap and e<sup>kx</sup> returns at the wrong height. It doesn't close. The only shapes that both keep their shape and close the loop are the ones that come back to themselves after a lap — which is practically the definition of a wiggle. Every 🔊 button in this essay is quietly making this argument: looping a shape in time is putting it on a circle.</p>
+  </div></details>
+</section>
+
+<!-- ======================= CHAPTER 2 ======================= -->
+<section class="chapter" id="ch2" data-title="Every shape is a chord">
+  <p class="kicker">Chapter 2</p>
+  <h2>Every shape is a chord</h2>
+  <p>A pure wiggle is a vibration photographed — frozen in space. (Run it through <em>time</em> instead and it's a pure tone; the 🔊 buttons in this essay are exactly that conversion.) The real claim — Fourier's claim, scandalous in 1807 — is that <em>every</em> reasonable shape on an interval is a chord: a sum of pure wiggles at frequencies 1, 2, 3, … each with its own volume.</p>
+  <p>Let that bother you for a second, because it bothered the greatest mathematicians alive in 1807. A chord is built from the politest ingredients imaginable: smooth, symmetric, endlessly repeating. Your scribble is none of those things — it has corners, lopsidedness, attitude. Fourier's claim is that politeness in sufficient quantity can impersonate <em>anything</em>. The committee reviewing his paper (Lagrange among them) did not believe it. The draw button below is the demonstration they didn't have.</p>
+  <div class="eqblock">f(x) = b₁ sin(πx) + b₂ sin(2πx) + b₃ sin(3πx) + ⋯
+    <span class="note">THE b's ARE THE FADER SETTINGS. THE SHAPE IS THE MIX.</span>
+  </div>
+  <p>Below is a mixing desk for testing the claim. A real mixing desk is the long console at the heart of a recording studio — one channel per sound source, and on each channel a <span class="term">fader</span>: a sliding volume knob. This desk's ten channels are the first ten wiggles. (The π inside sin(nπx) is pure bookkeeping; it makes wiggle n fit exactly n arches into our interval.) Push the faders yourself, load a classic shape, or hit <b>draw</b> and sketch any curve with your finger or mouse — the desk will read off its fader settings and rebuild it.</p>
+
+  <div class="panel">
+    <div class="panel-head"><span><span class="led"></span>Harmonic mixing desk</span><span>10 modes</span></div>
+    <div class="panel-body">
+      <canvas id="c2" style="height:240px"></canvas>
+      <div class="controls">
+        <button class="btn" data-p="square">square</button>
+        <button class="btn" data-p="saw">sawtooth</button>
+        <button class="btn" data-p="tri">triangle</button>
+        <button class="btn" data-p="pluck">plucked string</button>
+        <button class="btn" data-p="zero">clear</button>
+        <button class="btn cy" id="c2draw">✏ draw</button>
+        <button class="btn" id="c2hear">🔊 hear this shape</button>
+      </div>
+      <div class="faders" id="c2faders"></div>
+      <div class="readout" id="c2read">Faders are the coefficients b₁ … b₁₀.</div>
+    </div>
+  </div>
+  <p class="caption">When you draw, the gray ghost is your stroke; the colored curve is its reconstruction from just ten numbers. Ten wiggles is a lossy format — a JPEG for curves: sharp corners are expensive, smooth curves are cheap. And press 🔊: looping the shape in time turns those same ten faders into <em>additive synthesis</em>. Square sounds buzzy, smooth sounds mellow. This is not an analogy — it's the same arithmetic on a different axis. One more thing: shapes you draw follow you. Every later chapter grows a <b>your shape</b> button, so it's <em>your</em> curve that melts, rings, and shimmers.</p>
+
+  <p class="try"><b>⟡ PUZZLE</b> — Load square, then triangle. Every even-numbered fader sits at exactly zero, both times. Why? (Fold each shape around x = ½ and look at its symmetry. Now fold sin(2πx) the same way.)</p>
+  <p>Two things to notice. First, jagged shapes (square, sawtooth) need lots of <em>high-frequency</em> wiggle: fader 9 is still working hard. Smooth shapes die off fast. Sharpness lives in the treble — to borrow audio's word for the high end of the frequency range (bass is the low end) — and the borrowing is the point: it's the same fact in both worlds.</p>
+  <p>Second — and this is the thesis of the whole essay — a machine that's blind to position can only move those faders <em>one at a time</em>. It can scale them, flip them, spin them; what it can never do is make them trade. So once a shape is written as a chord, the physics of any such machine stops being about the shape at all: it's choreography for faders that never listen to each other. Stop watching the curve; watch the board. Chapter 1 told us the second derivative is exactly such a machine. Time to point it at physics.</p>
+
+  <details class="fine"><summary>FINE PRINT · how the desk reads your faders</summary><div class="fp">
+    <p>When you draw, the desk recovers each fader by computing <span class="eq">bₙ = 2 ∫₀¹ f(x) sin(nπx) dx</span> — once per fader. Why does that isolate exactly one wiggle's worth? Because pure wiggles are <em>perpendicular</em>: multiply two sines of different frequencies and the product's positive and negative lobes cancel exactly, integrating to zero. Multiply a sine by itself and the lobes can't cancel — everything is positive. So the integral against sin(nπx) is deaf to every wiggle except wiggle n. Orthogonality is the desk's solo button.</p>
+    <p>Why only sines, and no cosines? The ends of our interval are nailed to zero, and sin(nπx) is precisely the family of wiggles that respects the nails. Free the ends and cosines join the band; that choice of <em>boundary conditions</em> is what picks the instrument's legal wiggles.</p>
+    <p>One loose thread you can see on screen: load the square wave and notice the little horns that overshoot at each jump. They never go away, no matter how many wiggles you add — only get narrower. That's Gibbs's phenomenon, a genuinely strange fact about chords meeting cliffs, and a story for another day.</p>
+  </div></details>
+</section>
+
+<!-- ======================= CHAPTER 3 (WAVE) ======================= -->
+<section class="chapter" id="ch4" data-title="Let go of the string">
+  <p class="kicker">Chapter 3</p>
+  <h2>Let go of the string</h2>
+  <p>Chapter 1 froze the string at the instant of release; now unfreeze it. Newton says mass × acceleration = force, and the force on each bit of string is the curvature-pull we already met. Write the string's displacement as <span class="eq">u(x, t)</span> — how far the point at position x has strayed at time t — and Newton's sentence becomes the wave equation. (Subscripts count derivatives: <span class="eq">u<sub>tt</sub></span> is two in time — acceleration; <span class="eq">u<sub>xx</sub></span> is two in space — curvature.)</p>
+  <div class="eqblock">u<sub>tt</sub> = c²·u<sub>xx</sub>
+    <span class="note">ACCELERATION = c² × CURVATURE. THE STRING IS PULLED TOWARD STRAIGHTNESS; c SETS HOW HARD.</span>
+  </div>
+  <p>As a statement about the whole string, this is hard: every point's future depends on its neighbors, who depend on theirs. So don't attack it directly. Instead, make the move this entire subject turns on — slowly, because it deserves ceremony. We don't know how the released shape will move; that's the question. But Chapter 2 guarantees that <em>whatever</em> the string looks like at each instant, it is some chord. So declare the format of the answer before knowing the answer: write u as a chord whose fader settings are unknowns, free to move in time.</p>
+  <div class="eqblock">u(x, t) = b₁(t) sin(πx) + b₂(t) sin(2πx) + b₃(t) sin(3πx) + ⋯
+    <span class="note">THE FADERS ARE NOW AUTOMATION LANES — UNKNOWN FUNCTIONS OF TIME</span>
+  </div>
+  <p>Read it twice, because it's a strangely confident thing to do. The mystery hasn't been solved; it has been <em>relocated</em> — out of the curve and into the knobs. One impossible question about an evolving shape has become a list of small questions about moving faders — in studio software, a fader that moves on its own is said to follow an <span class="term">automation lane</span>, and our whole question is now just: <em>what's drawn on each lane?</em> And faders are easier prey, because of Chapter 1: the second derivative can't redraw a wiggle — it can only multiply wiggle n by <span class="eq">−(nπ)²</span>, with c² tagging along. Feed the chord to both sides, match note against note, and the one equation falls apart into one tiny, private equation per fader:</p>
+  <div class="eqblock">bₙ&Prime;(t) = −c²n²π² · bₙ(t)
+    <span class="note">EACH FADER'S ACCELERATION IS A NEGATIVE MULTIPLE OF ITS POSITION</span>
+  </div>
+  <p>Savor what that equation <em>is</em>. Second derivative equals a negative multiple of yourself — that is Chapter 1's lockstep condition again, verbatim, except the variable is now time instead of space. The condition that found our shapes has come back to govern their volumes. So each fader must itself wiggle: this is a <span class="term">simple harmonic oscillator</span> — a mass on a spring, pulled toward zero with a force proportional to how far it strayed — and its motion is a sinusoid in time. Fader n doesn't fade; it <em>oscillates</em>, at a frequency proportional to n:</p>
+  <div class="eqblock">bₙ(t) = bₙ(0) · cos(nπct)
+    <span class="note">NO FADER MOVES DOWN. EVERY FADER WOBBLES — FADER n WOBBLES n TIMES FASTER.</span>
+  </div>
+  <p>Which means the amplitudes of the wiggles are <em>themselves wiggles</em>. A standing wave, <span class="eq">sin(nπx) · cos(nπct)</span>, is a wiggle in space married to a wiggle in time — and read the marriage contract closely: n appears in <em>both</em> factors. The spatial wiggle dictates the tempo of the temporal one. Tighter shapes ring faster; geometry sets the clock. This, finally, is the full answer to Chapter 1's question: <em>a vibration is a shape the stage permits, breathing to a tempo the shape itself dictates.</em> It's eigenfunctions all the way down. (The cosine, rather than some general phase, is just because we release the string from rest.)</p>
+  <p>Nothing is ever lost — energy just sloshes between shape and motion — and the frequencies come in the ratio 1 : 2 : 3 : …, which is why a plucked string sounds like a <em>pitch with overtones</em> rather than noise. The harmonic series is the eigenvalue list of a string. And c — the wave speed, set by tension and density — multiplies every mode's frequency by the same factor, which is why turning a tuning peg raises a string's pitch <em>without changing its timbre</em>. Constants tune the instrument; the equation's structure is the instrument.</p>
+
+  <details class="fine"><summary>FINE PRINT · the "falls apart" step, honestly</summary><div class="fp">
+    <p>Here's the substitution the main text waved at. Write <span class="eq">u(x,t) = Σ bₙ(t) sin(nπx)</span> and feed it to both sides of <span class="eq">u<sub>tt</sub> = c²·u<sub>xx</sub></span>. The left side differentiates twice in time, touching only the b's: <span class="eq">Σ bₙ&Prime;(t) sin(nπx)</span>. The right side differentiates twice in space, touching only the sines — and by Chapter 1, each sine just comes back scaled: <span class="eq">Σ bₙ(t) · (−c²n²π²) sin(nπx)</span>.</p>
+    <p>So two chords are equal for all x. Chords match only if they match note by note (the orthogonality solo button again — integrate both sides against sin(nπx) and every other term vanishes). Therefore, for each n separately: <span class="eq">bₙ&Prime; = −c²n²π² bₙ</span>. One partial differential equation in; infinitely many tiny, independent, <em>ordinary</em> ones out. That trade is the entire method — textbooks file it under <em>separation of variables</em>.</p>
+  </div></details>
+
+  <div class="panel">
+    <div class="panel-head"><span><span class="led"></span>Wave — per-mode spin</span><span>u<sub>tt</sub> = c²·u<sub>xx</sub></span></div>
+    <div class="panel-body">
+      <canvas id="c4" style="height:230px"></canvas>
+      <canvas id="c4bars" style="height:110px;margin-top:8px"></canvas>
+      <div class="controls">
+        <button class="btn" data-p="pluck">pluck</button>
+        <button class="btn" data-p="square">square</button>
+        <button class="btn" data-p="bump">bump</button>
+        <button class="btn" data-p="yours" disabled>your shape</button>
+        <button class="btn cy" id="c4draw">✏ draw</button>
+        <span class="sep"></span>
+        <button class="btn" id="c4play">▶ play</button>
+        <button class="btn" id="c4reset">reset</button>
+        <button class="btn" id="c4hear">🔊 hear this string</button>
+      </div>
+      <div class="readout" id="c4read"></div>
+    </div>
+  </div>
+  <p class="caption">The faders swing through zero and go negative — a mode flipping phase. Press <b>🔊 hear this string</b>: the partials — the pure tones stacked inside a single note — sound at 1, 2, 3, … times the fundamental, each as loud as its fader. Draw your own pluck shape, then listen to it. The fader settings you loaded <em>are</em> the timbre: the color of a sound, what makes a piano and a trumpet playing the same pitch unmistakably different.</p>
+
+  <p class="try"><b>⟡ PREDICT FIRST</b> — What should the wave equation do to one pure wiggle, alone? It's an eigenfunction — nothing can change its shape — so it can only stand there and throb. Draw your best sin(3πx) (three equal bumps, alternating up-down) and verify: a standing wave, fader 3 swinging solo.</p>
+  <p>So a released string never forgets. The shape you load is recited back, perfectly, once per period — initial conditions preserved forever in spinning faders. (That also dissolves Chapter 1's slow-motion footage: a pluck is many modes at once, each spinning at its own tempo, so the shape writhes as its chord perpetually rephases — and snaps back together the instant all the faders realign, once per period.) Hold that thought, and now do something perverse to the string: take away its inertia.</p>
+</section>
+
+<!-- ======================= CHAPTER 4 (HEAT) ======================= -->
+<section class="chapter" id="ch3" data-title="Heat is a fade-out">
+  <p class="kicker">Chapter 4</p>
+  <h2>Heat is a fade-out</h2>
+  <p>A string rings because it has inertia: curvature drives acceleration, so the shape overshoots the flat line, swings past, and gets hauled back — forever. Now meet the medium with the same restoring instinct and no momentum to make music with. A temperature profile <span class="eq">u(x, t)</span> along a thin rod (ends held at zero) also wants to flatten — heat flows from hot to cold, every point drifting toward the average of its neighbors. But temperature has nothing to swing with: curvature drives its <em>velocity</em> directly. Replace Newton's two time-derivatives with one, and the wave equation becomes the heat equation:</p>
+  <div class="eqblock">u<sub>t</sub> = α·u<sub>xx</sub>
+    <span class="note">RATE OF CHANGE IN TIME = (MATERIAL CONSTANT) × CURVATURE IN SPACE</span>
+  </div>
+  <p>Before doing anything clever, read the equation pointwise — it is unusually willing to be read. At the crest of a hot bump the profile curves downward — frowning — so <span class="eq">u<sub>xx</sub> &lt; 0</span>, and the equation orders <span class="eq">u<sub>t</sub> &lt; 0</span>: peaks cool. In a cold dip the profile smiles, and dips warm. Every point drifts toward the average of its neighbors, at a speed set by how bent its own neighborhood is. The equation is a field of little drift arrows — so let's just draw them:</p>
+
+  <div class="panel">
+    <div class="panel-head"><span><span class="led"></span>The law, pointwise</span><span>u<sub>t</sub> = α·u<sub>xx</sub>, drawn</span></div>
+    <div class="panel-body">
+      <div class="striplab">AS A GRAPH — THE THERMOMETER READOUT</div>
+      <canvas id="c3law" style="height:190px"></canvas>
+      <div class="striplab">AS THE ROD ITSELF — EMBER HOT · CYAN COLD · DARK = EQUILIBRIUM</div>
+      <canvas id="c3lawrod" style="height:26px;border-radius:5px;border:1px solid #2B303C"></canvas>
+      <div class="controls">
+        <button class="btn on" data-hp="lumpy">bump + ripple</button>
+        <button class="btn" data-hp="pair">two wiggles</button>
+        <button class="btn" data-hp="step">half-step</button>
+        <button class="btn" id="c3lawpause">⏸ pause</button>
+        <button class="btn" id="c3lawreset">↺ restart</button>
+      </div>
+    </div>
+  </div>
+  <p class="caption">Violet arrows: the equation itself — each point's velocity, α times its local curvature, always aimed at the average of its neighbors. (Arrow lengths are compressed to fit; the true contrast is more brutal.) The tight ripple is far more bent than the broad bump, so it gets yanked far harder — that is the n² hierarchy, drawn, before any algebra. And since a wiggle is nothing but peaks and dips, the arrows always oppose it: every mode is marked for decay. Watch the ripple vanish while the bump barely notices. And keep an eye on the lower strip: that's the rod itself, painted by its own temperature — the graph above is just its thermometer readout. The ripple is the mottling; diffusion is the mottling smoothing into one warm glow.</p>
+
+  <p>Now the clever part. Run Chapter 3's ceremony again — write u as a chord with unknown automation lanes, feed it to both sides, match note against note — and the equation falls apart exactly as before, except each fader's private equation is now <em>first</em>-order: its speed, not its acceleration, is a negative multiple of its position. That one change replaces every wobble with a slide:</p>
+  <div class="eqblock">bₙ&prime;(t) = −α n²π² · bₙ(t) &nbsp;&nbsp;⟹&nbsp;&nbsp; bₙ(t) = bₙ(0) · e<sup>−α n²π² t</sup>
+    <span class="note">EVERY FADER SLIDES DOWN EXPONENTIALLY. FADER n SLIDES n² TIMES FASTER THAN FADER 1.</span>
+  </div>
+  <p>Stare at the time half of that result. <span class="eq">bₙ&prime; = −(rate) · bₙ</span> says <em>my speed of decrease is proportional to my current size</em> — and that sentence has only one possible consequence: exponential decay. It's the half-life law. Radioactive atoms obey it (each atom has a fixed chance of decaying per second, so you lose a fixed <em>fraction</em> per second). Hot coffee obeys it. The tail of a reverb obeys it — that's why studios quote a hall's <span class="term">RT60</span>, the time to fall 60 dB: a half-life in audio clothing. Lose a fixed fraction per tick and you trace out <span class="eq">e<sup>−rt</sup></span>: never linear, never quite zero, halving on a fixed schedule. Each mode of the rod is its own little isotope — and mode n's half-life is n² times shorter than mode 1's.</p>
+  <p>So that's the entire heat equation: a bank of half-lives, treble first — and not a little first. Mode 10 decays <em>one hundred times</em> faster than mode 1. Diffusion is a low-pass filter with a vendetta.</p>
+  <p>A word about α, the constant we owe the units. Curvature is measured per meter²; change, per second; α — the material's <span class="term">diffusivity</span>, large for copper, tiny for styrofoam — is the exchange rate between them. But notice what α does and doesn't touch: it scales <em>every</em> mode's clock by the same factor. The material sets the tempo. The choreography — who fades relative to whom, the n² hierarchy — is pure geometry, and identical in copper and styrofoam.</p>
+
+  <div class="panel">
+    <div class="panel-head"><span><span class="led"></span>Heat — per-mode fade-out</span><span>u<sub>t</sub> = α·u<sub>xx</sub></span></div>
+    <div class="panel-body">
+      <canvas id="c3" style="height:220px"></canvas>
+      <canvas id="c3rod" style="height:24px;margin-top:8px;border-radius:5px;border:1px solid #2B303C"></canvas>
+      <canvas id="c3bars" style="height:96px;margin-top:8px"></canvas>
+      <div class="controls">
+        <button class="btn" data-p="square">square</button>
+        <button class="btn" data-p="pluck">pluck</button>
+        <button class="btn" data-p="step">half-step</button>
+        <button class="btn" data-p="random">random</button>
+        <button class="btn" data-p="yours" disabled>your shape</button>
+        <button class="btn cy" id="c3draw">✏ draw</button>
+        <span class="sep"></span>
+        <button class="btn" id="c3play">▶ play</button>
+        <button class="btn" id="c3reset">reset</button>
+        <button class="btn" id="c3cmp">overlay the string</button>
+        <div class="ctlrow" style="flex:1;min-width:180px">
+          <span class="ctl-label">time</span>
+          <input type="range" id="c3t" min="0" max="1000" value="0" style="flex:1">
+        </div>
+        <span class="sep"></span>
+        <button class="btn" id="c3hear">🔊 hear the fade</button>
+        <button class="btn" id="c3rev">⏪ heat, backwards</button>
+      </div>
+      <div class="readout" id="c3read"></div>
+    </div>
+  </div>
+  <p class="caption">Top: the temperature profile as a graph; beneath it, the rod itself, glowing — ember hot, cyan cold. Bottom: the faders — each mode's current volume, with its starting volume ghosted. Watch the right side of the spectrum collapse almost instantly while mode 1 lingers. <b>🔊 hear the fade</b> sonifies your current shape: a tone whose harmonics decay with their modes' half-lives — heat, performed. <b>⏪ heat, backwards</b> plays the reverse, and it sounds exactly as wrong as it is. And toggle <b>overlay the string</b> to race both equations from the same start: the cyan string rings on, unchanged, while the ember profile melts beneath it.</p>
+
+  <p class="try"><b>⟡ PREDICT FIRST</b> — Load pluck. The shape has one sharp kink. Treble dies fastest — so what is the very first thing heat will do to it? Nudge the time slider just a hair and check.</p>
+  <p>Now the qualitative facts about heat stop being mysterious. Why does diffusion smooth things out? Because sharpness <em>is</em> high frequency (Chapter 2), and high frequencies are exactly what dies fastest. Why does every initial shape eventually relax toward the same droopy arc? Because after the massacre, mode 1 is the last fader standing. Why can't you run heat backwards? Try it: undoing the fade means amplifying treble by <span class="eq">e<sup>+α n²π²t</sup></span> — any whisper of noise in mode 40 explodes. The arrow of time, visible in a graphic equalizer — the row of frequency sliders on a stereo, which is exactly what the bar display above is.</p>
+  <p>Set the two chapters side by side — the overlay button does it live. One equation remembers its initial shape forever and recites it back every period; the other forgets as fast as it can, treble first. You can diagnose which world you're in from the spectrum alone: faders spinning means waves, faders sliding down means diffusion. Same operator, same modes, same eigenvalues — only the clock attached to them differs.</p>
+</section>
+
+<!-- ======================= CHAPTER 5 (FIELD GUIDE) ======================= -->
+<section class="chapter" id="chfg" data-title="A field guide to choreography">
+  <p class="kicker">Chapter 5</p>
+  <h2>A field guide to fader choreography</h2>
+  <p>Step back and look at the pattern. In goes a linear, position-blind equation; out comes a <span class="term">choreography</span> — a rule telling every fader how to dance, each one alone, deaf to the others. The string said: <em>spin, at tempo n.</em> Heat said: <em>slide down, at tempo n².</em> The physics is in the dance, and once you can read the dance off the equation, you can start collecting equations like dance styles.</p>
+  <p>Here are four worth owning. Same rig as before, same initial shapes — only the law changes.</p>
+
+  <div class="panel">
+    <!-- fgEq: pre-rendered equation spans, toggled by ch5.js -->
+    <div class="panel-head"><span><span class="led"></span>One rig, four laws</span><span id="fgEq">
+      <span data-eq-id="spin">u<sub>tt</sub> = c²·u<sub>xx</sub></span>
+      <span data-eq-id="fade" hidden>u<sub>t</sub> = α·u<sub>xx</sub></span>
+      <span data-eq-id="spiral" hidden>u<sub>tt</sub> = c²·u<sub>xx</sub> − friction</span>
+      <span data-eq-id="shimmer" hidden>u<sub>tt</sub> = −κ²·u<sub>xxxx</sub></span>
+    </span></div>
+    <div class="panel-body">
+      <canvas id="cfg" style="height:230px"></canvas>
+      <canvas id="cfgbars" style="height:110px;margin-top:8px"></canvas>
+      <div class="controls" id="fgChoreo">
+        <button class="btn on" data-c="spin">spin · ideal string</button>
+        <button class="btn" data-c="fade">fade · heat</button>
+        <button class="btn" data-c="spiral">spiral · real string</button>
+        <button class="btn" data-c="shimmer">shimmer · stiff bar</button>
+      </div>
+      <div class="controls">
+        <button class="btn" data-p="pluck">pluck</button>
+        <button class="btn" data-p="square">square</button>
+        <button class="btn" data-p="yours" disabled>your shape</button>
+        <button class="btn cy" id="fgdraw">✏ draw</button>
+        <button class="btn" id="fgplay">▶ play</button>
+        <button class="btn" id="fgreset">reset</button>
+        <button class="btn" id="fghear">🔊 hear this law</button>
+      </div>
+      <div class="readout" id="fgread"></div>
+    </div>
+  </div>
+  <p class="caption">Press 🔊 with each law selected and keep the same shape loaded. Four laws, four sounds: <b>spin</b> is an organ-steady harmonic tone; <b>fade</b> is a tone dimming treble-first; <b>spiral</b> is a pluck that darkens as it dies — listen to any piano note and you'll hear exactly this; <b>shimmer</b> puts the partials at 1, 4, 9, 16… × the fundamental, and your ear immediately files it under <em>bell</em>.</p>
+
+  <p>The spiral deserves a word, because it's the sound of every real instrument. Add friction to the string — and a real string's losses (air drag, internal rubbing in the wire) bite harder at higher frequencies — and each fader both spins <em>and</em> slides, the slide fastest in the treble. The result: a note that doesn't just get quieter, it gets <em>darker</em> as it rings. That mellowing tail you hear in a held piano note is the spectrum of the string diffusing while it vibrates: heat and wave choreography running at once, in one fader bank.</p>
+  <p>The shimmer is stranger and just as real. A stiff bar resists <em>bending</em> rather than stretching, and the equation picks up two extra derivatives: <span class="eq">u<sub>tt</sub> = −κ²·u<sub>xxxx</sub></span> (κ for stiffness). Run the Chapter 1 move twice and each mode spins at tempo <em>n²</em> — so the partials land at 1, 4, 9, 16… times the fundamental. Not whole-number harmonics: <span class="term">inharmonic</span>. That's why struck bars — glockenspiels, chimes — sound bell-like instead of stringy. And since real piano strings are slightly stiff, their partials run a little sharp of harmonic, which is why piano tuners stretch the octaves. An equation's eigenvalue list, audible in a tuning lever.</p>
+  <p>Two more moves this metaphor hands you for free. <span class="term">Resonance:</span> so far every fader has merely coasted from its initial setting. But push a system periodically at one of its own natural-note frequencies and that one fader absorbs energy on every cycle and grows — a singer finding the wine glass's note, a bridge finding the wind's. It's also why small rooms boom at particular bass notes: a room is a 3-D version of our rod, with its own standing-wave modes, and a subwoofer near a room mode's frequency is feeding one fader relentlessly. <span class="term">Steady state:</span> drive a system constantly instead, wait, and let every transient finish its fade. What's left — the part the operator can no longer move — is the steady state. Clamp a rod's ends at two different temperatures and every wiggle burns off, leaving a straight ramp: the shape with zero curvature, the one shape heat has no opinion about.</p>
+  <details class="fine"><summary>FINE PRINT · what "linear" is buying you</summary><div class="fp">
+    <p>Everything in this essay leans on a second hypothesis we've been using without naming: <span class="term">linearity</span>. A system is linear if doubling the input doubles the output, and the response to a sum is the sum of the responses. That second clause is the load-bearing one — it's the entire reason the faders never listen to each other. Feed in two modes at once and the system must respond as if each were alone; there is simply no mechanism by which mode 3 can hand energy to mode 7. No crosstalk, by law.</p>
+    <p>And you've heard the law break. Strike a cymbal gently: a few clean partials. Strike it hard and the sound blooms into that shimmering wash — energy cascading <em>up</em> the spectrum, modes colluding, new frequencies appearing that no fader started with. That's nonlinearity, audible. Same with ocean waves steepening into breakers, or a speaker driven into distortion (those "new harmonics" are the giveaway). The fader-choreography picture is the regime where amplitudes are small and the law holds exactly; push harder and the dance becomes a mosh pit. Linear isn't the whole world — it's the world's first-order truth, and an astonishing amount of it.</p>
+  </div></details>
+  <p>Notice how often the examples keep sneaking into rooms — room modes, reverb tails, RT60. Time to stop sneaking and go all the way in.</p>
+</section>
+
+<!-- ======================= CHAPTER 6 (ROOM) ======================= -->
+<section class="chapter" id="ch5" data-title="The room is an instrument">
+  <p class="kicker">Chapter 6</p>
+  <h2>The room is an instrument</h2>
+  <p>Everything so far has run in one direction: take the <em>input</em> apart into wiggles, evolve each fader, reassemble. Call it the <span class="term">equalizer view</span> — to understand what a system does, dissect what you feed it. But audio engineers have a complementary instinct, and it's worth feeling the gears shift as we switch to it: leave the input alone and interrogate the <em>system</em>. Hit it with the sharpest possible spike — once — and record what comes back. That recording is the system's <span class="term">impulse response</span>. Mathematicians call it the <span class="term">Green's function</span>, and they call the spike a delta function. Same object, different lab coats.</p>
+  <p>And the trick is not about rooms — it's about <em>anything linear</em>. Flick a wine glass: it answers at its own pitch. Knock on a wall: the thud tells you stud or hollow. Strike a bell, clap in a canyon, kick a car's suspension over a pothole. In every case the kick is the same dumb question — <em>here is one sharp unit of everything; what do you make of it?</em> — and the ring that comes back is the system's complete autobiography. Engineers do this for a living: <span class="term">tap testing</span>, striking a bridge deck or an aircraft panel with an instrumented hammer and reading the structure's natural frequencies out of the ring. It is reading the room, for differential equations.</p>
+  <p>Why does one kick contain everything? Two answers, and we already own both. The bookkeeping answer is superposition: any input is a pile of spikes — one of height f(x₀) at every position x₀ — so if you know the response to one spike, slide it to each position, scale it, and add. That slide-scale-sum operation is <span class="term">convolution</span>. The musical answer is better. A spike is the one signal that contains <em>every frequency at full and equal strength</em> — so a kick slams every fader to the top of the board at once, and then each mode simply performs its own choreography from Chapter 5. The ring-down you hear afterward <em>is</em> the eigenvalue list, played as a chord. A bell's strike tone is its modes sounding together; a hall's reverb tail is thousands of room modes, each decaying at its own rate. The balloon view and the equalizer view were never rivals: the pop is just every wiggle, asked simultaneously.</p>
+  <div class="eqblock">u(x, t) = ∫ G(x − x₀, t) · f(x₀) dx₀
+    <span class="note">SOLUTION = INITIAL DATA, CONVOLVED WITH THE GREEN'S FUNCTION</span>
+  </div>
+  <p>Now — is a metal rod "a room"? Almost, and the twist is worth being honest about. When you pop a balloon in a hall, the spike is a kick in <em>time</em>: the hall is the same hall at noon as at midnight, so you ask the sharpest possible question along the time axis. For heat, we'll ping in <em>space</em>: the spike is an initial condition — one single point heated white-hot — because a long rod doesn't care <em>where</em> you ask. The rule underneath both: deltas go along whichever axis the system can't tell apart. (You can also kick a rod sharply in time, or a hall at a point in space; a system has an impulse response along every uniform axis it owns.) Click below to heat a point and watch the Green's function bloom — a spreading bell curve. Click several places: the bells simply add. You are watching a convolution assemble itself.</p>
+
+  <div class="panel">
+    <div class="panel-head"><span><span class="led"></span>Tap to inject heat</span><span>G = spreading gaussian</span></div>
+    <div class="panel-body">
+      <canvas id="c5" style="height:200px;cursor:crosshair"></canvas>
+      <canvas id="c5rod" style="height:24px;margin-top:8px;border-radius:5px;border:1px solid #2B303C"></canvas>
+      <div class="controls">
+        <button class="btn" id="c5pause">⏸ pause</button>
+        <button class="btn" id="c5reset">reset</button>
+        <span class="ctl-label">each tap is a "delta function" of heat — watch it become a bell, then watch bells superpose</span>
+      </div>
+    </div>
+  </div>
+  <p class="caption">Try tapping right next to a wall, too: the bell squashes against it. That's the pinned end breaking perfect where-blindness — the boundary politely reminding you it exists. Far from the ends, the spreading gaussian is exact, and it is the fade-out of Chapter 4 applied to an every-frequency spike. The glowing strip is the rod itself: each tap a white-hot point, blooming outward and cooling as it goes.</p>
+
+  <details class="fine"><summary>FINE PRINT · the infinite rod, the walls, and why a gaussian</summary><div class="fp">
+    <p>That tidy formula, with G depending only on the <em>difference</em> x − x₀, is the where-blind version: strictly, it's the law of an infinite rod. Our rod has nailed-down ends, and the demo shows you the consequence — bells squashing against the walls. The classical repair is charming: pretend the rod continues forever, but accompany every real tap with phantom mirror-image taps of opposite sign reflected beyond each wall, placed exactly so the temperature at the walls cancels to zero forever. This is the <span class="term">method of images</span>, and it means the pinned rod's Green's function is just the infinite rod's gaussian plus an infinite hall of fading mirror-gaussians.</p>
+    <p>And why is the free-space kernel a gaussian at all? A pleasing self-referential reason: the kernel's fader settings at time t are e<sup>−n²π²t</sup> — which, read as a function of n, is itself a gaussian. And the gaussian is famously the one shape the wiggle-splitter sends to another gaussian: bell in space, bell in spectrum. Heat's impulse response is the fixed point of the very transform we've been using to understand it.</p>
+  </div></details>
+  <p>Now the literal room. Its Green's function is what it does to one sharp clap — which is why studio engineers really do walk into a hall, <em>pop a balloon</em>, and record the result. Convolve any <span class="term">dry</span> signal — dry meaning recorded with no room and no effects on it — with that recording, and the signal comes out wrapped in the room. That is the entire secret of a convolution-reverb plugin: the solution formula above, sold as an audio effect.</p>
+
+  <div class="panel">
+    <div class="panel-head"><span><span class="led"></span>Convolution reverb — hear a Green's function</span><span>web audio</span></div>
+    <div class="panel-body">
+      <canvas id="c5ir" style="height:90px"></canvas>
+      <div class="controls">
+        <button class="btn" id="c5dry">▶ dry signal</button>
+        <button class="btn" data-room="closet">closet</button>
+        <button class="btn" data-room="hall">recital hall</button>
+        <button class="btn" data-room="cathedral">cathedral</button>
+        <span class="sep"></span>
+        <button class="btn" id="c5pop">🎈 pop the balloon (play G itself)</button>
+      </div>
+      <div class="readout" id="c5read">A short plucked phrase, dry. Pick a room to convolve it with that room's impulse response.</div>
+    </div>
+  </div>
+  <p class="caption">The plot shows the impulse response you're convolving with — bigger room, longer tail. Headphones recommended. (The "rooms" here are synthesized, but a real balloon pop works the same way.)</p>
+
+  <p>So the two views are one theory read from opposite ends, and they meet in the middle: written in wiggles, convolution falls apart into one plain multiplication per mode — no sliding, no summing, just each fader scaled by the system's opinion of its frequency. Dissect the input or interrogate the system; you arrive at the same numbers. An equalizer and a reverb unit are dual descriptions of one linear physics — and the heat equation is, in this exact sense, a very aggressive, very dark reverb. (There's a second essay coiled inside that convolution integral — filters, transfer functions, deconvolving the room back out of a recording — but it deserves its own stage.)</p>
+</section>
+
+<!-- ======================= CHAPTER 7 ======================= -->
+<section class="chapter" id="ch6" data-title="Why these wiggles?">
+  <p class="kicker">Chapter 7 · Coda</p>
+  <h2>Why <em>these</em> wiggles?</h2>
+  <p>We opened on a question — <em>what is a vibration?</em> — and the answer has been assembling itself chapter by chapter: a shape the stage permits, moving to a clock the shape sets. One piece is still missing. Why are the shapes always <em>sinusoids</em>? What's so special about them? Why did the universe pick them?</p>
+  <p>It didn't — <em>translation</em> did. The operator <span class="eq">d²/dx²</span> has no idea where you are. Shift a function left or right, then differentiate: you get the same answer as differentiating first and shifting after. Any operator that's blind to position has to share its natural notes with the act of shifting itself — and the shapes that shifting cannot deform are exactly the sinusoids. Slide a sine wave and you get the same sine wave, just rephased. Sinusoids aren't special because of calculus; they're special because <em>space is the same everywhere</em>, and they are the shapes that symmetry protects.</p>
+  <details class="fine"><summary>FINE PRINT · the shift-a-sine wink, made honest</summary><div class="fp">
+    <p>A careful reader will object: slide sin(kx) and you don't get sin(kx) back — you get sin(kx + φ), which is a <em>blend</em> of sin(kx) and cos(kx). Fair. The honest statement is that shifting preserves the two-dimensional <em>family</em> {sin(kx), cos(kx)}: it stirs the pair into each other but can never leak into a different frequency. The pair is the eigen-object.</p>
+    <p>The cleaner fix is to let the wiggles be complex: e<sup>ikx</sup> = cos(kx) + i·sin(kx). Shift that and it comes back multiplied by a single number, e<sup>ikΔ</sup> — a pure phase, a true eigenvalue. Complex exponentials are the genuine eigenfunctions of shifting; sines and cosines are their shadows on the real axis. Everything in this essay is the real-valued shadow of a tidier complex story, which is why professionals write Fourier theory in e<sup>ikx</sup> from the start.</p>
+  </div></details>
+  <p>Which tells you exactly when to expect a different instrument. Put the problem on a drumhead — a disk, where the boundary is a circle and the symmetry is rotation — and the natural notes change costume: <span class="term">Bessel functions</span> radially, sinusoids around the rim. On a sphere you get spherical harmonics, the shapes behind atomic orbitals. The wiggles change; the recipe never does: <em>find the operator's natural notes, write your function in them, and watch each amplitude evolve on its own.</em> A vibration was never a thing; it's a relationship — between a medium, its boundaries, and time. Change the stage and the vibes change with it. The vibes, it turns out, are local.</p>
+
+  <div class="panel">
+    <div class="panel-head"><span><span class="led"></span>Eigenfunctions of a drum</span><span>bessel modes</span></div>
+    <div class="panel-body">
+      <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start">
+        <canvas id="c6" width="240" height="240" style="width:240px;height:240px;flex:none;border-radius:50%"></canvas>
+        <div style="flex:1;min-width:200px">
+          <div class="controls" style="margin-top:0" id="c6modes">
+            <button class="btn on" data-m="01">mode (0,1)</button>
+            <button class="btn" data-m="11">mode (1,1)</button>
+            <button class="btn" data-m="21">mode (2,1)</button>
+            <button class="btn" data-m="02">mode (0,2)</button>
+          </div>
+          <div class="readout" id="c6read" style="margin-top:14px">The fundamental: the whole head breathes together. This is the drum's "sine wave."</div>
+          <div class="controls">
+            <button class="btn" id="c7string">🔊 string · 1, 2, 3, 4…</button>
+            <button class="btn" id="c7drum">🔊 drum · 1, 1.59, 2.14, 2.30…</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="caption">Ember regions move up while cyan regions move down. Unlike a string, a drum's mode frequencies are <em>not</em> whole-number multiples of each other — and you can hear exactly what that costs: press the two 🔊 buttons. Same recipe, same loudnesses, only the frequency <em>ratios</em> differ. One is a pitch; the other is a thud. The eigenvalue list is the timbre.</p>
+  <p class="footage"><b>FIELD FOOTAGE</b> — watch sand find the nodal lines of a real vibrating plate: <a href="https://sciencedemonstrations.fas.harvard.edu/presentations/chladni-plates" target="_blank" rel="noopener">Harvard's Chladni plate demonstration</a>. Every grain is fleeing the moving regions and settling where the plate stands still — the pattern <em>is</em> the mode.</p>
+
+  <p>That's the whole story. Pure wiggles are the alphabet that constant-coefficient — that is, position-blind — differential equations are written in. The heat equation reads a shape's faders and slides them down, treble first. The wave equation reads the same faders and spins them, treble fastest. The Green's function is the system's autobiography, recordable with one balloon. And when the geometry changes, you don't abandon the method — you just learn the local dialect.</p>
+  <p>It's also why the Fourier transform follows scientists into every field they work in. It is, at bottom, a <span class="term">wiggle splitter</span>: a change of coordinates into the one basis that position-blind operations cannot deform. And in those coordinates, hard things collapse into arithmetic. Differentiating becomes <em>multiply each mode by −n²</em>. Convolution — Chapter 6's whole slide-scale-and-sum production — becomes <em>multiply the two spectra, pointwise</em>. Even sliding a function sideways becomes a phase twist on each mode, with no points actually moved. Any problem built from shift-invariant pieces — circuits, optics, image filters, crystallography, probability (adding independent random quantities convolves their distributions, which is multiplication in wiggle-land, which is where the bell curve comes from) — gets simpler in this basis. You don't reach for Fourier because waves are everywhere. You reach for it because <em>sameness-everywhere</em> is everywhere.</p>
+  <p style="font-style:italic;color:var(--ink-soft)">Everything here keeps going: Fourier transforms on infinite domains, Schrödinger's equation (whose faders spin at rates ∝ n², cousin to the stiff bar — that's quantum dispersion, a wave packet's partials drifting out of step), and the spectral theorem holding court above it all. But those are other essays.</p>
+</section>
+
+</main>
+<footer>PURE WIGGLES · STUDIO DEMBY · MMXXVI</footer>
+
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>
