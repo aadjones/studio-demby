@@ -1,7 +1,6 @@
 import { $, $$, RM, tickFns, onResize } from './nav.js';
-import { PI, TAU, S, X, project, synth, presetCoef } from './math.js';
+import { PI, TAU, S, X, synth, presetCoef } from './math.js';
 import { fit, clearPanel, plot } from './canvas.js';
-import { AudioEngine } from './audio.js';
 
 const IDX = 0;
 
@@ -27,24 +26,18 @@ const IDX = 0;
   else { (function anim(ts) { draw(ts / 1000); requestAnimationFrame(anim); })(0); }
 })();
 
-/* ---- eigenfunction demo ---- */
+/* ---- eigenfunction gallery: one candidate shape at a time ---- */
 (function () {
-  const cv = $('#c1');
-  let func = 'sine', k = 2;
-  const norm = $('#c1norm');
-
-  function sample() {
-    const y = new Float64Array(S);
-    for (let i = 0; i < S; i++) {
-      const x = X(i);
-      if (func === 'sine') y[i] = Math.sin(PI * k * x);
-      else if (func === 'exp') y[i] = Math.exp(3.2 * (x - 0.5)) * 0.27;
-      else if (func === 'tri') { const p = (x * k) % 1; y[i] = p < 0.5 ? 4 * p - 1 : 3 - 4 * p; }
-      else if (func === 'arch') y[i] = 4 * x * (1 - x) * 2 - 1;
-      else if (func === 'bump') y[i] = Math.exp(-Math.pow((x - 0.5) / 0.13, 2)) * 1.6 - 0.3;
-    }
-    return y;
-  }
+  // Each widget is locked to one shape. White = f (peak 0.92).
+  // Violet = f″, the real finite-difference second derivative, sign-preserving
+  // normalized to peak 0.70 so the *shape & sign* compare cleanly against white.
+  const shapes = {
+    tri(y) { const a = 0.27; for (let i = 0; i < S; i++) { const x = X(i); y[i] = x < a ? x / a : (1 - x) / (1 - a); } },
+    arch(y) { for (let i = 0; i < S; i++) { const x = X(i); y[i] = 4 * x * (1 - x); } },
+    exp(y) { for (let i = 0; i < S; i++) y[i] = Math.exp(1.4 * X(i)); },
+    sinew(y) { for (let i = 0; i < S; i++) y[i] = Math.sin(2.5 * PI * X(i)); },
+    siner(y) { for (let i = 0; i < S; i++) y[i] = Math.sin(PI * X(i)); },
+  };
 
   function d2(y) {
     const d = new Float64Array(S), dx = 1 / (S - 1);
@@ -53,52 +46,45 @@ const IDX = 0;
     return d;
   }
 
-  function corr(a, b) {
-    let ab = 0, aa = 0, bb = 0;
-    for (let i = 2; i < S - 2; i++) { ab += a[i] * b[i]; aa += a[i] * a[i]; bb += b[i] * b[i]; }
-    return Math.abs(ab) / Math.sqrt(aa * bb + 1e-12);
-  }
-
-  function draw() {
-    const [ctx, w, h] = fit(cv);
-    clearPanel(ctx, w, h);
-    const y = sample(), dd = d2(y);
+  function normPeak(y, target) {
     let m = 0;
-    for (let i = 2; i < S - 2; i++) m = Math.max(m, Math.abs(dd[i]));
-    const scale = norm.checked ? (m > 1e-9 ? 1 / m : 1) : 1 / 60;
-    const dshow = new Float64Array(S);
-    for (let i = 0; i < S; i++) dshow[i] = Math.max(-1.4, Math.min(1.4, dd[i] * scale));
-    plot(ctx, w, h, dshow, '#9D7BFF', 2, 1.45, 0.95);
-    plot(ctx, w, h, y, '#F4F5F8', 2.2);
-    const c = corr(y, dd);
-    const r = $('#c1read');
-    if (c > 0.9995) {
-      let num = 0, den = 0;
-      for (let i = 2; i < S - 2; i++) { num += y[i] * dd[i]; den += y[i] * y[i]; }
-      const lam = num / den;
-      // These readout strings contain computed numbers only—no user input.
-      if (lam < 0)
-        r.textContent = `shape preserved ✓ eigenfunction · f″ = ${lam.toFixed(1)}·f — turned down and flipped`;
-      else
-        r.textContent = `shape preserved ✓ eigenfunction · f″ = +${lam.toFixed(1)}·f — amplified. The machine feeds it — this is the exponential's disqualification`;
-    } else {
-      r.textContent = `shape correlation ${(c * 100).toFixed(0)}% ✗ not an eigenfunction — the machine deformed it`;
-    }
+    for (let i = 0; i < S; i++) m = Math.max(m, Math.abs(y[i]));
+    const out = new Float64Array(S);
+    if (m < 1e-9) return out;
+    const s = target / m;
+    for (let i = 0; i < S; i++) out[i] = y[i] * s;
+    return out;
   }
 
-  $$('#c1funcs [data-f]').forEach((b) =>
-    b.addEventListener('click', () => {
-      $$('#c1funcs [data-f]').forEach((x) => x.classList.remove('on'));
-      b.classList.add('on'); func = b.dataset.f;
-      $('#c1krow').style.opacity = func === 'sine' || func === 'tri' ? '1' : '0.35';
+  $$('.panel.eig').forEach((panel) => {
+    const gen = shapes[panel.dataset.eig];
+    if (!gen) return;
+    const cv = panel.querySelector('canvas');
+    const btn = panel.querySelector('.plot');
+    const raw = new Float64Array(S); gen(raw);
+    const white = normPeak(raw, 0.92);
+    const violet = normPeak(d2(raw), 0.70);
+    let shown = false;
+
+    function draw() {
+      const [ctx, w, h] = fit(cv);
+      clearPanel(ctx, w, h);
+      if (shown) plot(ctx, w, h, violet, '#9D7BFF', 2, 1.45, 0.95);
+      plot(ctx, w, h, white, '#F4F5F8', 2.2);
+    }
+
+    btn.addEventListener('click', () => {
+      if (shown) return;
+      shown = true;
+      panel.classList.add('plotted');
+      btn.classList.add('done');
+      btn.textContent = '✓ bendiness plotted';
       draw();
-    })
-  );
-  $('#c1k').addEventListener('input', (e) => { k = +e.target.value; $('#c1kv').textContent = k; draw(); });
-  norm.addEventListener('change', draw);
-  $('#c1hear').addEventListener('click', () => AudioEngine.shapeTone(project(sample(), 24), 24, 130, 1.3));
-  onResize(IDX, draw);
-  draw();
+    });
+
+    onResize(IDX, draw);
+    draw();
+  });
 })();
 
 /* ---- slow-motion specimen ---- */
