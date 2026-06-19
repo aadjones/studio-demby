@@ -30,7 +30,9 @@
   /* ── Info-mode reveal system ──────────────────────────────── */
   .reveal { display: none; }
   body.info-mode .reveal               { display: block; }
-  body.info-mode .slider-marker.reveal { display: flex; }
+  body.info-mode .slider-marker.reveal { display: flex; pointer-events: auto; cursor: pointer; }
+  body.info-mode .slider-marker.reveal:hover .marker-label { color: var(--text); opacity: 1; }
+  body.info-mode .slider-marker.reveal:hover::before { opacity: 1; }
 
   /* Info toggle button */
   .info-btn {
@@ -877,6 +879,18 @@
   ].forEach(([id, voice, d]) => $(id).addEventListener("click", () => p3StepRatio(voice, d)));
 
   p3UpdateRatioDisplay(); initMarker("p3-marker");
+
+  // ── F4 marker snap ───────────────────────────────────────────
+  const F4_POS = Math.round(freqToPos(MARKER_FREQ));
+  $("p1-marker").addEventListener("click", () => {
+    p1Slider.value = F4_POS; p1Freq = MARKER_FREQ; p1Readout();
+  });
+  $("marker").addEventListener("click", () => {
+    p2Slider.value = F4_POS; p2BaseFreq = MARKER_FREQ; p2Readout();
+  });
+  $("p3-marker").addEventListener("click", () => {
+    p3Slider.value = F4_POS; p3BaseFreq = MARKER_FREQ; p3Readout();
+  });
 
   // ── Info mode toggle ─────────────────────────────────────────
   function toggleInfo() { document.body.classList.toggle("info-mode"); }
