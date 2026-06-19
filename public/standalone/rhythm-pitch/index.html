@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Rhythm &rarr; Pitch</title>
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --text: #f0f0f0;
+    --muted: #8a8a8a;
+    --control: #2a2a2a;
+    --control-hi: #3a3a3a;
+    --v1: #4fc3f7;
+    --v2: #ef9a9a;
+    --v3: #a5d6a7;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+
+  html, body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  /* ── Info-mode reveal system ──────────────────────────────── */
+  .reveal { display: none; }
+  body.info-mode .reveal               { display: block; }
+  body.info-mode .slider-marker.reveal { display: flex; }
+
+  /* Info toggle button */
+  .info-btn {
+    position: fixed;
+    top: max(0.85rem, env(safe-area-inset-top) + 0.25rem);
+    right: max(0.85rem, env(safe-area-inset-right) + 0.25rem);
+    z-index: 200;
+    width: 2.25rem; height: 2.25rem; border-radius: 50%;
+    border: 1px solid #383838; background: var(--control);
+    color: var(--muted); font-size: 1.05rem; line-height: 1;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: color 0.15s, border-color 0.15s;
+    -webkit-user-select: none; user-select: none;
+  }
+  body.info-mode .info-btn { color: var(--v1); border-color: var(--v1); }
+
+  /* ── Stage ─────────────────────────────────────────────────── */
+  .stage {
+    min-height: 100dvh; scroll-snap-align: start;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: max(3rem, env(safe-area-inset-top) + 1rem) 1rem max(1rem, env(safe-area-inset-bottom));
+    gap: 1.5rem; position: relative;
+  }
+  .section-label {
+    position: absolute;
+    top: max(1.25rem, env(safe-area-inset-top) + 0.5rem);
+    left: max(1.25rem, env(safe-area-inset-left));
+    color: var(--muted); font-size: 0.72rem;
+    letter-spacing: 0.22em; text-transform: uppercase; font-weight: 600;
+  }
+  .title {
+    color: var(--muted); font-size: 0.95rem;
+    letter-spacing: 0.18em; text-transform: uppercase; margin: 0; font-weight: 500;
+  }
+
+  /* ── Part 1 readout ─────────────────────────────────────────── */
+  .readout { text-align: center; line-height: 1; }
+  .readout .value {
+    font-size: clamp(3rem, 15vw, 6rem); font-weight: 700;
+    font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
+  }
+  .readout .unit {
+    font-size: clamp(1.1rem, 4.5vw, 1.8rem); font-weight: 500;
+    color: var(--muted); margin-left: 0.3rem;
+  }
+
+  /* ── Dual readout (Parts 2 & 3) ─────────────────────────────── */
+  .dual-readout {
+    display: flex; gap: clamp(1.5rem, 8vw, 3rem);
+    align-items: flex-end; justify-content: center;
+  }
+  .voice-readout { text-align: center; line-height: 1; transition: opacity 0.35s ease; }
+  .voice-readout.off { opacity: 0; pointer-events: none; }
+  .vr-val {
+    font-size: clamp(2.2rem, 9vw, 4rem); font-weight: 700;
+    font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
+  }
+  .vr-unit { font-size: clamp(0.85rem, 2.5vw, 1.2rem); font-weight: 500; color: var(--muted); margin-left: 0.2rem; }
+
+  /* Voice colors for both sections */
+  #vr-left   .vr-val, #p3-vr-left   .vr-val { color: var(--v1); }
+  #vr-center .vr-val, #p3-vr-center .vr-val { color: var(--v3); }
+  #vr-right  .vr-val, #p3-vr-right  .vr-val { color: var(--v2); }
+
+  /* ── Info-only lines ─────────────────────────────────────────── */
+  .hz-line { font-size: 0.9rem; color: var(--muted); margin-top: 0.35rem; letter-spacing: 0.03em; }
+  .state {
+    font-size: 1rem; color: var(--muted); letter-spacing: 0.04em;
+    margin-top: 0.35rem; min-height: 1.2em; transition: color 0.3s ease;
+  }
+  .state.pitch { color: var(--v1); }
+
+  /* ── Ratio controls (Part 3) ────────────────────────────────── */
+  .ratio-row {
+    display: flex; align-items: flex-start;
+    gap: clamp(0.5rem, 3vw, 1rem); justify-content: center;
+  }
+  .ratio-slot { display: flex; flex-direction: column; align-items: center; }
+  .ratio-slot.off { display: none; }
+  .ratio-steppers { display: flex; align-items: center; gap: 0.4rem; }
+  .ratio-num {
+    font-size: clamp(2.5rem, 10vw, 4rem); font-weight: 700;
+    font-variant-numeric: tabular-nums; line-height: 1;
+    min-width: 1.6ch; text-align: center;
+  }
+  .ratio-colon {
+    font-size: clamp(2.5rem, 10vw, 4rem); font-weight: 700;
+    color: var(--muted); line-height: 1; padding-bottom: 0.1em;
+  }
+  .ratio-colon.off { display: none; }
+  .ratio-step {
+    width: 2.5rem; height: 2.5rem; border-radius: 8px;
+    border: 1px solid #3a3a3a; background: var(--control);
+    color: var(--text); font-size: 1.15rem; font-weight: 600;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.1s ease, transform 0.06s ease;
+    -webkit-user-select: none; user-select: none;
+  }
+  .ratio-step:hover { background: var(--control-hi); }
+  .ratio-step:active { transform: scale(0.92); }
+  .add-voice-btn {
+    width: 2.5rem; height: 2.5rem; border-radius: 50%;
+    border: 1px dashed #555; background: none;
+    color: var(--muted); font-size: 1.3rem; font-weight: 300;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: color 0.15s, border-color 0.15s;
+    -webkit-user-select: none; user-select: none;
+    margin-left: 0.25rem;
+  }
+  .add-voice-btn:hover { color: var(--text); border-color: var(--text); }
+  .center-ph {
+    display: flex; align-items: center; justify-content: center;
+  }
+  .remove-voice-btn {
+    margin-top: 0.35rem; padding: 0.2rem 0.55rem;
+    background: none; border: 1px solid #383838; border-radius: 5px;
+    color: var(--muted); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; transition: color 0.12s, border-color 0.12s;
+    -webkit-user-select: none; user-select: none;
+  }
+  .remove-voice-btn:hover { color: var(--text); border-color: #555; }
+
+  /* ── Metronomes ─────────────────────────────────────────────── */
+  .metronomes { display: flex; justify-content: center; align-items: flex-end; gap: clamp(1.25rem, 8vw, 3.5rem); }
+  .met {
+    display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+    cursor: pointer; transition: opacity 0.35s ease;
+    -webkit-user-select: none; user-select: none;
+  }
+  .met:hover { opacity: 0.85; }
+  .met.off { opacity: 0; visibility: hidden; }
+  .met.muted { opacity: 0.3; }
+  .met.muted:hover { opacity: 0.45; }
+  .met.static { cursor: default; }
+  .met.static:hover { opacity: 1; }
+
+  .met-stage { position: relative; width: 78px; height: 116px; }
+  .met-body { position: absolute; inset: 0; background: #1b1b1b; border: 1px solid #383838; clip-path: polygon(33% 0, 67% 0, 100% 100%, 0 100%); }
+  .met-arm { position: absolute; left: 50%; bottom: 6px; width: 5px; height: 100px; margin-left: -2.5px; border-radius: 3px; transform-origin: 50% 100%; will-change: transform; }
+  .met-bob { position: absolute; top: 12px; left: 50%; width: 22px; height: 22px; margin-left: -11px; border-radius: 50%; }
+  .met-pivot { position: absolute; left: 50%; bottom: 3px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: #555; }
+  .met-label { color: var(--muted); font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .met--left   .met-arm, .met--left   .met-bob { background: var(--v1); }
+  .met--right  .met-arm, .met--right  .met-bob { background: var(--v2); }
+  .met--center .met-arm, .met--center .met-bob { background: var(--v3); }
+
+  /* ── Transport ──────────────────────────────────────────────── */
+  .transport { width: 100%; max-width: 420px; }
+  .transport button {
+    width: 100%; padding: 1.1rem 1rem; font-size: 1.15rem; font-weight: 600;
+    letter-spacing: 0.04em; color: var(--text); background: var(--control);
+    border: 1px solid #3a3a3a; border-radius: 14px; cursor: pointer;
+    transition: background 0.12s ease, transform 0.06s ease;
+  }
+  .transport button:hover { background: var(--control-hi); }
+  .transport button:active { transform: scale(0.98); }
+  .transport button.on { background: var(--v1); color: #0f0f0f; border-color: var(--v1); }
+
+  /* ── Speed slider ───────────────────────────────────────────── */
+  .speed { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 0.5rem; }
+  .slider-wrap { position: relative; width: 100%; padding-bottom: 1.75rem; }
+  .speed input[type="range"] {
+    -webkit-appearance: none; appearance: none; display: block;
+    width: 100%; height: 10px; border-radius: 999px;
+    background: linear-gradient(90deg, #333, #555); outline: none; cursor: pointer;
+  }
+  .speed input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--text); border: 4px solid var(--v1);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  }
+  .speed input[type="range"]::-moz-range-thumb {
+    width: 34px; height: 34px; border: 4px solid var(--v1);
+    border-radius: 50%; background: var(--text);
+  }
+  .speed .ends { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.9rem; letter-spacing: 0.05em; }
+
+  /* F4 landmark — hidden until info mode; no display:flex here so .reveal wins */
+  .slider-marker {
+    position: absolute;
+    left: calc(17px + (100% - 34px) * var(--pct, 0));
+    top: calc(100% - 1.5rem);
+    transform: translateX(-50%);
+    flex-direction: column; align-items: center;
+    pointer-events: none;
+  }
+  .slider-marker::before { content: ""; display: block; width: 2px; height: 8px; background: var(--muted); border-radius: 1px; opacity: 0.6; }
+  .marker-label { color: var(--muted); font-size: 0.7rem; letter-spacing: 0.07em; margin-top: 3px; opacity: 0.7; }
+
+  /* ── Mode buttons (Part 2) ──────────────────────────────────── */
+  .mode { width: 100%; max-width: 420px; display: flex; gap: 0.75rem; }
+  .mode button {
+    flex: 1; padding: 0.85rem 0.75rem; border-radius: 12px;
+    border: 1px solid #3a3a3a; background: var(--control);
+    color: var(--text); cursor: pointer; font-size: 1rem; line-height: 1.3;
+    transition: background 0.12s ease, border-color 0.12s ease;
+  }
+  .mode button .ratio { font-weight: 700; font-size: 1.1rem; }
+  .mode button .name  { color: var(--muted); font-size: 0.85rem; margin-top: 0.15rem; }
+  .mode button.on     { background: var(--control-hi); border-color: var(--text); }
+  .mode button.on .name { color: var(--text); }
+
+  /* ── Scroll nudge ───────────────────────────────────────────── */
+  .scroll-hint {
+    position: absolute;
+    bottom: max(1.25rem, env(safe-area-inset-bottom) + 0.5rem);
+    color: var(--muted); font-size: 0.75rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    pointer-events: none; animation: hint-bob 2.4s ease-in-out infinite;
+  }
+  @keyframes hint-bob {
+    0%, 100% { opacity: 0.35; transform: translateY(0);   }
+    50%       { opacity: 0.6;  transform: translateY(4px); }
+  }
+</style>
+</head>
+<body>
+
+<button class="info-btn" id="infoBtn" title="Toggle info labels (i)">&#9432;</button>
+
+<!-- ══ Part 1: single metronome ══════════════════════════════ -->
+<section class="stage" id="section-1">
+  <span class="section-label">Part 1</span>
+  <p class="title">metronome</p>
+
+  <div class="readout">
+    <span class="value" id="p1-bpm">60</span><span class="unit">BPM</span>
+    <div class="hz-line reveal" id="p1-hz">1.00 Hz</div>
+    <div class="state reveal"  id="p1-state">a single metronome</div>
+  </div>
+
+  <div class="metronomes">
+    <div class="met met--left static">
+      <div class="met-stage">
+        <div class="met-body"></div>
+        <div class="met-arm" id="p1-arm"><div class="met-bob" id="p1-bob"></div></div>
+        <div class="met-pivot"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="transport"><button id="p1-playBtn">Start</button></div>
+
+  <div class="speed">
+    <div class="slider-wrap">
+      <input type="range" id="p1-speed" min="0" max="1000" value="0" />
+      <div class="slider-marker reveal" id="p1-marker"><span class="marker-label">F4</span></div>
+    </div>
+    <div class="ends"><span>slow</span><span>fast</span></div>
+  </div>
+
+  <div class="scroll-hint">&#8595; part 2</div>
+</section>
+
+<!-- ══ Part 2: two / three metronomes ════════════════════════ -->
+<section class="stage" id="section-2">
+  <span class="section-label">Part 2</span>
+  <p class="title reveal">Rhythm &rarr; Pitch</p>
+
+  <div class="dual-readout">
+    <div class="voice-readout" id="vr-left">
+      <span class="vr-val" id="vr-val-a">60</span><span class="vr-unit">BPM</span>
+      <div class="hz-line reveal" id="vr-hz-a">1.0 Hz</div>
+    </div>
+    <div class="voice-readout off" id="vr-center">
+      <span class="vr-val" id="vr-val-c">75</span><span class="vr-unit">BPM</span>
+      <div class="hz-line reveal" id="vr-hz-c">1.25 Hz</div>
+    </div>
+    <div class="voice-readout" id="vr-right">
+      <span class="vr-val" id="vr-val-b">90</span><span class="vr-unit">BPM</span>
+      <div class="hz-line reveal" id="vr-hz-b">1.5 Hz</div>
+    </div>
+  </div>
+  <div class="state reveal" id="p2-state"></div>
+
+  <div class="metronomes">
+    <div class="met met--left" id="met-a">
+      <div class="met-stage">
+        <div class="met-body"></div>
+        <div class="met-arm" id="arm-a"><div class="met-bob" id="bob-a"></div></div>
+        <div class="met-pivot"></div>
+      </div>
+      <div class="met-label">left</div>
+    </div>
+    <div class="met met--center off" id="met-c">
+      <div class="met-stage">
+        <div class="met-body"></div>
+        <div class="met-arm" id="arm-c"><div class="met-bob" id="bob-c"></div></div>
+        <div class="met-pivot"></div>
+      </div>
+      <div class="met-label">center</div>
+    </div>
+    <div class="met met--right" id="met-b">
+      <div class="met-stage">
+        <div class="met-body"></div>
+        <div class="met-arm" id="arm-b"><div class="met-bob" id="bob-b"></div></div>
+        <div class="met-pivot"></div>
+      </div>
+      <div class="met-label">right</div>
+    </div>
+  </div>
+
+  <div class="transport"><button id="playBtn">Start</button></div>
+
+  <div class="speed">
+    <div class="slider-wrap">
+      <input type="range" id="speed" min="0" max="1000" value="0" />
+      <div class="slider-marker reveal" id="marker"><span class="marker-label">F4</span></div>
+    </div>
+    <div class="ends"><span>slow</span><span>fast</span></div>
+  </div>
+
+  <div class="mode">
+    <button id="modeFifth" class="on">
+      <span class="ratio">2 : 3</span>
+      <span class="name reveal">perfect fifth</span>
+    </button>
+    <button id="modeTriad">
+      <span class="ratio">4 : 5 : 6</span>
+      <span class="name reveal">major triad</span>
+    </button>
+  </div>
+
+  <div class="scroll-hint">&#8595; part 3</div>
+</section>
+
+<!-- ══ Part 3: sandbox ═══════════════════════════════════════ -->
+<section class="stage" id="section-3">
+  <span class="section-label">Part 3</span>
+
+  <!-- Ratio steppers: always two colons, center slot or add-button in the middle -->
+  <div class="ratio-row">
+    <div class="ratio-slot">
+      <div class="ratio-steppers">
+        <button class="ratio-step" id="p3-a-dec">▼</button>
+        <span class="ratio-num" id="p3-a-val">3</span>
+        <button class="ratio-step" id="p3-a-inc">▲</button>
+      </div>
+    </div>
+    <span class="ratio-colon">:</span>
+    <div class="center-ph" id="p3-center-ph">
+      <button class="add-voice-btn" id="p3-voice-add" title="add center voice">+</button>
+      <div class="ratio-slot off" id="p3-slot-c">
+        <div class="ratio-steppers">
+          <button class="ratio-step" id="p3-c-dec">▼</button>
+          <span class="ratio-num" id="p3-c-val">4</span>
+          <button class="ratio-step" id="p3-c-inc">▲</button>
+        </div>
+        <button class="remove-voice-btn" id="p3-voice-remove" title="remove center voice">remove</button>
+      </div>
+    </div>
+    <span class="ratio-colon">:</span>
+    <div class="ratio-slot">
+      <div class="ratio-steppers">
+        <button class="ratio-step" id="p3-b-dec">▼</button>
+        <span class="ratio-num" id="p3-b-val">5</span>
+        <button class="ratio-step" id="p3-b-inc">▲</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Per-voice BPM readouts -->
+  <div class="dual-readout">
+    <div class="voice-readout" id="p3-vr-left">
+      <span class="vr-val" id="p3-val-a">60</span><span class="vr-unit">BPM</span>
+      <div class="hz-line reveal" id="p3-hz-a">1.0 Hz</div>
+    </div>
+    <div class="voice-readout off" id="p3-vr-center">
+      <span class="vr-val" id="p3-val-c">100</span><span class="vr-unit">BPM</span>
+      <div class="hz-line reveal" id="p3-hz-c">1.67 Hz</div>
+    </div>
+    <div class="voice-readout" id="p3-vr-right">
+      <span class="vr-val" id="p3-val-b">80</span><span class="vr-unit">BPM</span>
+      <div class="hz-line reveal" id="p3-hz-b">1.33 Hz</div>
+    </div>
+  </div>
+
+  <!-- Metronomes -->
+  <div class="metronomes">
+    <div class="met met--left" id="p3-met-a">
+      <div class="met-stage">
+        <div class="met-body"></div>
+        <div class="met-arm" id="p3-arm-a"><div class="met-bob" id="p3-bob-a"></div></div>
+        <div class="met-pivot"></div>
+      </div>
+      <div class="met-label">left</div>
+    </div>
+    <div class="met met--center off" id="p3-met-c">
+      <div class="met-stage">
+        <div class="met-body"></div>
+        <div class="met-arm" id="p3-arm-c"><div class="met-bob" id="p3-bob-c"></div></div>
+        <div class="met-pivot"></div>
+      </div>
+      <div class="met-label">center</div>
+    </div>
+    <div class="met met--right" id="p3-met-b">
+      <div class="met-stage">
+        <div class="met-body"></div>
+        <div class="met-arm" id="p3-arm-b"><div class="met-bob" id="p3-bob-b"></div></div>
+        <div class="met-pivot"></div>
+      </div>
+      <div class="met-label">right</div>
+    </div>
+  </div>
+
+  <div class="transport"><button id="p3-playBtn">Start</button></div>
+
+  <div class="speed">
+    <div class="slider-wrap">
+      <input type="range" id="p3-speed" min="0" max="1000" value="0" />
+      <div class="slider-marker reveal" id="p3-marker"><span class="marker-label">F4</span></div>
+    </div>
+    <div class="ends"><span>slow</span><span>fast</span></div>
+  </div>
+</section>
+
+<script>
+(() => {
+  "use strict";
+
+  // ── Constants ────────────────────────────────────────────────
+  const FREQ_MIN        = 1;
+  const FREQ_MAX        = 600;
+  const MARKER_FREQ     = 349.23;
+  const FUSION_HZ       = 20;
+  const LOOKAHEAD       = 0.1;
+  const SCHEDULE_INTERVAL = 25;
+  const CLICK_LEN       = 0.004;
+  const SWING_MAX       = 30;
+  const SWING_MIN       = 4;
+  const SWING_FADE_LO   = 8;
+  const RATIO_MAX       = 32;
+
+  const clamp     = (x, lo, hi) => Math.min(hi, Math.max(lo, x));
+  const LOG_RATIO = Math.log(FREQ_MAX / FREQ_MIN);
+  const posToFreq = (pos) => FREQ_MIN * Math.exp(LOG_RATIO * pos / 1000);
+  const freqToPos = (f)   => 1000 * Math.log(f / FREQ_MIN) / LOG_RATIO;
+  const MARKER_PCT = freqToPos(MARKER_FREQ) / 1000;
+
+  const bpmStr = (f) => Math.round(f * 60).toLocaleString("en-US");
+  const hzStr  = (f) => f < 10  ? f.toFixed(2) + " Hz"
+                      : f < 100 ? f.toFixed(1)  + " Hz"
+                      : Math.round(f) + " Hz";
+
+  function initMarker(id) {
+    document.getElementById(id).style.setProperty("--pct", MARKER_PCT.toFixed(4));
+  }
+
+  function swingAmp(freq) {
+    const fade = clamp((FUSION_HZ - freq) / (FUSION_HZ - SWING_FADE_LO), 0, 1);
+    return SWING_MIN + (SWING_MAX - SWING_MIN) * fade;
+  }
+
+  const $ = (id) => document.getElementById(id);
+
+  // ── Shared audio context ─────────────────────────────────────
+  let audioCtx = null, master = null, clickBuffer = null;
+
+  function ensureAudio() {
+    if (audioCtx) return;
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const lim = audioCtx.createDynamicsCompressor();
+    lim.threshold.value = -10; lim.knee.value = 6;
+    lim.ratio.value = 12; lim.attack.value = 0.002; lim.release.value = 0.15;
+    master = audioCtx.createGain();
+    master.gain.value = 0.6;
+    master.connect(lim);
+    lim.connect(audioCtx.destination);
+    const len = Math.max(1, Math.floor(audioCtx.sampleRate * CLICK_LEN));
+    clickBuffer = audioCtx.createBuffer(1, len, audioCtx.sampleRate);
+    const d = clickBuffer.getChannelData(0);
+    for (let i = 0; i < len; i++) {
+      const t = i / len;
+      d[i] = (Math.random() * 2 - 1) * Math.pow(1 - t, 6);
+    }
+  }
+
+  function fireClick(gainNode, time) {
+    const src = audioCtx.createBufferSource();
+    src.buffer = clickBuffer;
+    src.connect(gainNode);
+    src.start(time);
+  }
+
+  // ── Part 1: single metronome ─────────────────────────────────
+  let p1Playing = false, p1Timer = null, p1Freq = FREQ_MIN;
+  let p1NextTime = 0, p1Queue = [], p1Intensity = 0;
+  let p1SegStart = 0, p1CurExt = 1, p1NextExt = -1;
+  let p1Gain = null, p1VisStarted = false;
+
+  const p1Arm     = $("p1-arm");
+  const p1Bob     = $("p1-bob");
+  const p1Btn     = $("p1-playBtn");
+  const p1Slider  = $("p1-speed");
+  const p1BpmEl   = $("p1-bpm");
+  const p1HzEl    = $("p1-hz");
+  const p1StateEl = $("p1-state");
+
+  function p1Readout() {
+    const f = p1Freq;
+    p1BpmEl.textContent = bpmStr(f);
+    p1HzEl.textContent  = hzStr(f);
+    if (f < FUSION_HZ) {
+      p1StateEl.classList.remove("pitch");
+      p1StateEl.textContent = f < 6 ? "a single metronome" : "speeding up… still rhythm";
+    } else {
+      p1StateEl.classList.add("pitch");
+      p1StateEl.textContent = f < 40 ? "now entering pitch territory" : "a single pitch";
+    }
+  }
+
+  function p1Scheduler() {
+    if (!p1Playing) return;
+    const now = audioCtx.currentTime, horizon = now + LOOKAHEAD;
+    const interval = 1 / p1Freq;
+    if (p1NextTime < now) p1NextTime = now;
+    while (p1NextTime < horizon) {
+      fireClick(p1Gain, p1NextTime);
+      p1Queue.push(p1NextTime);
+      p1NextTime += interval;
+    }
+    p1Timer = setTimeout(p1Scheduler, SCHEDULE_INTERVAL);
+  }
+
+  function p1Start() {
+    p2Stop(); p3Stop();
+    ensureAudio();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    if (!p1Gain) { p1Gain = audioCtx.createGain(); p1Gain.gain.value = 0.5; p1Gain.connect(master); }
+    p1Playing = true;
+    p1NextTime = audioCtx.currentTime + LOOKAHEAD;
+    p1Queue.length = 0;
+    p1Btn.textContent = "Stop"; p1Btn.classList.add("on");
+    p1Scheduler();
+    if (!p1VisStarted) { p1VisStarted = true; requestAnimationFrame(p1VisLoop); }
+  }
+
+  function p1Stop() {
+    p1Playing = false;
+    if (p1Timer) { clearTimeout(p1Timer); p1Timer = null; }
+    p1Queue.length = 0;
+    p1Btn.textContent = "Start"; p1Btn.classList.remove("on");
+  }
+
+  function p1VisLoop() {
+    if (audioCtx) {
+      const now = audioCtx.currentTime;
+      const amp = swingAmp(p1Freq);
+      while (p1Queue.length && p1Queue[0] <= now) {
+        p1SegStart = p1Queue.shift(); p1CurExt = p1NextExt; p1NextExt = -p1CurExt; p1Intensity = 1;
+      }
+      p1Intensity *= 0.86; if (p1Intensity < 0.001) p1Intensity = 0;
+      const p = clamp((now - p1SegStart) / (1 / p1Freq), 0, 1);
+      const ext = p1CurExt + (p1NextExt - p1CurExt) * (0.5 - 0.5 * Math.cos(Math.PI * p));
+      p1Arm.style.transform = `rotate(${(amp * ext).toFixed(2)}deg)`;
+      p1Bob.style.boxShadow = `0 0 ${(6 + 26 * p1Intensity).toFixed(1)}px #4fc3f7`;
+    }
+    requestAnimationFrame(p1VisLoop);
+  }
+
+  p1Slider.addEventListener("input", () => { p1Freq = clamp(posToFreq(+p1Slider.value), FREQ_MIN, FREQ_MAX); p1Readout(); });
+  p1Btn.addEventListener("click", () => p1Playing ? p1Stop() : p1Start());
+  p1Readout(); initMarker("p1-marker");
+
+  // ── Part 2: two / three metronomes (fixed ratios) ────────────
+  const P2_VOICES = [
+    { id: "a", ratio: 1.0,  color: "#4fc3f7", pan: -1, met: "met-a",  arm: "arm-a",  bob: "bob-a"  },
+    { id: "c", ratio: 1.25, color: "#a5d6a7", pan:  0, met: "met-c",  arm: "arm-c",  bob: "bob-c",  triadOnly: true },
+    { id: "b", ratio: 1.5,  color: "#ef9a9a", pan:  1, met: "met-b",  arm: "arm-b",  bob: "bob-b"  },
+  ];
+
+  let p2Playing = false, p2Timer = null, p2BaseFreq = FREQ_MIN;
+  let p2Mode = "fifth", p2VisStarted = false;
+
+  const p2Btn    = $("playBtn");
+  const p2Slider = $("speed");
+  const vrCenter   = $("vr-center");
+  const p2StateEl  = $("p2-state");
+
+  P2_VOICES.forEach((v) => {
+    v.metEl = $(v.met); v.armEl = $(v.arm); v.bobEl = $(v.bob);
+    v.bpmEl = $(`vr-val-${v.id}`); v.hzEl = $(`vr-hz-${v.id}`);
+    v.nextTime = 0; v.flashQueue = []; v.intensity = 0;
+    v.segStart = 0; v.curExtreme = 1; v.nextExtreme = -1;
+    v.muted = false; v.gain = null; v.panner = null;
+  });
+
+  function p2IsActive(v) {
+    if (!p2Playing || v.muted) return false;
+    return v.triadOnly ? p2Mode === "triad" : true;
+  }
+
+  function p2Readout() {
+    P2_VOICES.forEach((v) => {
+      const f = p2BaseFreq * v.ratio;
+      v.bpmEl.textContent = bpmStr(f); v.hzEl.textContent = hzStr(f);
+    });
+    const f = p2BaseFreq;
+    if (f < FUSION_HZ) {
+      p2StateEl.classList.remove("pitch");
+      p2StateEl.textContent = f < 6 ? "metronomes, out of step" : "speeding up… still rhythm";
+    } else {
+      p2StateEl.classList.add("pitch");
+      p2StateEl.textContent = f < 40 ? "now entering pitch territory"
+        : (p2Mode === "triad" ? "a major triad" : "a perfect fifth");
+    }
+  }
+
+  function p2Scheduler() {
+    const now = audioCtx.currentTime, horizon = now + LOOKAHEAD;
+    for (const v of P2_VOICES) {
+      if (!p2IsActive(v)) continue;
+      const interval = 1 / (p2BaseFreq * v.ratio);
+      if (v.nextTime < now) v.nextTime = now;
+      while (v.nextTime < horizon) { fireClick(v.gain, v.nextTime); v.flashQueue.push(v.nextTime); v.nextTime += interval; }
+    }
+    p2Timer = setTimeout(p2Scheduler, SCHEDULE_INTERVAL);
+  }
+
+  function p2VisLoop() {
+    if (!audioCtx) { requestAnimationFrame(p2VisLoop); return; }
+    const now = audioCtx.currentTime;
+    const amp = swingAmp(p2BaseFreq);
+    for (const v of P2_VOICES) {
+      if (v.muted) { v.armEl.style.transform = "rotate(0deg)"; v.bobEl.style.boxShadow = "none"; v.intensity = 0; continue; }
+      while (v.flashQueue.length && v.flashQueue[0] <= now) {
+        v.segStart = v.flashQueue.shift(); v.curExtreme = v.nextExtreme; v.nextExtreme = -v.curExtreme; v.intensity = 1;
+      }
+      v.intensity *= 0.86; if (v.intensity < 0.001) v.intensity = 0;
+      const p = clamp((now - v.segStart) / (1 / (p2BaseFreq * v.ratio)), 0, 1);
+      const ext = v.curExtreme + (v.nextExtreme - v.curExtreme) * (0.5 - 0.5 * Math.cos(Math.PI * p));
+      v.armEl.style.transform = `rotate(${(amp * ext).toFixed(2)}deg)`;
+      v.bobEl.style.boxShadow = `0 0 ${(6 + 26 * v.intensity).toFixed(1)}px ${v.color}`;
+    }
+    requestAnimationFrame(p2VisLoop);
+  }
+
+  function p2Start() {
+    p1Stop(); p3Stop();
+    ensureAudio();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    P2_VOICES.forEach((v) => {
+      if (!v.gain) {
+        v.gain = audioCtx.createGain(); v.gain.gain.value = 0.5;
+        v.panner = audioCtx.createStereoPanner(); v.panner.pan.value = v.pan;
+        v.gain.connect(v.panner); v.panner.connect(master);
+      }
+    });
+    p2Playing = true;
+    const t0 = audioCtx.currentTime + LOOKAHEAD;
+    P2_VOICES.forEach((v) => { v.nextTime = t0; v.flashQueue.length = 0; });
+    p2Btn.textContent = "Stop"; p2Btn.classList.add("on");
+    p2Scheduler();
+    if (!p2VisStarted) { p2VisStarted = true; requestAnimationFrame(p2VisLoop); }
+  }
+
+  function p2Stop() {
+    p2Playing = false;
+    if (p2Timer) { clearTimeout(p2Timer); p2Timer = null; }
+    p2Btn.textContent = "Start"; p2Btn.classList.remove("on");
+    P2_VOICES.forEach((v) => { v.flashQueue.length = 0; });
+  }
+
+  function p2ToggleMute(v) {
+    if (v.triadOnly && p2Mode !== "triad") return;
+    v.muted = !v.muted;
+    v.metEl.classList.toggle("muted", v.muted);
+    if (v.muted) { v.flashQueue.length = 0; }
+    else if (p2Playing) { v.nextTime = audioCtx.currentTime + LOOKAHEAD; v.segStart = audioCtx.currentTime; }
+  }
+
+  function setMode(next) {
+    p2Mode = next;
+    $("modeFifth").classList.toggle("on", p2Mode === "fifth");
+    $("modeTriad").classList.toggle("on",  p2Mode === "triad");
+    const c = P2_VOICES.find((v) => v.triadOnly);
+    const inTriad = p2Mode === "triad";
+    c.metEl.classList.toggle("off", !inTriad);
+    vrCenter.classList.toggle("off", !inTriad);
+    if (inTriad && p2Playing) { c.nextTime = audioCtx.currentTime + LOOKAHEAD; c.flashQueue.length = 0; }
+    p2Readout();
+  }
+
+  p2Btn.addEventListener("click",    () => p2Playing ? p2Stop() : p2Start());
+  p2Slider.addEventListener("input", () => { p2BaseFreq = clamp(posToFreq(+p2Slider.value), FREQ_MIN, FREQ_MAX); p2Readout(); });
+  $("modeFifth").addEventListener("click", () => setMode("fifth"));
+  $("modeTriad").addEventListener("click", () => setMode("triad"));
+  P2_VOICES.forEach((v) => v.metEl.addEventListener("click", () => p2ToggleMute(v)));
+  p2Readout(); initMarker("marker");
+
+  // ── Part 3: sandbox (free ratios) ───────────────────────────
+  const P3_VOICES = [
+    { id: "a", color: "#4fc3f7", pan: -1, met: "p3-met-a", arm: "p3-arm-a", bob: "p3-bob-a" },
+    { id: "c", color: "#a5d6a7", pan:  0, met: "p3-met-c", arm: "p3-arm-c", bob: "p3-bob-c", centerVoice: true },
+    { id: "b", color: "#ef9a9a", pan:  1, met: "p3-met-b", arm: "p3-arm-b", bob: "p3-bob-b" },
+  ];
+
+  let p3Playing = false, p3Timer = null, p3BaseFreq = FREQ_MIN;
+  let p3VisStarted = false, p3HasCenter = false;
+  // Integer ratio numerators; voice freq = baseFreq * n[id] / n.a
+  let p3N = { a: 3, b: 5, c: 4 };
+
+  const p3Btn      = $("p3-playBtn");
+  const p3Slider   = $("p3-speed");
+  const p3VrCenter = $("p3-vr-center");
+  const p3SlotC    = $("p3-slot-c");
+
+  P3_VOICES.forEach((v) => {
+    v.metEl = $(v.met); v.armEl = $(v.arm); v.bobEl = $(v.bob);
+    v.bpmEl = $(`p3-val-${v.id}`); v.hzEl = $(`p3-hz-${v.id}`);
+    v.nextTime = 0; v.flashQueue = []; v.intensity = 0;
+    v.segStart = 0; v.curExtreme = 1; v.nextExtreme = -1;
+    v.muted = false; v.gain = null; v.panner = null;
+  });
+
+  function p3Freq(v) { return p3BaseFreq * p3N[v.id] / p3N.a; }
+
+  function p3IsActive(v) {
+    if (!p3Playing || v.muted) return false;
+    if (v.centerVoice && !p3HasCenter) return false;
+    return true;
+  }
+
+  function p3Readout() {
+    P3_VOICES.forEach((v) => {
+      const f = p3Freq(v);
+      v.bpmEl.textContent = bpmStr(f);
+      v.hzEl.textContent  = hzStr(f);
+    });
+  }
+
+  function p3UpdateRatioDisplay() {
+    $("p3-a-val").textContent = p3N.a;
+    $("p3-b-val").textContent = p3N.b;
+    $("p3-c-val").textContent = p3N.c;
+    p3Readout();
+  }
+
+  function p3StepRatio(id, delta) {
+    p3N[id] = clamp(p3N[id] + delta, 1, RATIO_MAX);
+    p3UpdateRatioDisplay();
+    // Reset this voice's clock so it doesn't burst or gap after the change
+    if (p3Playing) {
+      const v = P3_VOICES.find((x) => x.id === id);
+      if (v && p3IsActive(v)) { v.nextTime = audioCtx.currentTime + LOOKAHEAD; v.flashQueue.length = 0; }
+    }
+  }
+
+  function p3Scheduler() {
+    const now = audioCtx.currentTime, horizon = now + LOOKAHEAD;
+    for (const v of P3_VOICES) {
+      if (!p3IsActive(v)) continue;
+      const f = p3Freq(v);
+      if (f <= 0) continue;
+      const interval = 1 / f;
+      if (v.nextTime < now) v.nextTime = now;
+      while (v.nextTime < horizon) { fireClick(v.gain, v.nextTime); v.flashQueue.push(v.nextTime); v.nextTime += interval; }
+    }
+    p3Timer = setTimeout(p3Scheduler, SCHEDULE_INTERVAL);
+  }
+
+  function p3VisLoop() {
+    if (!audioCtx) { requestAnimationFrame(p3VisLoop); return; }
+    const now = audioCtx.currentTime;
+    for (const v of P3_VOICES) {
+      if (v.centerVoice && !p3HasCenter) {
+        v.armEl.style.transform = "rotate(0deg)"; v.bobEl.style.boxShadow = "none"; v.intensity = 0; continue;
+      }
+      if (v.muted) {
+        v.armEl.style.transform = "rotate(0deg)"; v.bobEl.style.boxShadow = "none"; v.intensity = 0; continue;
+      }
+      while (v.flashQueue.length && v.flashQueue[0] <= now) {
+        v.segStart = v.flashQueue.shift(); v.curExtreme = v.nextExtreme; v.nextExtreme = -v.curExtreme; v.intensity = 1;
+      }
+      v.intensity *= 0.86; if (v.intensity < 0.001) v.intensity = 0;
+      const f = p3Freq(v);
+      const amp = swingAmp(f);  // per-voice amplitude — visually shows which voices are fast vs slow
+      const p = clamp((now - v.segStart) / (1 / f), 0, 1);
+      const ext = v.curExtreme + (v.nextExtreme - v.curExtreme) * (0.5 - 0.5 * Math.cos(Math.PI * p));
+      v.armEl.style.transform = `rotate(${(amp * ext).toFixed(2)}deg)`;
+      v.bobEl.style.boxShadow = `0 0 ${(6 + 26 * v.intensity).toFixed(1)}px ${v.color}`;
+    }
+    requestAnimationFrame(p3VisLoop);
+  }
+
+  function p3Start() {
+    p1Stop(); p2Stop();
+    ensureAudio();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    P3_VOICES.forEach((v) => {
+      if (!v.gain) {
+        v.gain = audioCtx.createGain(); v.gain.gain.value = 0.5;
+        v.panner = audioCtx.createStereoPanner(); v.panner.pan.value = v.pan;
+        v.gain.connect(v.panner); v.panner.connect(master);
+      }
+    });
+    p3Playing = true;
+    const t0 = audioCtx.currentTime + LOOKAHEAD;
+    P3_VOICES.forEach((v) => { v.nextTime = t0; v.flashQueue.length = 0; });
+    p3Btn.textContent = "Stop"; p3Btn.classList.add("on");
+    p3Scheduler();
+    if (!p3VisStarted) { p3VisStarted = true; requestAnimationFrame(p3VisLoop); }
+  }
+
+  function p3Stop() {
+    p3Playing = false;
+    if (p3Timer) { clearTimeout(p3Timer); p3Timer = null; }
+    p3Btn.textContent = "Start"; p3Btn.classList.remove("on");
+    P3_VOICES.forEach((v) => { v.flashQueue.length = 0; });
+  }
+
+  function p3ToggleCenter() {
+    p3HasCenter = !p3HasCenter;
+    p3SlotC.classList.toggle("off", !p3HasCenter);
+    $("p3-voice-add").style.display = p3HasCenter ? "none" : "flex";
+    const c = P3_VOICES.find((v) => v.centerVoice);
+    c.metEl.classList.toggle("off",    !p3HasCenter);
+    p3VrCenter.classList.toggle("off", !p3HasCenter);
+    if (p3HasCenter && p3Playing) { c.nextTime = audioCtx.currentTime + LOOKAHEAD; c.flashQueue.length = 0; }
+    else { c.flashQueue.length = 0; }
+  }
+
+  function p3ToggleMute(v) {
+    if (v.centerVoice && !p3HasCenter) return;
+    v.muted = !v.muted;
+    v.metEl.classList.toggle("muted", v.muted);
+    if (v.muted) { v.flashQueue.length = 0; }
+    else if (p3Playing) { v.nextTime = audioCtx.currentTime + LOOKAHEAD; v.segStart = audioCtx.currentTime; }
+  }
+
+  p3Btn.addEventListener("click",    () => p3Playing ? p3Stop() : p3Start());
+  p3Slider.addEventListener("input", () => { p3BaseFreq = clamp(posToFreq(+p3Slider.value), FREQ_MIN, FREQ_MAX); p3Readout(); });
+  $("p3-voice-add").addEventListener("click",    p3ToggleCenter);
+  $("p3-voice-remove").addEventListener("click", p3ToggleCenter);
+  P3_VOICES.forEach((v) => v.metEl.addEventListener("click", () => p3ToggleMute(v)));
+
+  // Ratio steppers: [elementId, voiceId, delta]
+  [["p3-a-dec","a",-1],["p3-a-inc","a",+1],
+   ["p3-b-dec","b",-1],["p3-b-inc","b",+1],
+   ["p3-c-dec","c",-1],["p3-c-inc","c",+1],
+  ].forEach(([id, voice, d]) => $(id).addEventListener("click", () => p3StepRatio(voice, d)));
+
+  p3UpdateRatioDisplay(); initMarker("p3-marker");
+
+  // ── Info mode toggle ─────────────────────────────────────────
+  function toggleInfo() { document.body.classList.toggle("info-mode"); }
+  $("infoBtn").addEventListener("click", toggleInfo);
+  document.addEventListener("keydown", (e) => {
+    if ((e.key === "i" || e.key === "I") && document.activeElement.tagName !== "INPUT") toggleInfo();
+  });
+
+  // ── Kick off idle visual loops ───────────────────────────────
+  requestAnimationFrame(p1VisLoop); p1VisStarted = true;
+  requestAnimationFrame(p2VisLoop); p2VisStarted = true;
+  requestAnimationFrame(p3VisLoop); p3VisStarted = true;
+})();
+</script>
+</body>
+</html>
