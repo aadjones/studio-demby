@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Rhythm &rarr; Pitch</title>
+<title>Rhythm &amp; Pitch</title>
 <style>
   :root {
     --bg: #0f0f0f;
@@ -14,6 +14,7 @@
     --v1: #4fc3f7;
     --v2: #ef9a9a;
     --v3: #a5d6a7;
+    --v4: #ffcc80;
   }
 
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -22,6 +23,7 @@
 
   html, body {
     margin: 0;
+    overflow-x: hidden;
     background: var(--bg);
     color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -74,6 +76,7 @@
   .readout .value {
     font-size: clamp(3rem, 15vw, 6rem); font-weight: 700;
     font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
+    white-space: nowrap;
   }
   .readout .unit {
     font-size: clamp(1.1rem, 4.5vw, 1.8rem); font-weight: 500;
@@ -88,15 +91,25 @@
   .voice-readout { text-align: center; line-height: 1; transition: opacity 0.35s ease; }
   .voice-readout.off { opacity: 0; pointer-events: none; }
   .vr-val {
-    font-size: clamp(2.2rem, 9vw, 4rem); font-weight: 700;
+    font-size: clamp(1.8rem, 7.5vw, 4rem); font-weight: 700;
     font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  /* Part 2 triad (3 voices): scale down to match Part 3's 3-voice treatment */
+  #section-2:has(#vr-center:not(.off)) .vr-val {
+    font-size: clamp(1.4rem, 6vw, 4rem);
   }
   .vr-unit { font-size: clamp(0.85rem, 2.5vw, 1.2rem); font-weight: 500; color: var(--muted); margin-left: 0.2rem; }
 
-  /* Voice colors for both sections */
-  #vr-left   .vr-val, #p3-vr-left   .vr-val { color: var(--v1); }
-  #vr-center .vr-val, #p3-vr-center .vr-val { color: var(--v3); }
-  #vr-right  .vr-val, #p3-vr-right  .vr-val { color: var(--v2); }
+  /* Voice colors */
+  #vr-left   .vr-val { color: var(--v1); }
+  #vr-center .vr-val { color: var(--v3); }
+  #vr-right  .vr-val { color: var(--v2); }
+  #p3-vr-0 .vr-val { color: var(--v1); }
+  #p3-vr-1 .vr-val { color: var(--v3); }
+  #p3-vr-2 .vr-val { color: var(--v2); }
+  #p3-vr-3 .vr-val { color: var(--v4); }
 
   /* ── Info-only lines ─────────────────────────────────────────── */
   .hz-line { font-size: 0.9rem; color: var(--muted); margin-top: 0.35rem; letter-spacing: 0.03em; }
@@ -114,6 +127,13 @@
   .ratio-slot { display: flex; flex-direction: column; align-items: center; }
   .ratio-slot.off { display: none; }
   .ratio-steppers { display: flex; align-items: center; gap: 0.4rem; }
+  .ratio-slot-label {
+    font-size: 0.65rem; color: var(--muted);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-top: 0.3rem;
+  }
+  .ratio-num { transition: color 0.15s; }
+  #section-3.root-hover .ratio-slot:not(#p3-slot-0) .ratio-num { color: var(--v1); }
   .ratio-num {
     font-size: clamp(2.5rem, 10vw, 4rem); font-weight: 700;
     font-variant-numeric: tabular-nums; line-height: 1;
@@ -144,17 +164,57 @@
     margin-left: 0.25rem;
   }
   .add-voice-btn:hover { color: var(--text); border-color: var(--text); }
-  .center-ph {
-    display: flex; align-items: center; justify-content: center;
+  .ratio-addrem {
+    display: flex; flex-direction: column; gap: 0.35rem;
+    align-self: center; margin-left: 0.4rem;
   }
-  .remove-voice-btn {
-    margin-top: 0.35rem; padding: 0.2rem 0.55rem;
-    background: none; border: 1px solid #383838; border-radius: 5px;
-    color: var(--muted); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
-    cursor: pointer; transition: color 0.12s, border-color 0.12s;
+
+  /* ── Preset chords (Part 3) ─────────────────────────────────── */
+  .presets {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 0.5rem; width: 100%; max-width: 420px;
+  }
+  .preset {
+    display: flex; flex-direction: column; align-items: center; gap: 0.1rem;
+    padding: 0.5rem 0.7rem; border-radius: 10px;
+    border: 1px solid #3a3a3a; background: var(--control);
+    color: var(--text); font-size: 0.9rem; cursor: pointer;
+    transition: background 0.12s ease, border-color 0.12s ease, transform 0.06s ease;
     -webkit-user-select: none; user-select: none;
   }
-  .remove-voice-btn:hover { color: var(--text); border-color: #555; }
+  .preset:hover  { background: var(--control-hi); border-color: #555; }
+  .preset:active { transform: scale(0.96); }
+  .preset-ratio  { color: var(--muted); font-size: 0.72rem; font-variant-numeric: tabular-nums; }
+
+  /* Chord name — info mode only */
+  .chord-name {
+    font-size: 1rem; color: var(--v3); letter-spacing: 0.05em;
+    min-height: 1.2em; text-transform: lowercase;
+  }
+
+  /* Part 3 hides inactive voices outright (no reserved space) */
+  #section-3 .met.off,
+  #section-3 .voice-readout.off { display: none; }
+
+  /* ── 3-voice scaling (stepper row only; mets/readouts fit) ──── */
+  #section-3[data-count="3"] .ratio-row      { gap: clamp(0.15rem, 1vw, 0.45rem); }
+  #section-3[data-count="3"] .ratio-steppers { gap: 0.25rem; }
+  #section-3[data-count="3"] .ratio-num      { font-size: clamp(1.6rem, 7vw, 2.6rem); min-width: 1.4ch; }
+  #section-3[data-count="3"] .ratio-colon    { font-size: clamp(1.6rem, 7vw, 2.6rem); }
+  #section-3[data-count="3"] .ratio-step     { width: 1.9rem; height: 1.9rem; font-size: 0.9rem; }
+  #section-3[data-count="3"] .add-voice-btn  { width: 2rem; height: 2rem; font-size: 1.05rem; }
+
+  /* ── 4-voice scaling (keeps one row on mobile) ──────────────── */
+  #section-3[data-count="4"] .metronomes     { gap: clamp(0.4rem, 2.5vw, 1rem); }
+  #section-3[data-count="4"] .met-stage      { width: 54px; height: 80px; }
+  #section-3[data-count="4"] .ratio-row      { gap: clamp(0.1rem, 0.6vw, 0.3rem); }
+  #section-3[data-count="4"] .ratio-steppers { gap: 0.15rem; }
+  #section-3[data-count="4"] .ratio-num      { font-size: clamp(1.2rem, 5vw, 1.9rem); min-width: 1.3ch; }
+  #section-3[data-count="4"] .ratio-colon    { font-size: clamp(1.2rem, 5vw, 1.9rem); }
+  #section-3[data-count="4"] .ratio-step     { width: 1.4rem; height: 1.4rem; font-size: 0.7rem; }
+  #section-3[data-count="4"] .add-voice-btn  { width: 1.7rem; height: 1.7rem; font-size: 0.95rem; margin-left: 0.1rem; }
+  #section-3[data-count="4"] .dual-readout   { gap: clamp(0.5rem, 3vw, 1.2rem); }
+  #section-3[data-count="4"] .vr-val         { font-size: clamp(1.4rem, 6vw, 2.6rem); }
 
   /* ── Metronomes ─────────────────────────────────────────────── */
   .metronomes { display: flex; justify-content: center; align-items: flex-end; gap: clamp(1.25rem, 8vw, 3.5rem); }
@@ -180,6 +240,10 @@
   .met--left   .met-arm, .met--left   .met-bob { background: var(--v1); }
   .met--right  .met-arm, .met--right  .met-bob { background: var(--v2); }
   .met--center .met-arm, .met--center .met-bob { background: var(--v3); }
+  .met--p0 .met-arm, .met--p0 .met-bob { background: var(--v1); }
+  .met--p1 .met-arm, .met--p1 .met-bob { background: var(--v3); }
+  .met--p2 .met-arm, .met--p2 .met-bob { background: var(--v2); }
+  .met--p3 .met-arm, .met--p3 .met-bob { background: var(--v4); }
 
   /* ── Transport ──────────────────────────────────────────────── */
   .transport { width: 100%; max-width: 420px; }
@@ -238,6 +302,24 @@
   .mode button.on     { background: var(--control-hi); border-color: var(--text); }
   .mode button.on .name { color: var(--text); }
 
+  /* ── Portfolio back link ─────────────────────────────────────── */
+  .portfolio-back {
+    position: fixed;
+    bottom: max(1.25rem, env(safe-area-inset-bottom) + 0.5rem);
+    left: max(1.25rem, env(safe-area-inset-left));
+    z-index: 200;
+    font-family: monospace; font-size: 0.7rem; letter-spacing: 0.08em;
+    text-decoration: none; color: #fff;
+    mix-blend-mode: difference; opacity: 0.6;
+  }
+
+  /* ── Embed mode ─────────────────────────────────────────────── */
+  body.embed .scroll-hint    { display: none; }
+  body.embed .section-label  { display: none; }
+  body.embed .portfolio-back { display: none; }
+  body.embed #section-2,
+  body.embed #section-3      { display: none; }
+
   /* ── Scroll nudge ───────────────────────────────────────────── */
   .scroll-hint {
     position: absolute;
@@ -254,12 +336,13 @@
 </head>
 <body>
 
+<a class="portfolio-back" href="/work/rhythm-and-pitch">← portfolio</a>
 <button class="info-btn" id="infoBtn" title="Toggle info labels (i)">&#9432;</button>
 
 <!-- ══ Part 1: single metronome ══════════════════════════════ -->
 <section class="stage" id="section-1">
-  <span class="section-label">Part 1</span>
-  <p class="title">metronome</p>
+  <span class="section-label">Part 1 of 3</span>
+  <p class="title">Metronome 9000&reg;</p>
 
   <div class="readout">
     <span class="value" id="p1-bpm">60</span><span class="unit">BPM</span>
@@ -284,7 +367,7 @@
       <input type="range" id="p1-speed" min="0" max="1000" value="0" />
       <div class="slider-marker reveal" id="p1-marker"><span class="marker-label">F4</span></div>
     </div>
-    <div class="ends"><span>slow</span><span>fast</span></div>
+    <div class="ends"><span>slow</span><span>mind-bendingly fast</span></div>
   </div>
 
   <div class="scroll-hint">&#8595; part 2</div>
@@ -292,7 +375,7 @@
 
 <!-- ══ Part 2: two / three metronomes ════════════════════════ -->
 <section class="stage" id="section-2">
-  <span class="section-label">Part 2</span>
+  <span class="section-label">Part 2 of 3</span>
   <p class="title reveal">Rhythm &rarr; Pitch</p>
 
   <div class="dual-readout">
@@ -363,81 +446,115 @@
 </section>
 
 <!-- ══ Part 3: sandbox ═══════════════════════════════════════ -->
-<section class="stage" id="section-3">
-  <span class="section-label">Part 3</span>
+<section class="stage" id="section-3" data-count="2">
+  <span class="section-label">Part 3 of 3</span>
+  <p class="title">sandbox</p>
 
-  <!-- Ratio steppers: always two colons, center slot or add-button in the middle -->
-  <div class="ratio-row">
-    <div class="ratio-slot">
+  <!-- Ratio steppers: ordered voices, left→right reads as the ratio -->
+  <div class="ratio-row" id="p3-ratio-row">
+    <div class="ratio-slot" id="p3-slot-0">
       <div class="ratio-steppers">
-        <button class="ratio-step" id="p3-a-dec">▼</button>
-        <span class="ratio-num" id="p3-a-val">3</span>
-        <button class="ratio-step" id="p3-a-inc">▲</button>
+        <button class="ratio-step" data-v="0" data-d="-1">▼</button>
+        <span class="ratio-num" id="p3-num-0">3</span>
+        <button class="ratio-step" data-v="0" data-d="1">▲</button>
+      </div>
+      <span class="ratio-slot-label">root</span>
+    </div>
+    <span class="ratio-colon" id="p3-colon-0">:</span>
+    <div class="ratio-slot" id="p3-slot-1">
+      <div class="ratio-steppers">
+        <button class="ratio-step" data-v="1" data-d="-1">▼</button>
+        <span class="ratio-num" id="p3-num-1">5</span>
+        <button class="ratio-step" data-v="1" data-d="1">▲</button>
       </div>
     </div>
-    <span class="ratio-colon">:</span>
-    <div class="center-ph" id="p3-center-ph">
-      <button class="add-voice-btn" id="p3-voice-add" title="add center voice">+</button>
-      <div class="ratio-slot off" id="p3-slot-c">
-        <div class="ratio-steppers">
-          <button class="ratio-step" id="p3-c-dec">▼</button>
-          <span class="ratio-num" id="p3-c-val">4</span>
-          <button class="ratio-step" id="p3-c-inc">▲</button>
-        </div>
-        <button class="remove-voice-btn" id="p3-voice-remove" title="remove center voice">remove</button>
+    <span class="ratio-colon off" id="p3-colon-1">:</span>
+    <div class="ratio-slot off" id="p3-slot-2">
+      <div class="ratio-steppers">
+        <button class="ratio-step" data-v="2" data-d="-1">▼</button>
+        <span class="ratio-num" id="p3-num-2">6</span>
+        <button class="ratio-step" data-v="2" data-d="1">▲</button>
       </div>
     </div>
-    <span class="ratio-colon">:</span>
-    <div class="ratio-slot">
+    <span class="ratio-colon off" id="p3-colon-2">:</span>
+    <div class="ratio-slot off" id="p3-slot-3">
       <div class="ratio-steppers">
-        <button class="ratio-step" id="p3-b-dec">▼</button>
-        <span class="ratio-num" id="p3-b-val">5</span>
-        <button class="ratio-step" id="p3-b-inc">▲</button>
+        <button class="ratio-step" data-v="3" data-d="-1">▼</button>
+        <span class="ratio-num" id="p3-num-3">7</span>
+        <button class="ratio-step" data-v="3" data-d="1">▲</button>
       </div>
+    </div>
+    <div class="ratio-addrem">
+      <button class="add-voice-btn" id="p3-voice-add"    title="add a voice">+</button>
+      <button class="add-voice-btn" id="p3-voice-remove" title="remove last voice">−</button>
     </div>
   </div>
 
+  <!-- Preset chords -->
+  <div class="presets" id="p3-presets">
+    <button class="preset" data-preset="1,2">octave<span class="preset-ratio">1:2</span></button>
+    <button class="preset" data-preset="2,3">fifth<span class="preset-ratio">2:3</span></button>
+    <button class="preset" data-preset="4,5,6">major<span class="preset-ratio">4:5:6</span></button>
+    <button class="preset" data-preset="10,12,15">minor<span class="preset-ratio">10:12:15</span></button>
+    <button class="preset" data-preset="4,5,6,7">7th<span class="preset-ratio">4:5:6:7</span></button>
+  </div>
+
+  <!-- Chord name (info mode) -->
+  <div class="chord-name reveal" id="p3-chord-name"></div>
+
   <!-- Per-voice BPM readouts -->
   <div class="dual-readout">
-    <div class="voice-readout" id="p3-vr-left">
-      <span class="vr-val" id="p3-val-a">60</span><span class="vr-unit">BPM</span>
-      <div class="hz-line reveal" id="p3-hz-a">1.0 Hz</div>
+    <div class="voice-readout" id="p3-vr-0">
+      <span class="vr-val" id="p3-val-0">60</span><span class="vr-unit">BPM</span>
+      <div class="hz-line reveal" id="p3-hz-0">1.0 Hz</div>
     </div>
-    <div class="voice-readout off" id="p3-vr-center">
-      <span class="vr-val" id="p3-val-c">100</span><span class="vr-unit">BPM</span>
-      <div class="hz-line reveal" id="p3-hz-c">1.67 Hz</div>
+    <div class="voice-readout" id="p3-vr-1">
+      <span class="vr-val" id="p3-val-1">100</span><span class="vr-unit">BPM</span>
+      <div class="hz-line reveal" id="p3-hz-1">1.67 Hz</div>
     </div>
-    <div class="voice-readout" id="p3-vr-right">
-      <span class="vr-val" id="p3-val-b">80</span><span class="vr-unit">BPM</span>
-      <div class="hz-line reveal" id="p3-hz-b">1.33 Hz</div>
+    <div class="voice-readout off" id="p3-vr-2">
+      <span class="vr-val" id="p3-val-2">120</span><span class="vr-unit">BPM</span>
+      <div class="hz-line reveal" id="p3-hz-2">2.0 Hz</div>
+    </div>
+    <div class="voice-readout off" id="p3-vr-3">
+      <span class="vr-val" id="p3-val-3">140</span><span class="vr-unit">BPM</span>
+      <div class="hz-line reveal" id="p3-hz-3">2.33 Hz</div>
     </div>
   </div>
 
   <!-- Metronomes -->
   <div class="metronomes">
-    <div class="met met--left" id="p3-met-a">
+    <div class="met met--p0" id="p3-met-0">
       <div class="met-stage">
         <div class="met-body"></div>
-        <div class="met-arm" id="p3-arm-a"><div class="met-bob" id="p3-bob-a"></div></div>
+        <div class="met-arm" id="p3-arm-0"><div class="met-bob" id="p3-bob-0"></div></div>
         <div class="met-pivot"></div>
       </div>
-      <div class="met-label">left</div>
+      <div class="met-label">1</div>
     </div>
-    <div class="met met--center off" id="p3-met-c">
+    <div class="met met--p1" id="p3-met-1">
       <div class="met-stage">
         <div class="met-body"></div>
-        <div class="met-arm" id="p3-arm-c"><div class="met-bob" id="p3-bob-c"></div></div>
+        <div class="met-arm" id="p3-arm-1"><div class="met-bob" id="p3-bob-1"></div></div>
         <div class="met-pivot"></div>
       </div>
-      <div class="met-label">center</div>
+      <div class="met-label">2</div>
     </div>
-    <div class="met met--right" id="p3-met-b">
+    <div class="met met--p2 off" id="p3-met-2">
       <div class="met-stage">
         <div class="met-body"></div>
-        <div class="met-arm" id="p3-arm-b"><div class="met-bob" id="p3-bob-b"></div></div>
+        <div class="met-arm" id="p3-arm-2"><div class="met-bob" id="p3-bob-2"></div></div>
         <div class="met-pivot"></div>
       </div>
-      <div class="met-label">right</div>
+      <div class="met-label">3</div>
+    </div>
+    <div class="met met--p3 off" id="p3-met-3">
+      <div class="met-stage">
+        <div class="met-body"></div>
+        <div class="met-arm" id="p3-arm-3"><div class="met-bob" id="p3-bob-3"></div></div>
+        <div class="met-pivot"></div>
+      </div>
+      <div class="met-label">4</div>
     </div>
   </div>
 
@@ -455,6 +572,10 @@
 <script>
 (() => {
   "use strict";
+
+  if (new URLSearchParams(location.search).has("embed")) {
+    document.body.classList.add("embed");
+  }
 
   // ── Constants ────────────────────────────────────────────────
   const FREQ_MIN        = 1;
@@ -476,9 +597,14 @@
   const MARKER_PCT = freqToPos(MARKER_FREQ) / 1000;
 
   const bpmStr = (f) => Math.round(f * 60).toLocaleString("en-US");
-  const hzStr  = (f) => f < 10  ? f.toFixed(2) + " Hz"
-                      : f < 100 ? f.toFixed(1)  + " Hz"
-                      : Math.round(f) + " Hz";
+  const hzNum  = (f) => f < 10  ? f.toFixed(2)
+                      : f < 100 ? f.toFixed(1)
+                      : String(Math.round(f));
+  const hzStr  = (f) => hzNum(f) + " Hz";
+  // Shrink font for long BPM/Hz strings so two voices fit on narrow screens
+  const vrSize = (s) => s.length >= 6 ? "clamp(1.2rem, 5vw, 4rem)"
+                      : s.length >= 5 ? "clamp(1.5rem, 6.5vw, 4rem)"
+                      : "";
 
   function initMarker(id) {
     document.getElementById(id).style.setProperty("--pct", MARKER_PCT.toFixed(4));
@@ -632,6 +758,7 @@
     P2_VOICES.forEach((v) => {
       const f = p2BaseFreq * v.ratio;
       v.bpmEl.textContent = bpmStr(f); v.hzEl.textContent = hzStr(f);
+      v.bpmEl.style.fontSize = vrSize(v.bpmEl.textContent);
     });
     const f = p2BaseFreq;
     if (f < FUSION_HZ) {
@@ -726,69 +853,160 @@
   P2_VOICES.forEach((v) => v.metEl.addEventListener("click", () => p2ToggleMute(v)));
   p2Readout(); initMarker("marker");
 
-  // ── Part 3: sandbox (free ratios) ───────────────────────────
-  const P3_VOICES = [
-    { id: "a", color: "#4fc3f7", pan: -1, met: "p3-met-a", arm: "p3-arm-a", bob: "p3-bob-a" },
-    { id: "c", color: "#a5d6a7", pan:  0, met: "p3-met-c", arm: "p3-arm-c", bob: "p3-bob-c", centerVoice: true },
-    { id: "b", color: "#ef9a9a", pan:  1, met: "p3-met-b", arm: "p3-arm-b", bob: "p3-bob-b" },
-  ];
+  // ── Part 3: sandbox (free ratios, 2–4 voices) ───────────────
+  const P3_MIN = 2, P3_MAX = 4;
+  const P3_COLORS = ["#4fc3f7", "#a5d6a7", "#ef9a9a", "#ffcc80"];
 
   let p3Playing = false, p3Timer = null, p3BaseFreq = FREQ_MIN;
-  let p3VisStarted = false, p3HasCenter = false;
-  // Integer ratio numerators; voice freq = baseFreq * n[id] / n.a
-  let p3N = { a: 3, b: 5, c: 4 };
+  let p3VisStarted = false, p3Count = 2;
+  // Integer numerators per slot; root = slot 0, voice freq = baseFreq * n[i] / n[0]
+  let p3N = [3, 5, 6, 7];
 
-  const p3Btn      = $("p3-playBtn");
-  const p3Slider   = $("p3-speed");
-  const p3VrCenter = $("p3-vr-center");
-  const p3SlotC    = $("p3-slot-c");
+  const p3Sec     = $("section-3");
+  const p3Btn     = $("p3-playBtn");
+  const p3Slider  = $("p3-speed");
+  const p3ChordEl = $("p3-chord-name");
 
-  P3_VOICES.forEach((v) => {
-    v.metEl = $(v.met); v.armEl = $(v.arm); v.bobEl = $(v.bob);
-    v.bpmEl = $(`p3-val-${v.id}`); v.hzEl = $(`p3-hz-${v.id}`);
-    v.nextTime = 0; v.flashQueue = []; v.intensity = 0;
-    v.segStart = 0; v.curExtreme = 1; v.nextExtreme = -1;
-    v.muted = false; v.gain = null; v.panner = null;
-  });
+  const p3Voices = [0, 1, 2, 3].map((i) => ({
+    i, color: P3_COLORS[i],
+    metEl: $(`p3-met-${i}`), armEl: $(`p3-arm-${i}`), bobEl: $(`p3-bob-${i}`),
+    slotEl: $(`p3-slot-${i}`), vrEl: $(`p3-vr-${i}`),
+    bpmEl: $(`p3-val-${i}`), hzEl: $(`p3-hz-${i}`), numEl: $(`p3-num-${i}`),
+    unitEl: $(`p3-vr-${i}`).querySelector(".vr-unit"),
+    nextTime: 0, flashQueue: [], intensity: 0,
+    segStart: 0, curExtreme: 1, nextExtreme: -1,
+    muted: false, gain: null, panner: null,
+  }));
 
-  function p3Freq(v) { return p3BaseFreq * p3N[v.id] / p3N.a; }
+  function p3Pan(i)   { return clamp(p3Count <= 1 ? 0 : (i / (p3Count - 1)) * 2 - 1, -1, 1); }
+  function p3Freq(i)  { return p3BaseFreq * p3N[i] / p3N[0]; }
+  function p3Active(v) { return p3Playing && !v.muted && v.i < p3Count; }
 
-  function p3IsActive(v) {
-    if (!p3Playing || v.muted) return false;
-    if (v.centerVoice && !p3HasCenter) return false;
-    return true;
+  // ── Naming: 7-limit intervals (2 voices) + standard chords ───
+  function gcd(a, b) { return b ? gcd(b, a % b) : a; }
+
+  // Within-octave just intervals, keyed low:high (highest prime factor ≤ 7)
+  const P3_INTERVALS = {
+    "1:1": "unison",
+    "27:28": "septimal minor second",       "24:25": "chromatic semitone",
+    "20:21": "septimal chromatic semitone", "15:16": "minor second",
+    "14:15": "septimal diatonic semitone",  "25:27": "large limma",
+    "9:10": "minor tone",                   "8:9": "major tone",
+    "7:8": "septimal whole tone",           "6:7": "septimal minor third",
+    "27:32": "Pythagorean minor third",     "5:6": "minor third",
+    "4:5": "major third",                   "25:32": "diminished fourth",
+    "7:9": "septimal major third",          "16:21": "septimal fourth",
+    "3:4": "perfect fourth",                "20:27": "acute fourth",
+    "18:25": "augmented fourth",            "5:7": "lesser septimal tritone",
+    "7:10": "greater septimal tritone",     "2:3": "perfect fifth",
+    "21:32": "wide fifth",                  "9:14": "septimal minor sixth",
+    "16:25": "augmented fifth",             "5:8": "minor sixth",
+    "3:5": "major sixth",                   "16:27": "Pythagorean major sixth",
+    "7:12": "septimal major sixth",         "4:7": "harmonic seventh",
+    "9:16": "Pythagorean minor seventh",    "14:25": "middle minor seventh",
+    "5:9": "minor seventh",                 "15:28": "grave major seventh",
+    "8:15": "major seventh",                "14:27": "septimal major seventh",
+  };
+
+  // Standard chords, keyed by their sorted, reduced just ratio
+  const P3_CHORDS = {
+    "4:5:6": "major triad",        "10:12:15": "minor triad",
+    "16:20:25": "augmented triad", "5:6:7": "diminished triad",
+    "6:8:9": "suspended fourth",
+    "4:5:6:7": "harmonic seventh", "8:10:12:15": "major seventh",
+    "10:12:15:18": "minor seventh",
+  };
+
+  function p3IntervalName(lo, hi) {
+    const g0 = gcd(lo, hi), a = lo / g0, b = hi / g0;   // reduced, a ≤ b
+    let den = a, num = b, oct = 0;
+    while (num >= 2 * den) { den *= 2; oct++; }          // fold into one octave
+    const g = gcd(num, den); den /= g; num /= g;
+    if (den === num) return oct === 0 ? "unison" : oct === 1 ? "octave"
+                         : oct === 2 ? "double octave" : `${oct} octaves`;
+    const base = P3_INTERVALS[`${den}:${num}`];
+    if (!base) return `${a} : ${b}`;                      // neutral fallback
+    return oct === 0 ? base : oct === 1 ? `${base} (+ octave)` : `${base} (+ ${oct} octaves)`;
   }
 
+  function p3ChordName() {
+    const set = p3N.slice(0, p3Count).sort((x, y) => x - y);
+    if (p3Count === 2) return p3IntervalName(set[0], set[1]);
+    const g = set.reduce((x, y) => gcd(x, y));
+    const key = set.map((n) => n / g).join(":");
+    return P3_CHORDS[key] || set.map((n) => n / g).join(" : ");
+  }
+
+  // Each voice reads BPM in rhythm range, flips to Hz once audible; the
+  // other unit drops to the small (info-mode) line beneath it.
   function p3Readout() {
-    P3_VOICES.forEach((v) => {
-      const f = p3Freq(v);
-      v.bpmEl.textContent = bpmStr(f);
-      v.hzEl.textContent  = hzStr(f);
-    });
-  }
-
-  function p3UpdateRatioDisplay() {
-    $("p3-a-val").textContent = p3N.a;
-    $("p3-b-val").textContent = p3N.b;
-    $("p3-c-val").textContent = p3N.c;
-    p3Readout();
-  }
-
-  function p3StepRatio(id, delta) {
-    p3N[id] = clamp(p3N[id] + delta, 1, RATIO_MAX);
-    p3UpdateRatioDisplay();
-    // Reset this voice's clock so it doesn't burst or gap after the change
-    if (p3Playing) {
-      const v = P3_VOICES.find((x) => x.id === id);
-      if (v && p3IsActive(v)) { v.nextTime = audioCtx.currentTime + LOOKAHEAD; v.flashQueue.length = 0; }
+    for (const v of p3Voices) {
+      if (v.i >= p3Count) continue;
+      const f = p3Freq(v.i);
+      if (f >= FUSION_HZ) {
+        v.bpmEl.textContent  = hzNum(f);
+        v.unitEl.textContent = "Hz";
+        v.hzEl.textContent   = bpmStr(f) + " BPM";
+      } else {
+        v.bpmEl.textContent  = bpmStr(f);
+        v.unitEl.textContent = "BPM";
+        v.hzEl.textContent   = hzStr(f);
+      }
+      v.bpmEl.style.fontSize = vrSize(v.bpmEl.textContent);
     }
+    p3ChordEl.textContent = p3ChordName();
+  }
+
+  function p3SyncLayout() {
+    p3Sec.setAttribute("data-count", String(p3Count));
+    for (const v of p3Voices) {
+      const on = v.i < p3Count;
+      v.slotEl.classList.toggle("off", !on);
+      v.vrEl.classList.toggle("off", !on);
+      v.metEl.classList.toggle("off", !on);
+      v.numEl.textContent = p3N[v.i];
+      if (!on) { v.muted = false; v.metEl.classList.remove("muted"); }
+      if (v.panner) v.panner.pan.value = p3Pan(v.i);
+    }
+    // colon i sits before slot i+1
+    for (let i = 0; i < P3_MAX - 1; i++) $(`p3-colon-${i}`).classList.toggle("off", i + 1 >= p3Count);
+    $("p3-voice-add").style.display    = p3Count < P3_MAX ? "flex" : "none";
+    $("p3-voice-remove").style.display = p3Count > P3_MIN ? "flex" : "none";
+  }
+
+  function p3ResetClock(v) {
+    if (p3Playing && p3Active(v)) { v.nextTime = audioCtx.currentTime + LOOKAHEAD; v.flashQueue.length = 0; }
+  }
+
+  function p3StepRatio(i, delta) {
+    p3N[i] = clamp(p3N[i] + delta, 1, RATIO_MAX);
+    p3Voices[i].numEl.textContent = p3N[i];
+    p3Readout();
+    p3ResetClock(p3Voices[i]);
+  }
+
+  function p3SetCount(n) {
+    const prev = p3Count;
+    p3Count = clamp(n, P3_MIN, P3_MAX);
+    p3SyncLayout();
+    p3Readout();
+    if (p3Playing) for (const v of p3Voices) if (v.i >= prev && v.i < p3Count) p3ResetClock(v);
+  }
+
+  function p3ApplyPreset(nums) {
+    for (let i = 0; i < nums.length; i++) p3N[i] = clamp(nums[i], 1, RATIO_MAX);
+    p3Count = clamp(nums.length, P3_MIN, P3_MAX);
+    for (const v of p3Voices) { v.muted = false; v.metEl.classList.remove("muted"); }
+    p3SyncLayout();
+    p3Readout();
+    if (p3Playing) for (const v of p3Voices) if (v.i < p3Count) p3ResetClock(v);
   }
 
   function p3Scheduler() {
     const now = audioCtx.currentTime, horizon = now + LOOKAHEAD;
-    for (const v of P3_VOICES) {
-      if (!p3IsActive(v)) continue;
-      const f = p3Freq(v);
+    for (const v of p3Voices) {
+      if (!p3Active(v)) continue;
+      const f = p3Freq(v.i);
       if (f <= 0) continue;
       const interval = 1 / f;
       if (v.nextTime < now) v.nextTime = now;
@@ -800,18 +1018,15 @@
   function p3VisLoop() {
     if (!audioCtx) { requestAnimationFrame(p3VisLoop); return; }
     const now = audioCtx.currentTime;
-    for (const v of P3_VOICES) {
-      if (v.centerVoice && !p3HasCenter) {
-        v.armEl.style.transform = "rotate(0deg)"; v.bobEl.style.boxShadow = "none"; v.intensity = 0; continue;
-      }
-      if (v.muted) {
+    for (const v of p3Voices) {
+      if (v.i >= p3Count || v.muted) {
         v.armEl.style.transform = "rotate(0deg)"; v.bobEl.style.boxShadow = "none"; v.intensity = 0; continue;
       }
       while (v.flashQueue.length && v.flashQueue[0] <= now) {
         v.segStart = v.flashQueue.shift(); v.curExtreme = v.nextExtreme; v.nextExtreme = -v.curExtreme; v.intensity = 1;
       }
       v.intensity *= 0.86; if (v.intensity < 0.001) v.intensity = 0;
-      const f = p3Freq(v);
+      const f = p3Freq(v.i);
       const amp = swingAmp(f);  // per-voice amplitude — visually shows which voices are fast vs slow
       const p = clamp((now - v.segStart) / (1 / f), 0, 1);
       const ext = v.curExtreme + (v.nextExtreme - v.curExtreme) * (0.5 - 0.5 * Math.cos(Math.PI * p));
@@ -825,16 +1040,17 @@
     p1Stop(); p2Stop();
     ensureAudio();
     if (audioCtx.state === "suspended") audioCtx.resume();
-    P3_VOICES.forEach((v) => {
+    for (const v of p3Voices) {
       if (!v.gain) {
         v.gain = audioCtx.createGain(); v.gain.gain.value = 0.5;
-        v.panner = audioCtx.createStereoPanner(); v.panner.pan.value = v.pan;
+        v.panner = audioCtx.createStereoPanner();
         v.gain.connect(v.panner); v.panner.connect(master);
       }
-    });
+      v.panner.pan.value = p3Pan(v.i);
+    }
     p3Playing = true;
     const t0 = audioCtx.currentTime + LOOKAHEAD;
-    P3_VOICES.forEach((v) => { v.nextTime = t0; v.flashQueue.length = 0; });
+    for (const v of p3Voices) { v.nextTime = t0; v.flashQueue.length = 0; }
     p3Btn.textContent = "Stop"; p3Btn.classList.add("on");
     p3Scheduler();
     if (!p3VisStarted) { p3VisStarted = true; requestAnimationFrame(p3VisLoop); }
@@ -844,22 +1060,11 @@
     p3Playing = false;
     if (p3Timer) { clearTimeout(p3Timer); p3Timer = null; }
     p3Btn.textContent = "Start"; p3Btn.classList.remove("on");
-    P3_VOICES.forEach((v) => { v.flashQueue.length = 0; });
-  }
-
-  function p3ToggleCenter() {
-    p3HasCenter = !p3HasCenter;
-    p3SlotC.classList.toggle("off", !p3HasCenter);
-    $("p3-voice-add").style.display = p3HasCenter ? "none" : "flex";
-    const c = P3_VOICES.find((v) => v.centerVoice);
-    c.metEl.classList.toggle("off",    !p3HasCenter);
-    p3VrCenter.classList.toggle("off", !p3HasCenter);
-    if (p3HasCenter && p3Playing) { c.nextTime = audioCtx.currentTime + LOOKAHEAD; c.flashQueue.length = 0; }
-    else { c.flashQueue.length = 0; }
+    for (const v of p3Voices) { v.flashQueue.length = 0; }
   }
 
   function p3ToggleMute(v) {
-    if (v.centerVoice && !p3HasCenter) return;
+    if (v.i >= p3Count) return;
     v.muted = !v.muted;
     v.metEl.classList.toggle("muted", v.muted);
     if (v.muted) { v.flashQueue.length = 0; }
@@ -868,17 +1073,26 @@
 
   p3Btn.addEventListener("click",    () => p3Playing ? p3Stop() : p3Start());
   p3Slider.addEventListener("input", () => { p3BaseFreq = clamp(posToFreq(+p3Slider.value), FREQ_MIN, FREQ_MAX); p3Readout(); });
-  $("p3-voice-add").addEventListener("click",    p3ToggleCenter);
-  $("p3-voice-remove").addEventListener("click", p3ToggleCenter);
-  P3_VOICES.forEach((v) => v.metEl.addEventListener("click", () => p3ToggleMute(v)));
+  $("p3-voice-add").addEventListener("click",    () => p3SetCount(p3Count + 1));
+  $("p3-voice-remove").addEventListener("click", () => p3SetCount(p3Count - 1));
+  p3Voices.forEach((v) => v.metEl.addEventListener("click", () => p3ToggleMute(v)));
 
-  // Ratio steppers: [elementId, voiceId, delta]
-  [["p3-a-dec","a",-1],["p3-a-inc","a",+1],
-   ["p3-b-dec","b",-1],["p3-b-inc","b",+1],
-   ["p3-c-dec","c",-1],["p3-c-inc","c",+1],
-  ].forEach(([id, voice, d]) => $(id).addEventListener("click", () => p3StepRatio(voice, d)));
+  // Ratio steppers (delegated via data attributes)
+  $("p3-ratio-row").addEventListener("click", (e) => {
+    const btn = e.target.closest(".ratio-step");
+    if (btn) p3StepRatio(+btn.dataset.v, +btn.dataset.d);
+  });
 
-  p3UpdateRatioDisplay(); initMarker("p3-marker");
+  // Preset chords
+  $("p3-presets").addEventListener("click", (e) => {
+    const btn = e.target.closest(".preset");
+    if (btn) p3ApplyPreset(btn.dataset.preset.split(",").map(Number));
+  });
+
+  $("p3-slot-0").addEventListener("mouseenter", () => p3Sec.classList.add("root-hover"));
+  $("p3-slot-0").addEventListener("mouseleave", () => p3Sec.classList.remove("root-hover"));
+
+  p3SyncLayout(); p3Readout(); initMarker("p3-marker");
 
   // ── F4 marker snap ───────────────────────────────────────────
   const F4_POS = Math.round(freqToPos(MARKER_FREQ));
@@ -898,6 +1112,22 @@
   document.addEventListener("keydown", (e) => {
     if ((e.key === "i" || e.key === "I") && document.activeElement.tagName !== "INPUT") toggleInfo();
   });
+
+  // ── Section-change auto-stop ─────────────────────────────────
+  const sectionStops = [
+    { el: $("section-1"), stop: p1Stop },
+    { el: $("section-2"), stop: p2Stop },
+    { el: $("section-3"), stop: p3Stop },
+  ];
+  const sectionObserver = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) {
+        const match = sectionStops.find((s) => s.el === entry.target);
+        if (match) match.stop();
+      }
+    }
+  }, { threshold: 0.5 });
+  sectionStops.forEach((s) => sectionObserver.observe(s.el));
 
   // ── Kick off idle visual loops ───────────────────────────────
   requestAnimationFrame(p1VisLoop); p1VisStarted = true;
