@@ -15,6 +15,7 @@ export interface UnifiedWorkItem {
   tags: string[];
   categories: string[];
   contentType: "project" | "activity";
+  externalLink?: string;
 }
 
 function projectToWorkItem(p: MDXProject): UnifiedWorkItem {
@@ -27,6 +28,7 @@ function projectToWorkItem(p: MDXProject): UnifiedWorkItem {
     tags: p.tags,
     categories: p.categories ?? [],
     contentType: "project",
+    externalLink: p.externalLink,
   };
 }
 

@@ -27,7 +27,7 @@ function formatDate(dateString: string | null): string {
 function WorkCard({ item }: { item: UnifiedWorkItem }) {
   return (
     <Link
-      href={`/work/${item.slug}`}
+      href={item.externalLink ?? `/work/${item.slug}`}
       className="group block"
     >
       <div className="aspect-square relative rounded-xl overflow-hidden bg-gray-100">
