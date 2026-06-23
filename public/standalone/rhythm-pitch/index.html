@@ -280,6 +280,29 @@
   .speed-label { color: var(--muted); font-size: 0.8rem; letter-spacing: 0.06em; text-align: center; }
   .speed-label .f0-tag { font-style: italic; color: #c4c4c4; }
 
+  /* ── C-snap marker on slider track (teach mode only) ────────── */
+  .slider-wrap { position: relative; }
+  body.teach-mode .slider-wrap { padding-bottom: 1.15rem; }
+  .snap-marker {
+    display: none;
+    position: absolute;
+    /* C4 at ~87% of log-scale range; compensate for 34px thumb width */
+    left: calc(0.8703 * (100% - 34px) + 17px);
+    top: calc(100% + 0.2rem);
+    transform: translateX(-50%);
+    background: none; border: none; padding: 0;
+    color: var(--v3); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+    cursor: pointer; line-height: 1;
+    -webkit-user-select: none; user-select: none;
+  }
+  .snap-marker::before {
+    content: ''; display: block;
+    width: 1.5px; height: 0.35rem;
+    background: currentColor; margin: 0 auto 0.15rem;
+  }
+  .snap-marker:hover { color: #c8e6c9; }
+  body.teach-mode .snap-marker { display: block; }
+
   /* ── Portfolio back link ─────────────────────────────────────── */
   .portfolio-back {
     position: fixed;
@@ -425,7 +448,10 @@
   <div class="transport"><button id="p2-playBtn">Start</button></div>
 
   <div class="speed">
-    <input type="range" id="p2-speed" min="0" max="1000" value="0" />
+    <div class="slider-wrap">
+      <input type="range" id="p2-speed" min="0" max="1000" value="0" />
+      <button class="snap-marker" id="p2-snap-c">C</button>
+    </div>
     <div class="ends"><span>slow</span><span>fast</span></div>
   </div>
 
@@ -522,7 +548,10 @@
 
   <div class="speed">
     <div class="speed-label">speed of the fundamental <span class="f0-tag">f</span></div>
-    <input type="range" id="p3-speed" min="0" max="1000" value="0" />
+    <div class="slider-wrap">
+      <input type="range" id="p3-speed" min="0" max="1000" value="0" />
+      <button class="snap-marker" id="p3-snap-c">C</button>
+    </div>
     <div class="ends"><span>slow</span><span>fast</span></div>
   </div>
 </section>
@@ -542,9 +571,12 @@
   const SWING_MAX = 30, SWING_MIN = 4, SWING_FADE_LO = 8;
   const RATIO_MAX = 32;
 
+  const C4_HZ = 261.63;
+
   const clamp = (x, lo, hi) => Math.min(hi, Math.max(lo, x));
   const LOG_RATIO = Math.log(FREQ_MAX / FREQ_MIN);
   const posToFreq = (pos) => FREQ_MIN * Math.exp(LOG_RATIO * pos / 1000);
+  const freqToPos = (f) => clamp(Math.round(1000 * Math.log(f / FREQ_MIN) / LOG_RATIO), 0, 1000);
 
   const bpmStr = (f) => Math.round(f * 60).toLocaleString("en-US");
   const hzNum  = (f) => f < 10 ? f.toFixed(2) : f < 100 ? f.toFixed(1) : String(Math.round(f));
@@ -749,6 +781,7 @@
     }
     btn.addEventListener("click", () => playing ? stop() : start());
     slider.addEventListener("input", () => { baseFreq = clamp(posToFreq(+slider.value), FREQ_MIN, FREQ_MAX); readout(); });
+    $("p2-snap-c").addEventListener("click", () => { baseFreq = C4_HZ; slider.value = freqToPos(C4_HZ); readout(); });
     $("p2-mode-fifth").addEventListener("click", () => setMode("fifth"));
     $("p2-mode-triad").addEventListener("click", () => setMode("triad"));
     voices.forEach((v) => v.voiceEl.addEventListener("click", () => toggleMute(v)));
@@ -918,6 +951,7 @@
 
     btn.addEventListener("click", () => playing ? stop() : start());
     slider.addEventListener("input", () => { baseFreq = clamp(posToFreq(+slider.value), FREQ_MIN, FREQ_MAX); readout(); });
+    $("p3-snap-c").addEventListener("click", () => { baseFreq = C4_HZ; slider.value = freqToPos(C4_HZ); readout(); });
     $("p3-voice-add").addEventListener("click", () => setCount(count + 1));
     $("p3-voice-remove").addEventListener("click", () => setCount(count - 1));
     $("p3-presets").addEventListener("click", (e) => {
