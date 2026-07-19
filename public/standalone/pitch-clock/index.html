@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pitch-Class Clock</title>
+<style>
+  :root {
+    --pc-page-bg: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --pc-page-bg: #1c1c1a; }
+  }
+  html, body {
+    margin: 0;
+    background: var(--pc-page-bg);
+  }
+  body {
+    padding: 24px 16px 48px;
+  }
+  body.embed {
+    padding: 16px 16px 20px;
+  }
+  .portfolio-back {
+    display: inline-block;
+    margin: 0 0 20px;
+    font: 13px system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--pc-text-3, #6f6e67);
+    text-decoration: none;
+  }
+  .portfolio-back:hover { text-decoration: underline; }
+  body.embed .portfolio-back { display: none; }
+  .pcclock {
+    --pc-bg: #ffffff;
+    --pc-surface: #f4f3ef;
+    --pc-text: #1a1a18;
+    --pc-text-2: #5f5e5a;
+    --pc-text-3: #6f6e67;
+    --pc-border: #d3d1c7;
+    --pc-accent: #534ab7;
+    --pc-accent-soft: #eeedfe;
+    --pc-accent-text: #3c3489;
+    --pc-on-accent: #ffffff;
+    --pc-highlight: #d9822b;
+    --pc-accent-shadow: rgba(83, 74, 183, .32);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--pc-text);
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  @media (prefers-color-scheme: dark) {
+    .pcclock {
+      --pc-bg: #1c1c1a;
+      --pc-surface: #292926;
+      --pc-text: #ecebe6;
+      --pc-text-2: #b4b2a9;
+      --pc-text-3: #8a8983;
+      --pc-border: #444441;
+      --pc-accent: #7f77dd;
+      --pc-accent-soft: #26215c;
+      --pc-accent-text: #cecbf6;
+      --pc-on-accent: #ffffff;
+      --pc-highlight: #f0a94e;
+      --pc-accent-shadow: rgba(127, 119, 221, .38);
+    }
+  }
+  .pcclock * { box-sizing: border-box; }
+
+  .pcclock .row {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    margin: 0 0 14px;
+  }
+  .pcclock button, .pcclock select {
+    font: inherit; font-size: 13.5px; font-weight: 500;
+    padding: 7px 13px;
+    background: var(--pc-surface);
+    color: var(--pc-text);
+    border: 1px solid var(--pc-border);
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+    transition: background .15s ease, border-color .15s ease,
+      box-shadow .15s ease, transform .08s ease, color .15s ease;
+  }
+  .pcclock select {
+    border-radius: 8px;
+    padding: 7px 10px;
+  }
+  .pcclock button:hover {
+    background: var(--pc-bg);
+    border-color: var(--pc-accent);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, .10);
+  }
+  .pcclock button:active {
+    transform: translateY(1px) scale(0.97);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .08);
+  }
+  .pcclock button.primary {
+    background: var(--pc-accent);
+    color: var(--pc-on-accent);
+    border-color: var(--pc-accent);
+    box-shadow: 0 2px 8px var(--pc-accent-shadow);
+  }
+  .pcclock button.primary:hover {
+    background: var(--pc-accent-text);
+    border-color: var(--pc-accent-text);
+  }
+  .pcclock button.ghost {
+    background: transparent;
+    border-color: transparent;
+    color: var(--pc-text-3);
+    box-shadow: none;
+  }
+  .pcclock button.ghost:hover {
+    background: var(--pc-surface);
+    border-color: var(--pc-border);
+    color: var(--pc-text-2);
+    box-shadow: none;
+  }
+  .pcclock .transpose-group button {
+    border-radius: 8px;
+    padding: 6px 11px;
+    min-width: 38px;
+  }
+  .pcclock .spacer { margin-left: auto; }
+  .pcclock .tlabel {
+    font-size: 12px; font-weight: 600; letter-spacing: .04em;
+    text-transform: uppercase; color: var(--pc-text-3);
+  }
+  .pcclock .transpose-group {
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .pcclock .sound-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin: 0 0 12px;
+    padding: 5px 12px 5px 9px;
+    border-radius: 999px;
+    background: var(--pc-accent-soft);
+    color: var(--pc-accent-text);
+    font-size: 12px; font-weight: 600;
+    max-height: 32px;
+    opacity: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: opacity .45s ease, max-height .45s ease .05s,
+      margin .45s ease .05s, padding .45s ease .05s;
+  }
+  .pcclock .sound-badge-icon {
+    display: inline-block;
+    animation: pcBadgeIcon 2.2s ease-in-out infinite;
+  }
+  .pcclock .sound-badge.is-dismissed {
+    opacity: 0;
+    max-height: 0;
+    margin: 0;
+    padding-top: 0; padding-bottom: 0;
+    pointer-events: none;
+  }
+  .pcclock .sound-badge.is-dismissed .sound-badge-icon { animation: none; }
+  @keyframes pcBadgeIcon {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.15) rotate(-4deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pcclock .sound-badge-icon { animation: none; }
+  }
+
+  .pcclock .main {
+    display: flex; gap: 18px; flex-wrap: wrap; align-items: flex-start;
+  }
+  .pcclock svg { width: 340px; max-width: 100%; flex: 0 0 auto; }
+  .pcclock svg g[data-pc] circle:first-of-type {
+    transition: stroke .15s ease, stroke-width .15s ease;
+  }
+  .pcclock svg g[data-pc]:hover circle:first-of-type {
+    stroke: var(--pc-accent);
+    stroke-width: 2.5px;
+  }
+  .pcclock .side { flex: 1; min-width: 220px; }
+  .pcclock .panel {
+    background: linear-gradient(175deg, var(--pc-bg), var(--pc-surface) 70%);
+    border: 1px solid var(--pc-border);
+    border-left: 3px solid var(--pc-accent);
+    border-radius: 10px;
+    padding: 16px 18px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .06);
+  }
+  .pcclock .panel .k {
+    font-size: 11px; font-weight: 700; letter-spacing: .07em;
+    text-transform: uppercase; color: var(--pc-text-3);
+    margin: 0 0 5px;
+  }
+  .pcclock .panel .k:not(:first-child) { margin-top: 14px; }
+  .pcclock .panel .v {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype",
+      "Book Antiqua", serif;
+    font-size: 17px; font-weight: 600; margin: 0 0 4px;
+  }
+  .pcclock .panel .iv {
+    font-size: 14px; color: var(--pc-text-2); margin: 0; line-height: 1.6;
+  }
+  .pcclock .iv-part {
+    cursor: help;
+    padding: 1px 6px;
+    border-radius: 5px;
+    background: var(--pc-accent-soft);
+    color: var(--pc-accent-text);
+    font-weight: 600;
+    transition: background .15s ease, color .15s ease, box-shadow .15s ease;
+  }
+  /* The pill is the tap target for the arc/scale-degree highlight (see the
+     .tapped-toggle JS below), but at the base padding it's ~18px tall —
+     well under a finger's ~44px minimum, so taps land on the surrounding
+     sentence text instead. Widen the hit area on coarse pointers without
+     inflating the desktop reading size. */
+  @media (pointer: coarse) {
+    .pcclock .iv-part {
+      display: inline-block;
+      padding: 10px 8px;
+      margin: 4px 0;
+    }
+  }
+  /* (hover: hover) excludes touchscreens — without this gate, tapping an
+     .iv-part on a touch device can leave the browser's simulated :hover
+     state stuck until the user taps elsewhere. Touch gets its own
+     .tapped class below instead, toggled explicitly by JS. */
+  @media (hover: hover) {
+    .pcclock .iv-part:hover {
+      background: var(--pc-highlight);
+      color: #241505;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+    }
+  }
+  .pcclock .iv-part.tapped {
+    background: var(--pc-highlight);
+    color: #241505;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+  }
+  .pcclock .pc-hl circle:first-of-type {
+    stroke: var(--pc-highlight) !important;
+    stroke-width: 3px !important;
+    filter: drop-shadow(0 0 4px var(--pc-highlight));
+  }
+  .pcclock svg g[data-pc] {
+    transition: opacity .15s ease;
+  }
+  .pcclock .pc-dim {
+    opacity: 0.28;
+  }
+  .pcclock svg .arc {
+    stroke: transparent;
+    stroke-width: 4;
+    stroke-linecap: round;
+    transition: stroke .15s ease;
+  }
+  .pcclock svg .arc.arc-hl {
+    stroke: var(--pc-highlight);
+    filter: drop-shadow(0 0 3px var(--pc-highlight));
+  }
+
+  /* Narrow-viewport spacing trim. The clock + side panel stack vertically
+     below ~570px (see .main), which grows total page height well past
+     what fits in a non-scrolling embed iframe. This can't fully solve
+     that (the iframe's fixed height is set outside this file), but it
+     trims the avoidable slack. */
+  @media (max-width: 480px) {
+    .pcclock .row { margin-bottom: 10px; }
+    .pcclock .main { gap: 12px; }
+    .pcclock .sound-badge { margin-bottom: 8px; }
+    .pcclock .panel { padding: 13px 15px; }
+    .pcclock .panel .k:not(:first-child) { margin-top: 10px; }
+  }
+</style>
+</head>
+<body>
+<a class="portfolio-back" href="/work/pitch-clock">&larr; portfolio</a>
+<div class="pcclock">
+  <div class="row">
+    <button id="presetMaj">Major scale</button>
+    <button id="presetPent">Pentatonic</button>
+    <button id="presetTriad">Major triad</button>
+    <button id="clearBtn" class="ghost">Clear</button>
+    <span class="spacer"></span>
+    <div class="transpose-group">
+      <span class="tlabel">Transpose</span>
+      <button id="tDown" aria-label="Transpose down a semitone">&minus;1</button>
+      <button id="tUp" aria-label="Transpose up a semitone">+1</button>
+    </div>
+  </div>
+  <div class="sound-badge" id="soundBadge">
+    <span class="sound-badge-icon" aria-hidden="true">&#128266;</span>
+    <span>Click a note to hear it</span>
+  </div>
+  <div class="main">
+    <svg id="clock" viewBox="0 0 360 360" role="img" aria-label="Pitch class clock"></svg>
+    <div class="side">
+      <div class="row">
+        <button id="playChord" class="primary">&#9654; Chord</button>
+        <button id="playArp" class="primary">&#9654; Arpeggio</button>
+        <span class="spacer"></span>
+        <select id="labelMode" aria-label="Label mode">
+          <option value="names">Names</option>
+          <option value="ints">Integers</option>
+          <option value="both">Both</option>
+        </select>
+      </div>
+      <div class="panel" id="ivPanel" style="display:none">
+        <p class="k" id="ivLabel">Interval translator</p>
+        <p class="iv" id="ivOut"></p>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  "use strict";
+  if (new URLSearchParams(location.search).has("embed")) {
+    document.body.classList.add("embed");
+  }
+  var NAMES = ["C","C#","D","Eb","E","F","F#","G","Ab","A","Bb","B"];
+  var IVNAME = ["unison","minor 2nd","major 2nd","minor 3rd","major 3rd",
+    "perfect 4th","tritone","perfect 5th","minor 6th","major 6th",
+    "minor 7th","major 7th"];
+  var MAJ = [0,2,4,5,7,9,11];
+  var PENT = [0,2,4,7,9];
+  var TRIAD = [0,4,7];
+  var ORD = ["unison","2nd","3rd","4th","5th","6th","7th"];
+  // Quick dictionary for the 3-/4-note case: common triad and seventh-chord
+  // qualities only, keyed by their semitone pattern above a root (sorted,
+  // starting at 0). Not every 3- or 4-note pitch-class set has a name here
+  // on purpose — an uncommon cluster just says so.
+  var CHORDS = [
+    { name: "major triad", pcs: [0, 4, 7] },
+    { name: "minor triad", pcs: [0, 3, 7] },
+    { name: "diminished triad", pcs: [0, 3, 6] },
+    { name: "augmented triad", pcs: [0, 4, 8] },
+    { name: "major 7th", pcs: [0, 4, 7, 11] },
+    { name: "dominant 7th", pcs: [0, 4, 7, 10] },
+    { name: "minor 7th", pcs: [0, 3, 7, 10] },
+    { name: "minor-major 7th", pcs: [0, 3, 7, 11] },
+    { name: "half-diminished 7th", pcs: [0, 3, 6, 10] },
+    { name: "diminished 7th", pcs: [0, 3, 6, 9] }
+  ];
+  var CHORD_MAP = {};
+  CHORDS.forEach(function (c) {
+    CHORD_MAP[c.pcs.length + ":" + c.pcs.join(",")] = c.name;
+  });
+  var SCALES = [
+    { name: "major scale", pcs: [0, 2, 4, 5, 7, 9, 11] },
+    { name: "pentatonic scale", pcs: [0, 2, 4, 7, 9] }
+  ];
+  var SCALE_MAP = {};
+  SCALES.forEach(function (s) {
+    SCALE_MAP[s.pcs.length + ":" + s.pcs.join(",")] = s.name;
+  });
+  // Tries the preferred roots first in order (so an ambiguous/symmetric set
+  // like a diminished 7th, or a scale reached by hand rather than a preset,
+  // names itself from the note the student actually built it from), then
+  // falls back to scanning every note in the set.
+  function identifySet(pcSet, patternMap, preferredRoots) {
+    var all = Array.from(pcSet).sort(function (a, b) { return a - b; });
+    function tryRoot(root) {
+      var rel = all.map(function (pc) { return (pc - root + 12) % 12; })
+        .sort(function (a, b) { return a - b; });
+      var name = patternMap[rel.length + ":" + rel.join(",")];
+      return name ? { root: root, name: name } : null;
+    }
+    for (var i = 0; i < preferredRoots.length; i++) {
+      var root = preferredRoots[i];
+      if (root !== null && pcSet.has(root)) {
+        var preferred = tryRoot(root);
+        if (preferred) return preferred;
+      }
+    }
+    for (var j = 0; j < all.length; j++) {
+      var found = tryRoot(all[j]);
+      if (found) return found;
+    }
+    return null;
+  }
+
+  var sel = new Set(), order = [], mode = "names";
+  var diaRoot = null, chordRoot = null;
+
+  var svg = document.getElementById("clock");
+  var ivOut = document.getElementById("ivOut");
+  var ivLabel = document.getElementById("ivLabel");
+  var ivPanel = document.getElementById("ivPanel");
+  var soundBadge = document.getElementById("soundBadge");
+  var CX = 180, CY = 180, R = 140;
+  var hoverPair = null;
+
+  var hasPlayed = false;
+  function markPlayed() {
+    if (hasPlayed) return;
+    hasPlayed = true;
+    if (soundBadge) soundBadge.classList.add("is-dismissed");
+  }
+
+  function pos(pc, r) {
+    var a = (pc * 30 - 90) * Math.PI / 180;
+    return [CX + r * Math.cos(a), CY + r * Math.sin(a)];
+  }
+
+  var ctx = null;
+  function actx() {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === "suspended") ctx.resume();
+    return ctx;
+  }
+  function play(semi, t, dur) {
+    var c = actx();
+    var f = 261.63 * Math.pow(2, semi / 12);
+    var o = c.createOscillator(), g = c.createGain();
+    o.type = "triangle"; o.frequency.value = f;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(0.22, t + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    o.connect(g); g.connect(c.destination);
+    o.start(t); o.stop(t + dur + 0.05);
+  }
+  // Wrap (don't touch) play() so the first note played anywhere in the UI
+  // dismisses the "click a note to hear it" affordance.
+  var _play = play;
+  play = function () {
+    markPlayed();
+    return _play.apply(null, arguments);
+  };
+  function voicing() {
+    var arr = Array.from(sel);
+    if (!arr.length) return [];
+    var r = (chordRoot !== null && sel.has(chordRoot))
+      ? chordRoot : Math.min.apply(null, arr);
+    return arr.map(function (pc) { return r + ((pc - r + 12) % 12); })
+      .sort(function (a, b) { return a - b; });
+  }
+  function label(pc) {
+    return mode === "names" ? NAMES[pc]
+      : mode === "ints" ? String(pc)
+      : NAMES[pc] + " · " + pc;
+  }
+  function diaSet() {
+    if (diaRoot === null) return null;
+    return MAJ.map(function (x) { return (x + diaRoot) % 12; });
+  }
+
+  function clearHoverHighlight() {
+    var hl = svg.querySelectorAll(".pc-hl, .pc-dim");
+    for (var i = 0; i < hl.length; i++) hl[i].classList.remove("pc-hl", "pc-dim");
+    var arcs = svg.querySelectorAll(".arc-hl");
+    for (var j = 0; j < arcs.length; j++) arcs[j].classList.remove("arc-hl");
+  }
+  function highlightPcs(pcs) {
+    clearHoverHighlight();
+    pcs.forEach(function (pc) {
+      var g = svg.querySelector('g[data-pc="' + pc + '"]');
+      if (g) g.classList.add("pc-hl");
+    });
+  }
+  // The chromatic span itself: light up the `up` rim segments from x to y,
+  // rather than the notes — a count of glowing arcs that matches the
+  // semitone number directly, instead of just marking membership.
+  function highlightChromatic(x, up) {
+    clearHoverHighlight();
+    for (var i = 0; i < up; i++) {
+      var a = svg.querySelector('path[data-arc="' + ((x + i) % 12) + '"]');
+      if (a) a.classList.add("arc-hl");
+    }
+  }
+  // The diatonic (major-scale) span implied by this interval, keyed on
+  // semitone count rather than assuming x is always scale-degree 1. Each
+  // interval quality maps to a canonical [lo, hi] pair of scale degrees
+  // (1-indexed) in *some* major scale containing both notes — e.g. a minor
+  // 3rd is degrees 2->4 of a major scale (D->F in C major), never 1->3.
+  // Unison and the tritone have no clean single scale-degree pairing and
+  // stay a no-op, same as before.
+  var DEGREE_PAIR = [null, [7, 1], [1, 2], [2, 4], [1, 3], [1, 4], null,
+    [1, 5], [3, 1], [1, 6], [2, 1], [1, 7]];
+  function highlightDiatonic(x, up) {
+    var pair = DEGREE_PAIR[up];
+    if (!pair) { clearHoverHighlight(); return; }
+    var lo = pair[0], hi = pair[1];
+    if (hi <= lo) hi += 7;
+    var root = ((x - MAJ[(lo - 1) % 7]) % 12 + 12) % 12;
+    var scale = MAJ.map(function (iv) { return (iv + root) % 12; });
+    var pcs = [];
+    for (var d = lo; d <= hi; d++) {
+      pcs.push((root + MAJ[(d - 1) % 7]) % 12);
+    }
+    highlightPcs(pcs);
+    // Dim the 5 notes outside the implied major scale, so the highlighted
+    // span reads as sitting inside a 7-note ambient space, not floating
+    // among all 12 chromatic notes.
+    for (var pc = 0; pc < 12; pc++) {
+      if (scale.indexOf(pc) === -1) {
+        var g = svg.querySelector('g[data-pc="' + pc + '"]');
+        if (g) g.classList.add("pc-dim");
+      }
+    }
+  }
+
+  function render() {
+    tappedPart = null;
+    var s = '<defs>' +
+        '<radialGradient id="pcClockBg" cx="50%" cy="40%" r="72%">' +
+          '<stop offset="0%" stop-color="var(--pc-bg)"/>' +
+          '<stop offset="100%" stop-color="var(--pc-surface)"/>' +
+        '</radialGradient>' +
+        '<radialGradient id="pcNoteFill" cx="35%" cy="30%" r="75%">' +
+          '<stop offset="0%" stop-color="var(--pc-accent)"/>' +
+          '<stop offset="100%" stop-color="var(--pc-accent-text)"/>' +
+        '</radialGradient>' +
+        '<filter id="pcNoteGlow" x="-60%" y="-60%" width="220%" height="220%">' +
+          '<feDropShadow dx="0" dy="1" stdDeviation="2.4"' +
+          ' flood-color="var(--pc-accent)" flood-opacity="0.5"/>' +
+        '</filter>' +
+      '</defs>';
+    s += '<circle cx="' + CX + '" cy="' + CY + '" r="' + (R + 30) +
+      '" fill="url(#pcClockBg)"/>';
+    for (var t = 0; t < 12; t++) {
+      var tp1 = pos(t, R + 20), tp2 = pos(t, R + 26);
+      s += '<line x1="' + tp1[0] + '" y1="' + tp1[1] + '" x2="' + tp2[0] +
+        '" y2="' + tp2[1] +
+        '" stroke="var(--pc-border)" stroke-width="1.5" opacity="0.55"/>';
+    }
+    s += '<circle cx="' + CX + '" cy="' + CY + '" r="' + R +
+      '" fill="none" stroke="var(--pc-border)" stroke-width="1.5"/>';
+    // One 30°-of-rim path per semitone step (data-arc="pc" is the arc
+    // running from pc to pc+1), so the interval explainer can light up the
+    // rim *between* two notes rather than the notes themselves — a count
+    // of glowing segments that matches "N semitones" directly.
+    for (var arcPc = 0; arcPc < 12; arcPc++) {
+      var ap1 = pos(arcPc, R), ap2 = pos(arcPc + 1, R);
+      s += '<path class="arc" data-arc="' + arcPc + '" d="M' + ap1[0] + ' ' +
+        ap1[1] + 'A' + R + ' ' + R + ' 0 0 1 ' + ap2[0] + ' ' + ap2[1] +
+        '" fill="none"/>';
+    }
+    var arr = Array.from(sel).sort(function (a, b) { return a - b; });
+    if (arr.length > 1) {
+      var pts = arr.map(function (pc) { return pos(pc, R); });
+      s += '<polygon points="' +
+        pts.map(function (p) { return p.join(","); }).join(" ") +
+        '" fill="var(--pc-accent-soft)" fill-opacity="0.7"' +
+        ' stroke="var(--pc-accent)" stroke-width="1.5"/>';
+      for (var i = 0; i < arr.length; i++) {
+        var a = arr[i], b = arr[(i + 1) % arr.length];
+        var gap = ((b - a) + 12) % 12 || 12;
+        var m = pos(a + gap / 2, R - 24);
+        s += '<text x="' + m[0] + '" y="' + m[1] +
+          '" text-anchor="middle" dominant-baseline="middle"' +
+          ' font-size="12" font-weight="500" fill="var(--pc-accent-text)">' +
+          gap + '</text>';
+      }
+    }
+    for (var pc = 0; pc < 12; pc++) {
+      var p = pos(pc, R);
+      var on = sel.has(pc);
+      var isRoot = on && pc === chordRoot;
+      s += '<g data-pc="' + pc + '" style="cursor:pointer;">';
+      s += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="17" fill="' +
+        (on ? 'url(#pcNoteFill)' : 'var(--pc-bg)') + '" stroke="' +
+        (isRoot ? 'var(--pc-accent-text)'
+          : on ? 'var(--pc-accent)' : 'var(--pc-border)') +
+        '" stroke-width="' + (isRoot ? 3 : 1.5) + '"' +
+        (on ? ' filter="url(#pcNoteGlow)"' : '') + '/>';
+      s += '<text x="' + p[0] + '" y="' + p[1] +
+        '" text-anchor="middle" dominant-baseline="central" font-size="' +
+        (mode === "both" ? 10 : 13) + '" font-weight="500" fill="' +
+        (on ? 'var(--pc-on-accent)' : 'var(--pc-text)') + '">' +
+        label(pc) + '</text>';
+      s += '<circle cx="' + p[0] + '" cy="' + p[1] +
+        '" r="24" fill="transparent"/></g>';
+    }
+    svg.innerHTML = s;
+
+    // The panel only ever asserts something it's sure of: a two-note
+    // interval, or a recognized chord/scale name. Everything else — 0/1
+    // notes, an unrecognized 3-/4-/5-/7-note set, or any other note count
+    // — shows nothing rather than a placeholder or a "no name for this"
+    // guess, since an unmatched set isn't proof no name exists for it.
+    if (sel.size === 2 && order.length === 2) {
+      ivPanel.style.display = "";
+      ivLabel.textContent = "Interval translator";
+      var x = order[0], y = order[1];
+      var up = ((y - x) + 12) % 12;
+      hoverPair = { x: x, y: y, up: up };
+      var html = NAMES[x] + " → " + NAMES[y] + ": " +
+        '<span class="iv-part iv-semi">' + up + " semitones</span> = " +
+        '<span class="iv-part iv-name">' + IVNAME[up] + "</span>";
+      var d = diaSet();
+      if (d && d.indexOf(x) !== -1 && d.indexOf(y) !== -1) {
+        var steps = ((d.indexOf(y) - d.indexOf(x)) + 7) % 7;
+        html += " · in " + NAMES[diaRoot] + " major: " + steps +
+          " scale steps = a " + ORD[steps];
+      }
+      ivOut.innerHTML = html;
+    } else {
+      hoverPair = null;
+      var found = null;
+      if (sel.size === 3 || sel.size === 4) {
+        found = identifySet(sel, CHORD_MAP, [chordRoot]);
+        if (found) ivLabel.textContent = "Chord dictionary";
+      } else if (sel.size === 5 || sel.size === 7) {
+        found = identifySet(sel, SCALE_MAP, [diaRoot, chordRoot]);
+        if (found) ivLabel.textContent = "Scale";
+      }
+      if (found) {
+        ivPanel.style.display = "";
+        ivOut.textContent = NAMES[found.root] + " " + found.name;
+      } else {
+        ivPanel.style.display = "none";
+      }
+    }
+  }
+
+  ivOut.addEventListener("mouseover", function (e) {
+    if (!hoverPair) return;
+    var t = e.target.closest(".iv-semi, .iv-name");
+    if (!t) return;
+    if (t.classList.contains("iv-semi")) {
+      highlightChromatic(hoverPair.x, hoverPair.up);
+    } else {
+      highlightDiatonic(hoverPair.x, hoverPair.up);
+    }
+  });
+  ivOut.addEventListener("mouseout", function (e) {
+    if (e.target.closest(".iv-semi, .iv-name")) clearHoverHighlight();
+  });
+
+  // Touch has no hover, so the same explainer is tap-to-toggle here:
+  // tapping a part highlights it and marks it .tapped (see CSS); tapping
+  // the same part again (or picking a new pair, which re-renders ivOut
+  // from scratch) clears it.
+  var tappedPart = null;
+  ivOut.addEventListener("click", function (e) {
+    if (!hoverPair) return;
+    var t = e.target.closest(".iv-semi, .iv-name");
+    if (!t) return;
+    var kind = t.classList.contains("iv-semi") ? "semi" : "name";
+    var prevTapped = ivOut.querySelector(".iv-part.tapped");
+    if (prevTapped) prevTapped.classList.remove("tapped");
+    if (tappedPart === kind) {
+      tappedPart = null;
+      clearHoverHighlight();
+    } else {
+      tappedPart = kind;
+      t.classList.add("tapped");
+      if (kind === "semi") {
+        highlightChromatic(hoverPair.x, hoverPair.up);
+      } else {
+        highlightDiatonic(hoverPair.x, hoverPair.up);
+      }
+    }
+  });
+
+  svg.addEventListener("click", function (e) {
+    var g = e.target.closest("g[data-pc]");
+    if (!g) return;
+    var pc = +g.getAttribute("data-pc");
+    if (sel.has(pc)) {
+      sel.delete(pc);
+      order = order.filter(function (p) { return p !== pc; });
+      if (chordRoot === pc) chordRoot = order.length ? order[0] : null;
+    } else {
+      sel.add(pc);
+      order.push(pc);
+      if (chordRoot === null) chordRoot = pc;
+      play(pc, actx().currentTime, 0.6);
+    }
+    render();
+  });
+
+  function setPreset(pcs, root) {
+    sel = new Set(pcs); order = []; diaRoot = root; chordRoot = root;
+    render();
+    var t = actx().currentTime;
+    voicing().forEach(function (s, i) { play(s, t + i * 0.16, 0.5); });
+  }
+  function rooted(base) {
+    var r = diaRoot === null ? 0 : diaRoot;
+    return base.map(function (x) { return (x + r) % 12; });
+  }
+  document.getElementById("presetMaj").onclick = function () {
+    setPreset(rooted(MAJ), diaRoot === null ? 0 : diaRoot);
+  };
+  document.getElementById("presetPent").onclick = function () {
+    setPreset(rooted(PENT), diaRoot === null ? 0 : diaRoot);
+  };
+  document.getElementById("presetTriad").onclick = function () {
+    setPreset(rooted(TRIAD), diaRoot === null ? 0 : diaRoot);
+  };
+  document.getElementById("clearBtn").onclick = function () {
+    sel.clear(); order = []; diaRoot = null; chordRoot = null; render();
+  };
+
+  function transpose(n) {
+    sel = new Set(Array.from(sel).map(function (pc) {
+      return (pc + n + 12) % 12;
+    }));
+    order = order.map(function (pc) { return (pc + n + 12) % 12; });
+    if (diaRoot !== null) diaRoot = (diaRoot + n + 12) % 12;
+    if (chordRoot !== null) chordRoot = (chordRoot + n + 12) % 12;
+    render();
+    var t = actx().currentTime;
+    voicing().forEach(function (s) { play(s, t, 0.7); });
+  }
+  document.getElementById("tUp").onclick = function () { transpose(1); };
+  document.getElementById("tDown").onclick = function () { transpose(-1); };
+
+  document.getElementById("playChord").onclick = function () {
+    var t = actx().currentTime;
+    voicing().forEach(function (s) { play(s, t, 1.2); });
+  };
+  document.getElementById("playArp").onclick = function () {
+    var t = actx().currentTime;
+    voicing().forEach(function (s, i) { play(s, t + i * 0.22, 0.6); });
+  };
+  document.getElementById("labelMode").onchange = function (e) {
+    mode = e.target.value; render();
+  };
+
+  render();
+
+  // Embedded pages are framed in a fixed-height, non-scrolling iframe
+  // (see EmbedExperience.tsx). A hard-coded height clips content whenever
+  // this page's own layout wraps to more rows than the parent guessed —
+  // e.g. the clock + side panel stacking vertically on narrow viewports.
+  // Report actual content height so the parent can size the iframe to fit.
+  if (document.body.classList.contains("embed") && window.parent !== window) {
+    var reportHeight = function () {
+      window.parent.postMessage(
+        { source: "pitch-clock-embed", height: document.documentElement.scrollHeight },
+        window.location.origin
+      );
+    };
+    if (window.ResizeObserver) {
+      new ResizeObserver(reportHeight).observe(document.body);
+    } else {
+      window.addEventListener("resize", reportHeight);
+    }
+    reportHeight();
+    // The parent's message listener isn't attached yet when the line above
+    // fires (its effect commits after this script has already run), so
+    // that first send is lost with no one listening. The parent re-asks
+    // once it detects this iframe has loaded — that's the send actually
+    // relied on for the first paint.
+    window.addEventListener("message", function (e) {
+      if (e.origin === window.location.origin && e.data &&
+        e.data.source === "pitch-clock-embed-request") {
+        reportHeight();
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>
