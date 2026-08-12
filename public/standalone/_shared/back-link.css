@@ -1,0 +1,20 @@
+/* Shared "back to portfolio" link for standalone pieces.
+   In-flow by default (not position:fixed) so it participates in normal
+   document flow and can never overlap page content, on any viewport —
+   the safe default for title/panel layouts that scroll (e.g. pitch-clock,
+   drum-modes). Full-bleed canvas pieces (feathers, shatter, ...) use their
+   own fixed-corner overlay instead, since they have empty canvas space to
+   float over; this file doesn't cover that case.
+
+   Consumers set --portfolio-back-color / --portfolio-back-color-hover and
+   any positioning (e.g. align-self, margin) to fit their own layout. */
+.portfolio-back {
+  display: inline-block;
+  font: 0.75rem/1 monospace;
+  letter-spacing: 0.04em;
+  color: var(--portfolio-back-color, #6f6e67);
+  text-decoration: none;
+}
+.portfolio-back:hover {
+  color: var(--portfolio-back-color-hover, #9aa0a8);
+}

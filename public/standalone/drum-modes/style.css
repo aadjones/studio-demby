@@ -1,0 +1,75 @@
+body {
+  margin: 0; background: #0f1115; color: #e8e8e8;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 16px 12px 40px;
+}
+.portfolio-back {
+  --portfolio-back-color: #6b7280;
+  --portfolio-back-color-hover: #9aa0a8;
+  align-self: flex-start;
+  margin: 0 0 6px 2px;
+}
+h1 { font-size: 1.05rem; font-weight: 600; margin: 4px 0 2px; text-align: center; }
+.subtitle { font-size: 0.76rem; color: #9aa0a8; margin-bottom: 10px; text-align: center; }
+
+.modeToggle {
+  display: flex; gap: 6px; margin-bottom: 12px;
+  background: #1a1e26; border-radius: 10px; padding: 4px;
+}
+.modeToggle button {
+  background: transparent; color: #9aa0a8; border: none;
+  padding: 8px 14px; border-radius: 8px; font-size: 0.82rem;
+  font-weight: 600; cursor: pointer; transition: background-color 0.15s ease, color 0.15s ease;
+}
+.modeToggle button:hover:not(.active) { background: #20242e; color: #c7cbd1; }
+.modeToggle button.active { background: #2a2f3a; color: #fff; }
+
+.stage { display: flex; flex-direction: column; align-items: center; width: 100%; }
+
+.stageCanvas { width: 100%; max-width: 400px; }
+#canvasWrap {
+  width: 100%; aspect-ratio: 1/1;
+  border-radius: 10px; overflow: hidden; background: #15181e;
+  touch-action: none;
+}
+#canvasWrap canvas { display: block; width: 100%; height: 100%; cursor: grab; }
+.hint { font-size: 0.7rem; color: #6b7280; margin-top: 6px; text-align: center; }
+
+.panel { width: 100%; max-width: 400px; margin-top: 12px; }
+
+@media (min-width: 900px) {
+  .stage { flex-direction: row; align-items: flex-start; justify-content: center; gap: 28px; }
+  .stageCanvas { max-width: 520px; }
+  .panel { max-width: 440px; margin-top: 0; }
+}
+.row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 10px; }
+.row label { font-size: 0.85rem; color: #c7cbd1; min-width: 84px; }
+input[type=range] { flex: 1; }
+.val { font-variant-numeric: tabular-nums; font-size: 0.85rem; min-width: 34px; text-align: right; color: #fff; }
+
+.info {
+  background: #1a1e26; border-radius: 8px; padding: 10px 14px;
+  font-size: 0.8rem; color: #c7cbd1; line-height: 1.5; margin-top: 8px;
+}
+.info b { color: #fff; }
+
+.buttons { display: flex; gap: 8px; margin-top: 4px; }
+button.ctl {
+  flex: 1; background: #2a2f3a; color: #fff; border: none; border-radius: 8px;
+  padding: 10px; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+button.ctl:hover { background: #333a48; }
+button.ctl:active { background: #3a4150; }
+button.ctl:disabled {
+  background: #20242e; color: #5a6170; cursor: default; pointer-events: none;
+}
+
+#spectrum {
+  display: block; width: 100%; margin-top: 8px;
+  background: #15181e; border-radius: 8px; touch-action: manipulation;
+}
+.capBadge {
+  font-size: 0.7rem; color: #6b7280; text-align: right; margin-top: 4px;
+}

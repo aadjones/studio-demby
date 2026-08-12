@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drum Modes and Spectrum</title>
+<link rel="stylesheet" href="../_shared/back-link.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a class="portfolio-back" href="/work/drum-modes">&larr; portfolio</a>
+<h1>Modes and Spectrum of a Circular Drumhead</h1>
+<div class="subtitle" id="subtitle">u = J<sub>m</sub>(kr)&thinsp;cos(m&theta;)&thinsp;cos(&omega;t)</div>
+
+<div class="modeToggle">
+  <button id="btnExplore" class="active">Explore mode</button>
+  <button id="btnStrike">Strike drum</button>
+</div>
+
+<div class="stage">
+  <div class="stageCanvas">
+    <div id="canvasWrap"></div>
+    <div class="hint" id="canvasHint">drag to rotate</div>
+  </div>
+
+  <div class="panel">
+
+  <!-- ===== EXPLORE ===== -->
+  <div id="explorePanel">
+    <div class="row">
+      <label for="mS">m (diameters)</label>
+      <input type="range" id="mS" min="0" max="6" step="1" value="0">
+      <span class="val" id="mVal">0</span>
+    </div>
+    <div class="row">
+      <label for="nS">n (circles)</label>
+      <input type="range" id="nS" min="1" max="4" step="1" value="1">
+      <span class="val" id="nVal">1</span>
+    </div>
+
+    <div class="buttons" style="margin-top:12px;">
+      <button class="ctl" id="playBtn">Pause</button>
+    </div>
+    <div class="row" style="margin-top:12px;">
+      <label for="spS">speed</label>
+      <input type="range" id="spS" min="0.1" max="2.5" step="0.1" value="1">
+      <span class="val" id="spVal">1.0×</span>
+    </div>
+  </div>
+
+  <!-- ===== STRIKE ===== -->
+  <div id="strikePanel" style="display:none;">
+    <canvas id="spectrum" width="760" height="300"></canvas>
+    <div class="capBadge" id="capBadge"></div>
+
+    <div class="row" style="margin-top:10px;">
+      <label for="dampS">damping</label>
+      <input type="range" id="dampS" min="0" max="100" step="1" value="0">
+      <span class="val" id="dampVal">off</span>
+    </div>
+
+    <div class="buttons" style="margin-top:8px;">
+      <button class="ctl" id="resetMuteBtn">Unmute all</button>
+      <button class="ctl" id="restrikeBtn">Re-strike</button>
+    </div>
+  </div>
+
+  <div class="info" id="info"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="src/core/constants.js"></script>
+<script src="src/ui/dom.js"></script>
+<script src="src/core/bessel.js"></script>
+<script src="src/rendering/disk-mesh.js"></script>
+<script src="src/core/mode-basis.js"></script>
+<script src="src/core/gram-solver.js"></script>
+<script src="src/rendering/scene-rig.js"></script>
+<script src="src/rendering/wireframe-view.js"></script>
+<script src="src/rendering/drumstick-view.js"></script>
+<script src="src/core/playback-clock.js"></script>
+<script src="src/core/explore-mode.js"></script>
+<script src="src/core/strike-engine.js"></script>
+<script src="src/audio/audio-engine.js"></script>
+<script src="src/rendering/spectrum-view.js"></script>
+<script src="src/ui/camera-controls.js"></script>
+<script src="src/ui/strike-input.js"></script>
+<script src="src/ui/ui.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
