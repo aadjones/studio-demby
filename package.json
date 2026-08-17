@@ -6,6 +6,7 @@
     "dev": "next dev",
     "fresh": "pnpm kill-port && next dev",
     "build": "next build",
+    "content:status": "node scripts/contentStatus.js",
     "start": "next start",
     "test": "vitest",
     "lint": "next lint"

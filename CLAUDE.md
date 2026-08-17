@@ -22,8 +22,11 @@ pnpm build
 # Production server
 pnpm start
 
-# Run tests (--run exits after completion; without it vitest hangs in watch mode)
-pnpm test -- --run
+# Run tests (`run` exits after completion; plain `pnpm test` hangs in watch mode)
+pnpm exec vitest run
+
+# Show what's live vs. draft vs. archived
+pnpm content:status
 
 # Lint
 pnpm lint
@@ -31,7 +34,9 @@ pnpm lint
 
 ## Build & Dev
 
-Never run `next build` against the same `.next` directory as a running dev server. Use `next build --distDir .next-prod` or stop the dev server first.
+Never run `next build` against the same `.next` directory as a running dev server. Stop the dev server first (`pnpm kill-port`), then `rm -rf .next && pnpm build`.
+
+Note: `next build` in Next 14 has **no `--distDir` CLI flag** — `distDir` is a `next.config.js` option only. Passing it errors with `unknown option '--distDir'`.
 
 ## Architecture
 
@@ -42,7 +47,29 @@ Projects live in `content/projects/` as MDX files with frontmatter defining:
 - `slug`: URL identifier
 - `date`: Publication date
 - `title`, `summary`, `image`, `tags`, etc.
+- `status`: publication state — see below
 - See `types/mdx.ts` (`ProjectSchema`) for the full schema
+
+### Content Status — what is actually live
+
+**Before assuming a project is on the live site, run `pnpm content:status`.** It reads frontmatter directly, so it is never stale. Do not infer live-ness from a file existing in `content/projects/`.
+
+Every project and activity item has a `status` field. It defaults to `published`, so omitting it means live.
+
+| `status` | In listings | In sitemap | Built at URL |
+|---|---|---|---|
+| `published` | yes | yes | yes |
+| `draft` | no | **no** | yes, with `noindex` |
+| `archived` | no | yes | yes |
+
+- **`draft`** — in progress, not ready to show. Unlisted, excluded from `sitemap.xml`, and served with `noindex, nofollow`, so the URL works as a private preview link you can share but search engines never see it. Draft pages render a visible amber banner. Its build doc belongs in `docs/plans/`.
+- **`archived`** — retired work. Unlisted, but the URL stays in the sitemap and indexable on purpose, so existing inbound links aren't devalued. This is deliberately different from `draft`; don't "fix" it.
+
+The filtering lives in one place per content type — `getAllProjects()` (published only), `getIndexableProjects()` (published + archived, for sitemap/RSS), and `getAllProjectEntries()` (everything, for `generateStaticParams`) in `lib/content/projects-loader.ts`, mirrored in `activity-loader.ts`. Route listings and related-works should use `getAllProjects()`.
+
+**Publishing a draft** is one edit: flip `status: draft` to `published` (and delete its `docs/plans/` doc).
+
+**Gotcha:** the loaders `console.warn` and drop items with invalid frontmatter rather than throwing. A malformed MDX file silently vanishes from the site while the build still reports success — read the build output, don't just check the exit code.
 
 ### Routing
 
