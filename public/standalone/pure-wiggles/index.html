@@ -70,12 +70,12 @@
     <circle cx="260" cy="94" r="3.5" fill="#FF7A45"/>
     <line x1="260" y1="166" x2="260" y2="174" stroke="#23262E" stroke-width="1.6"/>
     <text class="fx" x="260" y="210" text-anchor="middle">x</text>
-    <text class="fx fxe" x="275" y="128">f(x)</text>
+    <text class="fx fxe" x="272" y="82">f(x)</text>
   </svg>
   </figure>
   <p class="caption">The frozen string: at every position <span class="eq">x</span>, one number <span class="eq">f(x)</span>—how far that point has moved from rest. The pinned down ends force <span class="eq">f = 0</span> there.</p>
 
-  <p>Next, the physics. We said the string pulls back harder where you disturb it more. But what exactly does it measure when deciding how hard? You might think it's just based on how far away from rest you pull it back. But it's a little more subtle than that. Zoom in on one point on a little piece of string. Its neighboring points tug it from both sides, along the string itself—that's what tension is. If the piece is straight, the two tugs point in exactly opposite directions and cancel each other out. If the piece is <em>bent</em>, the tugs horizontal components may cancel, but their vertical components reinforce! So the net force will pull that point back toward rest.</p>
+  <p>Next, the physics. We said the string pulls back harder where you disturb it more. But what exactly does it measure when deciding how hard? You might think it's just based on how far away from rest you pull it back. But it's a little more subtle than that. Zoom in on one point on a little piece of string. Its neighboring points tug it from both sides, along the string itself—that's what tension is. If the piece is straight, the two tugs point in exactly opposite directions and cancel each other out. If the piece is <em>bent</em>, the tugs' horizontal components may cancel, but their vertical components reinforce! So the net force will pull that point back toward rest.</p>
 
   <figure class="diagram" role="img" aria-label="Two magnified pieces of string with vector sum diagrams. Straight: blue tension arrows left and right cancel to zero. Bent: blue tension arrows pull diagonally outward; an orange net pull-back arrow points down from the crest; a vector sum row below shows the diagonal pair summing to a straight downward arrow.">
   <svg viewBox="0 0 640 515" xmlns="http://www.w3.org/2000/svg">
@@ -206,7 +206,7 @@
       </div>
     </div>
   </div>
-<p>Wow. A parabola has a really cool property: its bendiness is constant everywhere! That's great for the parabola, but not great for us, since we are hunting shapes whose bendinesses are the original shape. We need something whose bendiness profile varies a bit more than just the humble parabola.</p>
+<p>Wow. A parabola has a really cool property: its bendiness is constant everywhere! (This is, for example, the reason that projectile motion, which is governed by constant acceleration, creates parabolas.) That's great for the parabola, but not great for us, since we are hunting shapes whose bendinesses are the original shape. We need something whose bendiness profile varies a bit more than just the humble parabola.</p>
   <p>Hang on a minute, you might remember from calculus that there's a famous shape whose slope is a scaled copy of the shape: the exponential function $e^{kx}$! That means its bendiness is also a scaled copy. Let's test out this bad boy.</p>
   <div class="panel eig" data-eig="exp">
     <div class="panel-head"><span><span class="led"></span>Candidate · an exponential</span><span>d²/dx²</span></div>
@@ -237,7 +237,7 @@
   </div>
 
   <!-- PROSE: sine, tuned beat (drafted — edit freely) -->
-  <p>So we just have to tune the frequency. All we have to do is have the sine have a whole number of cycles along the string length of $1.$ The most basic one would be a single hump. This shape is a mode!</p>
+  <p>So we just have to tune the frequency. All we have to do is have the sine have a whole number of humps along the string length of $1.$ The most basic one would be a single hump. This shape is a mode!</p>
   <div class="panel eig" data-eig="siner">
     <div class="panel-head"><span><span class="led"></span>Candidate · a sine, tuned</span><span>d²/dx²</span></div>
     <div class="panel-body">
@@ -285,12 +285,61 @@
 <section class="chapter" id="ch2" data-title="Every shape is a chord">
   <p class="kicker">Chapter 2</p>
   <h2>Every shape is a chord</h2>
-  <p>A pure wiggle is a vibration photographed — frozen in space. (Run it through <em>time</em> instead and it's a pure tone; the 🔊 buttons in this essay are exactly that conversion.) The real claim — Fourier's claim, scandalous in 1807 — is that <em>every</em> reasonable shape on an interval is a chord: a sum of pure wiggles at frequencies 1, 2, 3, … each with its own volume.</p>
-  <p>Let that bother you for a second, because it bothered the greatest mathematicians alive in 1807. A chord is built from the politest ingredients imaginable: smooth, symmetric, endlessly repeating. Your scribble is none of those things — it has corners, lopsidedness, attitude. Fourier's claim is that politeness in sufficient quantity can impersonate <em>anything</em>. The committee reviewing his paper (Lagrange among them) did not believe it. The draw button below is the demonstration they didn't have.</p>
-  <div class="eqblock">f(x) = b₁ sin(πx) + b₂ sin(2πx) + b₃ sin(3πx) + ⋯
-    <span class="note">THE b's ARE THE FADER SETTINGS. THE SHAPE IS THE MIX.</span>
-  </div>
+  <p>We've seen that the special modes of vibration of a string take very specific shapes. But what happens when you deform the string into a different shape, one that isn't a mode of vibration? Do those shapes have any connection to the modes? According to Joseph Fourier's work in the 1800s, yes! Fourier discovered that <em>every</em> reasonable shape on a string can be conceptualized as a weighted sum of all the modal shapes of the string. If each mode represents a single frequency, then this weighted sum can be viewed as a musical chord: multiple different frequencies sounding at the same time. In more symbolic terms, Fourier's claim is that a shape on the string $f(x)$ can be written as follows:</p>
+
+  <figure class="diagram" id="fourier-visual">
+    <svg id="fv" viewBox="0 0 560 115" xmlns="http://www.w3.org/2000/svg" aria-label="Fourier decomposition: f(x) written as a scaled sum of sinusoids">
+      <rect x="0.5" y="8.5" width="135" height="84" rx="4" fill="#E9E7DD" stroke="#CFCBBE" stroke-width="1"/>
+      <rect x="165.5" y="14.5" width="104" height="72" rx="4" fill="#E9E7DD" stroke="#CFCBBE" stroke-width="1"/>
+      <rect x="291.5" y="14.5" width="104" height="72" rx="4" fill="#E9E7DD" stroke="#CFCBBE" stroke-width="1"/>
+      <rect x="417.5" y="14.5" width="104" height="72" rx="4" fill="#E9E7DD" stroke="#CFCBBE" stroke-width="1"/>
+      <line x1="5" y1="50" x2="131" y2="50" stroke="#CFCBBE" stroke-width="0.75"/>
+      <line x1="170" y1="50" x2="265" y2="50" stroke="#CFCBBE" stroke-width="0.75"/>
+      <line x1="296" y1="50" x2="391" y2="50" stroke="#CFCBBE" stroke-width="0.75"/>
+      <line x1="422" y1="50" x2="517" y2="50" stroke="#CFCBBE" stroke-width="0.75"/>
+      <polyline id="fv-pluck" fill="none" stroke="#FF7A45" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline id="fv-m1" fill="none" stroke="#23262E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline id="fv-m2" fill="none" stroke="#23262E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline id="fv-m3" fill="none" stroke="#23262E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="151" y="55" text-anchor="middle" font-family="Spectral,Georgia,serif" font-size="22" fill="#23262E">=</text>
+      <text x="281" y="55" text-anchor="middle" font-family="Spectral,Georgia,serif" font-size="22" fill="#23262E">+</text>
+      <text x="407" y="55" text-anchor="middle" font-family="Spectral,Georgia,serif" font-size="22" fill="#23262E">+</text>
+      <text x="538" y="55" text-anchor="middle" font-family="Spectral,Georgia,serif" font-size="20" fill="#5A5E6B">+ …</text>
+      <text x="68" y="108" text-anchor="middle" font-family="Spectral,Georgia,serif" font-style="italic" font-size="17" fill="#FF7A45">f(x)</text>
+      <text x="217" y="104" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#5A5E6B">b₁ · sin(πx)</text>
+      <text x="343" y="104" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#5A5E6B">b₂ · sin(2πx)</text>
+      <text x="469" y="104" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#5A5E6B">b₃ · sin(3πx)</text>
+    </svg>
+  </figure>
+  <script>
+  (function () {
+    const N = 80, CY = 50, PI = Math.PI;
+    const a = 0.27; // pluck position — matches the interactive preset
+    function coef(n) {
+      return (2 * Math.sin(n * PI * a)) / (n * n * PI * PI * a * (1 - a));
+    }
+    const b = [coef(1), coef(2), coef(3)]; // ≈ [0.771, 0.255, 0.064]
+    function pts(fn, x0, x1, amp) {
+      return Array.from({ length: N + 1 }, (_, i) => {
+        const t = i / N;
+        return `${(x0 + t * (x1 - x0)).toFixed(1)},${(CY - fn(t) * amp).toFixed(1)}`;
+      }).join(' ');
+    }
+    const pluck = t => t < a ? t / a : (1 - t) / (1 - a);
+    document.getElementById('fv-pluck').setAttribute('points', pts(pluck, 5, 131, 34));
+    document.getElementById('fv-m1').setAttribute('points', pts(t => b[0] * Math.sin(PI * t), 170, 265, 38));
+    document.getElementById('fv-m2').setAttribute('points', pts(t => b[1] * Math.sin(2 * PI * t), 296, 391, 38));
+    document.getElementById('fv-m3').setAttribute('points', pts(t => b[2] * Math.sin(3 * PI * t), 422, 517, 38));
+  }());
+  </script>
+
+  <p>At first blush, this sounds a bit crazy, and many of Fourier's contemporaries felt the same way. You're telling me we can somehow build sharp jagged shapes out of smooth, sensuous, wiggly vibes?! Well, pretty much: yes, as long as you use, like, a lot of them. Or in most cases, infinitely many of them. Check out the demo below to see it in action.</p>
   <p>Below is a mixing desk for testing the claim. A real mixing desk is the long console at the heart of a recording studio — one channel per sound source, and on each channel a <span class="term">fader</span>: a sliding volume knob. This desk's ten channels are the first ten wiggles. (The π inside sin(nπx) is pure bookkeeping; it makes wiggle n fit exactly n arches into our interval.) Push the faders yourself, load a classic shape, or hit <b>draw</b> and sketch any curve with your finger or mouse — the desk will read off its fader settings and rebuild it.</p>
+
+  <figure class="photo">
+    <img src="./mixing-desk.jpg" alt="Close-up of an analog mixing desk with faders and knobs" loading="lazy">
+    <figcaption>Photo: Denisse Leon / Unsplash</figcaption>
+  </figure>
 
   <div class="panel">
     <div class="panel-head"><span><span class="led"></span>Harmonic mixing desk</span><span>10 modes</span></div>
@@ -316,7 +365,7 @@
   <p>Second — and this is the thesis of the whole essay — a machine that's blind to position can only move those faders <em>one at a time</em>. It can scale them, flip them, spin them; what it can never do is make them trade. So once a shape is written as a chord, the physics of any such machine stops being about the shape at all: it's choreography for faders that never listen to each other. Stop watching the curve; watch the board. Chapter 1 told us the second derivative is exactly such a machine. Time to point it at physics.</p>
 
   <details class="fine"><summary>FINE PRINT · how the desk reads your faders</summary><div class="fp">
-    <p>When you draw, the desk recovers each fader by computing <span class="eq">bₙ = 2 ∫₀¹ f(x) sin(nπx) dx</span> — once per fader. Why does that isolate exactly one wiggle's worth? Because pure wiggles are <em>perpendicular</em>: multiply two sines of different frequencies and the product's positive and negative lobes cancel exactly, integrating to zero. Multiply a sine by itself and the lobes can't cancel — everything is positive. So the integral against sin(nπx) is deaf to every wiggle except wiggle n. Orthogonality is the desk's solo button.</p>
+    <p>When you draw, the desk recovers each fader by computing <span class="eq">$b_n = 2 \int_0^1 f(x) \sin(n \pi x) dx$</span> — once per fader. Why does that isolate exactly one wiggle's worth? Because pure wiggles are <em>perpendicular</em>: multiply two sines of different frequencies and the product's positive and negative lobes cancel exactly, integrating to zero. Multiply a sine by itself and the lobes can't cancel — everything is positive. So the integral against sin(nπx) is deaf to every wiggle except wiggle n. Orthogonality is the desk's solo button.</p>
     <p>Why only sines, and no cosines? The ends of our interval are nailed to zero, and sin(nπx) is precisely the family of wiggles that respects the nails. Free the ends and cosines join the band; that choice of <em>boundary conditions</em> is what picks the instrument's legal wiggles.</p>
     <p>One loose thread you can see on screen: load the square wave and notice the little horns that overshoot at each jump. They never go away, no matter how many wiggles you add — only get narrower. That's Gibbs's phenomenon, a genuinely strange fact about chords meeting cliffs, and a story for another day.</p>
   </div></details>

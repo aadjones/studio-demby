@@ -149,6 +149,17 @@ details.fine .fp p{margin:0 0 12px}
 .footage a:hover{color:var(--ember)}
 .embed{position:relative;width:100%;height:0;padding-bottom:56.25%;margin-top:10px;border-radius:6px;overflow:hidden;background:#000}
 .embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+/* ---------- photo figures ---------- */
+figure.photo { margin: 0 0 20px; max-width: 640px; }
+figure.photo img { width: 100%; border-radius: 8px; display: block; }
+figure.photo figcaption {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  margin-top: 7px;
+  letter-spacing: .04em;
+}
+
 /* ---------- static diagrams ---------- */
 figure.diagram{margin:18px 0 12px;max-width:640px}
 figure.diagram svg{display:block;width:100%;height:auto}
