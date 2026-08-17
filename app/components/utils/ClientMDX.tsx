@@ -55,6 +55,8 @@ import LightboxGallery from "../mdx-blocks/LightboxGallery";
 import LaunchExperience from "../mdx-blocks/LaunchExperience";
 import EmbedExperience from "../mdx-blocks/EmbedExperience";
 import BirdCards from "../mdx-blocks/bird-cards/BirdCards";
+import InharmonicSynth from "../mdx-blocks/inharmonicity/InharmonicSynth";
+import RealPianoSpectrum from "../mdx-blocks/inharmonicity/RealPianoSpectrum";
 
 type ComponentType = React.ComponentType<any> | string;
 
@@ -118,6 +120,8 @@ const baseComponents = {
   LaunchExperience,
   EmbedExperience,
   BirdCards,
+  InharmonicSynth,
+  RealPianoSpectrum,
 };
 
 export default function ClientMDX({
