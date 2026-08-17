@@ -29,9 +29,10 @@ async function buildFeed() {
     const raw = fs.readFileSync(fullPath, 'utf8')
     const { data } = matter(raw)
 
-    // Skip if no date or archived
+    // Feed carries live work only — drafts and archived items are skipped.
+    // `status` defaults to "published" when the field is absent.
     if (!data.date) continue
-    if (data.archived) continue
+    if ((data.status ?? 'published') !== 'published') continue
 
     // Handle image URL - support both relative and absolute URLs
     let imageUrl = null

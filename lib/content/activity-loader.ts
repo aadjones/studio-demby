@@ -44,8 +44,8 @@ export async function getActivityBySlug(slug: string) {
   };
 }
 
-/** Returns every activity item including archived — used for generateStaticParams. */
-export async function getAllActivityIncludingArchived(): Promise<MDXSketch[]> {
+/** Every activity item on disk regardless of status — used for generateStaticParams. */
+export async function getAllActivityEntries(): Promise<MDXSketch[]> {
   if (!fs.existsSync(activityDirectory)) {
     return [];
   }
@@ -71,10 +71,16 @@ export async function getAllActivityIncludingArchived(): Promise<MDXSketch[]> {
   return activity.filter(Boolean) as MDXSketch[];
 }
 
-/** Returns visible (non-archived) activity — used for listings. */
+/** Live activity only — used for listings. */
 export async function getAllActivity(): Promise<MDXSketch[]> {
-  const all = await getAllActivityIncludingArchived();
-  return all.filter(a => !a.archived);
+  const all = await getAllActivityEntries();
+  return all.filter(a => a.status === "published");
+}
+
+/** Everything search engines may see: published + archived, never drafts. */
+export async function getIndexableActivity(): Promise<MDXSketch[]> {
+  const all = await getAllActivityEntries();
+  return all.filter(a => a.status !== "draft");
 }
 
 export async function getRecentActivity(limit: number = 10): Promise<MDXSketch[]> {

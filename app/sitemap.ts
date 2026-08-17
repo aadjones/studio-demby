@@ -1,11 +1,12 @@
 import { MetadataRoute } from "next";
-import { getAllProjectsIncludingArchived } from "@/lib/content/projects-loader";
+import { getIndexableProjects } from "@/lib/content/projects-loader";
 import { metaData } from "./config";
 
 const base = metaData.baseUrl.replace(/\/$/, "");
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const projects = await getAllProjectsIncludingArchived();
+  // Drafts are deliberately excluded — they must never reach search engines.
+  const projects = await getIndexableProjects();
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: base, lastModified: new Date(), changeFrequency: "monthly", priority: 1 },
