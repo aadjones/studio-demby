@@ -16,14 +16,23 @@ Portfolio site for Aaron Demby Jones (Studio Demby) - musician, artist, and crea
 # Development server
 pnpm dev
 
+# Development server, killing anything already on :3000 first
+pnpm fresh
+
+# Free port 3000
+pnpm kill-port
+
 # Build (always clear cache first: rm -rf .next)
 pnpm build
 
-# Production server
+# Production server (requires a build first)
 pnpm start
 
-# Run tests (`run` exits after completion; plain `pnpm test` hangs in watch mode)
-pnpm exec vitest run
+# Run tests once and exit
+pnpm test
+
+# Run tests in watch mode
+pnpm test:watch
 
 # Show what's live vs. draft vs. archived
 pnpm content:status
@@ -31,6 +40,10 @@ pnpm content:status
 # Lint
 pnpm lint
 ```
+
+Every command above is verified to work as written. Don't insert `--` before a
+flag when calling a pnpm script (`pnpm test -- --run`) — pnpm swallows it and
+the flag never reaches the underlying tool.
 
 ## Build & Dev
 
@@ -65,7 +78,7 @@ Every project and activity item has a `status` field. It defaults to `published`
 - **`draft`** — in progress, not ready to show. Unlisted, excluded from `sitemap.xml`, and served with `noindex, nofollow`, so the URL works as a private preview link you can share but search engines never see it. Draft pages render a visible amber banner. Its build doc belongs in `docs/plans/`.
 - **`archived`** — retired work. Unlisted, but the URL stays in the sitemap and indexable on purpose, so existing inbound links aren't devalued. This is deliberately different from `draft`; don't "fix" it.
 
-The filtering lives in one place per content type — `getAllProjects()` (published only), `getIndexableProjects()` (published + archived, for sitemap/RSS), and `getAllProjectEntries()` (everything, for `generateStaticParams`) in `lib/content/projects-loader.ts`, mirrored in `activity-loader.ts`. Route listings and related-works should use `getAllProjects()`.
+The filtering lives in one place per content type — `getAllProjects()` (published only), `getIndexableProjects()` (published + archived, for the sitemap), and `getAllProjectEntries()` (everything, for `generateStaticParams`) in `lib/content/projects-loader.ts`, mirrored in `activity-loader.ts`. Route listings and related-works should use `getAllProjects()`.
 
 **Publishing a draft** is one edit: flip `status: draft` to `published` (and delete its `docs/plans/` doc).
 

@@ -38,7 +38,7 @@ export async function getAllProjects(): Promise<MDXProject[]> {
   return all.filter(p => p.status === "published");
 }
 
-/** Everything search engines may see: published + archived, never drafts. */
+/** Everything search engines may see: published + archived, never drafts. Used by the sitemap. */
 export async function getIndexableProjects(): Promise<MDXProject[]> {
   const all = await getAllProjectEntries();
   return all.filter(p => p.status !== "draft");

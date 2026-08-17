@@ -8,7 +8,8 @@
     "build": "next build",
     "content:status": "node scripts/contentStatus.js",
     "start": "next start",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "lint": "next lint"
   },
   "dependencies": {
