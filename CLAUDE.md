@@ -29,6 +29,10 @@ pnpm test -- --run
 pnpm lint
 ```
 
+## Build & Dev
+
+Never run `next build` against the same `.next` directory as a running dev server. Use `next build --distDir .next-prod` or stop the dev server first.
+
 ## Architecture
 
 ### Content Structure

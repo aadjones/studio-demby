@@ -46,6 +46,9 @@ public/feed.xml
 # playwright screenshots
 /.playwright-mcp
 
+# generated reel exports (not source, not for commit)
+/exports
+
 # scratch/experiment files (not for commit)
 public/preview.html
 spatial-synth.html.png
