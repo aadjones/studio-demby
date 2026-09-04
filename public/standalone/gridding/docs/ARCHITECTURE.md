@@ -152,8 +152,12 @@ Two things follow from the host rendering a fixed-height, non-scrolling iframe:
 
 ### Deploying: ship the build, not the source
 
+`npm run deploy` does this — `scripts/deploy.mjs`, which tests, copies an
+explicit allowlist, and fails if any TypeScript lands in the destination.
+Prefer it over copying by hand.
+
 The tool lives in Studio Demby at `public/standalone/gridding/` as
-`index.html`, `styles.css`, `dist/` and `docs/`. **Do not copy `src/` there.**
+`index.html`, `styles.css`, `dist/` and `docs/`. **`src/` must not go there.**
 
 Next.js typechecks every `.ts` file under the project — `public/` included —
 using the *portfolio's* tsconfig, not this one. Gridding targets ES2022; the

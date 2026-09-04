@@ -27,6 +27,7 @@ npm test          # tsc + node --test  (fast; run this first)
 npm run build     # tsc -> dist/       (must be clean before any commit)
 npm run watch
 npm run serve     # http://localhost:5178
+npm run deploy    # test, then copy the build into Studio Demby
 ```
 
 **Always `npm run serve`.** Never `python3 -m http.server`—it sends no cache
@@ -69,11 +70,20 @@ compute in `page.evaluate`.
 
 ## Deploying to Studio Demby
 
-Copy `index.html`, `styles.css`, `dist/` and `docs/` into
-`studio-demby/public/standalone/gridding/`. **Never copy `src/`** — Next
-typechecks `.ts` anywhere in the project including `public/`, with the
-portfolio's tsconfig rather than this one, and it fails the production build.
-Run `pnpm build` in studio-demby before committing anything there.
+```bash
+npm run deploy                          # or GRIDDING_DEST=<path> npm run deploy
+cd ../studio-demby && pnpm build        # verify before committing
+```
+
+`scripts/deploy.mjs` runs the tests first, then copies `index.html`,
+`styles.css`, `dist/` and `docs/`, replacing whole directories so deletions
+propagate. It commits nothing.
+
+It **refuses to finish if any `.ts` reaches the destination.** That is not
+hypothetical: copying `src/` once failed the portfolio's production build,
+because Next typechecks every `.ts` under the project including `public/`,
+using its own tsconfig rather than ours, and gridding targets a higher ES
+level. Do not weaken that guard to make a copy go through.
 
 ## House rules that bite here
 

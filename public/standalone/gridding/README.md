@@ -18,6 +18,7 @@ npm install
 npm run build     # tsc -> dist/
 npm run serve     # http://localhost:5178
 npm test          # unit tests for the model (no framework)
+npm run deploy    # test, then copy the build into Studio Demby
 ```
 
 Use `npm run serve`, not `python3 -m http.server`—see
