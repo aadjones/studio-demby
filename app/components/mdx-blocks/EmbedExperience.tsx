@@ -6,28 +6,39 @@ interface Props {
   src: string;
   title?: string;
   height?: number;
+  /**
+   * postMessage channel the embedded page reports its height on. Defaults to
+   * pitch-clock's name, which was the only implementation when this was
+   * written, so existing callers are unaffected.
+   */
+  channel?: string;
 }
 
-export default function EmbedExperience({ src, title = "Interactive embed", height = 600 }: Props) {
+export default function EmbedExperience({
+  src,
+  title = "Interactive embed",
+  height = 600,
+  channel = "pitch-clock",
+}: Props) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [frameHeight, setFrameHeight] = useState(height);
 
   useEffect(() => {
     function onMessage(e: MessageEvent) {
       if (e.source !== iframeRef.current?.contentWindow) return;
-      if (e.data?.source !== "pitch-clock-embed") return;
+      if (e.data?.source !== `${channel}-embed`) return;
       if (typeof e.data.height === "number") setFrameHeight(e.data.height);
     }
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
-  }, []);
+  }, [channel]);
 
   useEffect(() => {
     const iframe = iframeRef.current;
     if (!iframe) return;
     function requestHeight() {
       iframe?.contentWindow?.postMessage(
-        { source: "pitch-clock-embed-request" },
+        { source: `${channel}-embed-request` },
         window.location.origin
       );
     }
@@ -39,7 +50,7 @@ export default function EmbedExperience({ src, title = "Interactive embed", heig
     }
     iframe.addEventListener("load", requestHeight);
     return () => iframe.removeEventListener("load", requestHeight);
-  }, []);
+  }, [channel]);
 
   return (
     <div className="w-full my-8 rounded-xl overflow-hidden border border-zinc-800">

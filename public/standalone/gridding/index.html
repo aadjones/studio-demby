@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gridding</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23F8F7F5'/%3E%3Crect x='2' y='6' width='4' height='4' fill='none' stroke='%231A1A1A' stroke-width='1.4'/%3E%3Crect x='9' y='6' width='4' height='4' fill='%23FF6B6B'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="page">
+
+  <a class="portfolio-back" href="/work/gridding">&larr; portfolio</a>
+
+  <header class="topbar">
+    <p class="wordmark">Gridding</p>
+    <div class="topbar-action">
+      <span class="print-summary" id="print-summary"></span>
+      <button type="button" id="copy-link" class="quiet">Copy link</button>
+      <button type="button" id="print" class="primary">Print sheet</button>
+    </div>
+  </header>
+
+  <section class="intro">
+    <p>One hand keeps a steady pulse. The other plays a short pattern you slide
+       across the bar, one cell at a time.</p>
+    <p class="intro-flow">Build a sheet here, print it, practice from the paper.</p>
+  </section>
+
+  <section class="stage">
+    <div class="grid" id="grid"></div>
+
+    <div class="nudge">
+      <button type="button" id="nudge-back" aria-label="Move the pattern one cell earlier">◀</button>
+      <button type="button" id="nudge-fwd" aria-label="Move the pattern one cell later">▶</button>
+      <p class="nudge-readout" id="nudge-readout"></p>
+    </div>
+
+    <div class="transport">
+      <button type="button" id="play">▶ Preview</button>
+      <label for="bpm">Tempo</label>
+      <input type="number" id="bpm" min="20" max="300" step="1" value="90" />
+      <span class="unit">bpm</span>
+    </div>
+
+    <div class="note" id="note"></div>
+  </section>
+
+  <section class="library">
+    <h2>Patterns</h2>
+    <div class="library-controls">
+      <div class="control">
+        <span class="control-label" id="window-label">Pattern length</span>
+        <div class="steps" id="window-steps" role="group" aria-labelledby="window-label"></div>
+      </div>
+      <div class="control">
+        <span class="control-label" id="onsets-label">Notes in pattern</span>
+        <div class="steps" id="onsets-steps" role="group" aria-labelledby="onsets-label"></div>
+      </div>
+    </div>
+    <p class="hint">Every pattern of this size goes on the sheet. Click one to
+       preview it here. Patterns sharing a letter are the same shape in a
+       different position.</p>
+    <div class="shape-list" id="shape-list"></div>
+  </section>
+
+  <details class="setup">
+    <summary>
+      <!-- lucide "settings" v0.488.0, ISC. Same icon family the portfolio uses. -->
+      <svg class="setup-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+        <circle cx="12" cy="12" r="3" />
+      </svg>
+      <span>Grid setup</span>
+      <span class="setup-caret" aria-hidden="true">›</span>
+    </summary>
+    <div class="setup-body">
+      <div class="control">
+        <label for="beats">Beats in the bar</label>
+        <select id="beats">
+          <option>2</option><option>3</option><option selected>4</option>
+          <option>5</option><option>6</option><option>7</option>
+        </select>
+      </div>
+      <div class="control">
+        <label for="subdivision">Cells per beat</label>
+        <select id="subdivision">
+          <option value="2">2 · eighths</option>
+          <option value="3">3 · triplets</option>
+          <option value="4" selected>4 · sixteenths</option>
+        </select>
+      </div>
+      <fieldset class="control modes">
+        <legend>Exercise</legend>
+        <label><input type="radio" name="mode" value="tile" checked />
+          <span><strong>Continuous</strong>: the pattern keeps going across barlines</span></label>
+        <label><input type="radio" name="mode" value="once" />
+          <span><strong>Single figure</strong>: one occurrence, placed anywhere in the bar</span></label>
+      </fieldset>
+    </div>
+  </details>
+
+  <section class="sheet" id="sheet"></section>
+
+</div>
+<script type="module" src="dist/main.js"></script>
+</body>
+</html>
