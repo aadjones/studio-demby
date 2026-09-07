@@ -5,6 +5,9 @@ import { ContactForm } from "./ContactForm";
 export const metadata: Metadata = {
   title: "Contact",
   description: "Get in touch with Aaron Demby Jones — music, visual art, teaching, or anything else.",
+  alternates: {
+    canonical: `${metaData.baseUrl}contact`,
+  },
   openGraph: {
     title: "Contact | Studio Demby",
     description: "Get in touch with Aaron Demby Jones.",
