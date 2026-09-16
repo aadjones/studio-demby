@@ -44,6 +44,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description: summary,
       ...(status === "draft" ? draftRobots : {}),
+      alternates: {
+        canonical: `${metaData.baseUrl}work/${params.slug}`,
+      },
       openGraph: {
         title,
         description: summary,
@@ -69,6 +72,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       ...(status === "draft" ? draftRobots : {}),
+      alternates: {
+        canonical: `${metaData.baseUrl}work/${params.slug}`,
+      },
       openGraph: {
         title,
         description,

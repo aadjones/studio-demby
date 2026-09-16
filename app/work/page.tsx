@@ -2,10 +2,14 @@ import { Suspense } from "react";
 import { Metadata } from "next";
 import { getAllWork } from "@/lib/content/unified-loader";
 import WorkGrid from "@/app/components/WorkGrid";
+import { metaData } from "@/app/config";
 
 export const metadata: Metadata = {
   title: "Work",
   description: "All projects, tools, writing, and teaching by Studio Demby.",
+  alternates: {
+    canonical: `${metaData.baseUrl}work`,
+  },
 };
 
 export default async function WorkPage() {
