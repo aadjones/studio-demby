@@ -25,6 +25,7 @@ import {
   STAFF_X1,
   VIEW_H,
   VIEW_W,
+  VIEW_W_NO_NOTCHES,
   yOf,
 } from "./layout";
 import ClefMarker from "./ClefMarker";
@@ -54,6 +55,15 @@ export interface ClefRakeProps {
    */
   showInstrument?: boolean;
   /**
+   * The seven clickable clef stops down the right-hand edge, labelled with
+   * clef abbreviations. Off by default: the abbreviations name clefs, and the
+   * article does not name them until the very end. Drag and the arrows still
+   * move the staff without them.
+   */
+  showNotches?: boolean;
+  /** The letters/solfège toggle. Off by default—one idea at a time. */
+  showSolfege?: boolean;
+  /**
    * ClientMDX injects `not-prose` here on every registered component. Drop it
    * and the surrounding `.prose` typography leaks into the controls.
    */
@@ -63,6 +73,8 @@ export interface ClefRakeProps {
 export default function ClefRake({
   marker = "letter",
   showInstrument = false,
+  showNotches = false,
+  showSolfege = false,
   className = "",
 }: ClefRakeProps) {
   const [clef, setClef] = useState<Clef>(DEFAULT_CLEF);
@@ -129,33 +141,35 @@ export default function ClefRake({
           </label>
         )}
 
-        <div className="seg" role="group" aria-label="Note names">
-          {(
-            [
-              ["letters", "C D E"],
-              ["solfege", "Do Re Mi"],
-            ] as const
-          ).map(([system, label]) => (
-            <button
-              key={system}
-              aria-pressed={nameSystem === system}
-              onClick={() => setNameSystem(system)}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+        {showSolfege && (
+          <div className="seg" role="group" aria-label="Note names">
+            {(
+              [
+                ["letters", "C D E"],
+                ["solfege", "Do Re Mi"],
+              ] as const
+            ).map(([system, label]) => (
+              <button
+                key={system}
+                aria-pressed={nameSystem === system}
+                onClick={() => setNameSystem(system)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="stage">
         <svg
           ref={svgRef}
-          viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+          viewBox={`0 0 ${showNotches ? VIEW_W : VIEW_W_NO_NOTCHES} ${VIEW_H}`}
           aria-label="Pitch ladder with movable staff"
         >
           {/* Paint order matters: notches, ladder, ledger lines, staff,
               marker, hint, notes, then the transparent drag target. */}
-          <ClefNotches current={clef} onSelect={selectClef} />
+          {showNotches && <ClefNotches current={clef} onSelect={selectClef} />}
           <PitchGrid bottom={bottom} />
           {shownInstrument && (
             <RangeLayer bottom={bottom} instrument={shownInstrument} />

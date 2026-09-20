@@ -8,6 +8,13 @@ import { HIGH, type Diatonic } from "./lib/pitch";
  * units and independent of the rendered size.
  */
 export const VIEW_W = 360;
+/**
+ * Narrower viewBox for when the clef notches are hidden. The notch column
+ * occupies x 312–360, so cropping there removes the dead space instead of
+ * leaving the staff floating left of a blank margin. Clears the staff (ends at
+ * 290) and the drag hint.
+ */
+export const VIEW_W_NO_NOTCHES = 300;
 export const VIEW_H = 380;
 
 /** Vertical px per diatonic step. A staff line gap is twice this. */

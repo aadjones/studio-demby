@@ -15,83 +15,110 @@ status: draft
 ---
 
 {/*
-  SCAFFOLD ONLY. Every PROSE block below is an empty slot for Aaron.
-  Claude writes none of the body text—not the hook, not the explanation.
+  SCAFFOLD. Every ✍️ Callout below is an empty slot—delete it and write in its
+  place. Headings are placeholders too; rename them.
+  Claude writes none of the body text.
 
   Outline and verified facts:
   ~/.claude/plans/explore-the-file-clef-rake-html-calm-simon.md
-
-  `status: draft` keeps this unlisted, out of the sitemap and noindexed.
-  Flip to `published` when the prose is in.
 */}
 
 <HeroTitleBlock title="PLACEHOLDER—Aaron writes this" />
 
-{/* ── 1 ─────────────────────────────────────────────────────────────────
-  PROSE: Contour. Melody as up / down / same. Enough to jog the memory of
-  someone who already knows the tune; not enough to teach it to someone who
-  doesn't. Ends by wanting something more specific.
-*/}
+<Callout emoji="🚧">
+**This page is scaffolding.** Eight sections, each with a ✍️ slot where your
+prose goes. The widgets are real and working. Delete this box when you start.
+</Callout>
 
-{/* FIGURE: contour. Not built yet—static image or small SVG, decided later. */}
+## 1 · Contour
 
-{/* ── 2 ─────────────────────────────────────────────────────────────────
-  PROSE: The giant ladder. Every pitch on one vertical stack, seven letter
-  names repeating forever. A melody becomes "where on the ladder".
-  The faint grid in the widget below IS this ladder.
-*/}
+<Callout emoji="✍️">
+**Your prose here.** Melody as up / down / same. Enough to jog the memory of
+someone who already knows the tune; not enough to teach it to someone who
+doesn't. Ends by wanting something more specific.
+</Callout>
+
+<Callout emoji="🖼️">
+**Figure slot — not built.** A contour visual: a melody drawn as rises and
+falls with no pitch specificity. Static image or small SVG, your call.
+</Callout>
+
+## 2 · The ladder
+
+<Callout emoji="✍️">
+**Your prose here.** Every pitch on one vertical stack, seven letter names
+repeating forever. A melody becomes "where on the ladder". The faint grid in
+the widget below *is* this ladder.
+</Callout>
 
 <ClefRake />
 
-{/* ── 3 ─────────────────────────────────────────────────────────────────
-  PROSE: The ladder is overwhelming to read. Grab a five-line slice of it.
-  The staff is a window onto the ladder, not a thing in itself.
-  (Reader drags the widget above.)
-*/}
+## 3 · Grabbing a slice
 
-{/* ── 4 ─────────────────────────────────────────────────────────────────
-  PROSE: Slide the window and different letters land on the lines.
-  Same ladder, different slice, different reading.
-*/}
+<Callout emoji="✍️">
+**Your prose here.** The full ladder is overwhelming to read. Take a five-line
+slice of it. The staff is a window onto the ladder, not a thing in itself.
+Reader drags the widget above.
+</Callout>
 
-{/* ── 5 ─────────────────────────────────────────────────────────────────
-  PROSE: Why exactly seven.
-  FACT: stepping up a third is +2; gcd(2,7) = 1, so +2 cycles through all
-  seven letters before repeating. Bottom lines go G B D F A C E, then back
-  to G. Returning to the start takes 7 steps of 2 = +14 = TWO octaves, so
-  the eighth stop is bass clef displaced, not a new clef.
-*/}
+## 4 · Different slices, different letters
 
-{/* ── 6 ─────────────────────────────────────────────────────────────────
-  PROSE: Why only three symbols.
-  FACT: F clef points at F3, C clef at middle C, G clef at G4. Four
-  diatonic steps each way—a perfect fifth below and a perfect fifth above
-  middle C. Perfectly symmetric. Three symbols because three named notes.
-  The seven split 2 F / 4 C / 1 G.
-*/}
+<Callout emoji="✍️">
+**Your prose here.** Slide the window and different letters land on the lines.
+Same ladder, different slice, different reading.
+</Callout>
 
-{/* ── 7 ─────────────────────────────────────────────────────────────────
-  PROSE: These are the seven clefs history actually used, and here are
-  their real symbols—the markers were the letters F, C and G all along.
-  Only four survive: treble, bass, alto, tenor.
-  Obsolete: baritone, mezzo-soprano, soprano.
-*/}
+## 5 · Why exactly seven
 
-<ClefRake marker="glyph" />
+<Callout emoji="✍️">
+**Your prose here.**
 
-{/* ── 8 ─────────────────────────────────────────────────────────────────
-  PROSE: Who still reads alto and tenor, and the ledger-line reason.
-  FACTS:
-    - Alto: viola, essentially its only full-time user.
-    - Tenor: NO full-time user at all. It is a register-saving clef that
-      cello, bassoon, trombone, euphonium and double bass switch INTO when
-      the bass staff would need too many ledger lines.
-    - The conventional clef is a ledger-line minimum for 10 of 13
-      instruments below. The exceptions: guitar (treble clef is an
-      octave-transposing convention), trombone (tenor genuinely wins up
-      high), alto voice (historically alto clef, moved to treble).
-*/}
+*Verified facts to write against:* stepping up a third is `+2`, and
+`gcd(2, 7) = 1`, so `+2` cycles through all seven letters before repeating.
+Bottom lines go **G B D F A C E**, then back to G. Returning to the starting
+letter takes 7 steps of 2 = +14 diatonic steps, which is exactly **two
+octaves** — so an eighth stop is bass clef displaced, not a new clef.
+</Callout>
 
-<ClefRake showInstrument />
+## 6 · Why only three symbols
+
+<Callout emoji="✍️">
+**Your prose here.**
+
+*Verified facts to write against:* the F clef points at **F3**, the C clef at
+**middle C**, the G clef at **G4**. Four diatonic steps each way — a perfect
+fifth below middle C and a perfect fifth above. Perfectly symmetric. Three
+symbols because three named notes. The seven clefs split **2 F / 4 C / 1 G**.
+</Callout>
+
+## 7 · The seven clefs, and their real symbols
+
+<Callout emoji="✍️">
+**Your prose here.** These are the seven clefs history actually used, and here
+are their real symbols — the markers were the letters F, C and G all along.
+
+*Verified facts:* only four survive — **treble, bass, alto, tenor**. Obsolete:
+**baritone, mezzo-soprano, soprano**.
+</Callout>
+
+<ClefRake marker="glyph" showNotches />
+
+## 8 · Who still reads alto and tenor
+
+<Callout emoji="✍️">
+**Your prose here.**
+
+*Verified facts to write against:*
+- **Alto** — viola, essentially its only full-time user.
+- **Tenor** — *no* full-time user at all. It is a register-saving clef that
+  cello, bassoon, trombone, euphonium and double bass switch *into* when the
+  bass staff would need too many ledger lines.
+- The conventional clef is a ledger-line minimum for **10 of 13** instruments
+  in the widget below. The three exceptions: guitar (treble clef is an
+  octave-transposing convention), trombone (tenor genuinely wins up high),
+  alto voice (historically alto clef, moved to treble).
+</Callout>
+
+<ClefRake showInstrument showNotches />
 
 <CallToAction flavor="teaching" />

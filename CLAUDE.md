@@ -133,6 +133,23 @@ className="... !text-white no-underline hover:!text-white ..."
 
 This applies to any `<a>` tag rendered inside an MDX page, including all components in `app/components/mdx-blocks/`.
 
+### Every MDX Component Must Accept `className`
+
+`.prose` leaks into MDX components constantly. `ClientMDX.tsx` defends against this by injecting `className={`not-prose ${props.className || ""}`}` into **every** registered component — but that defence only works if the component actually renders the className it is handed.
+
+**Symptom:** prose typography (link colors, list markers, heading sizes, `max-width`, vertical margins) bleeding into a component's own controls and labels, even though `ClientMDX` "already adds `not-prose`."
+
+**Root cause:** the component hardcodes its own `className` and never declares the prop, so the injected `not-prose` is passed, ignored, and silently dropped. TypeScript does not catch it — `ClientMDX` casts each component to `any` before spreading props.
+
+**Fix:** every component registered in `ClientMDX.tsx` accepts `className` and merges it:
+```tsx
+export default function MyBlock({ className = "" }: Props) {
+  return <div className={`my-block ${className}`.trim()}>…</div>;
+}
+```
+
+**Related trap — background-dependent effects.** If a component draws anything that knocks out to a background color (SVG text halos, gradient masks, faux-borders), it must *paint that background itself* rather than assuming an ancestor supplies it. A component that looks right in isolation will grow fringes on a page whose background differs. See `app/components/mdx-blocks/clef-rake/clef-rake.css`.
+
 ### Slider Touch Targets (Mobile)
 
 Range sliders (`<input type="range">`) have small default touch targets. A global rule in `app/global.css` sets `height: 3rem` (48px) on `@media (pointer: coarse)` to fix this for all sliders site-wide. Do not override this height in individual components. Use `pointer: coarse` (not a breakpoint) so it applies to any touch device regardless of screen width.
