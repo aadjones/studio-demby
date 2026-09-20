@@ -122,3 +122,13 @@
   stroke: var(--space);
   stroke-width: 2;
 }
+
+/*
+ * The contour figure shares the widget's panel and palette, so the two read as
+ * one family on the page. It has no controls, so it needs no `.stage` rules.
+ */
+.contour-figure svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}

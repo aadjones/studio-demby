@@ -38,10 +38,45 @@ someone who already knows the tune; not enough to teach it to someone who
 doesn't. Ends by wanting something more specific.
 </Callout>
 
-<Callout emoji="🖼️">
-**Figure slot — not built.** A contour visual: a melody drawn as rises and
-falls with no pitch specificity. Static image or small SVG, your call.
-</Callout>
+<ContourFigure />
+
+{/* CAPTION SLOT: a label for the drawn figure, if you want one. */}
+
+<Image
+  src="/photos/clef-rake/neumes-quem-quaeritis.jpg"
+  alt="A single line of medieval manuscript: Latin words with small ink squiggles floating above them, and no staff lines anywhere."
+  width={1400}
+  height={120}
+  className="mx-auto rounded-lg my-6 max-w-[520px]"
+/>
+
+<Caption>
+St. Gallen, Stiftsbibliothek, Cod. Sang. 391, p. 37 — the <em>Quem quaeritis</em>
+trope, written by Hartker c. 990–1000. Public domain; digitised by e-codices.
+</Caption>
+
+{/*
+  FIGURE NOTES (delete once the prose is written):
+
+  TWO FIGURES HERE, doing different jobs:
+  1. <ContourFigure /> is ours — "Twinkle, twinkle, little star" as pure
+     contour. It is deliberately the generous version: the mark heights are
+     truthful, and it is still not enough to name a pitch.
+  2. The manuscript below is the historical companion — what people actually
+     wrote. Note it carries LESS information than our drawing, not more.
+
+  - The marks above the words are adiastematic neumes: they show the melody
+    rising and falling, but there is no staff, so the actual pitches cannot be
+    recovered from them. That is exactly the gap section 2 goes on to fill.
+  - The text reads "Quem queritis in sepulchro, xpicticole? RESP. Ihesum
+    nazarenum" — "Whom do you seek in the tomb, O Christians?" / "Jesus of
+    Nazareth." It is the Easter dialogue trope.
+  - Source file on Wikimedia Commons is a composite of Cod. Sang. 391 pp. 33
+    and 37; this crop is from the p. 37 portion only, so the caption is
+    accurate. Full file: commons.wikimedia.org/wiki/File:Quem-quaeritis-Tropus.jpg
+  - If you want a wider or taller crop, the downloaded original is 756x1065 and
+    that is all the resolution Commons has. Beyond ~300% it goes soft.
+*/}
 
 ## 2 · The ladder
 
