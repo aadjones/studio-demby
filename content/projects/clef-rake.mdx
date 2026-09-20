@@ -1,0 +1,97 @@
+---
+title: "PLACEHOLDER—Aaron writes this"
+slug: clef-rake
+summary: "PLACEHOLDER—Aaron writes this"
+date: "2026-09-19"
+tags:
+  - interactive
+  - music
+  - teaching
+  - explainer
+categories:
+  - music
+  - teaching
+status: draft
+---
+
+{/*
+  SCAFFOLD ONLY. Every PROSE block below is an empty slot for Aaron.
+  Claude writes none of the body text—not the hook, not the explanation.
+
+  Outline and verified facts:
+  ~/.claude/plans/explore-the-file-clef-rake-html-calm-simon.md
+
+  `status: draft` keeps this unlisted, out of the sitemap and noindexed.
+  Flip to `published` when the prose is in.
+*/}
+
+<HeroTitleBlock title="PLACEHOLDER—Aaron writes this" />
+
+{/* ── 1 ─────────────────────────────────────────────────────────────────
+  PROSE: Contour. Melody as up / down / same. Enough to jog the memory of
+  someone who already knows the tune; not enough to teach it to someone who
+  doesn't. Ends by wanting something more specific.
+*/}
+
+{/* FIGURE: contour. Not built yet—static image or small SVG, decided later. */}
+
+{/* ── 2 ─────────────────────────────────────────────────────────────────
+  PROSE: The giant ladder. Every pitch on one vertical stack, seven letter
+  names repeating forever. A melody becomes "where on the ladder".
+  The faint grid in the widget below IS this ladder.
+*/}
+
+<ClefRake />
+
+{/* ── 3 ─────────────────────────────────────────────────────────────────
+  PROSE: The ladder is overwhelming to read. Grab a five-line slice of it.
+  The staff is a window onto the ladder, not a thing in itself.
+  (Reader drags the widget above.)
+*/}
+
+{/* ── 4 ─────────────────────────────────────────────────────────────────
+  PROSE: Slide the window and different letters land on the lines.
+  Same ladder, different slice, different reading.
+*/}
+
+{/* ── 5 ─────────────────────────────────────────────────────────────────
+  PROSE: Why exactly seven.
+  FACT: stepping up a third is +2; gcd(2,7) = 1, so +2 cycles through all
+  seven letters before repeating. Bottom lines go G B D F A C E, then back
+  to G. Returning to the start takes 7 steps of 2 = +14 = TWO octaves, so
+  the eighth stop is bass clef displaced, not a new clef.
+*/}
+
+{/* ── 6 ─────────────────────────────────────────────────────────────────
+  PROSE: Why only three symbols.
+  FACT: F clef points at F3, C clef at middle C, G clef at G4. Four
+  diatonic steps each way—a perfect fifth below and a perfect fifth above
+  middle C. Perfectly symmetric. Three symbols because three named notes.
+  The seven split 2 F / 4 C / 1 G.
+*/}
+
+{/* ── 7 ─────────────────────────────────────────────────────────────────
+  PROSE: These are the seven clefs history actually used, and here are
+  their real symbols—the markers were the letters F, C and G all along.
+  Only four survive: treble, bass, alto, tenor.
+  Obsolete: baritone, mezzo-soprano, soprano.
+*/}
+
+<ClefRake marker="glyph" />
+
+{/* ── 8 ─────────────────────────────────────────────────────────────────
+  PROSE: Who still reads alto and tenor, and the ledger-line reason.
+  FACTS:
+    - Alto: viola, essentially its only full-time user.
+    - Tenor: NO full-time user at all. It is a register-saving clef that
+      cello, bassoon, trombone, euphonium and double bass switch INTO when
+      the bass staff would need too many ledger lines.
+    - The conventional clef is a ledger-line minimum for 10 of 13
+      instruments below. The exceptions: guitar (treble clef is an
+      octave-transposing convention), trombone (tenor genuinely wins up
+      high), alto voice (historically alto clef, moved to treble).
+*/}
+
+<ClefRake showInstrument />
+
+<CallToAction flavor="teaching" />

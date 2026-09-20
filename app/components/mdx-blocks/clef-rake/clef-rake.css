@@ -1,0 +1,124 @@
+/*
+ * Component-scoped styles, ported from the prototype's <style> block.
+ *
+ * The palette lives on `.clef-rake` rather than `:root` so the component is
+ * self-contained and can drop into a host page without leaking variables.
+ */
+.clef-rake {
+  --bg: #fff4c9;
+  --ink: #1e2a5a;
+  --soft: #7a80a6;
+  --line: #2f6fde;
+  --space: #e8468f;
+
+  color: var(--ink);
+  font-family: "Fredoka", ui-rounded, system-ui, sans-serif;
+  line-height: 1.4;
+  max-width: 520px;
+  margin: 1.5rem auto;
+
+  /*
+   * The component must paint its own background. HaloText knocks out to
+   * var(--bg), so if an ancestor supplies a different colour the labels get a
+   * visible fringe. Painting it here makes the halo correct by construction
+   * rather than by luck, and lets the widget read as a figure on any page.
+   */
+  background: var(--bg);
+  padding: 14px;
+  border-radius: 16px;
+}
+
+.clef-rake .inst {
+  font-size: 0.95rem;
+  margin: 8px 0 0;
+}
+
+.clef-rake .row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.clef-rake .seg {
+  display: inline-flex;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.clef-rake .seg button {
+  border: 0;
+  border-radius: 0;
+  padding: 5px 12px;
+}
+.clef-rake .seg button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--bg);
+}
+.clef-rake button,
+.clef-rake select {
+  font: inherit;
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  background: #fff;
+  border-radius: 999px;
+  padding: 5px 12px;
+  cursor: pointer;
+}
+.clef-rake button:focus-visible,
+.clef-rake select:focus-visible {
+  outline: 3px solid var(--space);
+  outline-offset: 2px;
+}
+
+.clef-rake .stage {
+  display: flex;
+  gap: 6px;
+  align-items: stretch;
+}
+.clef-rake .stage svg {
+  display: block;
+  flex: 1;
+  min-width: 0;
+  height: auto;
+}
+.clef-rake .arrows {
+  position: relative;
+  width: 42px;
+  flex: 0 0 42px;
+}
+.clef-rake .arrows > div {
+  position: absolute;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: top 0.12s;
+}
+.clef-rake .arrows button {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border-radius: 12px;
+}
+
+.clef-rake #hit {
+  cursor: grab;
+  touch-action: none;
+}
+.clef-rake #hit:active {
+  cursor: grabbing;
+}
+.clef-rake .notch {
+  cursor: pointer;
+}
+.clef-rake .notch:hover text {
+  fill: var(--ink);
+}
+.clef-rake .notch:focus {
+  outline: none;
+}
+.clef-rake .notch:focus-visible rect {
+  stroke: var(--space);
+  stroke-width: 2;
+}

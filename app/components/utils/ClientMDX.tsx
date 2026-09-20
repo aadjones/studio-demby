@@ -57,6 +57,7 @@ import EmbedExperience from "../mdx-blocks/EmbedExperience";
 import BirdCards from "../mdx-blocks/bird-cards/BirdCards";
 import InharmonicSynth from "../mdx-blocks/inharmonicity/InharmonicSynth";
 import RealPianoSpectrum from "../mdx-blocks/inharmonicity/RealPianoSpectrum";
+import ClefRake from "../mdx-blocks/clef-rake/ClefRake";
 
 type ComponentType = React.ComponentType<any> | string;
 
@@ -122,6 +123,7 @@ const baseComponents = {
   BirdCards,
   InharmonicSynth,
   RealPianoSpectrum,
+  ClefRake,
 };
 
 export default function ClientMDX({
