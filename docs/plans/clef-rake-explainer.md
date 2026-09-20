@@ -46,6 +46,13 @@ seven historical clefs and which four survive → who still reads alto and tenor
   note the clef names, at the identical position; real glyphs are the reveal in
   §7. Reason: "seven clefs, three symbols" confuses before it is explained.
 - Instruments come **last**, not as mid-article motivation.
+- **Section 2 shows no staff.** `<PitchLadder />` draws the ladder alone, with
+  every C labelled identically — middle C included — so nothing acts as an
+  anchor. Putting the five-line slice here would answer §3's question before it
+  has been asked; the reader has to feel the ladder is too much *first*, which
+  is what motivates grabbing a slice in §3. `PitchLadder` and `ClefRake` share
+  `layout.ts` exactly, so §3 is visibly the same ladder with a staff on it, not
+  a redrawing.
 - The cream/navy/Fredoka palette stays as-is rather than adapting to site
   theming — it reads as an illustration. Revisitable.
 
@@ -137,9 +144,9 @@ the convention and says to delete itself.
 
 | # | Section | Widget |
 |---|---|---|
-| 1 | Contour | `🖼️` figure slot — **not built** |
-| 2 | The ladder | `<ClefRake />` |
-| 3 | Grabbing a slice | (reader drags §2's) |
+| 1 | Contour | `<ContourFigure />` + manuscript crop |
+| 2 | The ladder | `<PitchLadder />` — **no staff** |
+| 3 | Grabbing a slice | `<ClefRake />` |
 | 4 | Different slices, different letters | — |
 | 5 | Why exactly seven | — (fact 2) |
 | 6 | Why only three symbols | — (fact 3) |

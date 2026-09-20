@@ -59,6 +59,7 @@ import InharmonicSynth from "../mdx-blocks/inharmonicity/InharmonicSynth";
 import RealPianoSpectrum from "../mdx-blocks/inharmonicity/RealPianoSpectrum";
 import ClefRake from "../mdx-blocks/clef-rake/ClefRake";
 import ContourFigure from "../mdx-blocks/clef-rake/ContourFigure";
+import PitchLadder from "../mdx-blocks/clef-rake/PitchLadder";
 
 type ComponentType = React.ComponentType<any> | string;
 
@@ -126,6 +127,7 @@ const baseComponents = {
   RealPianoSpectrum,
   ClefRake,
   ContourFigure,
+  PitchLadder,
 };
 
 export default function ClientMDX({

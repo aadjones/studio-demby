@@ -132,3 +132,9 @@
   width: 100%;
   height: auto;
 }
+
+.pitch-ladder svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
