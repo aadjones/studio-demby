@@ -57,9 +57,14 @@ import EmbedExperience from "../mdx-blocks/EmbedExperience";
 import BirdCards from "../mdx-blocks/bird-cards/BirdCards";
 import InharmonicSynth from "../mdx-blocks/inharmonicity/InharmonicSynth";
 import RealPianoSpectrum from "../mdx-blocks/inharmonicity/RealPianoSpectrum";
+import ClefGlyphs from "../mdx-blocks/clef-rake/ClefGlyphs";
 import ClefRake from "../mdx-blocks/clef-rake/ClefRake";
 import ContourFigure from "../mdx-blocks/clef-rake/ContourFigure";
 import PitchLadder from "../mdx-blocks/clef-rake/PitchLadder";
+import LetterToGlyph from "../mdx-blocks/clef-rake/LetterToGlyph";
+import MiddleCAcrossClefs from "../mdx-blocks/clef-rake/MiddleCAcrossClefs";
+import MiddleLineShift from "../mdx-blocks/clef-rake/MiddleLineShift";
+import StaffCutaway from "../mdx-blocks/clef-rake/StaffCutaway";
 
 type ComponentType = React.ComponentType<any> | string;
 
@@ -125,9 +130,14 @@ const baseComponents = {
   BirdCards,
   InharmonicSynth,
   RealPianoSpectrum,
+  ClefGlyphs,
   ClefRake,
   ContourFigure,
+  LetterToGlyph,
+  MiddleCAcrossClefs,
+  MiddleLineShift,
   PitchLadder,
+  StaffCutaway,
 };
 
 export default function ClientMDX({
