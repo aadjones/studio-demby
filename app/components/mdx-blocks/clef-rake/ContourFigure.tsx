@@ -1,47 +1,24 @@
 "use client";
 
 import "./clef-rake.css";
+import { PHRASE, type Syllable } from "./lib/twinkle";
+import SyllableRow from "./SyllableRow";
 
 /**
  * "Twinkle, twinkle, little star" drawn as pure contour: marks floating at
  * varying heights over a fixed line of syllables, with no staff and no
  * reference of any kind.
  *
- * The companion to the manuscript figure beside it. A real adiastematic
- * manuscript does not even carry this much — there the height of a mark means
- * nothing at all — so this is deliberately the *generous* version of the idea,
- * and still not enough to name a single pitch.
+ * Only the first phrase. Seven syllables are enough to make the point, and a
+ * shorter figure keeps the whole idea inside one glance.
  *
- * Scale degrees, C major:
- *   Twin kle twin kle lit tle star  →  1 1 5 5 6 6 5
- *   How  I   won  der what you are  →  4 4 3 3 2 2 1
+ * A real adiastematic manuscript does not even carry this much — there the
+ * height of a mark means nothing at all — so this is deliberately the
+ * *generous* version of the idea, and still not enough to name a single pitch.
+ *
+ * The tune itself lives in `lib/twinkle`, shared with the ladder in section 2 —
+ * the two figures have to show the same phrase.
  */
-
-interface Syllable {
-  text: string;
-  /** Scale degree, 1–7. Height only; no octave, no absolute pitch. */
-  degree: number;
-}
-
-const SYSTEM_1: Syllable[] = [
-  { text: "Twin", degree: 1 },
-  { text: "kle", degree: 1 },
-  { text: "twin", degree: 5 },
-  { text: "kle", degree: 5 },
-  { text: "lit", degree: 6 },
-  { text: "tle", degree: 6 },
-  { text: "star", degree: 5 },
-];
-
-const SYSTEM_2: Syllable[] = [
-  { text: "How", degree: 4 },
-  { text: "I", degree: 4 },
-  { text: "won", degree: 3 },
-  { text: "der", degree: 3 },
-  { text: "what", degree: 2 },
-  { text: "you", degree: 2 },
-  { text: "are", degree: 1 },
-];
 
 const X_START = 42;
 const X_STEP = 50;
@@ -92,18 +69,8 @@ function System({
           />
         );
       })}
-      {syllables.map((s, i) => (
-        <text
-          key={`t-${s.text}-${i}`}
-          x={xOf(i)}
-          y={textY}
-          textAnchor="middle"
-          fontSize={15}
-          fill="var(--ink)"
-        >
-          {s.text}
-        </text>
-      ))}
+      {/* No halo: there is nothing drawn behind the words in this figure. */}
+      <SyllableRow xOf={xOf} y={textY} fontSize={15} />
     </g>
   );
 }
@@ -116,17 +83,15 @@ export default function ContourFigure({
   return (
     <div className={`clef-rake contour-figure ${className}`.trim()}>
       <svg
-        viewBox="0 0 380 292"
-        aria-label="The melody of Twinkle Twinkle Little Star drawn as contour: marks at varying heights above two lines of syllables, with no staff lines."
+        viewBox="0 0 380 166"
+        aria-label="The opening phrase of Twinkle Twinkle Little Star drawn as contour: marks at varying heights above a line of syllables, with no staff lines."
       >
         {/*
-          Both systems use the same degree-to-pixel scale, so the shape within
-          each is true. The break between them is a break, exactly as a system
-          break is on a real page — the eye should not read the vertical gap
-          between "star" and "How" as the size of that step.
+          Same degree-to-pixel scale and the same markBase as before the figure
+          was cut back to one phrase, so the shape reads at exactly the size it
+          always did — only the canvas below it is gone.
         */}
-        <System syllables={SYSTEM_1} markBase={122} textY={150} />
-        <System syllables={SYSTEM_2} markBase={248} textY={276} />
+        <System syllables={PHRASE} markBase={122} textY={150} />
       </svg>
     </div>
   );
