@@ -28,9 +28,73 @@
   border-radius: 16px;
 }
 
+/* Sits between the instrument picker and the staff, so it needs space below. */
 .clef-rake .inst {
   font-size: 0.95rem;
-  margin: 8px 0 0;
+  margin: 0 0 8px;
+}
+
+/*
+ * Mobile: let the figures out of the prose column.
+ *
+ * The page nests two gutters, so at 375px a figure starts life 96px narrower
+ * than the screen and its SVG text lands around 5.6px — a smear. Pulling both
+ * gutters back puts the card on the page's own 16px margin and buys roughly
+ * 30% on every figure, which is the difference between reading
+ * "Mezzo-soprano" and not.
+ *
+ * `max-width: none` is load-bearing. The base rule caps the card at 520px and
+ * centres it with `margin: auto`; overriding the margins without lifting the
+ * cap leaves a 520px card pulled 32px left and stranded, with a 215px gap on
+ * its right. Below the breakpoint the card is exactly `viewport - 32px`, which
+ * keeps the 16px gutter on both sides because the prose column is itself
+ * centred on the viewport.
+ *
+ * The breakpoint is 552 (520 + 32), the width at which the broken-out card
+ * would reach the cap. The card does step down there, from 519px to 456px,
+ * because above the query it is bounded by the prose column again rather than
+ * by its own max-width. Every possible breakpoint has a step of about this
+ * size — the breakout is worth 64px wherever it stops — so it is accepted
+ * rather than engineered away: phones sit far below 552 and never see it, and
+ * you only notice by dragging a desktop window through that exact width.
+ *
+ * Mobile-first, per the house rule — the breakout is the default and this is
+ * the only query.
+ */
+.clef-rake {
+  max-width: none;
+  margin-left: -32px;
+  margin-right: -32px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+/* Narrower arrow column on phones; every pixel goes to the staff. */
+.clef-rake .arrows {
+  width: 34px;
+  flex: 0 0 34px;
+}
+.clef-rake .arrows button {
+  width: 34px;
+  height: 34px;
+}
+
+@media (min-width: 552px) {
+  .clef-rake {
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .clef-rake .arrows {
+    width: 42px;
+    flex: 0 0 42px;
+  }
+  .clef-rake .arrows button {
+    width: 42px;
+    height: 42px;
+  }
 }
 
 .clef-rake .row {
@@ -133,7 +197,12 @@
   height: auto;
 }
 
-.pitch-ladder svg {
+.pitch-ladder svg,
+.staff-cutaway svg,
+.middle-line-shift svg,
+.middle-c-across svg,
+.clef-glyphs svg,
+.letter-to-glyph svg {
   display: block;
   width: 100%;
   height: auto;
