@@ -105,9 +105,15 @@ for Aaron's prose, and most are pinned by tests.
    only three symbols" and is the intended punchline. A descending fifth inverts
    to an ascending fourth, so "a fourth from middle C" is a natural but lopsided
    way to say it — the clef points at F3, not F4.
-4. **The seven split 2 F / 4 C / 1 G.** Bass + baritone; tenor, alto,
-   mezzo-soprano, soprano; treble. *(Claude first said "five C-clefs"; the test
-   caught it.)*
+4. **The seven split 1 F / 5 C / 1 G.** Bass; baritone, tenor, alto,
+   mezzo-soprano, soprano; treble. *(Superseded 2026-09-21. This was written as
+   2 F / 4 C / 1 G, the commonly quoted split, after Claude said "five C-clefs"
+   and a test caught it. Both are right: baritone's lines are B2 D3 F3 A3 C4, so
+   F3 sits on the 3rd line and C4 on the 5th, and history wrote it both ways.
+   Aaron chose the C reading because it makes the set say something — the five C
+   clefs put middle C on each of the five lines in turn, and the only two that
+   are not C clefs are exactly the two where middle C has left the staff, above
+   bass and below treble. `tests/clef-clefs` now pins that down.)*
 5. **The conventional clef is a ledger-line minimum for 10 of 13 instruments.**
    Three exceptions, each explicable: guitar (treble clef is an
    octave-transposing convention), trombone (tenor genuinely wins up high, and

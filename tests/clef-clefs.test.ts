@@ -17,10 +17,11 @@ describe("the clef names the note it points at", () => {
   });
 
   it("puts every C clef on middle C itself", () => {
-    // Four of the seven are C clefs: tenor, alto, mezzo-soprano, soprano.
-    // They are one clef pointing at one note, with the staff slid underneath.
+    // Five of the seven are C clefs. They are one clef pointing at one note,
+    // with the staff slid underneath.
     const cClefs = CLEFS.filter((c) => c.sign === "C");
     expect(cClefs.map((c) => c.name)).toEqual([
+      "Baritone",
       "Tenor",
       "Alto",
       "Mezzo-soprano",
@@ -29,10 +30,42 @@ describe("the clef names the note it points at", () => {
     for (const clef of cClefs) expect(signPitch(clef)).toBe(MIDDLE_C);
   });
 
-  it("splits the seven clefs 2 / 4 / 1 across the three symbols", () => {
+  it("splits the seven clefs 1 / 5 / 1 across the three symbols", () => {
     const tally = (sign: string) => CLEFS.filter((c) => c.sign === sign).length;
-    expect([tally("F"), tally("C"), tally("G")]).toEqual([2, 4, 1]);
+    expect([tally("F"), tally("C"), tally("G")]).toEqual([1, 5, 1]);
     expect(tally("F") + tally("C") + tally("G")).toBe(CLEFS.length);
+  });
+
+  it("lets the five C clefs use each of the five lines in turn", () => {
+    // Bottom line upwards, so: soprano 1st, mezzo 2nd, alto 3rd, tenor 4th,
+    // baritone 5th. This is why five and not four — the set is only complete
+    // if middle C gets every line.
+    const lineOf = (bottom: number) => (MIDDLE_C - bottom) / 2;
+    const byLine = CLEFS.filter((c) => c.sign === "C")
+      .map((c) => [lineOf(c.bottom), c.name] as const)
+      .sort((a, b) => a[0] - b[0]);
+
+    expect(byLine).toEqual([
+      [0, "Soprano"],
+      [1, "Mezzo-soprano"],
+      [2, "Alto"],
+      [3, "Tenor"],
+      [4, "Baritone"],
+    ]);
+  });
+
+  it("uses a non-C clef exactly where middle C has left the staff", () => {
+    // The reason the other two cannot be C clefs: there is no line to put
+    // middle C on, so each has to name a note it can still reach.
+    for (const clef of CLEFS) {
+      const onStaff =
+        MIDDLE_C >= clef.bottom && MIDDLE_C <= topPitch(clef.bottom);
+      expect(clef.sign === "C").toBe(onStaff);
+    }
+
+    const [bass, treble] = [CLEFS[0], CLEFS[CLEFS.length - 1]];
+    expect(MIDDLE_C).toBeGreaterThan(topPitch(bass.bottom)); // above bass
+    expect(MIDDLE_C).toBeLessThan(treble.bottom); // below treble
   });
 
   it("puts the sign on an actual staff line, never in a space", () => {
