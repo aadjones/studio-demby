@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { serialize } from "next-mdx-remote-client/serialize";
+import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 
@@ -79,6 +80,10 @@ export async function getProjectBySlugOnly(slug: string) {
     return null;
   }
 
+  // GFM is here for footnotes: `[^key]` in the prose, `[^key]: …` anywhere
+  // in the file. It numbers them by order of appearance and builds the list
+  // at the end, which hand-numbering would not survive a reorder.
+  const remarkGfmPlugin = (remarkGfm as unknown as { default?: any }).default ?? remarkGfm;
   const remarkMathPlugin = (remarkMath as unknown as { default?: any }).default ?? remarkMath;
   const rehypeKatexPlugin = (rehypeKatex as unknown as { default?: any }).default ?? rehypeKatex;
 
@@ -88,7 +93,7 @@ export async function getProjectBySlugOnly(slug: string) {
       disableImports: true,
       scope: {},
       mdxOptions: {
-        remarkPlugins: [remarkMathPlugin],
+        remarkPlugins: [remarkGfmPlugin, remarkMathPlugin],
         rehypePlugins: [rehypeKatexPlugin],
       },
     },
