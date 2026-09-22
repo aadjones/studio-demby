@@ -68,7 +68,7 @@ export default function ClefNotches({ current, onSelect }: Props) {
               fill={on ? "var(--ink)" : "var(--soft)"}
               fontWeight={on ? 600 : 400}
             >
-              {clef.short}
+              {clef.name}
             </text>
           </g>
         );

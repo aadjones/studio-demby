@@ -1,9 +1,13 @@
 import { useCallback, useEffect, useRef, type RefObject } from "react";
-import { nearestClef, type Clef } from "./lib/clefs";
+import type { Diatonic } from "./lib/pitch";
 import { dOf } from "./layout";
 
 /**
- * Drag the staff along the ladder, snapping to the nearest clef stop.
+ * Drag the staff along the ladder.
+ *
+ * Where it is allowed to land is `snap`'s business, not this hook's: section 7
+ * snaps to the seven clef stops, section 4 takes any step at all. The hook only
+ * turns a pointer into a pitch.
  *
  * Screen coordinates are converted through the SVG's own CTM rather than by
  * measuring the element, so the drag keeps tracking the pointer at any
@@ -11,8 +15,9 @@ import { dOf } from "./layout";
  */
 export function useStaffDrag(
   svgRef: RefObject<SVGSVGElement>,
-  current: Clef,
-  onChange: (clef: Clef) => void
+  currentBottom: Diatonic,
+  onChange: (bottom: Diatonic) => void,
+  snap: (want: number) => Diatonic
 ) {
   const dragging = useRef(false);
   const grabOffset = useRef(0);
@@ -35,16 +40,16 @@ export function useStaffDrag(
       e.preventDefault();
       dragging.current = true;
       // Remember where on the staff the grab happened, so it doesn't jump.
-      grabOffset.current = pointerToDiatonic(e) - current.bottom;
+      grabOffset.current = pointerToDiatonic(e) - currentBottom;
     },
-    [pointerToDiatonic, current.bottom]
+    [pointerToDiatonic, currentBottom]
   );
 
   useEffect(() => {
     function move(e: PointerEvent) {
       if (!dragging.current) return;
-      const next = nearestClef(pointerToDiatonic(e) - grabOffset.current);
-      if (next.bottom !== current.bottom) onChange(next);
+      const next = snap(pointerToDiatonic(e) - grabOffset.current);
+      if (next !== currentBottom) onChange(next);
     }
     function end() {
       dragging.current = false;
@@ -58,7 +63,7 @@ export function useStaffDrag(
       window.removeEventListener("pointerup", end);
       window.removeEventListener("pointercancel", end);
     };
-  }, [pointerToDiatonic, current.bottom, onChange]);
+  }, [pointerToDiatonic, currentBottom, onChange, snap]);
 
   return onPointerDown;
 }
