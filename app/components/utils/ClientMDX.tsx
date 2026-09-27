@@ -66,6 +66,7 @@ import LineAndSpace from "../mdx-blocks/clef-rake/LineAndSpace";
 import MiddleCAcrossClefs from "../mdx-blocks/clef-rake/MiddleCAcrossClefs";
 import MiddleLineShift from "../mdx-blocks/clef-rake/MiddleLineShift";
 import StaffCutaway from "../mdx-blocks/clef-rake/StaffCutaway";
+import UnnamedClefs from "../mdx-blocks/clef-rake/UnnamedClefs";
 
 type ComponentType = React.ComponentType<any> | string;
 
@@ -139,6 +140,7 @@ const baseComponents = {
   MiddleCAcrossClefs,
   MiddleLineShift,
   PitchLadder,
+  UnnamedClefs,
   StaffCutaway,
 };
 
