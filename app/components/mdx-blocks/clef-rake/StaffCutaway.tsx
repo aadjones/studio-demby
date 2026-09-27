@@ -29,7 +29,7 @@ import SyllableRow from "./SyllableRow";
  * The marker is still the plain letter C with a dot, not the clef symbol it
  * would really be. The reader has been told what this staff is — the slice with
  * middle C on its middle line — and has not been told that the mark for it is a
- * drawing of a letter C. That reveal is section 7's.
+ * drawing of a letter C. That reveal comes later, with the real symbols.
  */
 
 /**

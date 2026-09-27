@@ -68,14 +68,14 @@ export interface ClefRakeProps {
    * survives being dragged anywhere, and it is the anchor the article has been
    * building on since section 2.
    *
-   * Section 4 wants this. Sections 7 and 8 are specifically about the seven
-   * real clefs, so they leave it off.
+   * The free-sliding section wants this. The later sections are specifically
+   * about the seven real clefs, so they leave it off.
    */
   freeSlice?: boolean;
   /**
-   * Whether the reader can move the staff. Off in section 3, which only has to
-   * show *a* slice sitting still — one figure, one idea. Section 4 is where
-   * moving it becomes the point, and turns this back on.
+   * Whether the reader can move the staff. Off where the article first
+   * shows *a* slice sitting still — one figure, one idea. The next section is
+   * where moving it becomes the point, and turns this back on.
    *
    * When off, the drag target, the arrows and the "drag ↕" hint all go. The
    * staff itself is drawn by exactly the same code either way, so the two

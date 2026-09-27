@@ -52,6 +52,11 @@ body {
          font-normal text-ink-900 hover:text-brand-coral hover:decoration-brand-coral;
 }
 
+/* GFM footnotes: a thin rule and smaller type, the usual end-of-article look. */
+.prose .footnotes {
+  @apply mt-12 pt-6 border-t border-ink-300 text-sm;
+}
+
 .prose .anchor:after {
   @apply text-ink-300;
   content: "#";

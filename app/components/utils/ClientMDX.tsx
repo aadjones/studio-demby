@@ -62,6 +62,7 @@ import ClefRake from "../mdx-blocks/clef-rake/ClefRake";
 import ContourFigure from "../mdx-blocks/clef-rake/ContourFigure";
 import PitchLadder from "../mdx-blocks/clef-rake/PitchLadder";
 import LetterToGlyph from "../mdx-blocks/clef-rake/LetterToGlyph";
+import LineAndSpace from "../mdx-blocks/clef-rake/LineAndSpace";
 import MiddleCAcrossClefs from "../mdx-blocks/clef-rake/MiddleCAcrossClefs";
 import MiddleLineShift from "../mdx-blocks/clef-rake/MiddleLineShift";
 import StaffCutaway from "../mdx-blocks/clef-rake/StaffCutaway";
@@ -134,6 +135,7 @@ const baseComponents = {
   ClefRake,
   ContourFigure,
   LetterToGlyph,
+  LineAndSpace,
   MiddleCAcrossClefs,
   MiddleLineShift,
   PitchLadder,

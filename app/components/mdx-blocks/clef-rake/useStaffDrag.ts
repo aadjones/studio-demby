@@ -5,8 +5,8 @@ import { dOf } from "./layout";
 /**
  * Drag the staff along the ladder.
  *
- * Where it is allowed to land is `snap`'s business, not this hook's: section 7
- * snaps to the seven clef stops, section 4 takes any step at all. The hook only
+ * Where it is allowed to land is `snap`'s business, not this hook's: the real-clef
+ * widgets snap to the seven clef stops, the free slider takes any step at all. The hook only
  * turns a pointer into a pitch.
  *
  * Screen coordinates are converted through the SVG's own CTM rather than by

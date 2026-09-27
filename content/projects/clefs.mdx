@@ -1,0 +1,130 @@
+---
+title: "Clefs: what are they good for?"
+slug: clefs
+summary: "Exploring why we have different musical clefs."
+date: "2026-09-19"
+image: /photos/clefs/thumbnail.png
+tags:
+  - interactive
+  - music
+  - teaching
+  - explainer
+categories:
+  - teaching
+status: published
+---
+
+<HeroTitleBlock title="Clefs: what are they good for?" />
+
+## What even are these things?
+
+One of three squiggly glyphs sits at the front of most every piece
+of notated Western music.
+
+<ClefGlyphs />
+
+But why do we have three different systems for reading music? To find out, we have to go back to first principles: what are we even trying to do when we write music down? Along the way, we'll discover a ladder, a giant music slicer, and the shocking truth that there are actually seven different systems, not three!
+
+## 1 · Contour
+
+When we sing melodies, we either go up, down, or stay the same. So it's a natural idea to try to write down a melody by sketching it as a **contour**: each note is a dot, and the dots can go up, down, or stay the same.  
+<ContourFigure />
+Especially if you kind of know the tune already, the contour can help jog your memory. But if you don't know the tune ahead of time, the contour diagram is a little vague. Exactly how far up do you go between the first 'twinkle' and the second one? And where exactly do you start? If you're singing with other people, these details start to matter more. We need a more precise system.
+
+## 2 · The ladder of notes
+
+Hundreds of years ago, musicians in the West had the same idea. They came up with a ladder that let them be more specific about each musical note. The ladder is based on 7 musical notes: Do, Re, Mi, Fa, Sol, La, Si.[^Si] In the English-speaking world, we know these as C, D, E, F, G, A, B. After that, the notes repeat again from Do/C. We can number each C to keep track of where we are on the ladder.[^ladder]
+
+[^Si]: You might know the last syllable 'Si' as 'Ti.' And also the first syllable 'Do' was originally 'Ut.' But these are stories for another time.
+[^ladder]: Despite visually appearing that way, the ladder is *not* uniformly spaced. The gaps from E to F and from B to C are half as big as the gaps everywhere else. But that's yet another story for a different day.
+
+<PitchLadder />
+This gives us a more precise "Twinkle, Twinkle"—now we know to start on C4 (middle C), then go C-C-G-G-A-A-G. But it's a pretty tall ladder and it takes up a ton of space. Most melodies for a voice aren't going to use the full ladder. So why don't we just truncate it a bit? This is where the idea of a musical **clef** comes in.
+
+## 3 · Clefs as slices
+
+First, take a closer look at the ladder. A note can sit right on a rung (a **line**), or in the gap between two rungs (a **space**). If we grab just 2 lines, we can already fit 5 notes:
+
+<LineAndSpace />
+
+But 5 notes isn't enough for most melodies. We wouldn't be able to fit "Twinkle, Twinkle" comfortably here. So let's take more than 2 lines. If we grab 5 lines instead, we get 11 notes: 5 on the lines, 4 in the spaces between them, and one more just above and just below. We'll set it up so that middle C is on the middle line.
+
+{/*
+  Same geometry as the ladder above: identical scale, identical note columns.
+  The staff has arrived ON the ladder, it is not a second drawing of one.
+
+  Held still on purpose. This section only has to show that a five-line slice
+  exists and that middle C lands on its middle line. Being able to move it is
+  section 4's idea; handing the reader a draggable widget here gives them two
+  things to work out at once, and they tend to start dragging before they have
+  read what the slice is.
+*/}
+
+<ClefRake interactive={false} />
+<StaffCutaway />
+That looks much more readable![^readable] Those 5 lines are called a **staff**. But a staff by itself doesn't tell you much: you also need to know which slice of the ladder it's sitting on, and that's what a **clef** tells you. (I like to picture a giant slicer carving the staff out of the ladder, like one of those industrial deli-slicer machines, but for music.)
+
+[^readable]: In fact, this lines up exactly with the modern alto clef, for all you violists out there.
+
+The clef we picked here with middle C on the middle line worked well for "Twinkle, Twinkle." But what if we need to reach notes that are way higher or lower on the ladder? For example, maybe we want to write music for a tuba or a flute. Grabbing a five-line slice in the middle won't be convenient at all for those instruments. We're gonna need more clefs.
+
+## 4 · How many clefs are there?
+
+Let's go ahead and have some fun sliding our slicer up and down the ladder! Each new slice position in theory makes a new clef.
+
+<ClefRake freeSlice />
+
+If you look carefully, you'll see that the ladder itself never actually moves; only the slice does.
+
+You might have noticed that depending on where you choose your slice, the lines and spaces within the staff line up with different letter-names. For example, our original clef had C on the middle line, but if you drag the slice up one notch, then the middle line will be E. (It skips over D, since we're just dragging across lines and skipping spaces.)
+
+<MiddleLineShift />
+
+So how many different clefs can we make? Well, the middle line completely determines the clef, and it can land on any of the 7 letters. So there are 7 possible clefs! (You could keep sliding and find more way up high or way down low, but they'd read just like one of these 7, only higher or lower.)
+
+## 5 · How to mark your clef
+
+In practice, the 7 clefs that have been used throughout history can be organized as follows:
+- 5 clefs where middle C is on each of the 5 different lines
+- 1 clef so high that middle C is one line off the bottom of the staff
+- 1 clef so low that middle C is one line off the top of the staff
+
+<MiddleCAcrossClefs />
+
+For the 5 clefs where middle C is on one of the lines, to mark our clef, we can just mark that line with a symbol to let the reader know that's where middle C is. But for the really high and really low clefs, middle C falls off the staff, so that's not a great solution. Historically, musicians instead marked a G a little above middle C, or an F the same distance below it. Why G and F in particular? I have no idea. We simply have to move on.
+
+## 6 · The seven clefs, and their real symbols
+
+Those 3 letters (G, F, and C) are exactly what the real clef symbols are.[^treble] Scribes wrote them by hand for a few hundred years, and they slowly stopped looking much like letters.
+
+<LetterToGlyph />
+(I know, I know, the F and the C don't look much like the glyphs. I couldn't find any definitive explanation for what the heck happened here.)
+
+[^treble]: In fact, the treble clef is also known as the 'G' clef and the bass clef is also known as the 'F' clef.
+
+The widget below swaps in the real deal. Click the stops along the right side to move between the 7 clefs. Just like before, the ladder never moves; only the slice does. The curly 'C', the 'F' with its two dots, and the loopy 'G' are sitting exactly where the plain letters were. The names of the clefs, from low to high, are bass, baritone, tenor, alto, mezzo-soprano, soprano, and treble.[^baritone]
+
+[^baritone]: Baritone clef actually gets written two different ways: a C on the top line, or an F on the middle line. It's the same 5 lines and the same notes either way. We're using the C version here because it makes the pattern easier to see.
+
+<ClefRake marker="glyph" showNotches />
+
+## 7 · Wait, do we actually use 7 different systems?!
+
+Historically, yes! But in modern times, we primarily use only 4 of these clefs: treble, bass, alto, and tenor. Depending on the instrument and its range, some clefs are more convenient than others. You can explore the typical clefs for a bunch of instruments below. You can also play with the slicer to see how horrible it would be to use a poorly-fit clef for a range: many of the notes would be way off the top or bottom of the staff!
+
+<ClefRake showInstrument showNotches marker="glyph" />
+
+You might have noticed that the widget never defaults to tenor clef, even though tenor is one of the 4 we still use. That's because nobody reads tenor clef full-time! Cellists, bassoonists, trombonists, and bassists all live by default in bass clef, but they sometimes switch over to tenor for a stretch when the music goes high enough that a lot of notes would fall off the top of the bass clef staff.
+
+## So, what are clefs good for?
+
+Every clef is just a way of saying which 5 lines of the giant ladder you grabbed. Pick the slice that fits your instrument, and nearly every note lands right on the staff instead of dangling off the top or bottom.
+
+Clefs are also good for teaching children preposterous mnemonics like "Every Good Boy Does Fine" and "All Cows Eat Grass." (They're trying to control both boys and cows!) The first letters spell out the notes from the bottom up: E-G-B-D-F are the lines of the treble clef, and A-C-E-G are the spaces of the bass clef. But alto and tenor clef never got any widely known ones, so here are a few of my own:
+
+- Alto lines: **Forsake All Cheese, Even Gouda**
+- Alto spaces: **Gruyère Beats Dry Feta**
+- Tenor lines: **Don't Forget About Cheddar, Everyone**
+- Tenor spaces: **Edam Gets Better Daily**
+
+<CallToAction flavor="teaching" />
