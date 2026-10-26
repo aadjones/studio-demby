@@ -40,7 +40,7 @@ export const vibes: Record<Vibe, {
   branding: string;
 }> = {
   wedding: {
-    container: 'bg-[#f1e7dc] text-stone-900', // Warm parchment (the old save-the-date site was sage)
+    container: 'bg-[#dbe9e6] text-stone-900', // Deeper sage for better blending
     header: 'font-serif italic text-stone-600 tracking-wide',
     number: 'font-serif font-light text-stone-900',
     label: 'font-serif uppercase tracking-widest text-stone-500',
