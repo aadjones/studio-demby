@@ -78,6 +78,11 @@ export type Translations = {
     holidaysTooltipSince: string;
     remaining: string;
     since: string;
+    weekendDays: string;
+    mealsEach: string;
+    nextHolidayIn: string;
+    nextHolidayTomorrow: string;
+    nextHolidayToday: string;
     footer: string;
   };
   absurd: {

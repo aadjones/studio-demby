@@ -92,7 +92,7 @@ const Experience: React.FC = () => {
             />
 
             {/* Pagination indicator */}
-            <div className={components.pagination.container}>
+            <div className={`${components.pagination.container} ${getVibeClass(Module.vibe, 'branding')}`}>
               {modules.map((_, dotIndex) => (
                 <div
                   key={dotIndex}

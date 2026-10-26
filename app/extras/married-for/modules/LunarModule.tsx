@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect, useId } from 'react';
 import { SYNODIC_MONTH_DAYS, REFERENCE_NEW_MOON, MILLISECONDS_PER_DAY } from '../constants';
 import { TimeModuleProps } from '../types';
 import { vibes, getVibeClass } from '../designSystem';
@@ -13,7 +13,19 @@ interface MoonPhaseData {
   isCurrent?: boolean;
 }
 
+// The darker "seas" on the moon's near side, roughly placed, as fractions of the radius (x right, y down)
+const MARIA = [
+  { x: -0.45, y: -0.05, r: 0.34 }, // Oceanus Procellarum
+  { x: -0.22, y: -0.4, r: 0.24 }, // Mare Imbrium
+  { x: 0.15, y: -0.33, r: 0.15 }, // Mare Serenitatis
+  { x: 0.32, y: -0.06, r: 0.17 }, // Mare Tranquillitatis
+  { x: 0.66, y: -0.28, r: 0.1 }, // Mare Crisium
+  { x: 0.52, y: 0.18, r: 0.13 }, // Mare Fecunditatis
+  { x: -0.12, y: 0.36, r: 0.15 }, // Mare Nubium
+];
+
 const MoonIcon: React.FC<{ phase: number; size: number; className?: string; highlight?: boolean }> = ({ phase, size, className, highlight }) => {
+  const uid = useId();
   const radius = size / 2;
   const p = phase % 1;
 
@@ -45,6 +57,55 @@ const MoonIcon: React.FC<{ phase: number; size: number; className?: string; high
     }
   }
 
+  if (highlight) {
+    // useId returns ":r1:"-style ids, and colons break url(#...) references
+    const id = `moon-${uid.replace(/:/g, '')}`;
+    return (
+      // overflow visible lets the glow spread past the moon's box instead of being cropped into a square
+      <svg width={size} height={size} viewBox={`-${size / 2} -${size / 2} ${size} ${size}`} className={className} overflow="visible">
+        <defs>
+          <clipPath id={`${id}-disc`}>
+            <circle cx="0" cy="0" r={radius} />
+          </clipPath>
+          <clipPath id={`${id}-lit`}>
+            <path d={pathD} />
+          </clipPath>
+          {/* Limb darkening: bright in the middle, a little dimmer toward the rim */}
+          <radialGradient id={`${id}-shade`} gradientUnits="userSpaceOnUse" cx="0" cy="0" r={radius} fx={-radius * 0.15} fy={-radius * 0.2}>
+            <stop offset="0%" stopColor="#ffffff" />
+            <stop offset="75%" stopColor="#eef0fb" />
+            <stop offset="100%" stopColor="#c9cde6" />
+          </radialGradient>
+          {/* Softens the day/night line; the disc clip keeps the outer rim crisp */}
+          <filter id={`${id}-soft`} x="-10%" y="-10%" width="120%" height="120%">
+            <feGaussianBlur stdDeviation={size * 0.015} />
+          </filter>
+          {/* Much heavier blur for the maria, so they read as mottling rather than spots */}
+          <filter id={`${id}-maria`} x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation={size * 0.045} />
+          </filter>
+        </defs>
+        {/* Dark Side / Base */}
+        <circle cx="0" cy="0" r={radius} className="fill-[#120b1e] stroke-indigo-900/30" strokeWidth="1" />
+        {/* Lit Side with Glow, shading and maria */}
+        <g className="drop-shadow-[0_0_8px_rgba(224,231,255,0.8)]">
+          <g clipPath={`url(#${id}-disc)`}>
+            <g filter={`url(#${id}-soft)`}>
+              <path d={pathD} fill={`url(#${id}-shade)`} />
+              <g clipPath={`url(#${id}-lit)`}>
+                <g filter={`url(#${id}-maria)`} opacity={0.35}>
+                  {MARIA.map((m, i) => (
+                    <circle key={i} cx={m.x * radius} cy={m.y * radius} r={m.r * radius} fill="#8b92b8" />
+                  ))}
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+      </svg>
+    );
+  }
+
   return (
     <svg width={size} height={size} viewBox={`-${size / 2} -${size / 2} ${size} ${size}`} className={className}>
       <defs>
@@ -54,10 +115,10 @@ const MoonIcon: React.FC<{ phase: number; size: number; className?: string; high
       </defs>
       {/* Dark Side / Base */}
       <circle cx="0" cy="0" r={radius} className="fill-[#120b1e] stroke-indigo-900/30" strokeWidth="1" />
-      {/* Lit Side with Glow */}
+      {/* Lit Side */}
       <path
         d={pathD}
-        className={highlight ? "fill-white drop-shadow-[0_0_8px_rgba(224,231,255,0.8)]" : "fill-indigo-200/70"}
+        className="fill-indigo-200/70"
         clipPath={`url(#moon-clip-${phase})`}
       />
     </svg>

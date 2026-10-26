@@ -5,12 +5,12 @@
  */
 
 export const components = {
-  // Pagination dots
+  // Pagination dots: drawn in the section's branding color (set on the container) so they show on light and dark vibes
   pagination: {
-    container: 'absolute right-6 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-40 pointer-events-none opacity-70',
-    dot: 'w-1.5 h-1.5 rounded-full transition-all duration-300',
-    dotActive: 'bg-stone-300 scale-125',
-    dotInactive: 'bg-stone-600',
+    container: 'absolute right-6 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-40 pointer-events-none',
+    dot: 'w-1.5 h-1.5 rounded-full bg-current transition-all duration-300',
+    dotActive: 'opacity-90 scale-125',
+    dotInactive: 'opacity-30',
   },
 } as const;
 

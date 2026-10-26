@@ -9,6 +9,8 @@ import { useT, useLocale } from '../i18n';
 const SocialTimeModule: React.FC<TimeModuleProps> = ({ targetDate }) => {
   const [selectedUnit, setSelectedUnit] = useState<SocialUnit>(SocialUnit.WEEKENDS);
   const [count, setCount] = useState<number>(0);
+  // The number in the small context line under the count (weekend days, meals of each kind, days to the next holiday)
+  const [detail, setDetail] = useState<number>(0);
   const [isMarried, setIsMarried] = useState(false);
   const t = useT();
   const [locale] = useLocale();
@@ -89,15 +91,22 @@ const SocialTimeModule: React.FC<TimeModuleProps> = ({ targetDate }) => {
           saturday.setHours(0, 0, 0, 0);
           saturday.setDate(saturday.getDate() + ((6 - saturday.getDay() + 7) % 7));
           let weekends = 0;
+          let weekendDays = 0;
           while (saturday <= to) {
             weekends++;
+            weekendDays++;
+            const sunday = new Date(saturday);
+            sunday.setDate(sunday.getDate() + 1);
+            if (sunday <= to) weekendDays++;
             saturday.setDate(saturday.getDate() + 7);
           }
           setCount(weekends);
+          setDetail(weekendDays);
           break;
         }
         case SocialUnit.MEALS:
           setCount(Math.floor(diffDays * 3));
+          setDetail(Math.floor(diffDays));
           break;
         case SocialUnit.HOLIDAYS:
           let holidayCount = 0;
@@ -114,6 +123,14 @@ const SocialTimeModule: React.FC<TimeModuleProps> = ({ targetDate }) => {
             }
           }
           setCount(holidayCount);
+
+          // Days from today until the next holiday on or after it (0 = today)
+          const today = new Date(now);
+          today.setHours(0, 0, 0, 0);
+          const upcoming = [...getHolidays(today.getFullYear()), ...getHolidays(today.getFullYear() + 1)]
+            .filter((h) => h.getTime() >= today.getTime())
+            .sort((a, b) => a.getTime() - b.getTime());
+          setDetail(Math.round((upcoming[0].getTime() - today.getTime()) / MILLISECONDS_PER_DAY));
           break;
       }
     };
@@ -122,6 +139,15 @@ const SocialTimeModule: React.FC<TimeModuleProps> = ({ targetDate }) => {
     const interval = setInterval(calculate, 1000);
     return () => clearInterval(interval);
   }, [targetDate, selectedUnit, locale]);
+
+  const fill = (template: string) => template.replace('{n}', detail.toLocaleString());
+  const contextLine: string = {
+    [SocialUnit.WEEKENDS]: fill(t.social.weekendDays),
+    [SocialUnit.MEALS]: fill(t.social.mealsEach),
+    [SocialUnit.HOLIDAYS]: detail === 0 ? t.social.nextHolidayToday
+      : detail === 1 ? t.social.nextHolidayTomorrow
+        : fill(t.social.nextHolidayIn),
+  }[selectedUnit];
 
   // Map SocialUnit enum to translated label for the "X remaining" display, singular when the count is 1
   const one = Math.floor(count) === 1;
@@ -183,6 +209,11 @@ const SocialTimeModule: React.FC<TimeModuleProps> = ({ targetDate }) => {
         <span className={`${getVibeClass(vibe, 'header')} text-lg sm:text-xl md:text-2xl lowercase opacity-40 italic`}>
           {unitDisplayLabel[selectedUnit]} {isMarried ? t.social.since : t.social.remaining}
         </span>
+        {isMarried && (
+          <span className={`${getVibeClass(vibe, 'footer')} text-xs sm:text-sm mt-4 sm:mt-6`}>
+            {contextLine}
+          </span>
+        )}
       </div>
 
       <p className={`${getVibeClass(vibe, 'footer')} text-[10px] sm:text-xs text-center uppercase tracking-widest pb-14 sm:pb-32 px-4 z-10`}>

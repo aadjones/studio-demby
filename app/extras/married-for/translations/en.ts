@@ -78,6 +78,11 @@ export const en: Translations = {
     holidaysTooltipSince: 'U.S. Federal Holidays since the wedding',
     remaining: 'remaining',
     since: 'since the wedding',
+    weekendDays: "That's {n} weekend days together.",
+    mealsEach: 'Breakfast, lunch and dinner: about {n} of each.',
+    nextHolidayIn: 'The next one is in {n} days.',
+    nextHolidayTomorrow: 'The next one is tomorrow.',
+    nextHolidayToday: 'Today is one!',
     footer: '*Based on calendar weekends, 3 meals/day, and U.S. Federal Holidays.',
   },
   absurd: {

@@ -19,7 +19,8 @@ interface HandData {
 const AnalogClockModule: React.FC<TimeModuleProps> = ({ targetDate, isActive }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [now, setNow] = useState(new Date());
-    const [activeIndex, setActiveIndex] = useState(0);
+    // Start on the anniversary hand (last in the list), the one hand unique to this piece
+    const [activeIndex, setActiveIndex] = useState(8);
     const t = useT();
     const vibe = 'steampunk';
 

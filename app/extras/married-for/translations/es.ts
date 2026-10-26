@@ -78,6 +78,11 @@ export const es: Translations = {
     holidaysTooltipSince: 'Días festivos mexicanos desde la boda',
     remaining: 'restantes',
     since: 'desde la boda',
+    weekendDays: 'Son {n} días de fin de semana juntos.',
+    mealsEach: 'Desayuno, comida y cena: unas {n} de cada una.',
+    nextHolidayIn: 'El próximo es en {n} días.',
+    nextHolidayTomorrow: 'El próximo es mañana.',
+    nextHolidayToday: '¡Hoy es uno!',
     footer: '*Basado en fines de semana calendario, 3 comidas/día y días festivos mexicanos.',
   },
   absurd: {
