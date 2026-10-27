@@ -6,7 +6,9 @@ import Link from "next/link";
 const NAV_ITEMS = [
   { href: "/", label: "Home" },
   { href: "/work", label: "Work" },
-  { href: "/teaching", label: "Teaching" },
+  // "Lessons", not "Teaching": Work also has a "Teaching" category (things he made that
+  // teach), and this page sells piano lessons. The URL stays /teaching for existing links.
+  { href: "/teaching", label: "Lessons" },
   { href: "/about", label: "About" },
 ];
 

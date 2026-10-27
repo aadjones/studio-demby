@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { metaData } from "@/app/config";
 
 export const metadata: Metadata = {
-  title: "Teaching",
+  title: "Piano Lessons",
   description: "Piano lessons emphasizing creativity and improvisation, taught by Aaron Demby Jones.",
   alternates: { canonical: `${metaData.baseUrl}teaching` },
 };
