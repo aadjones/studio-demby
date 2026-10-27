@@ -5,13 +5,10 @@ import dynamic from "next/dynamic";
 import MDXImage from "../media/MDXImage";
 
 // Components
-import { YouTubeComponent } from "../media/YouTube";
-import SoundCloudEmbed from "../media/SoundCloud";
 import { Callout } from "../mdx-blocks/Callout";
 import CallToAction from "../mdx-blocks/CallToAction";
 import MediaSection from "../mdx-blocks/MediaSection";
 import MediaItem from "../mdx-blocks/MediaItem";
-import ProjectIntro from "../mdx-blocks/ProjectIntro";
 import ProjectOverview from "../mdx-blocks/ProjectOverview";
 import TechnicalDetails from "../mdx-blocks/TechnicalDetails";
 import { ZoomImage } from "../media/ZoomImage";
@@ -19,25 +16,17 @@ import { CaptionComponent } from "../mdx-blocks/Caption";
 import CollapseMetadata from "../mdx-blocks/CollapseMetadata";
 import FieldNote from "../mdx-blocks/FieldNote";
 import Footnote from "../mdx-blocks/Footnote";
-import SacredScroll from "../surreal-systems/SacredScroll";
 import GalleryOfLies from "../surreal-systems/GalleryOfLies";
 import LoopRoomTrack from "../project-looproom/LoopRoomTrack";
-import LoopRoomIntro from "../project-looproom/LoopRoomIntro";
-import LoopRoomInterlude from "../project-looproom/LoopRoomInterlude";
-import LoopPlayer from "../project-looproom/LoopPlayer";
 import MovementBlock from "../mdx-blocks/MovementBlock";
 import HeroBlock from "../mdx-blocks/HeroBlock";
 import HeroCarouselBlock from "../mdx-blocks/HeroCarouselBlock";
-import { ImageGrid } from "../media/ImageGrid";
 import SectionNav from "../layout/SectionNav";
 import WisdomTeethCodex from "../surreal-systems/WisdomTeethCodex";
 import HeroTitleBlock from "../mdx-blocks/HeroTitleBlock";
 import SimpleVideoBlock from "../mdx-blocks/SimpleVideoBlock";
 import PolybloomPlayground from "../surreal-systems/PolybloomPlayground";
 import GospelCarousel from "../surreal-systems/GospelCarousel";
-import SpatialSynthesizer from "../surreal-systems/SpatialSynthesizer/index";
-import EncasedMeltingSphere from "../mdx-blocks/EncasedMeltingSphere";
-import MeltdownDiptych from "../surreal-systems/MeltdownDiptych";
 import ShrimpJesusFAQ from "../surreal-systems/ShrimpJesusFAQ";
 import FullscreenVideo from "../FullscreenVideo";
 import VideoPlayer from "../media/VideoPlayer";
@@ -78,13 +67,10 @@ type ClientMDXProps = {
 const baseComponents = {
   p: "p",
   Image: MDXImage,
-  YouTube: YouTubeComponent,
-  SoundCloudEmbed,
   Callout,
   CallToAction,
   MediaSection,
   MediaItem,
-  ProjectIntro,
   ProjectOverview,
   TechnicalDetails,
   ZoomImage,
@@ -92,24 +78,16 @@ const baseComponents = {
   CollapseMetadata,
   FieldNote,
   Footnote,
-  SacredScroll,
   GalleryOfLies,
   LoopRoomTrack,
-  LoopRoomIntro,
-  LoopRoomInterlude,
-  LoopPlayer,
   MovementBlock,
   HeroBlock,
   HeroCarouselBlock,
-  ImageGrid,
   SectionNav,
-  EncasedMeltingSphere,
-  SpatialSynthesizer,
   WisdomTeethCodex,
   HeroTitleBlock,
   SimpleVideoBlock,
   PolybloomPlayground,
-  MeltdownDiptych,
   GospelCarousel,
   ShrimpJesusFAQ,
   FullscreenVideo,
