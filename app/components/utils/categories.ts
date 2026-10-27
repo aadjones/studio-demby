@@ -1,3 +1,6 @@
+/** The /work filter shown when the URL has no ?category=. */
+export const DEFAULT_WORK_FILTER = "music";
+
 export const categories = [
   {
     name: "Visual Art",

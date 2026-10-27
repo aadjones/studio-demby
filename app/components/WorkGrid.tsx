@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams, useRouter } from "next/navigation";
+import { useState } from "react";
 import Link from "next/link";
 import CardMedia from "@/app/components/CardMedia";
 import type { UnifiedWorkItem } from "@/lib/content/unified-loader";
@@ -24,7 +24,7 @@ function formatDate(dateString: string | null): string {
   return `${SHORT_MONTHS[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 }
 
-function WorkCard({ item }: { item: UnifiedWorkItem }) {
+function WorkCard({ item, priority }: { item: UnifiedWorkItem; priority: boolean }) {
   return (
     <Link
       href={item.externalLink ?? `/work/${item.slug}`}
@@ -38,6 +38,7 @@ function WorkCard({ item }: { item: UnifiedWorkItem }) {
             alt={item.title}
             className="transition-transform duration-300 group-hover:scale-[1.03]"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 300px"
+            priority={priority}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
@@ -58,15 +59,18 @@ function WorkCard({ item }: { item: UnifiedWorkItem }) {
   );
 }
 
-export default function WorkGrid({ items }: { items: UnifiedWorkItem[] }) {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const activeFilter = searchParams.get("category") ?? "music";
+export default function WorkGrid({ items, initialFilter }: { items: UnifiedWorkItem[]; initialFilter: string }) {
+  // The page passes the category in; don't read it with useSearchParams. That hook
+  // makes Next skip server-rendering the grid, so cards and images waited for JavaScript.
+  // /work?category=… reaches a prebuilt page via a rewrite (see next.config.js).
+  const [activeFilter, setActiveFilter] = useState(initialFilter);
 
+  // Tabs only change the URL (no navigation), so the page doesn't reload.
   function setFilter(value: string) {
-    const params = new URLSearchParams(searchParams.toString());
+    setActiveFilter(value);
+    const params = new URLSearchParams(window.location.search);
     params.set("category", value);
-    router.replace(`/work?${params.toString()}`, { scroll: false });
+    window.history.replaceState(null, "", `/work?${params.toString()}`);
   }
 
   const filtered = activeFilter === "all"
@@ -94,8 +98,9 @@ export default function WorkGrid({ items }: { items: UnifiedWorkItem[] }) {
 
       {/* Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-        {filtered.map((item) => (
-          <WorkCard key={`${item.contentType}-${item.slug}`} item={item} />
+        {filtered.map((item, i) => (
+          // The first row (two cards on phones) is the page's largest image; load it right away.
+          <WorkCard key={`${item.contentType}-${item.slug}`} item={item} priority={i < 2} />
         ))}
       </div>
 

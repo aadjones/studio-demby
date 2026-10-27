@@ -8,6 +8,21 @@ module.exports = {
       },
     ],
   },
+  async rewrites() {
+    return {
+      // beforeFiles: a plain array only runs after Next has matched a page file, and
+      // /work has one, so the rewrite would never apply.
+      beforeFiles: [
+        // Serve /work?category=<slug> from a page prebuilt with that category selected,
+        // so shared links show the right cards before JavaScript loads. The URL is unchanged.
+        {
+          source: '/work',
+          has: [{ type: 'query', key: 'category', value: '(?<category>[a-z-]+)' }],
+          destination: '/work/by-category/:category',
+        },
+      ],
+    };
+  },
   async redirects() {
     return [
       // Old listing pages → /work
