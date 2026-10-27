@@ -11,6 +11,7 @@ export interface UnifiedWorkItem {
   slug: string;
   date: string | null;
   image?: string;
+  cardVideo?: string;
   summary?: string;
   tags: string[];
   categories: string[];
@@ -24,6 +25,7 @@ function projectToWorkItem(p: MDXProject): UnifiedWorkItem {
     slug: p.slug,
     date: p.date ?? null,
     image: p.image,
+    cardVideo: p.cardVideo,
     summary: p.summary,
     tags: p.tags,
     categories: p.categories ?? [],

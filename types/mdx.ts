@@ -33,6 +33,8 @@ export const ProjectSchema = z.object({
   // Media
   image: z.string().optional(),
   images: z.array(z.string()).optional(),
+  /** Muted looping MP4 shown on cards instead of `image`, which stays as its poster and social preview. */
+  cardVideo: z.string().optional(),
 
   // Links
   externalLink: z.string().optional(),

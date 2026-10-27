@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import CardMedia from "@/app/components/CardMedia";
 import { MDXProject } from "@/types/mdx";
 
 type Props = {
@@ -21,11 +21,11 @@ export default function RelatedWorks({ projects }: Props) {
           >
             {project.image && (
               <div className="aspect-square relative rounded-lg overflow-hidden mb-2">
-                <Image
-                  src={project.image}
+                <CardMedia
+                  image={project.image}
+                  video={project.cardVideo}
                   alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="transition-transform duration-300 group-hover:scale-105"
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 200px"
                 />
               </div>

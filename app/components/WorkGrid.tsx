@@ -2,7 +2,7 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
+import CardMedia from "@/app/components/CardMedia";
 import type { UnifiedWorkItem } from "@/lib/content/unified-loader";
 import RandomProjectButton from "@/app/components/RandomProjectButton";
 
@@ -32,11 +32,11 @@ function WorkCard({ item }: { item: UnifiedWorkItem }) {
     >
       <div className="aspect-square relative rounded-xl overflow-hidden bg-gray-100">
         {item.image ? (
-          <Image
-            src={item.image}
+          <CardMedia
+            image={item.image}
+            video={item.cardVideo}
             alt={item.title}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+            className="transition-transform duration-300 group-hover:scale-[1.03]"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 300px"
           />
         ) : (
