@@ -43,6 +43,9 @@ next-env.d.ts
 # playwright screenshots
 /.playwright-mcp
 
+# before/after page snapshots (pnpm snapshot)
+/snapshots
+
 # generated reel exports (not source, not for commit)
 /exports
 

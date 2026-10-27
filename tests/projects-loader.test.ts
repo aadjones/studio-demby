@@ -67,7 +67,7 @@ slug: incomplete
     });
   });
 
-  it('filters out projects with invalid frontmatter', async () => {
+  it('fails loudly on invalid frontmatter, naming the file and field', async () => {
     const mockedFs = fs as unknown as {
       readdirSync: ReturnType<typeof vi.fn>;
       readFileSync: ReturnType<typeof vi.fn>;
@@ -76,8 +76,7 @@ slug: incomplete
     mockedFs.readdirSync = vi.fn().mockReturnValue(['invalid-project.mdx']);
     mockedFs.readFileSync = vi.fn().mockReturnValue(invalidFrontmatter);
 
-    const projects = await getAllProjects();
-    expect(projects).toHaveLength(0);
+    await expect(getAllProjects()).rejects.toThrow(/invalid-project\.mdx.*summary/);
   });
 
   it('defaults to published when status is absent', async () => {

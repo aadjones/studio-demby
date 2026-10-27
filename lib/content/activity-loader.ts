@@ -7,6 +7,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 
 import { SketchSchema, MDXSketch } from "@/types/mdx";
+import { describeIssues } from "./projects-loader";
 
 const activityDirectory = path.join(process.cwd(), "content/activity");
 
@@ -20,9 +21,7 @@ export async function getActivityBySlug(slug: string) {
   // Validate frontmatter
   const parsed = SketchSchema.safeParse({ slug, ...data });
   if (!parsed.success) {
-    console.warn(`[getActivityBySlug] Invalid frontmatter in ${slug}.mdx:`);
-    console.warn(parsed.error.format());
-    return null;
+    throw new Error(`Invalid frontmatter in content/activity/${slug}.mdx: ${describeIssues(parsed.error)}`);
   }
 
   // GFM is here for footnotes: `[^key]` in the prose, `[^key]: …` anywhere
@@ -65,15 +64,13 @@ export async function getAllActivityEntries(): Promise<MDXSketch[]> {
 
     const parsed = SketchSchema.safeParse({ slug, ...data });
     if (!parsed.success) {
-      console.warn(`[getAllActivity] Invalid frontmatter in ${fileName}:`);
-      console.warn(parsed.error.format());
-      return null;
+      throw new Error(`Invalid frontmatter in content/activity/${fileName}: ${describeIssues(parsed.error)}`);
     }
 
     return parsed.data;
   });
 
-  return activity.filter(Boolean) as MDXSketch[];
+  return activity;
 }
 
 /** Live activity only — used for listings. */

@@ -5,10 +5,16 @@ import { serialize } from "next-mdx-remote-client/serialize";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import type { ZodError } from "zod";
 
 import { ProjectSchema, MDXProject } from "@/types/mdx";
 
 const projectsDirectory = path.join(process.cwd(), "content/projects");
+
+/** One line per problem, e.g. `date: Expected string, received date`. */
+export function describeIssues(error: ZodError): string {
+  return error.issues.map((i) => `${i.path.join(".") || "(root)"}: ${i.message}`).join("; ");
+}
 
 /** Every project on disk regardless of status — used for generateStaticParams. */
 export async function getAllProjectEntries(): Promise<MDXProject[]> {
@@ -20,17 +26,16 @@ export async function getAllProjectEntries(): Promise<MDXProject[]> {
     const fileContents = fs.readFileSync(fullPath, "utf8");
     const { data } = matter(fileContents);
 
+    // Throw rather than skip: a skipped file vanishes from the site while the build still passes.
     const parsed = ProjectSchema.safeParse({ slug, ...data });
     if (!parsed.success) {
-      console.warn(`[getAllProjects] Invalid frontmatter in ${fileName}:`);
-      console.warn(parsed.error.format());
-      return null;
+      throw new Error(`Invalid frontmatter in content/projects/${fileName}: ${describeIssues(parsed.error)}`);
     }
 
     return parsed.data;
   });
 
-  return projects.filter(Boolean) as MDXProject[];
+  return projects;
 }
 
 /** Live projects only — used for listings, nav, related works. */
@@ -75,9 +80,7 @@ export async function getProjectBySlugOnly(slug: string) {
   // Validate frontmatter
   const parsed = ProjectSchema.safeParse({ slug, ...data });
   if (!parsed.success) {
-    console.warn(`[getProjectBySlugOnly] Invalid frontmatter in ${slug}.mdx:`);
-    console.warn(parsed.error.format());
-    return null;
+    throw new Error(`Invalid frontmatter in content/projects/${slug}.mdx: ${describeIssues(parsed.error)}`);
   }
 
   // GFM is here for footnotes: `[^key]` in the prose, `[^key]: …` anywhere
