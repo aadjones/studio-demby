@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from "react";
+import { loadP5 } from "./loadP5";
 
 export default function P5Container({ 
   sketch, 
@@ -28,8 +29,8 @@ export default function P5Container({
       ref.current.style.height = height as string;
     }
 
-    // Create p5 instance
-    const instance: any = new (window as any).p5((p: any) => {
+    // Create p5 instance once the library has loaded
+    const p5Sketch = (p: any) => {
       // Store original methods
       let originalSetup: () => void;
       let originalWindowResized: () => void;
@@ -75,7 +76,13 @@ export default function P5Container({
       };
       
       return wrappedSketch(p);
-    }, ref.current);
+    };
+    const container = ref.current;
+    let instance: any;
+    let cancelled = false;
+    loadP5().then((P5) => {
+      if (!cancelled) instance = new P5(p5Sketch, container);
+    });
 
     // Add resize observer — debounced to avoid rapid fires during iOS scroll
     // (address bar animation fires ResizeObserver continuously while scrolling).
@@ -83,17 +90,18 @@ export default function P5Container({
     const resizeObserver = new ResizeObserver(() => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        if (instance.windowResized) {
+        if (instance?.windowResized) {
           instance.windowResized();
         }
       }, 300);
     });
-    resizeObserver.observe(ref.current);
+    resizeObserver.observe(container);
 
     return () => {
+      cancelled = true;
       resizeObserver.disconnect();
-      instance.gui?.destroy();
-      instance.remove();
+      instance?.gui?.destroy();
+      instance?.remove();
     };
   }, [sketch, width, height, renderer]);
 

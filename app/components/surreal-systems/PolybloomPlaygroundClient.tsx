@@ -3,6 +3,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
+import { loadP5 } from "../utils/loadP5";
 
 const HUE_MIN = 0;
 const HUE_MAX = 100;
@@ -82,7 +83,9 @@ export default function PolybloomPlaygroundClient() {
     // Safari resolves aspect-ratio lazily so clientHeight may be 0 at IntersectionObserver time.
     let lastSize = parent.clientWidth;
 
-    const p5Instance: any = new (window as any).p5((p: any) => {
+    let p5Instance: any;
+    let cancelled = false;
+    const sketch = (p: any) => {
       let buffer: any = null;
       let fadeProgress = 0;
       // Cached polygon layers — recomputed only when seed/layers/distortion changes
@@ -218,6 +221,9 @@ export default function PolybloomPlaygroundClient() {
       };
 
       p.touchMoved = () => true;
+    };
+    loadP5().then((P5) => {
+      if (!cancelled) p5Instance = new P5(sketch);
     });
 
     const resizeObs = new ResizeObserver(() => {
@@ -226,6 +232,7 @@ export default function PolybloomPlaygroundClient() {
     resizeObs.observe(parent);
 
     return () => {
+      cancelled = true;
       resizeObs.disconnect();
       p5Instance?.remove();
       regenerateRef.current = null;

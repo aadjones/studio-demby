@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from "react";
+import { loadP5 } from "../utils/loadP5";
 
 /**
  * Like P5Container but fills the parent's full width × height
@@ -20,12 +21,11 @@ export default function P5FullscreenContainer({
     const container = ref.current;
     let instance: any;
     let resizeObserver: ResizeObserver;
-    let rafId: number;
     let unmounted = false;
 
-    function setup() {
+    loadP5().then((P5) => {
       if (unmounted) return;
-      instance = new (window as any).p5((p: any) => {
+      instance = new P5((p: any) => {
         sketch(p, container);
       }, container);
 
@@ -33,22 +33,10 @@ export default function P5FullscreenContainer({
         if (instance?.windowResized) instance.windowResized();
       });
       resizeObserver.observe(container);
-    }
-
-    function waitForP5() {
-      if (unmounted) return;
-      if ((window as any).p5) {
-        setup();
-      } else {
-        rafId = requestAnimationFrame(waitForP5);
-      }
-    }
-
-    waitForP5();
+    });
 
     return () => {
       unmounted = true;
-      cancelAnimationFrame(rafId);
       resizeObserver?.disconnect();
       if (instance?._heroCleanup) instance._heroCleanup();
       instance?.remove();

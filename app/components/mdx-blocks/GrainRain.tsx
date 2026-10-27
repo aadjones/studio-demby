@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
+import { loadP5 } from "../utils/loadP5";
 
 interface SliderFieldProps {
   label: string;
@@ -75,7 +76,9 @@ export default function GrainRain() {
     let lastWidth = parent.clientWidth;
     let lastHeight = parent.clientHeight;
 
-    const p5Instance: any = new (window as any).p5((p: any) => {
+    let p5Instance: any;
+    let cancelled = false;
+    const sketch = (p: any) => {
       interface GrainData {
         x: number;
         y: number;
@@ -169,6 +172,9 @@ export default function GrainRain() {
       };
 
       p.touchMoved = () => true;
+    };
+    loadP5().then((P5) => {
+      if (!cancelled) p5Instance = new P5(sketch);
     });
 
     const resizeObs = new ResizeObserver(() => {
@@ -177,6 +183,7 @@ export default function GrainRain() {
     resizeObs.observe(parent);
 
     return () => {
+      cancelled = true;
       resizeObs.disconnect();
       p5Instance?.remove();
     };

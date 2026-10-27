@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
+import { loadP5 } from "../utils/loadP5";
 
 interface SliderFieldProps {
   label: string;
@@ -65,7 +66,9 @@ export default function SticksAndSticks() {
     const MIN_PER_LAYER = 35;
     const NUM_LAYERS = 3;
 
-    const p5Instance: any = new (window as any).p5((p: any) => {
+    let p5Instance: any;
+    let cancelled = false;
+    const sketch = (p: any) => {
       type StickLine = {
         layer: number;
         x1: number;
@@ -136,6 +139,9 @@ export default function SticksAndSticks() {
       };
 
       p.touchMoved = () => true;
+    };
+    loadP5().then((P5) => {
+      if (!cancelled) p5Instance = new P5(sketch);
     });
 
     const resizeObs = new ResizeObserver(() => {
@@ -144,6 +150,7 @@ export default function SticksAndSticks() {
     resizeObs.observe(parent);
 
     return () => {
+      cancelled = true;
       resizeObs.disconnect();
       p5Instance?.remove();
     };

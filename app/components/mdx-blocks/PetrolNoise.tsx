@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
+import { loadP5 } from "../utils/loadP5";
 
 const VERT_SRC = `
 attribute vec3 aPosition;
@@ -162,7 +163,9 @@ export default function PetrolNoise() {
     let lastWidth = parent.clientWidth;
     let lastHeight = parent.clientHeight;
 
-    const p5Instance: any = new (window as any).p5((p: any) => {
+    let p5Instance: any;
+    let cancelled = false;
+    const sketch = (p: any) => {
       let myShader: any;
       let time = 0;
 
@@ -195,6 +198,9 @@ export default function PetrolNoise() {
       };
 
       p.touchMoved = () => true;
+    };
+    loadP5().then((P5) => {
+      if (!cancelled) p5Instance = new P5(sketch);
     });
 
     const resizeObs = new ResizeObserver(() => {
@@ -203,6 +209,7 @@ export default function PetrolNoise() {
     resizeObs.observe(parent);
 
     return () => {
+      cancelled = true;
       resizeObs.disconnect();
       p5Instance?.remove();
     };

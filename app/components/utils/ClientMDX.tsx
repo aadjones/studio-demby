@@ -30,11 +30,9 @@ import HeroBlock from "../mdx-blocks/HeroBlock";
 import HeroCarouselBlock from "../mdx-blocks/HeroCarouselBlock";
 import { ImageGrid } from "../media/ImageGrid";
 import SectionNav from "../layout/SectionNav";
-import ShatterPlayground from "../surreal-systems/ShatterPlayground";
 import WisdomTeethCodex from "../surreal-systems/WisdomTeethCodex";
 import HeroTitleBlock from "../mdx-blocks/HeroTitleBlock";
 import SimpleVideoBlock from "../mdx-blocks/SimpleVideoBlock";
-import FeathersPlayground from "../surreal-systems/FeathersPlayground";
 import PolybloomPlayground from "../surreal-systems/PolybloomPlayground";
 import GospelCarousel from "../surreal-systems/GospelCarousel";
 import SpatialSynthesizer from "../surreal-systems/SpatialSynthesizer/index";
@@ -105,13 +103,11 @@ const baseComponents = {
   HeroCarouselBlock,
   ImageGrid,
   SectionNav,
-  ShatterPlayground,
   EncasedMeltingSphere,
   SpatialSynthesizer,
   WisdomTeethCodex,
   HeroTitleBlock,
   SimpleVideoBlock,
-  FeathersPlayground,
   PolybloomPlayground,
   MeltdownDiptych,
   GospelCarousel,

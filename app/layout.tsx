@@ -77,9 +77,6 @@ export default function RootLayout({
       lang="en"
       className={`${outfit.variable} ${crimsonPro.variable} ${jetbrainsMono.variable}`}
     >
-      <head>
-        <script src="/p5.min.js" defer />
-      </head>
       <body className="antialiased font-body">
         <script
           type="application/ld+json"
