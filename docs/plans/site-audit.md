@@ -10,8 +10,12 @@ Delete this file when everything below is done.
 |---|---|---|
 | 0 | Snapshot safety net; invalid frontmatter fails the build | merged |
 | 1 | Image optimization on, ZoomImage sizes, Degradation card as MP4 | merged |
-| 2 | p5 only on sketch pages, image priority, hero title server-rendered, Teaching in nav, aria-labels | on branch, checking preview |
+| 2 | p5 only on sketch pages, image priority, hero title server-rendered, Teaching in nav, aria-labels | merged |
+| 2b | /work grid rendered on the server (images waited for JS; LCP 4.3 s, layout shift 0.28). Local build: LCP 1.9 s, layout shift 0. | on branch |
 | 3 | Dead code and dependencies, activity content type, route bugs below | not started |
+
+Measured (Lighthouse mobile, `--throttling-method=devtools`, production) after batch 2:
+Home 87 / LCP 2.4 s, Shatter 90 / LCP 2.9 s, /work 68 / LCP 4.3 s.
 
 ## Things that caused confusion
 
@@ -36,3 +40,7 @@ history is visible until this file is deleted.
 | 15 MDX components are registered but unused; `P5Container` is only used by dead components. | Code: delete. | to do (batch 3) |
 | On a local batch 2 build, /work card images never loaded in the Playwright browser: zero image requests, even for an eager test image, while `curl` fetched the same URLs and production loaded fine in the same browser. Several server restarts had happened in that session. | The batch 2 preview loads all 12 /work images, so it was the local test setup, not the code. Cause still unknown; if it recurs, restart the browser and server before debugging the site. | resolved: not a code bug |
 | `git add` on a file already deleted with `git rm` fails, and the staged deletion silently lands in whatever commit runs next. | Docs: stage deletions in the commit they belong to. | noted here |
+| `useSearchParams` in `WorkGrid` made Next skip server-rendering the whole /work grid (it sat inside `<Suspense>`), so cards and images waited for JavaScript and the footer jumped when they appeared. Nothing in the code said so. | Code: the page passes the category in; `/work?category=` is served by a prebuilt page per category via a `beforeFiles` rewrite. Docs: "How `/work?category=…` works" in CLAUDE.md. | done (2b) |
+| The first version of that rewrite was a plain array, which Next runs only after matching `/work`'s own page file, so every category URL silently got the Music page. | Code: `beforeFiles`. Docs: CLAUDE.md routing section. | done (2b) |
+| A `vercel dev` session on port 3000 blocks commits, because the pre-commit hook builds into the same `.next`. Test builds can still run safely from a copy in another folder on another port. | Docs: noted here. | noted here |
+| After merging a branch whose commit already had a preview, waiting on the commit's status returned "success" from the preview immediately, so production checks ran against the old site. | Wait on the Production deployment's own status: `gh api "repos/aadjones/studio-demby/deployments?sha=<full sha>&environment=Production"`, then its `/statuses`. | noted here |
