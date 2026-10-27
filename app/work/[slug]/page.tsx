@@ -153,7 +153,7 @@ function ProjectView({
             <h1 className="text-3xl font-bold">{project.frontMatter.title}</h1>
           )}
           {project.frontMatter.date && (
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-ink-500">
               {new Date(project.frontMatter.date).toLocaleDateString("en-US", {
                 month: "short",
                 year: "numeric",
@@ -161,7 +161,7 @@ function ProjectView({
             </p>
           )}
           {project.frontMatter.summary && (
-            <p className="italic text-zinc-600">{project.frontMatter.summary}</p>
+            <p className="italic text-ink-700">{project.frontMatter.summary}</p>
           )}
         </section>
       )}

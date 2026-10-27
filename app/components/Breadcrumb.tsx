@@ -12,7 +12,7 @@ export default function Breadcrumb({
   projectTitle,
 }: BreadcrumbProps) {
   return (
-    <nav className="text-sm text-gray-600 mb-4">
+    <nav className="text-sm text-ink-700 mb-4">
       <Link
         href={`/work?category=${categorySlug}`}
         className="hover:text-blue-600 transition-colors"
@@ -20,7 +20,7 @@ export default function Breadcrumb({
         {categoryName}
       </Link>
       <span className="mx-2">→</span>
-      <span className="text-gray-900">{projectTitle}</span>
+      <span className="text-ink-900">{projectTitle}</span>
     </nav>
   );
 }

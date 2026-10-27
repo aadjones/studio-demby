@@ -7,7 +7,7 @@ interface Props {
 
 export default function CollapseMetadata({ children }: Props) {
   return (
-    <div className="mt-6 sm:mt-8 bg-zinc-100 p-3 sm:p-4 rounded-lg text-xs sm:text-sm text-zinc-800 border border-zinc-300">
+    <div className="mt-6 sm:mt-8 bg-subtle p-3 sm:p-4 rounded-lg text-xs sm:text-sm text-ink-900 border border-line">
       <div className="space-y-2">
         {children}
       </div>

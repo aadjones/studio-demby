@@ -34,7 +34,7 @@ export default function RandomProjectButton({ slugs }: RandomProjectButtonProps)
         <Dices size={28} className="text-indigo-600 drop-shadow-sm" />
         <span className="sr-only">Surprise Me</span>
       </button>
-      <span className="text-xs text-gray-500 mt-1">Surprise Me</span>
+      <span className="text-xs text-ink-500 mt-1">Surprise Me</span>
     </div>
   );
 } 

@@ -10,7 +10,7 @@ export default async function WorkIndex({ initialFilter }: { initialFilter: stri
       <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-2">
         Work
       </h1>
-      <p className="text-base sm:text-lg font-body italic text-zinc-500 mb-8">
+      <p className="text-base sm:text-lg font-body italic text-ink-500 mb-8">
         Browse by category
       </p>
 

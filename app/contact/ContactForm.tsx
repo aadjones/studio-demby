@@ -13,7 +13,7 @@ const INQUIRY_OPTIONS = [
 ];
 
 const inputClass =
-  "w-full px-3 py-2 border border-zinc-300 rounded text-ink-900 text-sm sm:text-base bg-white focus:outline-none focus:border-ink-900 transition-colors";
+  "w-full px-3 py-2 border border-ink-300 rounded text-ink-900 text-sm sm:text-base bg-card focus:outline-none focus:border-ink-900 transition-colors";
 
 function Form() {
   const searchParams = useSearchParams();

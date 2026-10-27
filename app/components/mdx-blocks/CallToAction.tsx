@@ -26,9 +26,9 @@ export default function CallToAction({
   const config = flavor ? FLAVORS[flavor] : null;
 
   return (
-    <section className="my-12 sm:my-16 py-8 sm:py-10 px-6 sm:px-8 bg-[#FFF8F0] border border-zinc-200 rounded text-center">
+    <section className="my-12 sm:my-16 py-8 sm:py-10 px-6 sm:px-8 bg-[#FFF8F0] border border-line rounded text-center">
       {config && (
-        <p className="text-base sm:text-lg italic text-zinc-600 mb-3 sm:mb-4">
+        <p className="text-base sm:text-lg italic text-ink-700 mb-3 sm:mb-4">
           {config.line}
         </p>
       )}
@@ -40,7 +40,7 @@ export default function CallToAction({
       </a>
       {showLessons && (
         <>
-          <p className="mt-4 sm:mt-5 text-sm sm:text-base italic text-zinc-500">
+          <p className="mt-4 sm:mt-5 text-sm sm:text-base italic text-ink-500">
             Want to learn how to do this?
           </p>
           <a

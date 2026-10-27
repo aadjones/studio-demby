@@ -39,6 +39,23 @@ body {
          font-normal text-ink-900 hover:text-coral hover:decoration-coral;
 }
 
+/* Card titles (/work grid, Featured Work, Related Works): the coral underline that marks
+   links, shown while the card is hovered. Use on a title inside a `group` link. */
+.card-title {
+  @apply decoration-coral decoration-2 underline-offset-4 group-hover:underline;
+}
+
+/* Keyboard focus: one visible ring on every link, button and field. focus-visible only,
+   so mouse clicks don't draw it. Fields that style their own focus can override. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  @apply outline outline-2 outline-offset-2 outline-ink-900 rounded-sm;
+}
+
 /* GFM footnotes: a thin rule and smaller type, the usual end-of-article look. */
 .prose .footnotes {
   @apply mt-12 pt-6 border-t border-ink-300 text-sm;

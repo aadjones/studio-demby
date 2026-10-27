@@ -16,10 +16,10 @@ export default function TeachingPage() {
         <h1 className="text-3xl sm:text-5xl font-bold mb-3 sm:mb-4 leading-tight">
           Break free from sheet music prison
         </h1>
-        <p className="text-lg sm:text-xl text-gray-700  mb-1">
+        <p className="text-lg sm:text-xl text-ink-700  mb-1">
           Piano lessons emphasizing creativity and improvisation
         </p>
-        <p className="text-base sm:text-lg text-gray-600  italic">
+        <p className="text-base sm:text-lg text-ink-700  italic">
           Taught by Aaron Demby Jones
         </p>
       </div>
@@ -62,19 +62,19 @@ export default function TeachingPage() {
             <h3 className="text-xl font-semibold mb-2">
               Closed Circuit Listening
             </h3>
-            <p className="text-gray-700 ">
+            <p className="text-ink-700 ">
               Connect your ear, mind, and hands in real time
             </p>
           </div>
           <div>
             <h3 className="text-xl font-semibold mb-2">Orchestral Textures</h3>
-            <p className="text-gray-700 ">
+            <p className="text-ink-700 ">
               Think like a conductor: multiple voices, one instrument
             </p>
           </div>
           <div>
             <h3 className="text-xl font-semibold mb-2">Narrative Flow</h3>
-            <p className="text-gray-700 ">
+            <p className="text-ink-700 ">
               Shape your music like a story
             </p>
           </div>
@@ -87,20 +87,20 @@ export default function TeachingPage() {
         <div className="space-y-4 text-base sm:text-lg">
           <div>
             <strong className="font-semibold">Classical pianists:</strong>{" "}
-            <span className="text-gray-700 ">
+            <span className="text-ink-700 ">
               You can read Bach or Chopin, but you tighten up without a score
             </span>
           </div>
           <div>
             <strong className="font-semibold">Creators in waiting:</strong>{" "}
-            <span className="text-gray-700 ">
+            <span className="text-ink-700 ">
               You want to learn how to turn the sounds in your head into music
               in your hands
             </span>
           </div>
           <div>
             <strong className="font-semibold">Music deep divers:</strong>{" "}
-            <span className="text-gray-700 ">
+            <span className="text-ink-700 ">
               You want to grasp music from the inside out, not just reenact
               what&apos;s printed on the page
             </span>
@@ -112,28 +112,28 @@ export default function TeachingPage() {
       <section className="mb-12 sm:mb-16">
         <h2 className="text-2xl sm:text-3xl font-bold mb-6">How It Works</h2>
         <div className="space-y-4">
-          <div className="bg-gray-50  rounded-lg p-6 border border-gray-200 ">
+          <div className="bg-card  rounded-lg p-6 border border-line ">
             <h3 className="text-xl font-semibold mb-2">$45 Trial Lesson</h3>
-            <p className="text-gray-700 ">
+            <p className="text-ink-700 ">
               One hour introductory session at my home studio in Rancho
               Peñasquitos (north San Diego)
             </p>
           </div>
-          <div className="bg-gray-50  rounded-lg p-6 border border-gray-200 ">
+          <div className="bg-card  rounded-lg p-6 border border-line ">
             <h3 className="text-xl font-semibold mb-2">Ongoing Lessons</h3>
-            <p className="text-gray-700 ">
+            <p className="text-ink-700 ">
               $90/hour, flexible scheduling
             </p>
           </div>
-          <div className="bg-gray-50  rounded-lg p-6 border border-gray-200 ">
+          <div className="bg-card  rounded-lg p-6 border border-line ">
             <h3 className="text-xl font-semibold mb-2">
               Options for Ongoing Students
             </h3>
-            <p className="text-gray-700 ">
+            <p className="text-ink-700 ">
               Bundle packs available for those who want to commit
             </p>
           </div>
-          <div className="bg-gray-50  rounded-lg p-4 border border-gray-200  text-sm text-gray-600  italic">
+          <div className="bg-card  rounded-lg p-4 border border-line  text-sm text-ink-700  italic">
             Lessons are currently in-person at my home studio. If you&apos;re
             outside San Diego, feel free to reach out—online options may be
             added in the future.
@@ -149,7 +149,7 @@ export default function TeachingPage() {
             <h3 className="text-lg sm:text-xl font-semibold mb-2">
               Do I need to know music theory?
             </h3>
-            <p className="text-gray-700 ">
+            <p className="text-ink-700 ">
               Nope. We&apos;ll use sound, shape, and story before any technical
               terms.
             </p>
@@ -158,7 +158,7 @@ export default function TeachingPage() {
             <h3 className="text-lg sm:text-xl font-semibold mb-2">
               What if I&apos;ve never improvised before?
             </h3>
-            <p className="text-gray-700 ">
+            <p className="text-ink-700 ">
               Perfect. This starts from zero assumptions.
             </p>
           </div>
@@ -166,7 +166,7 @@ export default function TeachingPage() {
             <h3 className="text-lg sm:text-xl font-semibold mb-2">
               Who is Aaron?
             </h3>
-            <p className="text-gray-700 ">
+            <p className="text-ink-700 ">
               Aaron Demby Jones—I&apos;ve studied classical theory, experimented
               with electronic sound design, and played everything from Bach to
               jazz rap. With a background in teaching (and too many
@@ -181,21 +181,21 @@ export default function TeachingPage() {
 
       {/* Testimonial */}
       <section className="mb-12 sm:mb-16">
-        <div className="bg-gray-50  rounded-lg p-6 sm:p-8 border-l-4 border-blue-600">
-          <p className="text-lg sm:text-xl italic mb-4 text-gray-800 ">
+        <div className="bg-card  rounded-lg p-6 sm:p-8 border-l-4 border-blue-600">
+          <p className="text-lg sm:text-xl italic mb-4 text-ink-900 ">
             &ldquo;Aaron&apos;s improvisational skills—and his musical skills in
             general—are astounding. He&apos;s a phenomenal teacher; and I think
             anyone who enjoys playing and performing music, professionally or
             otherwise, would benefit greatly from these lessons.&rdquo;
           </p>
-          <p className="text-sm sm:text-base text-gray-700 ">
+          <p className="text-sm sm:text-base text-ink-700 ">
             — Kyle Miller, MM (Juilliard), professional violist
           </p>
         </div>
       </section>
 
       {/* Contact CTA */}
-      <section className="border-t-2 border-gray-200  pt-8 text-center">
+      <section className="border-t-2 border-line  pt-8 text-center">
         <h2 className="text-2xl sm:text-3xl font-bold mb-6">
           Free your playing today!
         </h2>
@@ -207,7 +207,7 @@ export default function TeachingPage() {
         >
           BOOK A TRIAL LESSON 📅
         </a>
-        <p className="text-sm text-gray-600 ">
+        <p className="text-sm text-ink-700 ">
           Have questions?{" "}
           <a
             href="/contact?inquiry=teaching"

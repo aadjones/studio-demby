@@ -41,7 +41,7 @@ export default function StartHere() {
             href={`/work/${work.slug}`}
             className="group block rounded-lg overflow-hidden"
           >
-            <div className="aspect-[4/3] relative bg-neutral-100">
+            <div className="aspect-[4/3] relative bg-subtle">
               <Image
                 src={work.image}
                 alt={work.title}
@@ -53,7 +53,7 @@ export default function StartHere() {
               />
             </div>
             <div className="pt-2.5 pb-1">
-              <h3 className="font-display font-semibold text-sm sm:text-base text-ink-900 group-hover:text-[#8b4049] transition-colors">
+              <h3 className="font-display font-semibold text-sm sm:text-base text-ink-900 card-title">
                 {work.title}
               </h3>
               <p className="text-[11px] sm:text-xs text-ink-500 mt-0.5 uppercase tracking-wide">

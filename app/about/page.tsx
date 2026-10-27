@@ -71,8 +71,8 @@ export default function AboutPage() {
             life if you actually let them.
           </p>
 
-          <div className="pt-6 sm:pt-8 border-t border-zinc-200 mt-6 sm:mt-8 text-center space-y-4">
-            <p className="text-base sm:text-lg italic text-zinc-600">
+          <div className="pt-6 sm:pt-8 border-t border-line mt-6 sm:mt-8 text-center space-y-4">
+            <p className="text-base sm:text-lg italic text-ink-700">
               Interested in collaborations, commissions, or odd problems that need an odd solution?
             </p>
             <Link
@@ -81,7 +81,7 @@ export default function AboutPage() {
             >
               Get in touch &rarr;
             </Link>
-            <p className="text-sm sm:text-base italic text-zinc-500 mt-4">
+            <p className="text-sm sm:text-base italic text-ink-500 mt-4">
               Want to learn how to do this?
             </p>
             <Link
@@ -94,7 +94,7 @@ export default function AboutPage() {
 
           {/* CV / Credentials */}
           <details className="mt-8 sm:mt-12 group">
-            <summary className="cursor-pointer text-sm sm:text-base font-medium text-zinc-500 hover:text-zinc-800 transition-colors select-none list-none flex items-center gap-2">
+            <summary className="cursor-pointer text-sm sm:text-base font-medium text-ink-500 hover:text-ink-900 transition-colors select-none list-none flex items-center gap-2">
               <svg
                 className="w-3 h-3 transition-transform group-open:rotate-90 shrink-0"
                 viewBox="0 0 10 10"
@@ -108,9 +108,9 @@ export default function AboutPage() {
               </svg>
               CV / Credentials
             </summary>
-            <div className="mt-4 sm:mt-6 space-y-6 text-sm sm:text-base text-zinc-700">
+            <div className="mt-4 sm:mt-6 space-y-6 text-sm sm:text-base text-ink-700">
               <section>
-                <h3 className="font-semibold text-zinc-900 mb-2">
+                <h3 className="font-semibold text-ink-900 mb-2">
                   Performance
                 </h3>
                 <ul className="list-disc pl-5 space-y-1">
@@ -133,7 +133,7 @@ export default function AboutPage() {
               </section>
 
               <section>
-                <h3 className="font-semibold text-zinc-900 mb-2">
+                <h3 className="font-semibold text-ink-900 mb-2">
                   Selected Recordings
                 </h3>
                 <ul className="list-disc pl-5 space-y-1">
@@ -149,7 +149,7 @@ export default function AboutPage() {
               </section>
 
               <section>
-                <h3 className="font-semibold text-zinc-900 mb-2">Teaching</h3>
+                <h3 className="font-semibold text-ink-900 mb-2">Teaching</h3>
                 <p className="font-medium mb-1">
                   Workshop Leader &amp; Music Educator &mdash; San Diego
                   (2025&ndash;present)
@@ -182,7 +182,7 @@ export default function AboutPage() {
               </section>
 
               <section>
-                <h3 className="font-semibold text-zinc-900 mb-2">
+                <h3 className="font-semibold text-ink-900 mb-2">
                   Selected Visual &amp; Generative Work
                 </h3>
                 <ul className="list-disc pl-5 space-y-1">
@@ -208,7 +208,7 @@ export default function AboutPage() {
               </section>
 
               <section>
-                <h3 className="font-semibold text-zinc-900 mb-2">
+                <h3 className="font-semibold text-ink-900 mb-2">
                   Publications
                 </h3>
                 <ul className="list-disc pl-5 space-y-1">
@@ -224,7 +224,7 @@ export default function AboutPage() {
               </section>
 
               <section>
-                <h3 className="font-semibold text-zinc-900 mb-2">Education</h3>
+                <h3 className="font-semibold text-ink-900 mb-2">Education</h3>
                 <ul className="list-disc pl-5 space-y-1">
                   <li>
                     PhD Media Arts and Technology, UC Santa Barbara (2017)

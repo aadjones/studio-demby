@@ -36,7 +36,7 @@ export function Navbar() {
                 className={`text-[15px] font-body px-1 sm:px-2 py-1 rounded-md transition-colors ${
                   isActive
                     ? "font-semibold text-ink-900 underline"
-                    : "text-ink-500 hover:text-ink-800"
+                    : "text-ink-500 hover:text-ink-900"
                 }`}
               >
                 {label}
@@ -52,7 +52,7 @@ export function Navbar() {
             className={`text-[15px] font-body px-2 sm:px-3 py-1 rounded-md border transition-colors ${
               isContactActive
                 ? "border-ink-900 text-ink-900 font-semibold"
-                : "border-ink-900/50 text-ink-500 hover:border-ink-900 hover:text-ink-800"
+                : "border-ink-900/50 text-ink-500 hover:border-ink-900 hover:text-ink-900"
             }`}
           >
             Contact

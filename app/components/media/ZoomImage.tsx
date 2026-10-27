@@ -78,7 +78,7 @@ export default function ZoomImage({
           </Zoom>
         </div>
         {caption && (
-          <figcaption className={clsx("mt-2 text-sm text-gray-500 italic text-center max-w-md", captionClassName)}>
+          <figcaption className={clsx("mt-2 text-sm text-ink-500 italic text-center max-w-md", captionClassName)}>
             {caption}
           </figcaption>
         )}

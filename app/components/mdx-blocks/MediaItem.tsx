@@ -15,7 +15,7 @@ export default function MediaItem({
   return (
     <div>
       <h3 className="text-xl font-semibold">{title}</h3>
-      <p className="italic text-gray-600">{description}</p>
+      <p className="italic text-ink-700">{description}</p>
       <div className="mt-4 space-y-4">
         {children}
         {soundCloudUrl && (

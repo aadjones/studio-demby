@@ -30,7 +30,7 @@ function WorkCard({ item, priority }: { item: UnifiedWorkItem; priority: boolean
       href={item.externalLink ?? `/work/${item.slug}`}
       className="group block"
     >
-      <div className="aspect-square relative rounded-xl overflow-hidden bg-gray-100">
+      <div className="aspect-square relative rounded-xl overflow-hidden bg-subtle">
         {item.image ? (
           <CardMedia
             image={item.image}
@@ -46,14 +46,14 @@ function WorkCard({ item, priority }: { item: UnifiedWorkItem; priority: boolean
           </div>
         )}
       </div>
-      <h3 className="mt-2 text-sm sm:text-base font-display font-semibold leading-tight group-hover:text-gray-600 transition-colors">
+      <h2 className="mt-2 text-sm sm:text-base font-display font-semibold leading-tight card-title">
         {item.title}
-      </h3>
+      </h2>
       {item.date && (
         <p className="text-xs text-ink-500 mt-0.5">{formatDate(item.date)}</p>
       )}
       {item.summary && (
-        <p className="text-xs sm:text-sm text-gray-500 mt-1 line-clamp-2">{item.summary}</p>
+        <p className="text-xs sm:text-sm text-ink-500 mt-1 line-clamp-2">{item.summary}</p>
       )}
     </Link>
   );
@@ -88,7 +88,7 @@ export default function WorkGrid({ items, initialFilter }: { items: UnifiedWorkI
             className={`px-2 py-1 text-xs sm:px-3 sm:py-1.5 sm:text-sm rounded-full transition-colors ${
               activeFilter === tab.filter
                 ? "bg-ink-900 text-white"
-                : "bg-neutral-100 text-ink-500 hover:bg-neutral-200 hover:text-ink-700"
+                : "bg-subtle text-ink-500 hover:bg-line hover:text-ink-700"
             }`}
           >
             {tab.label}

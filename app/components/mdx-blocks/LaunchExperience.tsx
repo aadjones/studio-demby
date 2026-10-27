@@ -12,7 +12,7 @@ export default function LaunchExperience({ href, label = "Open Experience" }: Pr
       >
         {label} &rarr;
       </a>
-      <p className="text-xs text-zinc-400 font-mono m-0">full-screen interactive</p>
+      <p className="text-xs text-ink-500 font-mono m-0">full-screen interactive</p>
     </div>
   );
 }

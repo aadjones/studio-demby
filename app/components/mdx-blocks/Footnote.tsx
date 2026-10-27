@@ -21,7 +21,7 @@ export default function Footnote({ number, children }: Props) {
         {number}
       </button>
       {isOpen && (
-        <span className="inline-block align-baseline max-w-prose ml-1 px-2 py-1 text-sm bg-blue-50 border-l-2 border-blue-600 text-zinc-700">
+        <span className="inline-block align-baseline max-w-prose ml-1 px-2 py-1 text-sm bg-blue-50 border-l-2 border-blue-600 text-ink-700">
           {children}
         </span>
       )}
