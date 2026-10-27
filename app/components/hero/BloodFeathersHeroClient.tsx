@@ -39,7 +39,11 @@ export default function BloodFeathersHeroClient() {
       {/* Hero content */}
       <div className="relative z-20 flex flex-col items-center justify-center h-full px-4 text-center">
         <div className="px-6 py-4 rounded-2xl backdrop-blur-sm bg-white/40">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold tracking-tight text-ink-900 mb-2">
+          {/* aria-label: the "D" is an SVG, so the text alone reads as "Studio emby" */}
+          <h1
+            aria-label="Studio Demby"
+            className="text-4xl sm:text-5xl md:text-6xl font-display font-bold tracking-tight text-ink-900 mb-2"
+          >
             Studio{" "}
             <PianoDLogo
               className="inline-block align-baseline"

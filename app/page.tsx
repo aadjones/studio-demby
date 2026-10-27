@@ -1,5 +1,5 @@
 // app/page.tsx
-import BloodFeathersHero from "@/app/components/hero/BloodFeathersHero";
+import BloodFeathersHero from "@/app/components/hero/BloodFeathersHeroClient";
 import StartHere from "@/app/components/StartHere";
 import Link from "next/link";
 
