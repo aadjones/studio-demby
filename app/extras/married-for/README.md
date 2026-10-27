@@ -41,6 +41,7 @@ The astronomy is tested in `tests/married-for-seasons.test.ts`.
 - **Fonts.** Cormorant Garamond is the base face, and Space Mono overrides the site's `--font-mono` *for this page only*, so `font-mono` classes keep their original look without touching the rest of the site.
 - **No d3.** The old site drew the orbit and annual cycle with d3 and mounted each icon in its own React root. Here they're plain SVG in React, and the Lucide icons are positioned inside the SVG with `x`/`y`.
 - **Tailwind is compiled at build time here** (the old site used the runtime CDN), so class names must appear in the source as complete strings. `getVibeClass` returns whole literal strings, which is why it works. Don't build class names by joining fragments.
+- **Favicon.** `page.tsx` overrides the site icon with the old site's wedding rings (`public/images/married-for/`).
 - **Scrollbar hiding** uses arbitrary Tailwind classes (`[scrollbar-width:none] [&::-webkit-scrollbar]:hidden`), not a global utility.
 
 ## Behavior worth knowing
