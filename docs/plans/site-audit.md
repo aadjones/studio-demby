@@ -12,7 +12,8 @@ Delete this file when everything below is done.
 | 1 | Image optimization on, ZoomImage sizes, Degradation card as MP4 | merged |
 | 2 | p5 only on sketch pages, image priority, hero title server-rendered, Teaching in nav, aria-labels | merged |
 | 2b | /work grid rendered on the server, including `?category=` links. Production: score 68 → 94, LCP 4.3 s → 2.5 s, layout shift 0.28 → 0. | merged |
-| 3 | Dead code and dependencies, activity content type, route bugs below | on branch |
+| 3 | Dead code and dependencies, activity content type, route bugs below. 35 files and 8 packages removed; project-page JS 230 → 209 KB; `tsc --noEmit` clean. | merged |
+| 4 | Design: one background white, text contrast, project-page column widths; then taste calls (emoji in titles, Teaching styling, Music thumbnails, hero title panel, `min-width: 360px`) | next |
 
 Measured (Lighthouse mobile, `--throttling-method=devtools`, production) after batch 2:
 Home 87 / LCP 2.4 s, Shatter 90 / LCP 2.9 s, /work 68 / LCP 4.3 s.
