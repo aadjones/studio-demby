@@ -127,7 +127,7 @@ function Form() {
       </div>
 
       {status === "error" && (
-        <p className="text-sm text-brand-rose">
+        <p className="text-sm text-error">
           Something went wrong — please try again or email{" "}
           <a href="mailto:aaron.demby.jones@gmail.com" className="underline">
             directly
@@ -139,7 +139,7 @@ function Form() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="px-7 py-3 text-base font-display font-semibold bg-ink-900 text-white rounded hover:bg-brand-coral transition-colors duration-200 disabled:opacity-50"
+        className="px-7 py-3 text-base font-display font-semibold bg-ink-900 text-white rounded hover:bg-coral transition-colors duration-200 disabled:opacity-50"
       >
         {status === "submitting" ? "Sending…" : "Send message →"}
       </button>

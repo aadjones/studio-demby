@@ -135,6 +135,36 @@ The build process (`pnpm build`) runs `next build`.
 - Custom animations defined in `tailwind.config.js`
 - p5.js is **not** global. Sketches call `loadP5()` (`app/components/utils/loadP5.ts`), which loads `/p5.min.js` once, only on pages that draw. Don't add it back to the root layout: it's ~240 KB and slowed every page.
 
+### Design tokens
+
+The site **shell**—nav, footer, listings, project-page chrome, About, Teaching, Contact, and the shared MDX blocks (CallToAction, FieldNote, ProjectOverview, HeroTitleBlock…)—uses only these tokens. Individual projects (Museum of Dashes, Married For, the time visualizers, bird cards, Chonktionary…) are their own visual worlds and keep their own palettes; don't migrate them.
+
+| Role | Token | Value | Rule |
+|---|---|---|---|
+| Page background | `paper` | `#F8F7F5` | Anything that should read as "the page" (hero, sticky bars). Not white, not grey. |
+| Raised surface | `card` | `#FFFFFF` | Boxes that sit above the page |
+| Subtle surface | `subtle` | `#F5F5F5` | Chips, tabs, metadata boxes |
+| Hairline | `line` | `#E5E5E5` | Borders and dividers |
+| Primary text | `ink-900` | `#1A1A1A` | Headings, body text |
+| Secondary text | `ink-700` | `#3D3D3D` | Summaries, captions |
+| Tertiary text | `ink-500` | `#707070` | Dates, labels. The lightest grey allowed for text (4.6:1 on paper, 4.5:1 on subtle). |
+| Decorative grey | `ink-300` | `#A3A3A3` | Icons, dividers. **Never text**: fails contrast. |
+| Accent | `coral` | `#FF6B6B` | Link underlines, button hover, selection. **Never text**: 2.4:1. |
+| Error text | `error` | `#F43F5E` | Form errors |
+| Inline code | `code-text` / `code-bg` | `#8B5CF6` / `#FEF3C7` | `code` inside prose |
+| Display type | `font-display` | Outfit | Headings, titles, buttons |
+| Body type | `font-body` | Crimson Pro | Everything else (the default on `body`) |
+| Utility type | `font-mono` | JetBrains Mono | Captions, data, code; 14px or larger |
+| Corners | `rounded-lg` / `rounded-full` | | Cards and images / pills and round buttons |
+
+Rules:
+- **No raw Tailwind greys in the shell** (`gray-*`, `zinc-*`, `neutral-*`, `stone-*`, `slate-*`), and no hex literals. If a role is missing, add a token here and in `tailwind.config.js` rather than reaching for a one-off.
+- **Hover:** buttons go to `coral` (`hover:bg-coral`). Text links in prose get a coral underline. Card titles are not yet unified (to do: one shared hover; Related Works uses blue, the /work grid lightens to grey).
+- **Focus:** no visible keyboard-focus style exists yet (to do: a ring in `ink-900` with a 2px offset, on every link and button).
+- Check contrast with real numbers before adding a text color: 4.5:1 for normal text against every surface it sits on.
+
+The shell still has ~86 `gray`/`zinc`/`neutral` uses to migrate onto these tokens; see `docs/plans/site-audit.md`.
+
 ### Images
 
 - Image optimization is on (Vercel resizes and re-encodes). Don't set `images.unoptimized`; it once served 9 MB originals for 180px thumbnails.

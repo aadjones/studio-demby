@@ -14,35 +14,23 @@ module.exports = {
         body: ['var(--font-body)', 'Georgia', 'serif'],
         mono: ['var(--font-mono)', 'Courier New', 'monospace'],
       },
-      // Vibrant, experimental color system
+      // Colors. The site shell (nav, footer, listings, project-page chrome, shared MDX
+      // blocks) uses only the tokens in this first group; see "Design tokens" in CLAUDE.md.
+      // Individual projects (museum, time-*, Married For, bird cards…) keep their own palettes.
       colors: {
-        // Primary brand colors - vibrant and playful
-        brand: {
-          coral: '#FF6B6B',      // Vibrant coral - primary accent
-          teal: '#06B6D4',       // Bright teal - secondary
-          violet: '#8B5CF6',     // Rich violet - tertiary
-          amber: '#F59E0B',      // Warm amber - highlights
-          rose: '#F43F5E',       // Bold rose - emphasis
+        // Surfaces
+        paper: '#F8F7F5',        // Page background (body in global.css); hero, sticky bars
+        card: '#FFFFFF',         // Raised boxes only
+        subtle: '#F5F5F5',       // Chips, tabs, metadata boxes
+        line: '#E5E5E5',         // Hairline borders and dividers
+        // Accent: underlines, selection, highlights. Never text: 2.4:1 on paper.
+        coral: '#FF6B6B',
+        // Messages and inline code
+        error: '#F43F5E',        // Form errors
+        code: {
+          text: '#8B5CF6',       // Inline `code` in prose
+          bg: '#FEF3C7',
         },
-        // Atmospheric backgrounds - layered gradients
-        atmosphere: {
-          cream: '#FFF8F0',      // Warm cream base
-          fog: '#F8FAFC',        // Cool fog
-          blush: '#FFF1F2',      // Soft blush
-          mint: '#F0FDFA',       // Fresh mint
-          lavender: '#F5F3FF',   // Gentle lavender
-        },
-        // Surface colors - for cards and elevated elements
-        surface: {
-          100: '#FFFFFF',
-          200: '#FAFAFA',
-          300: '#F4F4F5',
-          warm: '#FEF3C7',       // Warm highlight
-          cool: '#DBEAFE',       // Cool highlight
-        },
-        // Page background (body in global.css). Anything that sits on the page and should
-        // read as "the page" (hero, sticky bars) uses this, not white or grey.
-        paper: '#F8F7F5',
         // Text hierarchy
         ink: {
           900: '#1A1A1A',        // Primary text
@@ -59,12 +47,6 @@ module.exports = {
           900: '#262422',        // Nearly black brown
         },
         // Keep legacy colors for compatibility
-        space: {
-          600: '#23263A',
-          700: '#1A1D2E',
-          800: '#151725',
-          900: '#0F111D',
-        },
         'time-surface': {
           50: '#F8F9FA',
           100: '#E9ECEF',

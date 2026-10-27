@@ -8,7 +8,7 @@ export default function LaunchExperience({ href, label = "Open Experience" }: Pr
     <div className="w-full my-10 flex flex-col items-center gap-2">
       <a
         href={href}
-        className="inline-flex items-center gap-2 px-8 py-4 bg-ink-900 !text-white no-underline hover:bg-brand-coral transition-colors duration-200 rounded font-medium text-base"
+        className="inline-flex items-center gap-2 px-8 py-4 bg-ink-900 !text-white no-underline hover:bg-coral transition-colors duration-200 rounded font-medium text-base"
       >
         {label} &rarr;
       </a>

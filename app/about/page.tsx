@@ -77,7 +77,7 @@ export default function AboutPage() {
             </p>
             <Link
               href="/contact"
-              className="inline-block px-5 sm:px-7 py-2 sm:py-2.5 text-sm sm:text-base font-medium bg-ink-900 text-white rounded hover:bg-brand-coral transition-colors duration-200"
+              className="inline-block px-5 sm:px-7 py-2 sm:py-2.5 text-sm sm:text-base font-medium bg-ink-900 text-white rounded hover:bg-coral transition-colors duration-200"
             >
               Get in touch &rarr;
             </Link>
@@ -86,7 +86,7 @@ export default function AboutPage() {
             </p>
             <Link
               href="/teaching"
-              className="inline-block px-5 sm:px-7 py-2 sm:py-2.5 text-sm sm:text-base font-medium bg-ink-900 text-white rounded hover:bg-brand-coral transition-colors duration-200"
+              className="inline-block px-5 sm:px-7 py-2 sm:py-2.5 text-sm sm:text-base font-medium bg-ink-900 text-white rounded hover:bg-coral transition-colors duration-200"
             >
               I offer lessons &rarr;
             </Link>
