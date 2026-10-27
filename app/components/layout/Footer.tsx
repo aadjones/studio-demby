@@ -17,12 +17,14 @@ const YEAR = new Date().getFullYear();
 interface SocialLinkProps {
   href: string;
   icon: IconType;
+  /** Icon-only links need a name for screen readers. */
+  label: string;
 }
 
-function SocialLink({ href, icon: Icon }: SocialLinkProps) {
+function SocialLink({ href, icon: Icon, label }: SocialLinkProps) {
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer">
-      <Icon />
+    <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
+      <Icon aria-hidden="true" />
     </a>
   );
 }
@@ -30,10 +32,10 @@ function SocialLink({ href, icon: Icon }: SocialLinkProps) {
 function SocialLinks() {
   return (
     <div className="flex text-lg gap-3.5 items-center">
-      <SocialLink href={socialLinks.soundcloud} icon={FaSoundcloud} />
-      <SocialLink href={socialLinks.instagram} icon={FaInstagram} />
-      <SocialLink href={socialLinks.youtube} icon={FaYoutube} />
-      <SocialLink href={socialLinks.github} icon={FaGithub} />
+      <SocialLink href={socialLinks.soundcloud} icon={FaSoundcloud} label="SoundCloud" />
+      <SocialLink href={socialLinks.instagram} icon={FaInstagram} label="Instagram" />
+      <SocialLink href={socialLinks.youtube} icon={FaYoutube} label="YouTube" />
+      <SocialLink href={socialLinks.github} icon={FaGithub} label="GitHub" />
     </div>
   );
 }
