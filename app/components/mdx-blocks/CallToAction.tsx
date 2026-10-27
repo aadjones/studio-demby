@@ -8,7 +8,9 @@ const FLAVORS: Record<string, { line: string; label: string }> = {
     label: "Get in touch",
   },
   teaching: {
-    line: "Interested in lessons, workshops, or custom tools?",
+    // No "lessons" here: this box links to Contact, and most teaching projects (chess,
+    // math, the TCP explainer) aren't about piano. Pages that suit lessons set showLessons.
+    line: "Interested in workshops or custom tools?",
     label: "Get in touch",
   },
 };
