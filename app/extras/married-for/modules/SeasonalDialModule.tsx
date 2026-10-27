@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Snowflake, Flower2, Sun, Leaf } from "lucide-react";
 import { TimeModuleProps } from "../types";
-import { MILLISECONDS_PER_DAY } from "../constants";
+import { seasonalAngle, seasonalYear } from "../utils/seasons";
 import { vibes, getVibeClass } from "../designSystem";
 import { useT, useLocale } from "../i18n";
 
@@ -14,16 +14,6 @@ const wedgePath = (start: number, end: number, r: number) => {
   const b = polar(end, r);
   const largeArc = end - start > Math.PI ? 1 : 0;
   return `M 0 0 L ${a.x} ${a.y} A ${r} ${r} 0 ${largeArc} 1 ${b.x} ${b.y} Z`;
-};
-
-// Position within the solstice-to-solstice year, as an angle
-const cycleAngle = (d: Date) => {
-  let lastWinterSolstice = new Date(d.getFullYear(), 11, 21);
-  if (d < lastWinterSolstice) lastWinterSolstice = new Date(d.getFullYear() - 1, 11, 21);
-  const nextWinterSolstice = new Date(lastWinterSolstice.getFullYear() + 1, 11, 21);
-  const cycleDays = (nextWinterSolstice.getTime() - lastWinterSolstice.getTime()) / MILLISECONDS_PER_DAY;
-  const daysPassed = (d.getTime() - lastWinterSolstice.getTime()) / MILLISECONDS_PER_DAY;
-  return (daysPassed / cycleDays) * 2 * Math.PI;
 };
 
 const SEASONS = [
@@ -75,17 +65,22 @@ const SeasonalDialModule: React.FC<TimeModuleProps> = ({ targetDate }) => {
   const iconSize = isMobile ? 16 : 24;
   const iconOffset = isMobile ? 0.35 : 0.4;
 
+  const now = new Date();
+
   // --- SOLSTICE / EQUINOX LABELS ---
+  // This seasonal year's real dates, as they fall at the venue: [last Dec, Mar, Jun, Sep, next Dec].
+  // The winter label at the top shows the upcoming December solstice.
   const labelSpacing = isMobile ? 12 : 25;
   const dateLocale = locale === 'es' ? 'es-MX' : 'en-US';
-  const fmtDate = (m: number, d: number) =>
-    new Date(2026, m, d).toLocaleDateString(dateLocale, { month: 'short', day: 'numeric' }).toUpperCase();
+  const fmtDate = (d: Date) =>
+    d.toLocaleDateString(dateLocale, { month: 'short', day: 'numeric', timeZone: 'America/Los_Angeles' }).toUpperCase();
+  const [, march, june, september, december] = seasonalYear(now);
 
   const cardinalLabels: { name: string; date: string; angle: number; align: 'start' | 'middle' | 'end'; dy: number; dx: number }[] = [
-    { name: t.seasonal.winterSolstice, date: fmtDate(11, 21), angle: 0, align: 'middle', dy: -labelSpacing - 15, dx: 0 },
-    { name: t.seasonal.vernalEquinox, date: fmtDate(2, 20), angle: Math.PI / 2, align: 'start', dy: 0, dx: labelSpacing },
-    { name: t.seasonal.summerSolstice, date: fmtDate(5, 21), angle: Math.PI, align: 'middle', dy: labelSpacing + 12, dx: 0 },
-    { name: t.seasonal.autumnalEquinox, date: fmtDate(8, 22), angle: (3 * Math.PI) / 2, align: 'end', dy: -labelSpacing, dx: isMobile ? -8 : -labelSpacing },
+    { name: t.seasonal.winterSolstice, date: fmtDate(december), angle: 0, align: 'middle', dy: -labelSpacing - 15, dx: 0 },
+    { name: t.seasonal.vernalEquinox, date: fmtDate(march), angle: Math.PI / 2, align: 'start', dy: 0, dx: labelSpacing },
+    { name: t.seasonal.summerSolstice, date: fmtDate(june), angle: Math.PI, align: 'middle', dy: labelSpacing + 12, dx: 0 },
+    { name: t.seasonal.autumnalEquinox, date: fmtDate(september), angle: (3 * Math.PI) / 2, align: 'end', dy: -labelSpacing, dx: isMobile ? -8 : -labelSpacing },
   ];
 
   // Two-line labels: "Winter / Solstice", or "Solsticio / de Invierno" in Spanish
@@ -98,8 +93,7 @@ const SeasonalDialModule: React.FC<TimeModuleProps> = ({ targetDate }) => {
   };
 
   // --- CURRENT PROGRESS ---
-  const now = new Date();
-  const currentAngle = cycleAngle(now);
+  const currentAngle = seasonalAngle(now);
   const activeSeasonIndex = Math.min(3, Math.floor(currentAngle / (Math.PI / 2)));
   const activeSeason = SEASONS[activeSeasonIndex];
   const current = polar(currentAngle, radius);
@@ -111,7 +105,7 @@ const SeasonalDialModule: React.FC<TimeModuleProps> = ({ targetDate }) => {
   const curLabel = polar(currentAngle, isLeftRight ? radius * 0.62 : radius + (isMobile ? 70 : 100));
 
   // --- WEDDING TARGET MARKER ---
-  const targetAngle = cycleAngle(targetDate);
+  const targetAngle = seasonalAngle(targetDate);
   const target = polar(targetAngle, radius);
   const tarLabel = polar(targetAngle, radius + (isMobile ? 40 : 100));
 
