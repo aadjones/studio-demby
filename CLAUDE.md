@@ -22,7 +22,10 @@ pnpm fresh
 # Free port 3000
 pnpm kill-port
 
-# Build (always clear cache first: rm -rf .next)
+# Build from a clean .next (refuses if a server is on port 3000, then clears and builds)
+pnpm clean-build
+
+# Build without clearing (also refuses if a server is on port 3000)
 pnpm build
 
 # Production server (requires a build first)
@@ -47,7 +50,9 @@ the flag never reaches the underlying tool.
 
 ## Build & Dev
 
-Never run `next build` against the same `.next` directory as a running dev server. Stop the dev server first (`pnpm kill-port`), then `rm -rf .next && pnpm build`.
+Never run `next build` against the same `.next` directory as a running dev server. Use `pnpm clean-build`: it checks port 3000 *before* deleting anything. Never type `rm -rf .next` yourself; the `rm` runs before any check, so it can delete a running dev server's `.next` (this happened on 2026-10-27).
+
+If you need a build while the user's dev server is running, build a copy instead: rsync the repo (minus `node_modules`, `.next`, `public`) to a scratch folder, symlink `node_modules` and `public`, then `npx next build && npx next start -p 3001` there.
 
 Note: `next build` in Next 14 has **no `--distDir` CLI flag** — `distDir` is a `next.config.js` option only. Passing it errors with `unknown option '--distDir'`.
 
@@ -61,13 +66,15 @@ Projects live in `content/projects/` as MDX files with frontmatter defining:
 - `date`: Publication date
 - `title`, `summary`, `image`, `tags`, etc.
 - `status`: publication state — see below
+- `cardVideo`: optional looping MP4 shown on cards instead of `image` (see Images)
+- `redirectTo`: optional path for a project that lives as a standalone page in `public/` (e.g. `/standalone/sack-vulnerability/index.html`). Don't hand-write a redirect in `next.config.js`; it builds one from this field, and the page's `redirect()` covers in-app links
 - See `types/mdx.ts` (`ProjectSchema`) for the full schema
 
 ### Content Status — what is actually live
 
 **Before assuming a project is on the live site, run `pnpm content:status`.** It reads frontmatter directly, so it is never stale. Do not infer live-ness from a file existing in `content/projects/`.
 
-Every project and activity item has a `status` field. It defaults to `published`, so omitting it means live.
+Every project has a `status` field. It defaults to `published`, so omitting it means live.
 
 | `status` | In listings | In sitemap | Built at URL |
 |---|---|---|---|
@@ -78,7 +85,7 @@ Every project and activity item has a `status` field. It defaults to `published`
 - **`draft`** — in progress, not ready to show. Unlisted, excluded from `sitemap.xml`, and served with `noindex, nofollow`, so the URL works as a private preview link you can share but search engines never see it. Draft pages render a visible amber banner. Its build doc belongs in `docs/plans/`.
 - **`archived`** — retired work. Unlisted, but the URL stays in the sitemap and indexable on purpose, so existing inbound links aren't devalued. This is deliberately different from `draft`; don't "fix" it.
 
-The filtering lives in one place per content type — `getAllProjects()` (published only), `getIndexableProjects()` (published + archived, for the sitemap), and `getAllProjectEntries()` (everything, for `generateStaticParams`) in `lib/content/projects-loader.ts`, mirrored in `activity-loader.ts`. Route listings and related-works should use `getAllProjects()`.
+The filtering lives in one place: `getAllProjects()` (published only), `getIndexableProjects()` (published + archived, for the sitemap), and `getAllProjectEntries()` (everything, for `generateStaticParams`) in `lib/content/projects-loader.ts`. (There used to be a second "activity" content type; its six items are now archived projects.) Route listings and related-works should use `getAllProjects()`.
 
 **Publishing a draft** is one edit: flip `status: draft` to `published` (and delete its `docs/plans/` doc).
 
@@ -101,7 +108,7 @@ It covers every static page and every content file of any status, at 375 and 144
 
 Uses Next.js App Router:
 - `app/work/page.tsx` - Work listing page (filterable by category)
-- `app/work/[slug]/page.tsx` - Individual project/activity pages
+- `app/work/[slug]/page.tsx` - Individual project pages
 - `app/teaching/page.tsx` - Teaching landing page
 - URL structure: `studiodemby.com/work/{slug}` or `studiodemby.com/work?category=music`
 
@@ -119,14 +126,25 @@ When adding new projects, simply create a new MDX file in `content/projects/`. T
 
 The build process (`pnpm build`) runs `next build`.
 
-**IMPORTANT: Always clear the `.next` cache before building.** Run `rm -rf .next && pnpm build`. Stale cache causes spurious `ENOENT` / `PageNotFoundError` failures that waste time.
+**IMPORTANT: Always clear the `.next` cache before building.** Run `pnpm clean-build`. Stale cache causes spurious `ENOENT` / `PageNotFoundError` failures that waste time.
 
 ### Styling
 
 - Tailwind with `@tailwindcss/typography` for prose content
-- Dark mode via `next-themes` (class-based)
+- **No dark mode.** `next-themes` isn't installed and Tailwind has no `darkMode` setting, so the few `dark:` classes in the code never apply.
 - Custom animations defined in `tailwind.config.js`
-- p5.js loaded globally via script tag in root layout for generative visuals
+- p5.js is **not** global. Sketches call `loadP5()` (`app/components/utils/loadP5.ts`), which loads `/p5.min.js` once, only on pages that draw. Don't add it back to the root layout: it's ~240 KB and slowed every page.
+
+### Images
+
+- Image optimization is on (Vercel resizes and re-encodes). Don't set `images.unoptimized`; it once served 9 MB originals for 180px thumbnails.
+- Give every `<Image fill>` a `sizes` that matches its real width, or phones download desktop-sized files. In grids, pass `sizes` to `ZoomImage` (e.g. `"(max-width: 640px) 100vw, 33vw"` for three columns).
+- `priority` is opt-in on `ZoomImage` and `CardMedia`. Use it only for the first visible image of a page; a gallery where every image is priority makes them all slower.
+- Animated GIFs aren't optimized. For a looping card, set `cardVideo:` in frontmatter to a muted MP4 and keep `image:` as a still (poster and social preview). Encode with ffmpeg: `-an -c:v libx264 -crf 26 -pix_fmt yuv420p -movflags +faststart`.
+
+### Measuring speed
+
+Run Lighthouse with real throttling: `npx lighthouse <url> --only-categories=performance --throttling-method=devtools`. The default mode *estimates* phone timings from a model and can report seconds of "render delay" that a measured run shows aren't there. The site also has Vercel Speed Insights, which records real visitors.
 
 ### ESLint Configuration
 

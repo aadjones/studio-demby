@@ -7,6 +7,7 @@
     "fresh": "pnpm kill-port && next dev",
     "prebuild": "node scripts/guardBuild.js",
     "build": "next build",
+    "clean-build": "node scripts/guardBuild.js && rm -rf .next && next build",
     "content:status": "node scripts/contentStatus.js",
     "snapshot": "node scripts/snapshot.js",
     "start": "next start",
