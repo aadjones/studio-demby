@@ -1,11 +1,7 @@
 import { getAllProjects } from "./projects-loader";
-import { getAllActivity } from "./activity-loader";
-import { MDXProject, MDXSketch } from "@/types/mdx";
+import { MDXProject } from "@/types/mdx";
 
-/**
- * A unified work item that normalizes projects and activity
- * into a common shape for the /work page grid.
- */
+/** The shape the /work grid needs from a project. */
 export interface UnifiedWorkItem {
   title: string;
   slug: string;
@@ -15,7 +11,6 @@ export interface UnifiedWorkItem {
   summary?: string;
   tags: string[];
   categories: string[];
-  contentType: "project" | "activity";
   externalLink?: string;
 }
 
@@ -29,34 +24,12 @@ function projectToWorkItem(p: MDXProject): UnifiedWorkItem {
     summary: p.summary,
     tags: p.tags,
     categories: p.categories ?? [],
-    contentType: "project",
     externalLink: p.externalLink,
   };
 }
 
-function activityToWorkItem(a: MDXSketch): UnifiedWorkItem {
-  return {
-    title: a.title,
-    slug: a.slug,
-    date: a.date ?? null,
-    image: a.image,
-    summary: a.description,
-    tags: a.tags ?? [],
-    categories: a.categories ?? [],
-    contentType: "activity",
-  };
-}
-
 export async function getAllWork(): Promise<UnifiedWorkItem[]> {
-  const [projects, activity] = await Promise.all([
-    getAllProjects(),
-    getAllActivity(),
-  ]);
-
-  const workItems: UnifiedWorkItem[] = [
-    ...projects.map(projectToWorkItem),
-    ...activity.map(activityToWorkItem),
-  ];
+  const workItems = (await getAllProjects()).map(projectToWorkItem);
 
   // Sort by date, newest first. Items without dates go to the end.
   return workItems.sort((a, b) => {

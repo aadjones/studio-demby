@@ -100,7 +100,7 @@ export default function WorkGrid({ items, initialFilter }: { items: UnifiedWorkI
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         {filtered.map((item, i) => (
           // The first row (two cards on phones) is the page's largest image; load it right away.
-          <WorkCard key={`${item.contentType}-${item.slug}`} item={item} priority={i < 2} />
+          <WorkCard key={item.slug} item={item} priority={i < 2} />
         ))}
       </div>
 

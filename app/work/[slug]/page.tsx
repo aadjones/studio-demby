@@ -1,11 +1,11 @@
-import { notFound } from "next/navigation";
+import fs from "fs";
+import path from "path";
+import { notFound, redirect } from "next/navigation";
 import { Metadata } from "next";
 import { getAllProjects, getAllProjectEntries, getProjectBySlugOnly } from "@/lib/content/projects-loader";
-import { getAllActivity, getAllActivityEntries, getActivityBySlug } from "@/lib/content/activity-loader";
-import { MDXProject, MDXSketch } from "@/types/mdx";
+import { MDXProject } from "@/types/mdx";
 import ClientMDX from "@/app/components/utils/ClientMDX";
 import Image from "next/image";
-import Link from "next/link";
 import ProjectContentShell from "@/app/components/layout/ProjectContentShell";
 import ProjectNavigation from "@/app/components/ProjectNavigation";
 import RelatedWorks from "@/app/components/RelatedWorks";
@@ -35,7 +35,6 @@ function DraftBanner() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  // Try project first, then activity
   const project = await getProjectBySlugOnly(params.slug);
   if (project) {
     const { title, summary, image, status } = project.frontMatter;
@@ -64,49 +63,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const activity = await getActivityBySlug(params.slug);
-  if (activity) {
-    const { title, description, image, status } = activity.frontMatter;
-    const ogImage = image || metaData.ogImage;
-    return {
-      title,
-      description,
-      ...(status === "draft" ? draftRobots : {}),
-      alternates: {
-        canonical: `${metaData.baseUrl}work/${params.slug}`,
-      },
-      openGraph: {
-        title,
-        description,
-        url: `${metaData.baseUrl}work/${params.slug}`,
-        siteName: metaData.name,
-        images: [{ url: ogImage, alt: title }],
-        type: "article",
-      },
-      twitter: {
-        card: "summary_large_image",
-        title,
-        description,
-        images: [ogImage],
-      },
-    };
-  }
-
   return { title: "Not Found" };
 }
 
+/**
+ * A slug with its own route folder (app/work/contrapose/page.tsx) is served by that page.
+ * Generating it here as well writes the same output file twice, and which one wins
+ * differed between local and Vercel builds.
+ */
+const hasOwnRoute = (slug: string) =>
+  fs.existsSync(path.join(process.cwd(), "app/work", slug, "page.tsx"));
+
 export async function generateStaticParams() {
-  const [projects, activity] = await Promise.all([
-    getAllProjectEntries(),
-    getAllActivityEntries(),
-  ]);
-  return [
-    ...projects.map((p: MDXProject) => ({ slug: p.slug })),
-    ...activity.map((a: MDXSketch) => ({ slug: a.slug })),
-  ];
+  const projects = await getAllProjectEntries();
+  return projects.filter((p: MDXProject) => !hasOwnRoute(p.slug)).map((p: MDXProject) => ({ slug: p.slug }));
 }
 
-// ── Project rendering (reused from featured/[slug]) ──────────────
+// ── Project rendering ────────────────────────────────────────────
 function ProjectView({
   project,
   allProjects,
@@ -208,95 +181,16 @@ function ProjectView({
   );
 }
 
-// ── Activity rendering (reused from activity/[slug]) ─────────────
-function ActivityView({
-  item,
-  allActivity,
-  slug,
-}: {
-  item: { frontMatter: MDXSketch; mdxSource: any };
-  allActivity: MDXSketch[];
-  slug: string;
-}) {
-  const sortedActivity = [...allActivity].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
-
-  const currentIndex = sortedActivity.findIndex((s) => s.slug === slug);
-  const totalItems = sortedActivity.length;
-  const nextItem = currentIndex >= 0 ? sortedActivity[(currentIndex + 1) % totalItems] : undefined;
-  const previousItem =
-    currentIndex >= 0 ? sortedActivity[(currentIndex - 1 + totalItems) % totalItems] : undefined;
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-  };
-
-  return (
-    <main className="container mx-auto max-w-2xl px-4 py-8">
-      {item.frontMatter.status === "draft" && <DraftBanner />}
-      <header className="mb-8 border-b border-gray-200 pb-6">
-        <Link href="/work" className="text-sm text-gray-500 hover:text-blue-600 mb-4 inline-block">
-          &larr; All Work
-        </Link>
-        <h1 className="text-2xl sm:text-3xl font-normal mb-2">{item.frontMatter.title}</h1>
-        <time className="text-sm text-gray-500">{formatDate(item.frontMatter.date)}</time>
-      </header>
-
-      <div className="prose prose-sm sm:prose max-w-none">
-        <ClientMDX mdxSource={item.mdxSource} frontMatter={item.frontMatter} />
-      </div>
-
-      {item.frontMatter.tags && item.frontMatter.tags.length > 0 && (
-        <footer className="mt-8 pt-4 border-t border-gray-200">
-          <div className="flex flex-wrap gap-2 text-xs text-gray-500">
-            {item.frontMatter.tags.map((tag) => (
-              <span key={tag}>#{tag}</span>
-            ))}
-          </div>
-        </footer>
-      )}
-
-      <nav className="mt-12 pt-6 border-t border-gray-200">
-        <div className="flex justify-between items-center text-sm">
-          {previousItem ? (
-            <Link href={`/work/${previousItem.slug}`} className="text-gray-600 hover:text-blue-600">
-              &larr; Previous
-            </Link>
-          ) : (
-            <span className="text-gray-400">&larr; Previous</span>
-          )}
-          {nextItem ? (
-            <Link href={`/work/${nextItem.slug}`} className="text-gray-600 hover:text-blue-600">
-              Next &rarr;
-            </Link>
-          ) : (
-            <span className="text-gray-400">Next &rarr;</span>
-          )}
-        </div>
-      </nav>
-    </main>
-  );
-}
-
 // ── Main page component ──────────────────────────────────────────
 export default async function WorkSlugPage({ params }: Props) {
   const { slug } = params;
 
-  // Try project first
   const project = await getProjectBySlugOnly(slug);
-  if (project) {
-    const allProjects = await getAllProjects();
-    return <ProjectView project={project} allProjects={allProjects} slug={slug} />;
-  }
+  if (!project) notFound();
+  // Standalone pages (frontmatter `redirectTo`). Done here rather than in next.config.js
+  // so that <Link> prefetches get a redirect instead of a 404.
+  if (project.frontMatter.redirectTo) redirect(project.frontMatter.redirectTo);
 
-  // Try activity
-  const activity = await getActivityBySlug(slug);
-  if (activity) {
-    const allActivity = await getAllActivity();
-    return <ActivityView item={activity} allActivity={allActivity} slug={slug} />;
-  }
-
-  notFound();
+  const allProjects = await getAllProjects();
+  return <ProjectView project={project} allProjects={allProjects} slug={slug} />;
 }

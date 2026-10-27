@@ -29,9 +29,8 @@ function routes() {
     .filter((f) => f.endsWith('page.tsx') && !f.includes('['))
     .map((f) => '/' + path.dirname(f).replace(/^\.$/, ''))
 
-  const content = ['content/projects', 'content/activity']
-    .filter((dir) => fs.existsSync(path.join(ROOT, dir)))
-    .flatMap((dir) => fs.readdirSync(path.join(ROOT, dir)))
+  const content = fs
+    .readdirSync(path.join(ROOT, 'content/projects'))
     .filter((f) => f.endsWith('.mdx'))
     .map((f) => `/work/${f.replace(/\.mdx$/, '')}`)
 

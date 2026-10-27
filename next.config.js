@@ -1,3 +1,23 @@
+const fs = require('fs');
+const path = require('path');
+const matter = require('gray-matter');
+
+/** Redirects for projects whose frontmatter has `redirectTo` (see the redirects list below). */
+function standaloneRedirects() {
+  const dir = path.join(__dirname, 'content/projects');
+  return fs
+    .readdirSync(dir)
+    .filter((f) => f.endsWith('.mdx'))
+    .map((f) => ({ slug: f.replace(/\.mdx$/, ''), to: matter(fs.readFileSync(path.join(dir, f), 'utf8')).data.redirectTo }))
+    .filter(({ to }) => to)
+    .map(({ slug, to }) => ({
+      source: `/work/${slug}`,
+      destination: to,
+      permanent: false,
+      missing: [{ type: 'header', key: 'RSC' }],
+    }));
+}
+
 /** @type {import('next').NextConfig} */
 module.exports = {
   images: {
@@ -53,8 +73,11 @@ module.exports = {
       { source: '/featured/contrapose/:path*', destination: '/work/contrapose/:path*', permanent: true },
       { source: '/contrapose/:path*', destination: '/work/contrapose/:path*', permanent: true },
 
-      // Standalone articles (skip the project page, go straight to the article)
-      { source: '/work/sack-vulnerability', destination: '/standalone/sack-vulnerability/index.html', permanent: false },
+      // Standalone articles: a project with `redirectTo` in its frontmatter. Two halves:
+      // - here, a real 307 with a Location header for direct visits and crawlers;
+      // - the [slug] page's redirect() for <Link> prefetches and clicks. Those send an RSC
+      //   header, so they skip this rule; a config redirect to a static file makes them 404.
+      ...standaloneRedirects(),
     ];
   },
 };

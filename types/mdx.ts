@@ -38,6 +38,8 @@ export const ProjectSchema = z.object({
 
   // Links
   externalLink: z.string().optional(),
+  /** Send visitors to this path instead of the project page (e.g. a standalone article in public/). */
+  redirectTo: z.string().optional(),
   githubLink: z.string().optional(),
 
   // Metadata
@@ -54,25 +56,5 @@ export type MDXProject = z.infer<typeof ProjectSchema>;
 
 export type MDXSource = {
   frontMatter: MDXProject;
-  mdxSource: any;
-};
-
-export const SketchSchema = z.object({
-  title: z.string(),
-  slug: z.string(),
-  date: z.string(),
-  categories: z.array(z.enum(["visual-art", "music", "teaching"])).optional().default([]),
-  body: z.string().optional(),
-  image: z.string().optional(),
-  video: z.string().optional(),
-  tags: z.array(z.string()).optional().default([]),
-  description: z.string().optional(),
-  status: ContentStatusSchema,
-});
-
-export type MDXSketch = z.infer<typeof SketchSchema>;
-
-export type SketchMDXSource = {
-  frontMatter: MDXSketch;
   mdxSource: any;
 };

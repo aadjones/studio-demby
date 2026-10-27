@@ -14,7 +14,6 @@ const matter = require('gray-matter')
 
 const DIRS = [
   { label: 'project', dir: path.join(process.cwd(), 'content/projects') },
-  { label: 'activity', dir: path.join(process.cwd(), 'content/activity') },
 ]
 
 const GROUPS = [
@@ -51,8 +50,8 @@ for (const { status, heading, note } of GROUPS) {
     console.log('  (none)')
     continue
   }
-  for (const { slug, kind } of group) {
-    console.log(`  ${slug}${kind === 'activity' ? '  [activity]' : ''}`)
+  for (const { slug } of group) {
+    console.log(`  ${slug}`)
   }
 }
 
