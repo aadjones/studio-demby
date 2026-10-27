@@ -15,7 +15,7 @@ Delete this file when everything below is done.
 | 3 | Dead code and dependencies, activity content type, route bugs below. 35 files and 8 packages removed; project-page JS 230 → 209 KB; `tsc --noEmit` clean. | merged |
 | 4a | One page background (`paper`) and grey text that passes contrast. Lighthouse accessibility: home 91 → 100. | merged |
 | 4b | Design tokens documented (CLAUDE.md "Design tokens"); config renamed by role, unused palettes and dead `--sh-*` CSS removed. Compiled CSS identical to production. | merged |
-| 4c | Footer social icons to 44px tap targets (18px today); migrate ~86 shell `gray`/`zinc`/`neutral` uses onto tokens; one card-title hover; a focus ring; fix nav's nonexistent `ink-800` hover | next |
+| 4c | Footer icons 18 → 44px tap targets; 88 shell grey uses moved onto tokens; one card-title hover (coral underline); site-styled focus ring; nav hover fixed (`ink-800` didn't exist); /work card titles `<h2>`. | on branch |
 | 4d | Project-page column widths (wireframe first); taste calls: emoji in titles, Teaching styling, Music thumbnails, hero title panel, coral link underline at 40% opacity, `min-width: 360px` | after 4c |
 
 Measured (Lighthouse mobile, `--throttling-method=devtools`, production) after batch 2:
@@ -55,11 +55,13 @@ history is visible until this file is deleted.
 | `html { min-width: 360px }` decision (above) belongs to the design batch. | Decide in batch 4. | to do (4) |
 | `pnpm snapshot diff batch-2b batch-3 baseline-rerun` reported zero changes: the noise capture was of the original site, not batch 2b, so every page changed since then was filed as noise. | Docs: the noise capture must be a second run of the same site as "before" (CLAUDE.md says so); without one, leave the argument off. | noted here |
 | Making `HeroTitleBlock` honor `className` let `not-prose` remove the prose margin above subtitles, tightening three titles by ~14px. | Code: subtitle keeps `mt-[1.25em]` so nothing moves; spacing is for the design batch. | done (3) |
-| `ink-800` is used for the nav link and Contact hover, but the ink scale has no 800, so the hover silently does nothing. | Code: fix in 4c. | to do (4c) |
+| `ink-800` is used for the nav link and Contact hover, but the ink scale has no 800, so the hover silently does nothing. | Code: fix in 4c. | done (4c) |
 | The hero sketch runs in HSB mode, so `background(248, 247, 245)` painted vivid blue. Caught by sampling screenshot pixels, not by any check. | Code: colors pass to p5 as CSS strings. | done (4a) |
 | Token usage counts first missed `hover:bg-brand-coral` (buttons turn coral on hover), and a rename regex skipped `-brand-` because of its lookbehind. | Verified by comparing compiled CSS rules with production's. | done (4b) |
-| /work loses accessibility points for heading order: card titles are `<h3>` directly under the `<h1>`. | Code: `<h2>` for card titles, same look. | to do (4c) |
+| /work loses accessibility points for heading order: card titles are `<h3>` directly under the `<h1>`. | Code: `<h2>` for card titles, same look. | done (4c) |
 | "Teaching" meant both the nav item (a page selling piano lessons) and a Work category (projects that teach). | Nav label → "Lessons", tab title "Piano Lessons", URL stays `/teaching`. Second opinion from a product agent agreed. | done (4b) |
 | The CallToAction "teaching" line said "lessons" but its button goes to Contact, on 7 of 9 teaching pages, most not about piano. | Line → "Interested in workshops or custom tools?"; lesson buttons stay where `showLessons` is set (music pages, Contrapose, Shape Exercise). | done (4b) |
 | Should the lessons page link to the Teaching category? | No: it's a page with one job (book a trial); the category mixes piano with chess and math. If ever, link one student-facing thing (Contrapose). | decided |
 | Homepage never mentions lessons or hiring; the only path to lessons is the nav. | Owner to decide whether to add one line or button per role. | open question |
+| The token review said there was no focus style; there was Chrome's default blue ring. Now a site-styled `ink-900` ring, the same in every browser. | Code: `:focus-visible` rule in `global.css`. | done (4c) |
+| CallToAction box background `#FFF8F0` (cream) is the shell's one warm accent with no token. | Decide in 4d: add a token or use `card`. | to do (4d) |

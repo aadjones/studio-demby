@@ -159,11 +159,12 @@ The site **shell**—nav, footer, listings, project-page chrome, About, Teaching
 
 Rules:
 - **No raw Tailwind greys in the shell** (`gray-*`, `zinc-*`, `neutral-*`, `stone-*`, `slate-*`), and no hex literals. If a role is missing, add a token here and in `tailwind.config.js` rather than reaching for a one-off.
-- **Hover:** buttons go to `coral` (`hover:bg-coral`). Text links in prose get a coral underline. Card titles are not yet unified (to do: one shared hover; Related Works uses blue, the /work grid lightens to grey).
-- **Focus:** no visible keyboard-focus style exists yet (to do: a ring in `ink-900` with a 2px offset, on every link and button).
+- **Hover:** buttons go to `coral` (`hover:bg-coral`). Text links in prose get a coral underline. Card titles use the `card-title` class (in `global.css`): a coral underline while the card's `group` link is hovered. Don't lighten text on hover; it lowers contrast.
+- **Focus:** `global.css` gives every link, button and field a 2px `ink-900` ring on `:focus-visible`. Don't remove outlines (`outline-none`) without replacing them.
+- **Tap targets:** icon-only links get a 44×44 box (`h-11 w-11`) around the icon.
 - Check contrast with real numbers before adding a text color: 4.5:1 for normal text against every surface it sits on.
 
-The shell still has ~86 `gray`/`zinc`/`neutral` uses to migrate onto these tokens; see `docs/plans/site-audit.md`.
+Known exceptions in the shell: `text-white` on dark buttons (correct as is), and the CallToAction box's cream `#FFF8F0` (pending a decision: token or drop).
 
 ### Images
 
