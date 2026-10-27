@@ -11,7 +11,7 @@ Delete this file when everything below is done.
 | 0 | Snapshot safety net; invalid frontmatter fails the build | merged |
 | 1 | Image optimization on, ZoomImage sizes, Degradation card as MP4 | merged |
 | 2 | p5 only on sketch pages, image priority, hero title server-rendered, Teaching in nav, aria-labels | merged |
-| 2b | /work grid rendered on the server (images waited for JS; LCP 4.3 s, layout shift 0.28). Local build: LCP 1.9 s, layout shift 0. | on branch |
+| 2b | /work grid rendered on the server, including `?category=` links. Production: score 68 → 94, LCP 4.3 s → 2.5 s, layout shift 0.28 → 0. | merged |
 | 3 | Dead code and dependencies, activity content type, route bugs below | not started |
 
 Measured (Lighthouse mobile, `--throttling-method=devtools`, production) after batch 2:
