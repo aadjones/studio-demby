@@ -5,6 +5,7 @@
     "kill-port": "lsof -ti :3000 | xargs kill -9 2>/dev/null || true",
     "dev": "next dev",
     "fresh": "pnpm kill-port && next dev",
+    "prebuild": "node scripts/guardBuild.js",
     "build": "next build",
     "content:status": "node scripts/contentStatus.js",
     "snapshot": "node scripts/snapshot.js",
