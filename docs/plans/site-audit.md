@@ -13,9 +13,9 @@ Delete this file when everything below is done.
 | 2 | p5 only on sketch pages, image priority, hero title server-rendered, Teaching in nav, aria-labels | merged |
 | 2b | /work grid rendered on the server, including `?category=` links. Production: score 68 → 94, LCP 4.3 s → 2.5 s, layout shift 0.28 → 0. | merged |
 | 3 | Dead code and dependencies, activity content type, route bugs below. 35 files and 8 packages removed; project-page JS 230 → 209 KB; `tsc --noEmit` clean. | merged |
-| 4a | One page background (`paper`) and grey text that passes contrast. Lighthouse accessibility: home 91 → 100. | on branch |
-| 4b | Design tokens documented (CLAUDE.md "Design tokens"); config renamed by role, unused palettes and dead `--sh-*` CSS removed. Compiled CSS identical to production. | on branch |
-| 4c | Migrate ~86 shell `gray`/`zinc`/`neutral` uses onto tokens; one card-title hover; a focus ring; fix nav's nonexistent `ink-800` hover | next |
+| 4a | One page background (`paper`) and grey text that passes contrast. Lighthouse accessibility: home 91 → 100. | merged |
+| 4b | Design tokens documented (CLAUDE.md "Design tokens"); config renamed by role, unused palettes and dead `--sh-*` CSS removed. Compiled CSS identical to production. | merged |
+| 4c | Footer social icons to 44px tap targets (18px today); migrate ~86 shell `gray`/`zinc`/`neutral` uses onto tokens; one card-title hover; a focus ring; fix nav's nonexistent `ink-800` hover | next |
 | 4d | Project-page column widths (wireframe first); taste calls: emoji in titles, Teaching styling, Music thumbnails, hero title panel, coral link underline at 40% opacity, `min-width: 360px` | after 4c |
 
 Measured (Lighthouse mobile, `--throttling-method=devtools`, production) after batch 2:
@@ -62,3 +62,4 @@ history is visible until this file is deleted.
 | "Teaching" meant both the nav item (a page selling piano lessons) and a Work category (projects that teach). | Nav label → "Lessons", tab title "Piano Lessons", URL stays `/teaching`. Second opinion from a product agent agreed. | done (4b) |
 | The CallToAction "teaching" line said "lessons" but its button goes to Contact, on 7 of 9 teaching pages, most not about piano. | Line → "Interested in workshops or custom tools?"; lesson buttons stay where `showLessons` is set (music pages, Contrapose, Shape Exercise). | done (4b) |
 | Should the lessons page link to the Teaching category? | No: it's a page with one job (book a trial); the category mixes piano with chess and math. If ever, link one student-facing thing (Contrapose). | decided |
+| Homepage never mentions lessons or hiring; the only path to lessons is the nav. | Owner to decide whether to add one line or button per role. | open question |
