@@ -45,8 +45,10 @@ async function shoot(browser, base, route, width, dir) {
   const page = await browser.newPage({ viewport: { width, height: 900 }, reducedMotion: 'reduce' })
   const broken = []
   const errors = []
+  // Vercel's analytics scripts only exist on Vercel, so they 404 on localhost; not a breakage.
+  const vercelOnly = (url) => url.includes('/_vercel/')
   page.on('response', (res) => {
-    if (res.status() >= 400) broken.push(`${res.status()} ${res.url()}`)
+    if (res.status() >= 400 && !vercelOnly(res.url())) broken.push(`${res.status()} ${res.url()}`)
   })
   page.on('requestfailed', (req) => {
     // Media requests get aborted routinely when a page moves on; not a breakage.
@@ -54,7 +56,7 @@ async function shoot(browser, base, route, width, dir) {
   })
   page.on('pageerror', (e) => errors.push(e.message))
   page.on('console', (m) => {
-    if (m.type() === 'error') errors.push(m.text())
+    if (m.type() === 'error' && !vercelOnly(m.location().url ?? '')) errors.push(m.text())
   })
 
   let status = 0
@@ -148,7 +150,10 @@ function diff(before, after, noise) {
       continue
     }
     if (a.status !== b.status) problems.push(`${key}: status ${a.status} → ${b.status}`)
-    for (const line of b.broken.filter((x) => !a.broken.includes(x))) problems.push(`${key}: new broken ${line}`)
+    // Compare by path so a localhost or preview capture matches production URLs.
+    const pathOf = (line) => line.replace(/https?:\/\/[^/]+/, '')
+    const brokenBefore = a.broken.map(pathOf)
+    for (const line of b.broken.filter((x) => !brokenBefore.includes(pathOf(x)))) problems.push(`${key}: new broken ${line}`)
     for (const line of b.errors.filter((x) => !a.errors.includes(x))) problems.push(`${key}: new error ${line.slice(0, 140)}`)
 
     const pa = path.join(OUT, before, fileFor(a.route, a.width))
