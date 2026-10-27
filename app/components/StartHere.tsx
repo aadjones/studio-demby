@@ -35,7 +35,7 @@ export default function StartHere() {
         Featured Work
       </h2>
       <div className="grid grid-cols-2 gap-4 sm:gap-6">
-        {CURATED_WORKS.map((work) => (
+        {CURATED_WORKS.map((work, i) => (
           <Link
             key={work.slug}
             href={`/work/${work.slug}`}
@@ -48,6 +48,8 @@ export default function StartHere() {
                 fill
                 className="object-cover group-hover:scale-[1.02] transition-transform duration-300"
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 45vw, 400px"
+                // The first row is the homepage's largest image; don't make it wait for lazy loading.
+                priority={i < 2}
               />
             </div>
             <div className="pt-2.5 pb-1">

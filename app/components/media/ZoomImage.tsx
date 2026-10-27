@@ -16,6 +16,8 @@ interface ZoomImageProps {
   rotateDeg?: number;
   /** How wide the image is drawn; override in grids so phones and retina screens don't fetch huge versions. */
   sizes?: string;
+  /** Load immediately at high priority. Only for an image at the top of the page; galleries should leave it off. */
+  priority?: boolean;
 }
 
 export default function ZoomImage({ 
@@ -28,6 +30,7 @@ export default function ZoomImage({
   height = 800,
   rotateDeg = 0,
   sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 75vw, 1200px",
+  priority = false,
 }: ZoomImageProps) {
   // The zoomed view goes through the optimizer too (2048px wide), not the raw original.
   const zoomSrc = getImageProps({ src, alt, width: 1024, height: 1024 }).props.src;
@@ -70,7 +73,7 @@ export default function ZoomImage({
                 setNaturalHeight(img.naturalHeight);
                 setIsImageLoaded(true);
               }}
-              priority
+              priority={priority}
             />
           </Zoom>
         </div>
