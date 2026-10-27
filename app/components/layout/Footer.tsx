@@ -46,7 +46,7 @@ export default function Footer() {
       <div className="flex flex-col items-center gap-6 mb-8 w-full max-w-xl mx-auto">
         <SocialLinks />
         <div className="text-center w-full">
-          <p className="mb-3 text-sm text-[#737373]">
+          <p className="mb-3 text-sm text-ink-500">
             New work by email:
           </p>
           <div className="w-full flex flex-col sm:flex-row gap-2 items-center justify-center">

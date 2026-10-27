@@ -16,10 +16,9 @@ export default function BloodFeathersHeroClient() {
   return (
     <section
       ref={heroRef}
-      className="relative overflow-hidden"
+      className="relative overflow-hidden bg-paper"
       style={{
         height: "70dvh",
-        backgroundColor: "#f0f0f0",
         // Break out of PageLayout's max-w-[960px] container
         width: "100vw",
         marginLeft: "calc(-50vw + 50%)",
@@ -34,7 +33,7 @@ export default function BloodFeathersHeroClient() {
       )}
 
       {/* Gradient overlay for text readability */}
-      <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-b from-white/20 via-transparent to-white/40" />
+      <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-b from-paper/20 via-transparent to-paper/40" />
 
       {/* Hero content */}
       <div className="relative z-20 flex flex-col items-center justify-center h-full px-4 text-center">

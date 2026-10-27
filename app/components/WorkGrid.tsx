@@ -41,7 +41,7 @@ function WorkCard({ item, priority }: { item: UnifiedWorkItem; priority: boolean
             priority={priority}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
+          <div className="w-full h-full flex items-center justify-center text-ink-500 text-sm">
             {item.title}
           </div>
         )}
@@ -50,7 +50,7 @@ function WorkCard({ item, priority }: { item: UnifiedWorkItem; priority: boolean
         {item.title}
       </h3>
       {item.date && (
-        <p className="text-xs text-gray-400 mt-0.5">{formatDate(item.date)}</p>
+        <p className="text-xs text-ink-500 mt-0.5">{formatDate(item.date)}</p>
       )}
       {item.summary && (
         <p className="text-xs sm:text-sm text-gray-500 mt-1 line-clamp-2">{item.summary}</p>
@@ -80,7 +80,7 @@ export default function WorkGrid({ items, initialFilter }: { items: UnifiedWorkI
   return (
     <div>
       {/* Filter tabs */}
-      <div className="sticky top-0 z-10 bg-white py-3 -mt-3 flex flex-wrap gap-1.5 mb-8">
+      <div className="sticky top-0 z-10 bg-paper py-3 -mt-3 flex flex-wrap gap-1.5 mb-8">
         {FILTER_TABS.map((tab) => (
           <button
             key={tab.label}
@@ -105,7 +105,7 @@ export default function WorkGrid({ items, initialFilter }: { items: UnifiedWorkI
       </div>
 
       {filtered.length === 0 && (
-        <p className="text-center text-gray-400 py-12">No work in this category yet.</p>
+        <p className="text-center text-ink-500 py-12">No work in this category yet.</p>
       )}
 
       <div className="mt-12 mb-4">

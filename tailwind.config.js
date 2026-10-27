@@ -40,11 +40,14 @@ module.exports = {
           warm: '#FEF3C7',       // Warm highlight
           cool: '#DBEAFE',       // Cool highlight
         },
+        // Page background (body in global.css). Anything that sits on the page and should
+        // read as "the page" (hero, sticky bars) uses this, not white or grey.
+        paper: '#F8F7F5',
         // Text hierarchy
         ink: {
           900: '#1A1A1A',        // Primary text
           700: '#3D3D3D',        // Secondary text
-          500: '#737373',        // Tertiary text
+          500: '#707070',        // Tertiary text. Lightest grey with 4.5:1 contrast on paper and neutral-100.
           300: '#A3A3A3',        // Muted text
         },
         // Museum of Dashes - Natural history museum aesthetic

@@ -4,6 +4,11 @@
 
 type P5 = any;
 
+// The page background (Tailwind `paper`), so the hero has no seam against the page.
+// A CSS string on purpose: this sketch runs in HSB mode, where background(248, 247, 245)
+// means hue 248 at full saturation (vivid blue). Strings are read the same in any mode.
+const PAPER = "#F8F7F5";
+
 // ── Presets ──────────────────────────────────────────────────────
 const PRESETS: Record<string, Preset> = {
   lush: {
@@ -251,7 +256,7 @@ export default function bloodFeathersSketch(p: P5, parent: HTMLElement): void {
 
     buf.clear();
     buf.resetMatrix();
-    buf.background(240);
+    buf.background(PAPER);
     fadeBuf.clear();
 
     collectAllDrops(preset);
@@ -273,7 +278,7 @@ export default function bloodFeathersSketch(p: P5, parent: HTMLElement): void {
     p.noStroke();
 
     createBuffers();
-    p.background(240);
+    p.background(PAPER);
     generate(randomPreset());
   };
 
@@ -307,7 +312,7 @@ export default function bloodFeathersSketch(p: P5, parent: HTMLElement): void {
       drawDrop(fadeBuf, entry.drop, fadeAlpha);
     }
 
-    p.background(240);
+    p.background(PAPER);
     p.image(buf, 0, 0);
     p.image(fadeBuf, 0, 0);
 
