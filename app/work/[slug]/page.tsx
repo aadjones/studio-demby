@@ -25,7 +25,7 @@ const draftRobots = { robots: { index: false, follow: false } } as const;
 /** Shown on `status: draft` pages so "is this live?" is answerable in the browser. */
 function DraftBanner() {
   return (
-    <div className="px-4 sm:px-6 md:px-8 pt-4">
+    <div className="pt-4">
       <p className="rounded-md border border-amber-400 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-500/60 dark:bg-amber-950/40 dark:text-amber-200">
         <span className="font-semibold">Draft</span> — not listed publicly and
         hidden from search.
@@ -103,8 +103,8 @@ function ProjectView({
 
   const renderDefaultHero = !!project.frontMatter.useDefaultHero;
   const articleClasses = renderDefaultHero
-    ? "mx-auto w-full max-w-3xl px-4 sm:px-6 md:px-8 text-base leading-relaxed space-y-6"
-    : "w-full";
+    ? "project-article w-full text-base leading-relaxed space-y-6"
+    : "project-article w-full";
 
   const primaryCategory = project.frontMatter.categories?.[0];
   const categoryMeta = categories.find((c) => c.slug === primaryCategory);
@@ -127,7 +127,7 @@ function ProjectView({
     <ProjectContentShell>
       {project.frontMatter.status === "draft" && <DraftBanner />}
       {categoryMeta && (
-        <div className="px-4 sm:px-6 md:px-8 pt-4">
+        <div className="breadcrumb pt-4">
           <Breadcrumb
             categoryName={categoryMeta.name}
             categorySlug={categoryMeta.slug}
@@ -170,7 +170,7 @@ function ProjectView({
         <ClientMDX mdxSource={project.mdxSource} frontMatter={project.frontMatter} />
       </article>
 
-      <div className="mx-auto w-full max-w-3xl px-4 sm:px-6 md:px-8">
+      <div className="project-footer w-full">
         <RelatedWorks projects={relatedProjects} />
         <ProjectNavigation
           previousSlug={previousProjectData?.slug || null}
