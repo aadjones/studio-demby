@@ -62,6 +62,13 @@ type ClientMDXProps = {
   overrides?: Record<string, ComponentType>;
 };
 
+/**
+ * Blocks whose job is to hold markdown text (paragraphs, lists, emphasis) and so need prose
+ * styling. Every other block gets `not-prose` so article typography can't leak into its own
+ * controls; these are the exception. Add a block here only if its children are prose.
+ */
+const PROSE_BLOCKS = new Set(["ProjectOverview"]);
+
 // Custom component map
 const baseComponents = {
   p: "p",
@@ -141,7 +148,7 @@ export default function ClientMDX({
         <ComponentAsAny
           {...frontMatter}
           {...props} // MDX props take precedence
-          className={`not-prose ${props.className || ""}`}
+          className={PROSE_BLOCKS.has(name) ? props.className : `not-prose ${props.className || ""}`}
         />
       );
     }

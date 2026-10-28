@@ -2,13 +2,15 @@ export default function ProjectOverview({
   children,
   centered = false,
   header = 'Overview',
+  className = "",
 }: {
   children: React.ReactNode;
   centered?: boolean;
   header?: string | null;
+  className?: string;
 }) {
   return (
-    <section className="my-6 sm:my-12">
+    <section className={`my-6 sm:my-12 ${className}`.trim()}>
       {header && (
         <h2 className={`text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 ${centered ? "text-center" : ""}`}>
           {header}

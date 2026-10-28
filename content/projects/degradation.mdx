@@ -16,7 +16,7 @@ categories:
 
 <HeroTitleBlock />
 
-<div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-[1024px] mx-auto mb-12 px-4">
+<div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12 px-4">
   <div className="w-full aspect-square">
     <AmbientLoop src="/photos/degradation/crows.mp4" />
   </div>
@@ -33,31 +33,18 @@ categories:
   alt="Cathedral"
   width={1600}
   height={900}
-  className="max-w-[80vw] max-w-[1024px] w-full h-auto object-contain mb-12 mx-auto"
+  className="w-full h-auto object-contain mb-12 mx-auto"
 />
 
-<div className="prose max-w-3xl text-left mb-12 leading-relaxed">
-  <div>This began with a curiosity about visualizing latent space.</div>
+<ProjectOverview header={null}>
+This began with a curiosity about visualizing latent space.
 
-{" "}
+Images, living inside that space, being warped by slowly degrading text prompts. The instructions themselves and the algorithmic process began to introduce more and more noise.
 
-<div>
-  Images, living inside that space, being warped by slowly degrading text
-  prompts. The instructions themselves and the algorithmic process began to
-  introduce more and more noise.
-</div>
+*Degradation* is what happens when we reverse the diffusion process of text-to-image generation. The image is born of noise, and returns to noise.
 
-{" "}
-
-<div>
-  <em>Degradation</em> is what happens when we reverse the diffusion process of
-  text-to-image generation. The image is born of noise, and returns to noise.
-</div>
-
-  <div>
-    The result: a looping entropy. Birds that flock into a melting streak of abstraction. A piano that smears into a grid of noise. A cathedral made of feathers, or a feather made of cathedrals.
-  </div>
-</div>
+The result: a looping entropy. Birds that flock into a melting streak of abstraction. A piano that smears into a grid of noise. A cathedral made of feathers, or a feather made of cathedrals.
+</ProjectOverview>
 
 <FieldNote>Noise to noise.</FieldNote>
 
