@@ -27,11 +27,11 @@ export default function RandomProjectButton({ slugs }: RandomProjectButtonProps)
         onClick={handleClick}
         disabled={loading}
         aria-label="Surprise Me! Jump to a random project."
-        className="mt-2 flex items-center justify-center mx-auto transition-transform hover:scale-110 focus:scale-110 active:scale-95"
+        className="mt-2 flex items-center justify-center mx-auto text-ink-900 hover:text-coral transition-transform hover:scale-110 focus:scale-110 active:scale-95"
         title="Surprise Me!"
         style={{ background: "none", border: "none", padding: 0, width: 36, height: 36, cursor: "pointer" }}
       >
-        <Dices size={28} className="text-indigo-600 drop-shadow-sm" />
+        <Dices size={28} className="drop-shadow-sm" />
         <span className="sr-only">Surprise Me</span>
       </button>
       <span className="text-xs text-ink-500 mt-1">Surprise Me</span>

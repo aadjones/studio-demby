@@ -31,8 +31,11 @@ body {
   @apply visible;
 }
 
-.prose a {
-  @apply transition-all decoration-coral underline-offset-2 decoration-2
+/* Text links: article links, and `text-link` for links in the shell outside prose (the
+   lessons page, footnotes). One definition so the two can't drift apart. */
+.prose a,
+.text-link {
+  @apply transition-all underline decoration-coral underline-offset-2 decoration-2
          font-normal text-ink-900 hover:text-coral hover:decoration-coral;
 }
 

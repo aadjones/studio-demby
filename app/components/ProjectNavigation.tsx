@@ -12,7 +12,7 @@ export default function ProjectNavigation({ previousSlug, nextSlug }: Props) {
         {previousSlug ? (
           <Link
             href={`/work/${previousSlug}`}
-            className="flex items-center gap-2 text-ink-700 hover:text-blue-600 transition-colors"
+            className="flex items-center gap-2 text-ink-700 hover:text-ink-900 transition-colors"
           >
             <span>←</span>
             <span>Previous</span>
@@ -26,7 +26,7 @@ export default function ProjectNavigation({ previousSlug, nextSlug }: Props) {
         {nextSlug ? (
           <Link
             href={`/work/${nextSlug}`}
-            className="flex items-center gap-2 text-ink-700 hover:text-blue-600 transition-colors"
+            className="flex items-center gap-2 text-ink-700 hover:text-ink-900 transition-colors"
           >
             <span>Next</span>
             <span>→</span>

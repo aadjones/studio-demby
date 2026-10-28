@@ -15,7 +15,7 @@ export default function Breadcrumb({
     <nav className="text-sm text-ink-700 mb-4">
       <Link
         href={`/work?category=${categorySlug}`}
-        className="hover:text-blue-600 transition-colors"
+        className="hover:text-ink-900 transition-colors"
       >
         {categoryName}
       </Link>

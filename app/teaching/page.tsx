@@ -173,7 +173,7 @@ export default function TeachingPage() {
               instruments), I&apos;ve spent years refining a creative approach
               to piano and music in general that I&apos;m excited to share.
               You can hear examples of my improvisation in{" "}
-              <Link href="/work?category=music" className="text-blue-600 hover:underline">my work</Link>.
+              <Link href="/work?category=music" className="text-link">my work</Link>.
             </p>
           </div>
         </div>
@@ -181,7 +181,7 @@ export default function TeachingPage() {
 
       {/* Testimonial */}
       <section className="mb-12 sm:mb-16">
-        <div className="bg-card  rounded-lg p-6 sm:p-8 border-l-4 border-blue-600">
+        <div className="bg-card rounded-lg p-6 sm:p-8 border-l-4 border-ink-500">
           <p className="text-lg sm:text-xl italic mb-4 text-ink-900 ">
             &ldquo;Aaron&apos;s improvisational skills—and his musical skills in
             general—are astounding. He&apos;s a phenomenal teacher; and I think
@@ -211,7 +211,7 @@ export default function TeachingPage() {
           Have questions?{" "}
           <a
             href="/contact?inquiry=teaching"
-            className="text-blue-600 dark:text-blue-400 hover:underline"
+            className="text-link"
           >
             Send me a message
           </a>
