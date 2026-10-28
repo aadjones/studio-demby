@@ -17,18 +17,13 @@ import { CaptionComponent as Caption } from "@/app/components/mdx-blocks/Caption
 import ZoomImage from "@/components/ZoomImage";
 import SimpleVideoBlock from "@/components/SimpleVideoBlock";
 
-<div className="not-prose flex justify-center">
-  <div className="w-full max-w-xl flex justify-center">
-    <SimpleVideoBlock
-      title="Rain 🎵"
-      poster="/photos/rain/rain.jpg"
-      videoSrc="https://youtu.be/pZJX0Hxtqfg"
-      caption=""
-      className="max-w-xl w-full px-4"
-      aspectRatio="video"
-    />
-  </div>
-</div>
+<SimpleVideoBlock
+  title="Rain 🎵"
+  poster="/photos/rain/rain.jpg"
+  videoSrc="https://youtu.be/pZJX0Hxtqfg"
+  caption=""
+  aspectRatio="video"
+/>
 
 <ProjectOverview header={null}>
 *Rain* applies the Cantor set—a mathematical process of recursive subtraction—to form, rhythm, and tone simultaneously.

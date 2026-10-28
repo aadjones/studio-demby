@@ -190,7 +190,7 @@ Custom MDX blocks are in `app/components/mdx-blocks/` for embedding media, p5 sk
 
 **No copied layout markup in MDX.** If a pattern appears on more than one page (a video embed, a gallery, a boxed note), it's a block, not hand-written `<div className="…">` pasted from another page. Copies drift from the design: five music pages once carried a pasted YouTube snippet that capped videos at 576px in an 800px column. Fix the block, and every page follows.
 
-- **Videos:** `<VideoEmbed src="…" title="…" />` (YouTube, Loom, Vimeo). It fills the project column; pass `aspectRatio` only for non-16:9 video. A raw `<iframe>` in `content/projects/` **fails the build**.
+- **Videos:** `<VideoEmbed src="…" title="…" />` (YouTube, Loom, Vimeo) loads the player right away; `<SimpleVideoBlock videoSrc="…" poster="…" />` shows a poster and loads YouTube on click. Both fill the project column; never wrap them in a `max-w-*` div or pass a narrowing `className` (Rain and Above once did, giving 544px and 768px videos). A raw `<iframe>` in `content/projects/` **fails the build**. (To do: merge the two into one block.)
 - **Project page column:** every block aligns to one column (`project-shell` in `ProjectContentShell.tsx`): breadcrumb, article and the Related Works/prev-next footer share its left edge. Don't add side padding or a narrower `max-w-*` to a wrapper inside it.
 
 ### `.prose a` Override Gotcha

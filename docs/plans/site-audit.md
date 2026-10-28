@@ -67,3 +67,6 @@ history is visible until this file is deleted.
 | The token review said there was no focus style; there was Chrome's default blue ring. Now a site-styled `ink-900` ring, the same in every browser. | Code: `:focus-visible` rule in `global.css`. | done (4c) |
 | CallToAction box background `#FFF8F0` (cream) is the shell's one warm accent with no token. | Decide in 4d: add a token or use `card`. | to do (4d) |
 | Five music pages carried a pasted YouTube snippet (`max-w-xl`), so their videos were 576px in an 800px column; the only raw `<iframe>`s in content. | Code: `VideoEmbed` for all video; the loader rejects raw `<iframe>`, with a test. Docs: "No copied layout markup in MDX" in CLAUDE.md. | done (4d) |
+| Rain and Above wrapped `SimpleVideoBlock` in pasted `max-w-xl`/`max-w-3xl` divs (one with a leftover "or max-w-4xl / 5xl" comment): videos of 544px and 768px. The raw-iframe check couldn't see it. | Code: wrappers removed; all videos 800px. | done (4d) |
+| Two video systems: `VideoEmbed` (player loads immediately, 7 pages) and `VideoPlayer` via `SimpleVideoBlock`/`HeroBlock` (poster, loads on click, 6 pages). | Merge into one block; the poster approach is lighter on page load. | to do |
+| Degradation's MDX has a duplicated `max-w`, a grid wider than the column, and pasted layout. | Clean up with the taste calls. | to do (4e) |
