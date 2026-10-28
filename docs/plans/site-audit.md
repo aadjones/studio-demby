@@ -15,8 +15,9 @@ Delete this file when everything below is done.
 | 3 | Dead code and dependencies, activity content type, route bugs below. 35 files and 8 packages removed; project-page JS 230 → 209 KB; `tsc --noEmit` clean. | merged |
 | 4a | One page background (`paper`) and grey text that passes contrast. Lighthouse accessibility: home 91 → 100. | merged |
 | 4b | Design tokens documented (CLAUDE.md "Design tokens"); config renamed by role, unused palettes and dead `--sh-*` CSS removed. Compiled CSS identical to production. | merged |
-| 4c | Footer icons 18 → 44px tap targets; 88 shell grey uses moved onto tokens; one card-title hover (coral underline); site-styled focus ring; nav hover fixed (`ink-800` didn't exist); /work card titles `<h2>`. | on branch |
-| 4d | Project-page column widths (wireframe first); taste calls: emoji in titles, Teaching styling, Music thumbnails, hero title panel, coral link underline at 40% opacity, `min-width: 360px` | after 4c |
+| 4c | Footer icons 18 → 44px tap targets; 88 shell grey uses moved onto tokens; one card-title hover (coral underline); site-styled focus ring; nav hover fixed (`ink-800` didn't exist); /work card titles `<h2>`. | merged |
+| 4d | One column on project pages: breadcrumb, article and Related Works/prev-next share one left edge (were 3). `VideoEmbed` is the one video block; five pasted YouTube snippets (capped at 576px) replaced; a raw `<iframe>` now fails the build. | on branch |
+| 4e | Taste calls as before/after: emoji in titles, Teaching page styling, Music thumbnails, hero title panel, coral link underline at 40%, CTA box cream, `min-width: 360px`, homepage CTA | next |
 
 Measured (Lighthouse mobile, `--throttling-method=devtools`, production) after batch 2:
 Home 87 / LCP 2.4 s, Shatter 90 / LCP 2.9 s, /work 68 / LCP 4.3 s.
@@ -65,3 +66,4 @@ history is visible until this file is deleted.
 | Homepage never mentions lessons or hiring; the only path to lessons is the nav. | Owner to decide whether to add one line or button per role. | open question |
 | The token review said there was no focus style; there was Chrome's default blue ring. Now a site-styled `ink-900` ring, the same in every browser. | Code: `:focus-visible` rule in `global.css`. | done (4c) |
 | CallToAction box background `#FFF8F0` (cream) is the shell's one warm accent with no token. | Decide in 4d: add a token or use `card`. | to do (4d) |
+| Five music pages carried a pasted YouTube snippet (`max-w-xl`), so their videos were 576px in an 800px column; the only raw `<iframe>`s in content. | Code: `VideoEmbed` for all video; the loader rejects raw `<iframe>`, with a test. Docs: "No copied layout markup in MDX" in CLAUDE.md. | done (4d) |

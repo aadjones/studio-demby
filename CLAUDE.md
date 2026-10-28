@@ -188,6 +188,11 @@ The project uses `react/no-unescaped-entities` rule. Always escape quotes and ap
 
 Custom MDX blocks are in `app/components/mdx-blocks/` for embedding media, p5 sketches, and interactive elements in project pages.
 
+**No copied layout markup in MDX.** If a pattern appears on more than one page (a video embed, a gallery, a boxed note), it's a block, not hand-written `<div className="…">` pasted from another page. Copies drift from the design: five music pages once carried a pasted YouTube snippet that capped videos at 576px in an 800px column. Fix the block, and every page follows.
+
+- **Videos:** `<VideoEmbed src="…" title="…" />` (YouTube, Loom, Vimeo). It fills the project column; pass `aspectRatio` only for non-16:9 video. A raw `<iframe>` in `content/projects/` **fails the build**.
+- **Project page column:** every block aligns to one column (`project-shell` in `ProjectContentShell.tsx`): breadcrumb, article and the Related Works/prev-next footer share its left edge. Don't add side padding or a narrower `max-w-*` to a wrapper inside it.
+
 ### `.prose a` Override Gotcha
 
 All MDX content is wrapped in a `.prose` container. `app/global.css` has a `.prose a` rule that forces **all links** inside prose to `text-ink-900` (near-black) with a coral underline decoration — regardless of any Tailwind color utilities on the element.
