@@ -52,7 +52,7 @@ export default function BloodFeathersHeroClient() {
             emby
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl font-body text-ink-700 tracking-wide">
-            musician &middot; visual artist &middot; educator
+            musician &middot; artist &middot; educator
           </p>
         </div>
       </div>

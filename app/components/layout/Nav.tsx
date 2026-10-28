@@ -17,7 +17,7 @@ export function Navbar() {
   const isContactActive = pathname.startsWith("/contact");
 
   return (
-    <nav className="pt-4 pb-2 px-3 sm:px-4">
+    <nav className="pt-4 pb-2 px-3 sm:pt-5 sm:pb-3 sm:px-4">
       {/* Phones: links left, Work with me right (five items don't fit centered at 320px).
           sm and up: links truly centered between equal spacers. */}
       <div className="flex items-center justify-between gap-2 sm:grid sm:grid-cols-[1fr_auto_1fr]">
@@ -33,7 +33,7 @@ export function Navbar() {
               <Link
                 key={href}
                 href={href}
-                className={`text-[14px] min-[380px]:text-[15px] font-body px-0.5 min-[380px]:px-1 sm:px-2 py-1 rounded-md transition-colors ${
+                className={`text-[14px] min-[380px]:text-[15px] sm:text-[17px] font-body px-0.5 min-[380px]:px-1 sm:px-2 py-1 rounded-md transition-colors ${
                   isActive
                     ? "font-semibold text-ink-900 underline"
                     : "text-ink-500 hover:text-ink-900"
@@ -49,7 +49,7 @@ export function Navbar() {
         <div className="flex justify-end">
           <Link
             href="/contact"
-            className={`whitespace-nowrap text-[14px] min-[380px]:text-[15px] font-body px-1.5 min-[380px]:px-2 sm:px-3 py-1 rounded-md border transition-colors ${
+            className={`whitespace-nowrap text-[14px] min-[380px]:text-[15px] sm:text-[17px] font-body px-1.5 min-[380px]:px-2 sm:px-3 py-1 rounded-md border transition-colors ${
               isContactActive
                 ? "border-ink-900 text-ink-900 font-semibold"
                 : "border-ink-900/50 text-ink-500 hover:border-ink-900 hover:text-ink-900"

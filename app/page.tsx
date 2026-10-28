@@ -9,7 +9,6 @@ export default function HomePage() {
     <>
       <BloodFeathersHero />
       <StartHere />
-      <WorkWithMe />
       <div className="text-center pb-12">
         <Link
           href="/work"
@@ -18,6 +17,7 @@ export default function HomePage() {
           See all work &rarr;
         </Link>
       </div>
+      <WorkWithMe />
     </>
   );
 }
