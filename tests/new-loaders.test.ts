@@ -176,4 +176,18 @@ tags: ['test']
     const result = await getProjectBySlugOnly('missing-project');
     expect(result).toBeNull();
   });
+
+  it('fails loudly on a hand-written <iframe>, pointing at VideoEmbed', async () => {
+    const mockedFs = fs as unknown as {
+      existsSync: ReturnType<typeof vi.fn>;
+      readFileSync: ReturnType<typeof vi.fn>;
+    };
+
+    mockedFs.existsSync = vi.fn().mockReturnValue(true);
+    mockedFs.readFileSync = vi
+      .fn()
+      .mockReturnValue(validProject + '\n<iframe src="https://www.youtube.com/embed/x" />');
+
+    await expect(getProjectBySlugOnly('test-project')).rejects.toThrow(/test-project\.mdx.*VideoEmbed/);
+  });
 });

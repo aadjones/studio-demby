@@ -83,6 +83,14 @@ export async function getProjectBySlugOnly(slug: string) {
     throw new Error(`Invalid frontmatter in content/projects/${slug}.mdx: ${describeIssues(parsed.error)}`);
   }
 
+  // Embeds go through a block so they follow the design. Hand-copied <iframe> markup
+  // once capped five videos at 576px and drifted from the layout.
+  if (/<iframe\b/i.test(content)) {
+    throw new Error(
+      `Raw <iframe> in content/projects/${slug}.mdx: use <VideoEmbed src="…" title="…" /> instead.`
+    );
+  }
+
   // GFM is here for footnotes: `[^key]` in the prose, `[^key]: …` anywhere
   // in the file. It numbers them by order of appearance and builds the list
   // at the end, which hand-numbering would not survive a reorder.
