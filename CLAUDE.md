@@ -118,6 +118,13 @@ Two traps here:
 - **Don't use `useSearchParams` in `WorkGrid`.** On a static page it makes Next skip server-rendering everything inside the nearest `<Suspense>`, so the grid and its images wait for JavaScript. That cost /work 2+ seconds and a layout shift.
 - **Rewrites must be `beforeFiles`.** A plain array of rewrites runs only after Next matches a page file, and `/work` has one, so the rewrite silently never applies.
 
+### Hiring and lessons paths
+
+- **Nav:** "Work with me" (→ `/contact`) is the hiring path; "Lessons" (→ `/teaching`) is its own item. They're kept apart on purpose: working with Aaron and taking lessons are different things.
+- **Homepage:** an offer row under Featured Work (`app/components/WorkWithMe.tsx`): Performance, Commissions, Lessons.
+- **Wording:** `lib/offers.ts` is the one source for the offer lines, shared by the homepage row and the end-of-project box (`CallToAction`). Edit it there.
+- **Contact form:** a link can preselect the topic (`/contact?inquiry=music|art|teaching`); without one, the form starts on "Choose a topic".
+
 ### Project Management
 
 When adding new projects, simply create a new MDX file in `content/projects/`. The random project navigation automatically discovers all projects via the content loader.
