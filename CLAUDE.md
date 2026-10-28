@@ -10,6 +10,8 @@ Portfolio site for Aaron Demby Jones (Studio Demby) - musician, artist, and crea
 
 **Live Site:** https://www.studiodemby.com
 
+**Open items and things kept on purpose:** `docs/open-items.md` (read before "cleaning up" something that looks unused).
+
 ## Development Commands
 
 ```bash
@@ -53,6 +55,10 @@ the flag never reaches the underlying tool.
 Never run `next build` against the same `.next` directory as a running dev server. Use `pnpm clean-build`: it checks port 3000 *before* deleting anything. Never type `rm -rf .next` yourself; the `rm` runs before any check, so it can delete a running dev server's `.next` (this happened on 2026-10-27).
 
 If you need a build while the user's dev server is running, build a copy instead: rsync the repo (minus `node_modules`, `.next`, `public`) to a scratch folder, symlink `node_modules` and `public`, then `npx next build && npx next start -p 3001` there.
+
+**Commits while a dev server runs.** The pre-commit hook builds into `.next`, so with `vercel dev` or `next dev` on port 3000 the build guard blocks every commit. That's intended; commit after stopping it (`pnpm kill-port`), or keep working and commit later.
+
+**Checking a production deploy.** After merging to `main`, wait on the *Production* deployment's own status, not the commit's: if the commit already had a preview, its commit status says "success" immediately and you'll test the old site. `gh api "repos/aadjones/studio-demby/deployments?sha=<full sha>&environment=Production"`, then that deployment's `/statuses`.
 
 Note: `next build` in Next 14 has **no `--distDir` CLI flag** — `distDir` is a `next.config.js` option only. Passing it errors with `unknown option '--distDir'`.
 
