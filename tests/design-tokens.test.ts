@@ -20,10 +20,15 @@ const SHELL = [
   "app/components/StartHere.tsx", "app/components/RelatedWorks.tsx", "app/components/Breadcrumb.tsx",
   "app/components/ProjectNavigation.tsx", "app/components/RandomProjectButton.tsx", "app/components/CardMedia.tsx",
   "app/components/hero/BloodFeathersHeroClient.tsx", "app/components/media", "components/SubscribeForm.tsx",
+  "app/components/WorkWithMe.tsx",
   ...["CallToAction", "FieldNote", "CollapseMetadata", "ProjectOverview", "HeroTitleBlock", "HeroBlock", "Caption",
     "Callout", "MediaSection", "MediaItem", "LaunchExperience", "TechnicalDetails", "Footnote", "VideoEmbed",
     "VideoFile", "AmbientLoop"].map((b) => `app/components/mdx-blocks/${b}.tsx`),
 ];
+
+/** Token families that have shades, and the shades that exist. Anything else (ink-100, ink-800)
+ *  compiles to nothing, so a hover or color silently does nothing. */
+const TOKEN_SHADES: Record<string, Set<string>> = { ink: new Set(["900", "700", "500", "300"]) };
 
 const TOKEN_PALETTES = new Set(["ink", "paper", "card", "subtle", "line", "coral", "cream", "error", "code", "white", "black", "transparent", "current", "inherit"]);
 
@@ -33,7 +38,7 @@ const ALLOWED: Record<string, RegExp> = {
   "app/work/[slug]/page.tsx": /^(border|bg|text)-amber-\d+/,
 };
 
-const COLOR = /(?<![\w-])(?:[a-z-]+:)*((?:text|bg|border(?:-[trblxy])?|from|to|via|ring|decoration|outline|divide|fill|stroke|shadow)-([a-z]+)-\d{2,3}(?:\/\d+)?)\b/g;
+const COLOR = /(?<![\w-])(?:[a-z-]+:)*((?:text|bg|border(?:-[trblxy])?|from|to|via|ring|decoration|outline|divide|fill|stroke|shadow)-([a-z]+)-(\d{2,3})(?:\/\d+)?)\b/g;
 const HEX = /\[#[0-9A-Fa-f]{3,6}\]/g;
 
 function files(entry: string): string[] {
@@ -52,8 +57,13 @@ describe("design tokens in the site shell", () => {
     for (const file of SHELL.flatMap(files)) {
       const lines = fs.readFileSync(path.join(ROOT, file), "utf8").split("\n");
       lines.forEach((line, i) => {
-        for (const [, cls, palette] of line.matchAll(COLOR)) {
-          if (TOKEN_PALETTES.has(palette)) continue;
+        for (const [, cls, palette, shade] of line.matchAll(COLOR)) {
+          if (TOKEN_PALETTES.has(palette)) {
+            const shades = TOKEN_SHADES[palette];
+            if (!shades || shades.has(shade)) continue;
+            offenders.push(`${file}:${i + 1} ${cls} (no such shade)`);
+            continue;
+          }
           if (ALLOWED[file]?.test(cls)) continue;
           offenders.push(`${file}:${i + 1} ${cls}`);
         }

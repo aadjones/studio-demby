@@ -1,12 +1,9 @@
+import { OFFERS } from "@/lib/offers";
+
+// music and art share their wording with the homepage offer row (lib/offers.ts).
 const FLAVORS: Record<string, { line: string; label: string }> = {
-  music: {
-    line: "Looking for a performer, improviser, or collaborator?",
-    label: "Get in touch",
-  },
-  art: {
-    line: "Interested in a commission, print, or installation?",
-    label: "Get in touch",
-  },
+  music: { line: OFFERS.music.line, label: OFFERS.music.cta },
+  art: { line: OFFERS.art.line, label: OFFERS.art.cta },
   teaching: {
     // No "lessons" here: this box links to Contact, and most teaching projects (chess,
     // math, the TCP explainer) aren't about piano. Pages that suit lessons set showLessons.

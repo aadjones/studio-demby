@@ -17,7 +17,9 @@ const inputClass =
 
 function Form() {
   const searchParams = useSearchParams();
-  const defaultInquiry = searchParams.get("inquiry") ?? "music";
+  // Links from a project or the homepage preselect a topic (?inquiry=music); the nav's
+  // "Work with me" doesn't, so the visitor picks rather than starting on "Music".
+  const defaultInquiry = searchParams.get("inquiry") ?? "";
 
   const [status, setStatus] = useState<
     "idle" | "submitting" | "success" | "error"
@@ -67,8 +69,12 @@ function Form() {
           id="inquiry"
           name="inquiry"
           defaultValue={defaultInquiry}
+          required
           className={inputClass}
         >
+          <option value="" disabled>
+            Choose a topic
+          </option>
           {INQUIRY_OPTIONS.map(({ value, label }) => (
             <option key={value} value={value}>
               {label}
