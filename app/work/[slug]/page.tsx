@@ -12,6 +12,7 @@ import RelatedWorks from "@/app/components/RelatedWorks";
 import Breadcrumb from "@/app/components/Breadcrumb";
 import { categories } from "@/app/components/utils/categories";
 import { metaData } from "@/app/config";
+import { withoutEmoji } from "@/lib/text";
 
 type Props = {
   params: {
@@ -37,7 +38,9 @@ function DraftBanner() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const project = await getProjectBySlugOnly(params.slug);
   if (project) {
-    const { title, summary, image, status } = project.frontMatter;
+    const { summary, image, status } = project.frontMatter;
+    // Tabs, social cards and search results get the title without emoji; the page keeps them.
+    const title = withoutEmoji(project.frontMatter.title);
     const ogImage = image || metaData.ogImage;
     return {
       title,
