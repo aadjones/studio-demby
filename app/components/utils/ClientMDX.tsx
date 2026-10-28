@@ -24,12 +24,11 @@ import HeroCarouselBlock from "../mdx-blocks/HeroCarouselBlock";
 import SectionNav from "../layout/SectionNav";
 import WisdomTeethCodex from "../surreal-systems/WisdomTeethCodex";
 import HeroTitleBlock from "../mdx-blocks/HeroTitleBlock";
-import SimpleVideoBlock from "../mdx-blocks/SimpleVideoBlock";
 import PolybloomPlayground from "../surreal-systems/PolybloomPlayground";
 import GospelCarousel from "../surreal-systems/GospelCarousel";
 import ShrimpJesusFAQ from "../surreal-systems/ShrimpJesusFAQ";
-import FullscreenVideo from "../FullscreenVideo";
-import VideoPlayer from "../media/VideoPlayer";
+import AmbientLoop from "../mdx-blocks/AmbientLoop";
+import VideoFile from "../mdx-blocks/VideoFile";
 import MechanicsVisualizer from "../mdx-blocks/MechanicsVisualizer";
 const TimeVisualizer = dynamic(() => import("../mdx-blocks/TimeVisualizer"), { ssr: false });
 import LeapSecondBettingMarket from "../mdx-blocks/LeapSecondBettingMarket";
@@ -86,12 +85,11 @@ const baseComponents = {
   SectionNav,
   WisdomTeethCodex,
   HeroTitleBlock,
-  SimpleVideoBlock,
   PolybloomPlayground,
   GospelCarousel,
   ShrimpJesusFAQ,
-  FullscreenVideo,
-  VideoPlayer,
+  AmbientLoop,
+  VideoFile,
   MechanicsVisualizer,
   TimeVisualizer,
   LeapSecondBettingMarket,
