@@ -11,6 +11,16 @@ import { ProjectSchema, MDXProject } from "@/types/mdx";
 
 const projectsDirectory = path.join(process.cwd(), "content/projects");
 
+/** The first top-level `import …` line in MDX content, ignoring fenced code examples. */
+export function importLine(content: string): string | null {
+  let inFence = false;
+  for (const line of content.split("\n")) {
+    if (line.trimStart().startsWith("```")) inFence = !inFence;
+    else if (!inFence && line.startsWith("import ")) return line.trim();
+  }
+  return null;
+}
+
 /** One line per problem, e.g. `date: Expected string, received date`. */
 export function describeIssues(error: ZodError): string {
   return error.issues.map((i) => `${i.path.join(".") || "(root)"}: ${i.message}`).join("; ");
@@ -88,6 +98,16 @@ export async function getProjectBySlugOnly(slug: string) {
   if (/<iframe\b/i.test(content)) {
     throw new Error(
       `Raw <iframe> in content/projects/${slug}.mdx: use <VideoEmbed src="…" title="…" /> instead.`
+    );
+  }
+
+  // MDX imports are disabled below, so an `import` line is silently stripped. Pages once
+  // carried 29 of them (some naming files that didn't exist), which made it look as if
+  // they mattered. Every block in ClientMDX is available by name without importing.
+  const strayImport = importLine(content);
+  if (strayImport) {
+    throw new Error(
+      `"${strayImport}" in content/projects/${slug}.mdx: imports are ignored here. Remove it; blocks registered in ClientMDX.tsx work by name.`
     );
   }
 

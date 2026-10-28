@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import fs from 'fs';
 import * as path from 'path';
-import { getProjectsByCategory, getRecentProjects, getProjectBySlugOnly } from '@/lib/content/projects-loader';
+import { getProjectsByCategory, getRecentProjects, getProjectBySlugOnly, importLine } from "@/lib/content/projects-loader";
 
 vi.mock('fs', async () => {
   return {
@@ -189,5 +189,30 @@ tags: ['test']
       .mockReturnValue(validProject + '\n<iframe src="https://www.youtube.com/embed/x" />');
 
     await expect(getProjectBySlugOnly('test-project')).rejects.toThrow(/test-project\.mdx.*VideoEmbed/);
+  });
+
+  it('fails loudly on an import line, which MDX here silently ignores', async () => {
+    const mockedFs = fs as unknown as {
+      existsSync: ReturnType<typeof vi.fn>;
+      readFileSync: ReturnType<typeof vi.fn>;
+    };
+
+    mockedFs.existsSync = vi.fn().mockReturnValue(true);
+    mockedFs.readFileSync = vi
+      .fn()
+      .mockReturnValue(validProject + '\nimport ZoomImage from "@/components/ZoomImage";\n');
+
+    await expect(getProjectBySlugOnly('test-project')).rejects.toThrow(/test-project\.mdx.*imports are ignored/);
+  });
+});
+
+describe('importLine', () => {
+  it('ignores import statements inside fenced code examples', () => {
+    const article = 'Some prose.\n\n```js\nimport x from "y";\n```\n\nMore prose.';
+    expect(importLine(article)).toBeNull();
+  });
+
+  it('finds a top-level import line', () => {
+    expect(importLine('Intro\nimport A from "a";\n')).toBe('import A from "a";');
   });
 });
