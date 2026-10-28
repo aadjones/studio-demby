@@ -165,6 +165,11 @@ Rules:
 - **Tap targets:** icon-only links get a 44×44 box (`h-11 w-11`) around the icon.
 - Check contrast with real numbers before adding a text color: 4.5:1 for normal text against every surface it sits on.
 
+- **Text links** outside prose use the `text-link` class: the same style as article links (one definition in `global.css`). Never color a link blue.
+- **Quotes and asides** (testimonials, FieldNote, footnote boxes): a left rule in `ink-500`.
+
+**Being different is allowed; being different by accident isn't.** `tests/design-tokens.test.ts` fails if any shell file uses a color that isn't a token. To make a deliberate exception, add the file and the allowed classes to its `ALLOWED` list with a comment saying why (today: the draft banner's amber, a warning state). Project worlds aren't in the test's shell list, so their own palettes are already allowed. When you add a shell file, add it to that list too.
+
 Known exception in the shell: `text-white` on dark buttons (correct as is).
 
 - **Titles:** project titles keep their emoji on the page and on cards; browser tabs, social cards and search results get `withoutEmoji(title)` (`lib/text.ts`).
