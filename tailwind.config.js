@@ -15,7 +15,7 @@ module.exports = {
         mono: ['var(--font-mono)', 'Courier New', 'monospace'],
       },
       // Colors. The site shell (nav, footer, listings, project-page chrome, shared MDX
-      // blocks) uses only the tokens in this first group; see "Design tokens" in CLAUDE.md.
+      // blocks) uses only the tokens in this first group; see docs/reference/design-tokens.md.
       // Individual projects (museum, time-*, Married For, bird cards…) keep their own palettes.
       colors: {
         // Surfaces

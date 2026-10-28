@@ -222,7 +222,7 @@ One shared module, e.g. `inharmonicity/audio.ts`:
 - Cleanup in `useEffect` return: stop voices, disconnect nodes. Do not close the shared context (other components use it).
 - **Never trigger window.alert/confirm** (breaks automation), never `setInterval` for audio timing.
 
-Canvas guidelines: 2D context, size from `clientWidth` (never `clientHeight`—Safari aspect-ratio bug, see repo CLAUDE.md), scale by `min(devicePixelRatio, 2)`, one rAF loop per mounted component, cancel on unmount.
+Canvas guidelines: 2D context, size from `clientWidth` (never `clientHeight`—Safari aspect-ratio bug, see `docs/reference/safari.md`), scale by `min(devicePixelRatio, 2)`, one rAF loop per mounted component, cancel on unmount.
 
 ---
 
