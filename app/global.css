@@ -8,9 +8,6 @@
   color: #ffffff;
 }
 
-html {
-  min-width: 360px;
-}
 
 body {
   background: #F8F7F5; /* = theme color `paper` in tailwind.config.js */
@@ -35,7 +32,7 @@ body {
 }
 
 .prose a {
-  @apply transition-all decoration-coral/40 underline-offset-2 decoration-[0.1em]
+  @apply transition-all decoration-coral underline-offset-2 decoration-2
          font-normal text-ink-900 hover:text-coral hover:decoration-coral;
 }
 
@@ -250,4 +247,19 @@ input[type="email"] {
   .synth-controls {
     display: none !important;
   }
+}
+
+/* Homepage hero: the title sits in a soft fade of the page color (`paper`) so the feathers
+   thin out around it, instead of a frosted box with a hard edge. The fade is a layer that
+   reaches past the text, so it can be generous without padding squeezing the title on phones. */
+.hero-title-fade {
+  position: relative;
+  isolation: isolate;
+}
+.hero-title-fade::before {
+  content: "";
+  position: absolute;
+  inset: -2.5rem -4rem;
+  z-index: -1;
+  background: radial-gradient(ellipse at center, rgb(248 247 245 / 0.92) 45%, rgb(248 247 245 / 0) 72%);
 }

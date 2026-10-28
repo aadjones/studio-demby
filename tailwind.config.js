@@ -22,6 +22,7 @@ module.exports = {
         paper: '#F8F7F5',        // Page background (body in global.css); hero, sticky bars
         card: '#FFFFFF',         // Raised boxes only
         subtle: '#F5F5F5',       // Chips, tabs, metadata boxes
+        cream: '#FFF8F0',        // The end-of-project call-to-action box: the shell's one warm surface
         line: '#E5E5E5',         // Hairline borders and dividers
         // Accent: underlines, selection, highlights. Never text: 2.4:1 on paper.
         coral: '#FF6B6B',

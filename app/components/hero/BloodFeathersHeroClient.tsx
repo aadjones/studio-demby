@@ -37,11 +37,12 @@ export default function BloodFeathersHeroClient() {
 
       {/* Hero content */}
       <div className="relative z-20 flex flex-col items-center justify-center h-full px-4 text-center">
-        <div className="px-6 py-4 rounded-2xl backdrop-blur-sm bg-white/40">
+        <div className="hero-title-fade px-2 py-4 sm:px-6">
           {/* aria-label: the "D" is an SVG, so the text alone reads as "Studio emby" */}
           <h1
             aria-label="Studio Demby"
-            className="text-4xl sm:text-5xl md:text-6xl font-display font-bold tracking-tight text-ink-900 mb-2"
+            // nowrap: the wordmark must never split (at 320px it broke between the D and "emby").
+            className="whitespace-nowrap text-4xl sm:text-5xl md:text-6xl font-display font-bold tracking-tight text-ink-900 mb-2"
           >
             Studio{" "}
             <PianoDLogo

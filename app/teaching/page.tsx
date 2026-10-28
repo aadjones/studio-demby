@@ -46,7 +46,7 @@ export default function TeachingPage() {
           href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3m3wZ8x2E3EeM-03IkHdX_yglrHUJ6LDSYpOjLTiprdCIqGNtl5j6IbWnzo0g5Pyw2AoiwIaGp"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block px-8 sm:px-12 py-4 sm:py-5 bg-gradient-to-r from-orange-400 to-pink-400 text-white rounded-full hover:from-orange-500 hover:to-pink-500 transition-all text-lg sm:text-xl font-bold tracking-wider shadow-lg hover:shadow-xl transform hover:scale-105"
+          className="inline-block px-8 sm:px-12 py-4 sm:py-5 bg-ink-900 !text-white no-underline rounded hover:bg-coral transition-colors text-lg sm:text-xl font-display font-semibold tracking-wider shadow-lg"
         >
           BOOK A TRIAL LESSON 📅
         </a>
@@ -203,7 +203,7 @@ export default function TeachingPage() {
           href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3m3wZ8x2E3EeM-03IkHdX_yglrHUJ6LDSYpOjLTiprdCIqGNtl5j6IbWnzo0g5Pyw2AoiwIaGp"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block px-8 sm:px-12 py-4 sm:py-5 bg-gradient-to-r from-orange-400 to-pink-400 text-white rounded-full hover:from-orange-500 hover:to-pink-500 transition-all text-lg sm:text-xl font-bold tracking-wider shadow-lg hover:shadow-xl transform hover:scale-105 mb-4"
+          className="inline-block px-8 sm:px-12 py-4 sm:py-5 bg-ink-900 !text-white no-underline rounded hover:bg-coral transition-colors text-lg sm:text-xl font-display font-semibold tracking-wider shadow-lg mb-4"
         >
           BOOK A TRIAL LESSON 📅
         </a>
