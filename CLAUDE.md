@@ -190,7 +190,17 @@ Custom MDX blocks are in `app/components/mdx-blocks/` for embedding media, p5 sk
 
 **No copied layout markup in MDX.** If a pattern appears on more than one page (a video embed, a gallery, a boxed note), it's a block, not hand-written `<div className="…">` pasted from another page. Copies drift from the design: five music pages once carried a pasted YouTube snippet that capped videos at 576px in an 800px column. Fix the block, and every page follows.
 
-- **Videos:** `<VideoEmbed src="…" title="…" />` (YouTube, Loom, Vimeo) loads the player right away; `<SimpleVideoBlock videoSrc="…" poster="…" />` shows a poster and loads YouTube on click. Both fill the project column; never wrap them in a `max-w-*` div or pass a narrowing `className` (Rain and Above once did, giving 544px and 768px videos). A raw `<iframe>` in `content/projects/` **fails the build**. (To do: merge the two into one block.)
+- **Videos: one block per job.** Each file's header comment says the same.
+
+  | Job | Block | Example |
+  |---|---|---|
+  | Hosted player: YouTube (any link form), Loom, Vimeo | `VideoEmbed` | `<VideoEmbed src="https://youtu.be/ID" title="…" caption="…" />` |
+  | Your own MP4 with controls and a poster | `VideoFile` | used inside `HeroBlock` for the Preview Mix videos |
+  | Silent autoplay loop that's part of the artwork | `AmbientLoop` | Degradation's three loops |
+
+  All fill their container: never wrap them in a `max-w-*` div or pass a narrowing `className` (Rain and Above once did, giving 544px and 768px videos). A video's `title` only names it for screen readers; the page heading comes from `HeroTitleBlock`. A raw `<iframe>` in `content/projects/` **fails the build**.
+- **No `import` lines in MDX.** Imports are disabled in the loader, so they were silently stripped; pages once carried 29 of them, some naming files that didn't exist. Every block registered in `ClientMDX.tsx` works by name. An `import` line outside a code example **fails the build**.
+- **"Expected component `X` to be defined"** during the build means the page uses a block that isn't registered in `ClientMDX.tsx` (renamed, deleted or misspelled). Register it there; don't add an import.
 - **Project page column:** every block aligns to one column (`project-shell` in `ProjectContentShell.tsx`): breadcrumb, article and the Related Works/prev-next footer share its left edge. Don't add side padding or a narrower `max-w-*` to a wrapper inside it.
 
 ### `.prose a` Override Gotcha
