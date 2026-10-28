@@ -121,8 +121,8 @@ Two traps here:
 ### Hiring and lessons paths
 
 - **Nav:** "Work with me" (→ `/contact`) is the hiring path; "Lessons" (→ `/teaching`) is its own item. They're kept apart on purpose: working with Aaron and taking lessons are different things.
-- **Homepage:** an offer row under Featured Work (`app/components/WorkWithMe.tsx`): Performance, Commissions, Lessons.
-- **Wording:** `lib/offers.ts` is the one source for the offer lines, shared by the homepage row and the end-of-project box (`CallToAction`). Edit it there.
+- **Homepage:** after Featured Work and "See all work", a "Hire or book" row (`app/components/WorkWithMe.tsx`): Lessons, Performance, Commissions. Each whole card is the link.
+- **Wording:** `lib/offers.ts` is the one source for each offer's title, line and link text ("Try a $45 lesson", "Book a performance", "Ask about a commission") and their order. The end-of-project box (`CallToAction`) uses the same lines and link text. Edit it there.
 - **Contact form:** a link can preselect the topic (`/contact?inquiry=music|art|teaching`); without one, the form starts on "Choose a topic".
 
 ### Project Management
