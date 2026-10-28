@@ -10,6 +10,11 @@
  * It fills the project column. Don't wrap it in a max-w-* div or hand-write an <iframe>:
  * pasted copies once capped videos at 544–576px, and a raw <iframe> now fails the build.
  * The page title belongs to HeroTitleBlock; `title` here only names the video for screen readers.
+ *
+ * Considered and deferred (2026-10-28): click-to-load (thumbnail first, YouTube on click).
+ * The player is ~970 KB, about two thirds of a music page, and contacts Google's ad servers
+ * on every visit, but it doesn't slow what visitors see (30 ms blocking). Not done because on
+ * iPhones the first tap often only loads the player and a second tap plays it.
  */
 
 interface VideoEmbedProps {

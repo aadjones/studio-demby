@@ -74,3 +74,4 @@ history is visible until this file is deleted.
 | 29 `import` lines in 11 pages did nothing (imports are disabled) and some named missing files. | Code: removed; the loader rejects an `import` outside code examples (tests prove it). Docs: CLAUDE.md. | done |
 | Is a missing/renamed block a silent blank? | No: confirmed the build fails with "Expected component `X` to be defined". Docs: CLAUDE.md explains that message. | done |
 | Degradation's MDX has a duplicated `max-w`, a grid wider than the column, and pasted layout. | Clean up with the taste calls. | to do (4e) |
+| Should YouTube load only on click (thumbnail first)? Measured on Ghostly Double: YouTube is 968 KB of 1.5 MB and pings ad servers every visit, but blocks nothing (30 ms) and isn't the main content. | Deferred by owner: the iPhone two-tap play is confusing. Reasoning recorded in `VideoEmbed.tsx`'s header. Revisit if data or privacy matters more. | decided: not now |
