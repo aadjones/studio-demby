@@ -145,11 +145,12 @@ The site **shell**—nav, footer, listings, project-page chrome, About, Teaching
 | Raised surface | `card` | `#FFFFFF` | Boxes that sit above the page |
 | Subtle surface | `subtle` | `#F5F5F5` | Chips, tabs, metadata boxes |
 | Hairline | `line` | `#E5E5E5` | Borders and dividers |
+| Warm surface | `cream` | `#FFF8F0` | Only the end-of-project call-to-action box |
 | Primary text | `ink-900` | `#1A1A1A` | Headings, body text |
 | Secondary text | `ink-700` | `#3D3D3D` | Summaries, captions |
 | Tertiary text | `ink-500` | `#707070` | Dates, labels. The lightest grey allowed for text (4.6:1 on paper, 4.5:1 on subtle). |
 | Decorative grey | `ink-300` | `#A3A3A3` | Icons, dividers. **Never text**: fails contrast. |
-| Accent | `coral` | `#FF6B6B` | Link underlines, button hover, selection. **Never text**: 2.4:1. |
+| Accent | `coral` | `#FF6B6B` | Link underlines (solid, 2px), button hover, selection. **Never text**: 2.4:1. |
 | Error text | `error` | `#F43F5E` | Form errors |
 | Inline code | `code-text` / `code-bg` | `#8B5CF6` / `#FEF3C7` | `code` inside prose |
 | Display type | `font-display` | Outfit | Headings, titles, buttons |
@@ -164,7 +165,10 @@ Rules:
 - **Tap targets:** icon-only links get a 44×44 box (`h-11 w-11`) around the icon.
 - Check contrast with real numbers before adding a text color: 4.5:1 for normal text against every surface it sits on.
 
-Known exceptions in the shell: `text-white` on dark buttons (correct as is), and the CallToAction box's cream `#FFF8F0` (pending a decision: token or drop).
+Known exception in the shell: `text-white` on dark buttons (correct as is).
+
+- **Titles:** project titles keep their emoji on the page and on cards; browser tabs, social cards and search results get `withoutEmoji(title)` (`lib/text.ts`).
+- **Phones:** every page fits a 320px screen. There's no `min-width` on `html`; don't add one back.
 
 ### Images
 
@@ -230,6 +234,8 @@ export default function MyBlock({ className = "" }: Props) {
   return <div className={`my-block ${className}`.trim()}>…</div>;
 }
 ```
+
+**Exception: blocks that hold prose.** A block whose children are markdown text (paragraphs, lists, emphasis) needs prose styling, so it must *not* get `not-prose`. These are listed in `PROSE_BLOCKS` in `ClientMDX.tsx` (today: `ProjectOverview`). Giving such a block a `className` without listing it there strips its paragraph spacing and list bullets on every page that uses it.
 
 **Related trap — background-dependent effects.** If a component draws anything that knocks out to a background color (SVG text halos, gradient masks, faux-borders), it must *paint that background itself* rather than assuming an ancestor supplies it. A component that looks right in isolation will grow fringes on a page whose background differs. See `app/components/mdx-blocks/clef-rake/clef-rake.css`.
 

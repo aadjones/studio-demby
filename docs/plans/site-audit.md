@@ -17,7 +17,7 @@ Delete this file when everything below is done.
 | 4b | Design tokens documented (CLAUDE.md "Design tokens"); config renamed by role, unused palettes and dead `--sh-*` CSS removed. Compiled CSS identical to production. | merged |
 | 4c | Footer icons 18 → 44px tap targets; 88 shell grey uses moved onto tokens; one card-title hover (coral underline); site-styled focus ring; nav hover fixed (`ink-800` didn't exist); /work card titles `<h2>`. | merged |
 | 4d | One column on project pages: breadcrumb, article and Related Works/prev-next share one left edge (were 3). `VideoEmbed` is the one video block; five pasted YouTube snippets (capped at 576px) replaced; a raw `<iframe>` now fails the build. | on branch |
-| 4e | Taste calls as before/after: emoji in titles, Teaching page styling, Music thumbnails, hero title panel, coral link underline at 40%, CTA box cream, `min-width: 360px`, homepage CTA | next |
+| 4e | Owner's picks (with a design agent's recommendations): hero soft fade; solid coral link underline; `cream` token; lessons buttons in site style; pages fit 320px; emoji kept on pages/cards, dropped from tab/search titles; Degradation tidied onto `ProjectOverview`. Homepage lessons link waits for the owner's words; Music thumbnails are the owner's to change. | on branch |
 
 Measured (Lighthouse mobile, `--throttling-method=devtools`, production) after batch 2:
 Home 87 / LCP 2.4 s, Shatter 90 / LCP 2.9 s, /work 68 / LCP 4.3 s.
@@ -75,3 +75,7 @@ history is visible until this file is deleted.
 | Is a missing/renamed block a silent blank? | No: confirmed the build fails with "Expected component `X` to be defined". Docs: CLAUDE.md explains that message. | done |
 | Degradation's MDX has a duplicated `max-w`, a grid wider than the column, and pasted layout. | Clean up with the taste calls. | to do (4e) |
 | Should YouTube load only on click (thumbnail first)? Measured on Ghostly Double: YouTube is 968 KB of 1.5 MB and pings ad servers every visit, but blocks nothing (30 ms) and isn't the main content. | Deferred by owner: the iPhone two-tap play is confusing. Reasoning recorded in `VideoEmbed.tsx`'s header. Revisit if data or privacy matters more. | decided: not now |
+| Giving `ProjectOverview` a `className` would have let `not-prose` strip prose styling from intro text on ~20 pages. | Code: `PROSE_BLOCKS` in `ClientMDX.tsx` exempts blocks that hold prose. Docs: CLAUDE.md, next to the `not-prose` rule. | done (4e) |
+| The Write tool turned `\uFE0F`/`\u200D` escapes into literal invisible characters, so an emoji test "passed" against a sabotaged helper. | Escapes rewritten by script; tests re-proven to fail. Logged in papercuts. | done (4e) |
+| Homepage link to lessons | Waiting on the owner's wording. | to do |
+| Music thumbnails: five of the first eight look alike. | Owner picks new images. | owner |
