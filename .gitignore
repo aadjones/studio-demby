@@ -52,3 +52,4 @@ next-env.d.ts
 # scratch/experiment files (not for commit)
 public/preview.html
 spatial-synth.html.png
+.env*

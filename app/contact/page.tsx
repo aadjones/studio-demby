@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: "Contact",
   description: "Get in touch with Aaron Demby Jones — music, visual art, teaching, or anything else.",
   alternates: {
+    // Search Console lists /contact?inquiry=art (and =teaching, etc.) under
+    // "Alternate page with proper canonical tag". That's expected, not an error:
+    // this canonical is what folds the ?inquiry= variants into /contact. Don't "fix" it.
     canonical: `${metaData.baseUrl}contact`,
   },
   openGraph: {
