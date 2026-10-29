@@ -22,6 +22,10 @@ Durable specs that stay true after the work ships — asset dimensions, format
 conventions, anything you'd need to look up again months later. These are not
 tied to a single project's lifecycle.
 
+Detail that only some tasks need lives here so `CLAUDE.md` stays short; it
+links to each file: `safari.md`, `mdx-blocks.md`, `design-tokens.md`,
+`routing.md`, `snapshots.md`, `build.md`.
+
 ## `archive/`
 
 Read-only history. Point-in-time audits kept for context about *why* things

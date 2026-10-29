@@ -95,7 +95,7 @@ export default function InharmonicSynth() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const resize = () => {
       // clientWidth only — Safari's lazy aspect-ratio resolution makes
-      // clientHeight unreliable at observer time (see repo CLAUDE.md)
+      // clientHeight unreliable at observer time (see docs/reference/safari.md)
       const w = parent.clientWidth;
       if (w < 1) return;
       const h = Math.max(180, Math.round(w * 0.42));

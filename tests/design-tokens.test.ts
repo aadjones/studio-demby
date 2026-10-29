@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 
 /**
- * The site shell may only use design-token colors (CLAUDE.md, "Design tokens").
+ * The site shell may only use design-token colors (docs/reference/design-tokens.md).
  * Project worlds (Museum, Married For, visualizers, bird cards…) keep their own
  * palettes and aren't listed here.
  *
