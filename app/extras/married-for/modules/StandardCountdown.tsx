@@ -64,13 +64,24 @@ const StandardCountdown: React.FC<TimeModuleProps> = ({ targetDate }) => {
     return () => clearInterval(timer);
   }, [targetDate]);
 
+  // Weeks don't fit the calendar borrowing above, so derive them from the leftover days,
+  // and only while days are the leading unit (under a month).
+  const weeks = timeLeft.years === 0 && timeLeft.months === 0 ? Math.floor(timeLeft.days / 7) : 0;
+  const unit = (val: number, key: keyof typeof t.standard.singular) =>
+    val === 1 ? t.standard.singular[key] : t.standard[key];
   const allDateUnits = [
-    { val: timeLeft.years, label: t.standard.years },
-    { val: timeLeft.months, label: t.standard.months },
-    { val: timeLeft.days, label: t.standard.days },
+    { val: timeLeft.years, label: unit(timeLeft.years, 'years') },
+    { val: timeLeft.months, label: unit(timeLeft.months, 'months') },
+    { val: timeLeft.days, label: unit(timeLeft.days, 'days') },
   ];
   const firstNonZero = allDateUnits.findIndex((u) => u.val > 0);
-  const dateUnits = allDateUnits.slice(firstNonZero === -1 ? 2 : firstNonZero);
+  const dateUnits =
+    weeks > 0
+      ? [
+          { val: weeks, label: unit(weeks, 'weeks') },
+          { val: timeLeft.days % 7, label: unit(timeLeft.days % 7, 'days') },
+        ]
+      : allDateUnits.slice(firstNonZero === -1 ? 2 : firstNonZero);
 
   const Item = ({ val, label }: { val: number; label: string }) => (
     <div className="flex flex-col items-center justify-center p-0.5 sm:p-2">
@@ -116,9 +127,9 @@ const StandardCountdown: React.FC<TimeModuleProps> = ({ targetDate }) => {
             ))}
           </div>
           <div className="flex justify-center">
-            <div className="w-1/3"><Item val={timeLeft.hours} label={t.standard.hours} /></div>
-            <div className="w-1/3"><Item val={timeLeft.minutes} label={t.standard.minutes} /></div>
-            <div className="w-1/3"><Item val={timeLeft.seconds} label={t.standard.seconds} /></div>
+            <div className="w-1/3"><Item val={timeLeft.hours} label={unit(timeLeft.hours, 'hours')} /></div>
+            <div className="w-1/3"><Item val={timeLeft.minutes} label={unit(timeLeft.minutes, 'minutes')} /></div>
+            <div className="w-1/3"><Item val={timeLeft.seconds} label={unit(timeLeft.seconds, 'seconds')} /></div>
           </div>
         </div>
       </div>

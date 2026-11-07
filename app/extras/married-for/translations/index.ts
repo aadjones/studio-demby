@@ -14,10 +14,20 @@ export type Translations = {
     headerMarried: string;
     years: string;
     months: string;
+    weeks: string;
     days: string;
     hours: string;
     minutes: string;
     seconds: string;
+    singular: {
+      years: string;
+      months: string;
+      weeks: string;
+      days: string;
+      hours: string;
+      minutes: string;
+      seconds: string;
+    };
     footer: string;
   };
   orbit: {
