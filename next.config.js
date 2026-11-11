@@ -66,12 +66,21 @@ module.exports = {
       { source: '/enclosed/:slug', destination: '/work/:slug', permanent: true },
       { source: '/projects/:slug*', destination: '/work/:slug*', permanent: true },
 
+      // Old /sketches routes (before /activity) → /work. `:slug` is one segment, so files
+      // under public/sketches/<name>/ (two or more segments) are untouched.
+      { source: '/sketches', destination: '/work', permanent: true },
+      { source: '/sketches/:slug', destination: '/work/:slug', permanent: true },
+
       // Renamed slugs
       { source: '/work/ad-libitum', destination: '/work/birdsong-elegies', permanent: true },
+      { source: '/work/fire', destination: '/work/polybloom', permanent: true },
+      { source: '/work/rhythm-to-pitch', destination: '/work/rhythm-and-pitch', permanent: true },
 
       // Contrapose special routes
       { source: '/featured/contrapose/:path*', destination: '/work/contrapose/:path*', permanent: true },
       { source: '/contrapose/:path*', destination: '/work/contrapose/:path*', permanent: true },
+      // Contrapose's old name
+      { source: '/rephrase/:path*', destination: '/work/contrapose/:path*', permanent: true },
 
       // Standalone articles: a project with `redirectTo` in its frontmatter. Two halves:
       // - here, a real 307 with a Location header for direct visits and crawlers;
