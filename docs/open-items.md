@@ -29,12 +29,11 @@ rules from that work live in CLAUDE.md; this is only what's still open or easy t
   then `pnpm snapshot diff` against production.
 - **Other flagged packages.** Done 2026-11-20: `sharp` 0.35.5, and through `pnpm.overrides` in
   `package.json`, `postcss` 8.5.33 (Next pins 8.4.31), which brings `nanoid` 3.3.20 and
-  `source-map-js` 1.2.4, plus `js-yaml` 3.15.2 (via `gray-matter`). Still open:
+  `source-map-js` 1.2.4, plus `js-yaml` 3.15.2 (via `gray-matter`), and `mdast-util-to-hast` 13.2.2
+  and `yaml` 2.9.1 (via `next-mdx-remote-client`). Still open:
   - `zod`: the fix is only in 4.x, a major jump from 3.24, so it needs its own branch (the
     frontmatter schemas in `types/mdx.ts` and `lib/content/projects-loader.ts` use it).
   - `katex` (low): needs 0.18.2. Under 0.x versioning that's a breaking bump from 0.16.
-  - `mdast-util-to-hast` and `yaml` (moderate, via `next-mdx-remote-client`): small in-major
-    bumps, not done yet. Two more override lines would cover them.
   Once Next is on 15, drop the `next>postcss` override.
 
 ## Kept on purpose (don't "clean up")
