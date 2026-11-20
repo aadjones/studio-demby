@@ -19,15 +19,23 @@ rules from that work live in CLAUDE.md; this is only what's still open or easy t
   tap plays it. Numbers and reasoning are in `app/components/mdx-blocks/VideoEmbed.tsx`.
 
 - **Next 15 + React 19 migration.** `next@14.2.35` is the last 14.x release and gets no more
-  security fixes; as of 2026-10-28 `pnpm audit --prod` lists ~25 Next advisories fixed only in
+  security fixes; as of 2026-11-20 `pnpm audit --prod` lists 26 Next advisories fixed only in
   15.5.x. Most need things this site doesn't use (Windows hosting, a custom server, Pages Router
-  i18n), so it isn't urgent, but every new advisory will stay open until this is done. Do it on its
-  own branch: React 19, async `params` in `app/work/[slug]` and `app/work/by-category/[category]`,
-  check `next-mdx-remote` and `loadP5`, then `pnpm snapshot diff` against production.
-- **Other flagged packages.** The same audit flags `sharp`, `postcss`, `js-yaml` (via
-  `gray-matter`), `nanoid`, `zod` and `katex`. Most look fixable without a major version jump, so
-  this can be a small branch of its own, separate from Next: update, `pnpm clean-build`,
-  `pnpm test`, snapshot diff.
+  i18n), so it isn't urgent, but every new advisory will stay open until this is done. Three are
+  critical, and two of those are in Next's image optimizer (AVIF and SVG files,
+  GHSA-2xp9-vwfh-vxw4 and GHSA-2464-fhr4-w9xw). They're filed against `next`, not `sharp`, so
+  upgrading sharp doesn't close them. Do it on its own branch: React 19, async `params` in
+  `app/work/[slug]` and `app/work/by-category/[category]`, check `next-mdx-remote` and `loadP5`,
+  then `pnpm snapshot diff` against production.
+- **Other flagged packages.** Done 2026-11-20: `sharp` 0.35.5, and through `pnpm.overrides` in
+  `package.json`, `postcss` 8.5.33 (Next pins 8.4.31), which brings `nanoid` 3.3.20 and
+  `source-map-js` 1.2.4, plus `js-yaml` 3.15.2 (via `gray-matter`). Still open:
+  - `zod`: the fix is only in 4.x, a major jump from 3.24, so it needs its own branch (the
+    frontmatter schemas in `types/mdx.ts` and `lib/content/projects-loader.ts` use it).
+  - `katex` (low): needs 0.18.2. Under 0.x versioning that's a breaking bump from 0.16.
+  - `mdast-util-to-hast` and `yaml` (moderate, via `next-mdx-remote-client`): small in-major
+    bumps, not done yet. Two more override lines would cover them.
+  Once Next is on 15, drop the `next>postcss` override.
 
 ## Kept on purpose (don't "clean up")
 
