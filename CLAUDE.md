@@ -54,7 +54,7 @@ the flag never reaches the underlying tool.
 
 Never run `next build` against the same `.next` directory as a running dev server. Use `pnpm clean-build`: it checks port 3000 *before* deleting anything. Never type `rm -rf .next` yourself; the `rm` runs before any check, so it can delete a running dev server's `.next` (this happened on 2026-10-27).
 
-**Commits while a dev server runs.** The pre-commit hook builds into `.next`, so with `vercel dev` or `next dev` on port 3000 the build guard blocks every commit. That's intended; commit after stopping it (`pnpm kill-port`), or keep working and commit later.
+**Commits while a dev server runs.** The pre-commit hook (a Claude Code hook, `~/.claude/hooks/pre-commit-build.sh`, not a git hook; it doesn't run on commits made outside Claude) builds into `.next`, so with `vercel dev` or `next dev` on port 3000 the build guard blocks every commit. That's intended; commit after stopping it (`pnpm kill-port`), or keep working and commit later.
 
 Building a copy while a dev server runs, checking a production deploy, and the missing `--distDir` flag: `docs/reference/build.md`.
 
