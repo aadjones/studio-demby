@@ -94,11 +94,6 @@ const StandardCountdown: React.FC<TimeModuleProps> = ({ targetDate }) => {
 
   return (
     <div className={`h-full w-full flex flex-col items-center ${vibes[vibe].container} relative overflow-hidden pt-28 sm:pt-32 px-4`}>
-      <div className="absolute inset-0 opacity-[0.05] pointer-events-none">
-        <div className="absolute -top-20 -left-20 w-[500px] h-[500px] bg-teal-400 rounded-full blur-[150px]"></div>
-        <div className="absolute -bottom-40 -right-40 w-[700px] h-[700px] bg-stone-500 rounded-full blur-[200px]"></div>
-      </div>
-
       <h2 className={`${getVibeClass(vibe, 'header')} text-xl sm:text-2xl md:text-3xl text-center z-10 font-bold flex-shrink-0 mb-1 sm:mb-2`}>
         {isMarried ? t.standard.headerMarried : t.standard.header}
       </h2>
